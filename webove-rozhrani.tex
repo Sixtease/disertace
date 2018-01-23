@@ -1,0 +1,45 @@
+\chapter{Webové rozhraní}
+\label{kap:webove-rozhrani}
+
+Webové rozhraní, umožňující přístup zájemcům k~nahrávkám a jejich přepisu, byl
+od začátku plánovanou součástí projektu. Rozhraní bylo navrženo s~těmito
+požadovanými vlastnosmi:
+
+\begin{itemize}
+\item{výběr nahrávky ze~seznamu}
+\item{poslech nahrávky s~obvyklými ovládacími prvky přehrávače}
+\item{zobrazení přepisu nahrávky}
+\item{vyznačení právě přehrávaného slova}
+\item{možnost provést změnu v~přepisu}
+\item{automatické zarovnání přepisu se~zvukem}
+\item{případné odmítnutí přepisu, pokud zarovnání selže (přepis neodpovídá
+vyřčeným slovům)}
+\end{itemize}
+
+První implementace byla založena na přehrávači
+\em{jPlayer}, modulu pro knihovnu \em{jQuery}, který využívá standard HTML5
+s~jeho elementem \em{<audio>} a technologii \em{Adobe Flash}. Pro~dynamickou
+odezvu zobrazených prvků na~změny v~datovém modelu jsem použil knihovnu
+\em{knockout}.
+
+Aplikace měla formu jediné stránky s~rozbalovatelným výběrem nahrávky,
+ovládacími prvky přehrávače a třemi řádky přepisu. Při označení části
+zobrazeného přepisu se stránka překryla rozhraním pro opravu přepisu, jež zvu
+\em{editačním okénkem}. V~editačním okénku se zobrazilo vstupní pole
+(\em{<textarea>}) s předvyplněným současným přepisem, ovládací prvky pro
+přehrátí odpovídající pasáže, odeslání opraveného přepisu a opuštění editačního
+okénka.
+
+Šlo o~prostou statickou HTML stránku s~JavaScriptem. K~audiu se přistupovalo
+pomocí externí CDN, zatímco přepisy a API pro~zarovnávání oprav byly
+na~zvláštním serveru.
+
+Přepis byl uložen a přenášen ve~formátu \em{JSONp}\footnote{JSON = JavaScript
+Object Notation, JSONp = JSON with Padding}, čili jako \em{JSON} obalený
+v~javascriptové funkci pro zamezení problémů s~přístupem napříč doménami. Každé
+slovo s~sebou neslo informaci o~svojí pozici v~nahrávce s~přesností na~setiny
+sekundy, 
+
+Během provozu první verze se projevila potřeba dalších funkcionalit. Uživatelé
+obecně nechtěli, aby ostatní zasahovali do nahrávky, kterou si předsevzali
+přepsat. 

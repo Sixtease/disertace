@@ -1,0 +1,114 @@
+\documentclass[12pt,notitlepage]{report}
+%\pagestyle{headings}
+\pagestyle{plain}
+
+\frenchspacing % aktivuje použití některých českých typografických pravidel
+
+\usepackage[utf8]{inputenc} % nastavuje použité kódování cp1250
+% \usepackage[czech]{babel}
+\usepackage[czech]{babel}
+\usepackage{a4wide} % nastavuje standardní evropský formát stránek A4
+%\usepackage{index} % nutno použít v případě tvorby rejstříku balíčkem makeindex
+%\usepackage{fancybox} % umožňuje pokročilé rámečkování :-)
+\usepackage{graphicx} % nezbytné pro standardní vkládání obrázků do dokumentu
+
+\usepackage[left=4cm,right=3cm,top=3cm,bottom=2cm]{geometry} % nastavení dané velikosti okrajů
+
+\usepackage{rotating}
+
+%\newindex{default}{idx}{ind}{Rejstřík} % zavádí rejstřík v případě použití balíku index
+
+\title{Zpřístupnění zvukových nahrávek}   % tyto dvě položky jsou zde v podstatě formálně, 
+\author{Mgr. Oldřich Krůza} % ve skutečnosti nejsou nikde dále v dokumentu použity
+
+%\date{}
+
+\begin{document}
+
+%\hyphenation{tran-sla-tion}
+
+%\csprimeson % zapne jednoduché psaní českých uvozovek pomocí klasických znaků, ale potom pozor 
+            % na originální apostrofy, které budou chybně interpretovány!!!
+
+\begin{titlepage}
+\begin{center}
+
+\vspace{15mm}
+
+\large
+Univerzita Karlova v~Praze\\
+Matematicko-fyzikální fakulta\\
+
+\vspace{5mm}
+
+{\Large\bf DISERTAČNÍ PRÁCE}
+
+\vspace{25mm}
+
+\includegraphics[scale=0.5]{rc/mff-logo.eps} 
+
+\vspace{25mm}
+%\vspace{\fill}
+
+%\normalsize
+
+Mgr. Oldřich Krůza\\
+\vspace{5mm}
+{\Large\bf Zpřístupnění korpusu zvukových záznamů jednoho mluvčího}\\
+\vspace{5mm}
+Ústav formální a aplikované lingvistiky\\
+\end{center}
+\vspace{10mm}
+
+\large
+\noindent Vedoucí disertační práce práce: Doc. Vladislav Kuboň
+
+\noindent Studijní program: Informatika, počítačová a formální lingvistika, Ph.D.
+
+\vspace{20mm}
+
+\begin{center}
+2016
+\end{center}
+
+\end{titlepage} % zde končí úvodní strana
+
+\thispagestyle{empty} %nastavuje prazdne zahlavi a zapati
+\normalsize % nastavení normální velikosti fontu
+\ \vspace{10mm} 
+
+%\noindent Děkuji komu a komu
+
+\vspace{\fill} % nastavuje dynamické umístění následujícího textu do spodní části stránky
+\noindent Prohlašuji, že jsem svou disertační práci napsal samostatně a výhradně s~použitím citovaných pramenů. Souhlasím se zapůjčováním práce.
+
+\bigskip
+\noindent V~Praze dne \today \hspace{\fill}Mgr. Oldřich Krůza
+
+\setcounter{page}{2} % nastavení číslování stránek
+\tableofcontents % vkládá automaticky generovaný obsah dokumentu
+
+\newpage % přechod na novou stránku
+
+%%% Následuje strana s abstrakty.
+\input{abstrakt.tex}
+
+\newpage
+
+%%% Následuje text bakalářské práce členěný do kapitol, které se číslují, označí názvy a graficky oddělí.
+%%% Nedoporučuje se používat víc než dvě úrovně číslování kapitol.
+
+\input{uvod.tex}
+\input{predchozi.tex}
+\input{data.tex}
+\input{akusticky-model.tex}
+\input{jazykovy-model.tex}
+\input{webove-rozhrani.tex}
+\input{vyhledavani.tex}
+\input{popularizace.tex}
+\input{zaver.tex}
+
+\bibliographystyle{unsrt}
+\bibliography{citace}
+
+\end{document}
