@@ -1,6 +1,8 @@
 \chapter{Webové rozhraní}
 \label{kap:webove-rozhrani}
 
+\section{Prototyp}
+
 Webové rozhraní, umožňující přístup zájemcům k~nahrávkám a jejich přepisu, byl
 od začátku plánovanou součástí projektu. Rozhraní bylo navrženo s~těmito
 požadovanými vlastnosmi:
@@ -16,17 +18,17 @@ požadovanými vlastnosmi:
 vyřčeným slovům)}
 \end{itemize}
 
-První implementace byla založena na přehrávači
-\em{jPlayer}, modulu pro knihovnu \em{jQuery}, který využívá standard HTML5
-s~jeho elementem \em{<audio>} a technologii \em{Adobe Flash}. Pro~dynamickou
-odezvu zobrazených prvků na~změny v~datovém modelu jsem použil knihovnu
-\em{knockout}.
+První implementace byla založena na přehrávači \textit{jPlayer}, modulu pro
+knihovnu \textit{jQuery}, který využívá standard HTML5 s~jeho elementem
+\texttt{<audio>} a technologii \textit{Adobe Flash}. Pro~dynamickou odezvu
+zobrazených prvků na~změny v~datovém modelu jsem použil knihovnu
+\textit{knockout}.
 
 Aplikace měla formu jediné stránky s~rozbalovatelným výběrem nahrávky,
 ovládacími prvky přehrávače a třemi řádky přepisu. Při označení části
 zobrazeného přepisu se stránka překryla rozhraním pro opravu přepisu, jež zvu
-\em{editačním okénkem}. V~editačním okénku se zobrazilo vstupní pole
-(\em{<textarea>}) s předvyplněným současným přepisem, ovládací prvky pro
+\textit{editačním okénkem}. V~editačním okénku se zobrazilo vstupní pole
+(\texttt{<textarea>}) s předvyplněným současným přepisem, ovládací prvky pro
 přehrátí odpovídající pasáže, odeslání opraveného přepisu a opuštění editačního
 okénka.
 
@@ -34,12 +36,150 @@ okénka.
 pomocí externí CDN, zatímco přepisy a API pro~zarovnávání oprav byly
 na~zvláštním serveru.
 
-Přepis byl uložen a přenášen ve~formátu \em{JSONp}\footnote{JSON = JavaScript
-Object Notation, JSONp = JSON with Padding}, čili jako \em{JSON} obalený
-v~javascriptové funkci pro zamezení problémů s~přístupem napříč doménami. Každé
-slovo s~sebou neslo informaci o~svojí pozici v~nahrávce s~přesností na~setiny
-sekundy, 
+Přepis byl uložen a přenášen ve~formátu \textit{JSONp}\footnote{JSON =
+JavaScript Object Notation, JSONp = JSON with Padding}, čili jako \textit{JSON}
+obalený v~javascriptové funkci kvůli zamezení problémů s~přístupem napříč
+doménami.  Každé slovo s~sebou neslo informaci o~svojí pozici v~nahrávce
+s~přesností na~setiny sekundy, výslovnost, zápis, slovníkovou formu, délku ticha
+za~slověm, informaci o~tom, zda bylo manuálně přepsáno nebo automaticky
+rozpoznáno, a v~případě automaticky rozpoznaných slov \textit{confidence
+measure} čili míru jistoty rozpoznání.
 
-Během provozu první verze se projevila potřeba dalších funkcionalit. Uživatelé
-obecně nechtěli, aby ostatní zasahovali do nahrávky, kterou si předsevzali
-přepsat. 
+Převod ze~zápisu slova do~jeho fonetické podoby se děje na~základě pravidlového
+algoritmu z~dílny Doc. Pavla Ircinga po~úpravě od~Mgr.~Nina Peterka, Ph.D. Tento
+algoritmus zahrnuje časté výjimky z~českých výslovnostních pravidel, ale
+neobsahuje rozsáhlý výslovnostní slovník cizích slov. Karel Makoň navíc nezřídka
+hovoří o~osobách, jejichž jména se v~mnoha korpusech neobjeví vůbec.
+
+Nad rámec výše popsaných funkcionalit přibyly další na~základě přání uživatelů a
+autorovy potřeby:
+
+\begin{itemize}
+\item{indikace, do~jaké míry je která nahrávka přepsána,}
+\item{manuální posouvání hranic přepisovaného zvukového úseku,}
+\item{úprava zápisu slova s~ponecháním výslovnosti,}
+\item{identifikace uživatelů včetně sezení, prohlížeče atp.,}
+\item{vyhledávání v~přepisech.}
+\end{itemize}
+
+Výslovnost je interně zaznamenána pomocí mezerou oddělených fonémů, z~nichž
+každý má reprezentaci z~malých písmen sady ASCII. Taková reprezentace není pro
+laické uživatele praktická, proto je součástí aplikace převod do~českého
+fonetického zápisu a zpět.
+
+Uživatelé jsou proto instruováni, aby slova s~nestandardní výslovností, na~která
+narazí poprvé, přepsali foneticky \textit{(džordž)} a poté, co uspěje
+automatické zarovnání, slovu opravil přepis \textit{(George)}.
+
+Tato původní verze posloužila k~přepsání asi 600 tisíc slov a běžela asi 5 let,
+než bylo nutné ji nahradit.
+
+\section{Verze 2}
+
+Pro kompletní přepis aplikace se postupně objevilo několik důvodů. Hlavním
+z~nich bylo, že původní aplikace mohla jen těžko sloužit pro širokou veřejnost
+jako prostředek k~popularizaci nahrávek. Dalším důvodem bylo, že některé kýžené
+funkce nebylo možné zprovoznit bez zásadních změn v~provedení. Především šlo
+o~ekvalizér, čili frekvenční korekci při poslechu. Akutním důvodem pak byl fakt,
+že všechny významné prohlížeče opouštěly podporu Flashe.
+
+Pro novou verzi jsem zvolil technologie React + Redux jako aplikační rámec, Web
+Audio API jako platformu pro nakládání se~zvukem a Twitter Bootstrap jako základ
+pro vzhled prvků. Zdrojový kód píšu v~ECMAScript~6 a o~kompilaci se stará
+webpack.
+
+\subsection{Výběr nahrávky}
+
+První verze obsahovala všudypřítomný rozklikávatelný kategorizovaný seznam
+nahrávek. Toto jednoduché řešení mělo jen málo nevýhod. Jedna z~nich byla, že
+nešlo použít běžné textové vyhledávání. V~nové verzi je proto použit
+dvousloupcový formát, kde vlevo je rozbalovací seznam kategorií a vpravo
+lineární seznam nahrávek. Jednotlivé kategorie jsou pak skrolovacími odkazy
+do~pravého sloupce a podle stupně skrolování se příslušná kategorie sama
+rozbalí (tzv. scrollspy).
+
+Pro lepší přehlednost je seznam nahrávek pouze na~úvodní stránce a nikoliv
+všude.
+
+\subsection{Zobrazení přepisu}
+
+V~první verzi se zobrazovaly vždy tři řádky, kde v~prostředním bylo aktuálně
+přehrávané slovo. Výjimkou samozřejmě byly případy, kdy se přehrával začátek
+nebo konec nahrávky. Délka řádku odpovídala šířce okna prohlížeče. Takto malý
+rozsah zobrazeného textu byl zvolen proto, že aby bylo možné vizuálně odlišit
+ručně přepsaná slova od~automaticky rozpoznaných a od~nich ještě slovo aktuálně
+přehrávané, muselo být každé slovo obaleno ve~vlastním HTML elementu. Při~větším
+množství slov pak bylo rozhraní velice náročné na~výpočetní výkon a znatelně
+pomalé, což při synchronním zobrazování přepisu s~přehráváním zvuku není
+přijatelné.
+
+Zobrazení jen tří řádků mělo pochopitelně velké nevýhody. Především to, že se
+člověk nemohl zorientovat v~širším rámci nahrávky (jejíž průměrná délka je kolem
+hodiny) a že opět nebylo možné vyhledávat v~jejím rámci. Výhodou naopak bylo, že
+aktuálně přehrávané slovo bylo vždy snadné najít. Nemožnost označit a tedy ani
+přepsat příliš dlouhý úsek bylo pro uživatele možná někdy nepříjemné, ale
+redukovalo chyby jak v~přepisu, tak v~automatickém zarovnávání.
+
+Zobrazení celého přepisu při zachování plynulosti a grafickém odlišení
+automaticky a manuálně přepsaných slov, slova aktuálně přehrávaného a navíc
+slova vybraného kliknutím bylo první velkou výzvou pro návrh stránky přehrávání.
+První, nezaslouženou pomocí k~tomu byl vývoj výkonu počítačů od~vzniku první
+verze, jakož i optimalizace prohlížečů na~rychlost. Množství elementů, které lze
+nyní realisticky zobrazit, se znatelně zvýšilo, ačkoliv naivní řešení zabalení
+každého slova stále není praktické. Druhým pomocným faktorem je, že manuálně a
+automaticky přepsaná slova se většinou vyskytují ve~větších shlucích. Jen
+v~málokterých souborech se často střídají manuálně a automaticky přepsané úseky.
+To vypovídá o~nevoli uživatelů k~jinému než kompletnímu, lineárnímu přepisu.
+% TODO: ref. aktivní učení
+Každý shluk manuálně respektive automaticky přepsaných slov stačí tedy zabalit
+do~jednoho elementu.
+
+Zvýraznění jednotlivých slov -- aktuálně přehrávaného a vybraného klikem myší --
+se realizuje pomocí umístění barevného rámečku pod~zvýrazněné slovo. To lze
+provést díky tomu, že prohlížeče nyní umožňují zjistit polohu označeného textu a
+označení lze provést automaticky.\footnote{Viz \texttt{getClientRects} a
+\texttt{Range} ve~webových standardech.}
+
+\subsection{Web Audio API}
+
+Přechod na~tuto technologii umožnil některé pokročilé funkce, avšak za~relativně
+vysokou cenu. Web Audio API je standard pro~pokročilé zpracování zvukového
+signálu v~prohlížeči. Základním konceptem je graf procesních uzlů, které mají
+vstup a výstup a mohou se libovolně propojovat. K~dispozici jsou zdroje zvuku
+jako oscilátory nebo přehrávače streamů, souborů (tag \texttt{<audio>}) a dat
+v~paměti (\texttt{AudioBuffer}) a efekty jako zesílení, dynamická komprese,
+mixování kanálů.
+
+Velká výhoda Web Audio API oproti elementu \texttt{<audio>} je možnost přesného
+časování, až na~jednotlivé samply. Přehrávání výseku odpovídajícího označenému
+textu se proto nemusí provádět pomocí velice nepřesného časovače
+\texttt{setTimeout}.
+
+Bez~Web Audio API by také nebylo možné provádět frekvenční korekci při poslechu,
+čili mít tzv. \textit{ekvalizér}. Ten je zapotřebí, protože některé nahrávky
+mají v~určitém frekvenčním pásmu silný šum, jehož odstranění je s~ekvalizérem
+snadné a komfort poslechu se tak razantně zvýší.
+
+Další funkcí, kterou Web Audio API umožňuje, je stahování úseků. Označením
+přepsaného textu se definuje úsek nahrávky a ten je možné uložit bez~dalšího
+síťového přenosu. Tato funkce však vyžaduje, aby nahrávka byla dekódovaná
+v~paměti. Vzhledem k~tomu, že nahrávky mají běžně i hodinu a půl, trvá její
+stažení a dekódování opravdu dlouho a navíc prohlížeč kvůli tomu spotřebuje přes
+gigabyte operační paměti.
+
+Jsou plány na~to, aby Web Audio API umožnila dekódovat jen část
+nahrávky,\footnote{github.com/WebAudio/web-audio-api/issues/1305} proto tento
+neutěšený stav zatím nechávám být. Případným řešením by mohlo být buď
+streamování (\texttt{<audio>} jako zdrojový uzel) a stažení pouze při potřebě
+ukládání úseku nebo změna uložení nahrávek nikoliv jeden soubor na jednu pásku,
+nýbrž např. po~minutových úsecích.
+
+Ideální by bylo nahrávku jednou stáhnout, dekódovat a uložit ji na~uživatelově
+zařízení. To bohužel není možné, protože \textit{localStorage} má limit kolem
+10MB, který se liší prohlížeč od~prohlížeče a \textit{File System API} je
+podporován pouze prohlížečem Google Chrome.
+
+Zda se nejdříve rozšíří podpora File System API, nebo Web Audio API umožní
+dekódovat část záznamu či problém budu muset obejít sám, zatím není jasné.
+
+
