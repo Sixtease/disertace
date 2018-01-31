@@ -174,12 +174,24 @@ streamování (\texttt{<audio>} jako zdrojový uzel) a stažení pouze při pot�
 ukládání úseku nebo změna uložení nahrávek nikoliv jeden soubor na jednu pásku,
 nýbrž např. po~minutových úsecích.
 
-Ideální by bylo nahrávku jednou stáhnout, dekódovat a uložit ji na~uživatelově
-zařízení. To bohužel není možné, protože \textit{localStorage} má limit kolem
-10MB, který se liší prohlížeč od~prohlížeče a \textit{File System API} je
-podporován pouze prohlížečem Google Chrome.
+Díky tomu, že Web Audio API umožňuje přehrávání binárních dat z~proměnné
+v~paměti, nabízí se dekódovanou nahrávku uložit na~persistentní úložiště
+uživatelova počítače a při opětovné návštěvě stránky data místo stahování odsud
+nahrát.
 
-Zda se nejdříve rozšíří podpora File System API, nebo Web Audio API umožní
-dekódovat část záznamu či problém budu muset obejít sám, zatím není jasné.
+Moderní prohlížeče poskytují několik bran k~úložišti na~místním disku.
+Nejtradičnějšími jsou bezesporu \textit{cookies}, které jsou však pro ukládání
+objemnějších dat zcela nepoužitelné. Velice slibnou se jeví
+\textit{localStorage}, umožňující ukládání párů klíč-hodnota. I zde však
+narážíme na~příliš omezující kvóty. Kupříkladu Firefox ji má na 10MB, přičemž
+potřeba je asi 1GB. Dalším kandidátem je \textit{File System API}. Tento
+standard pro~izolovaný souborový systém k~dispozici webové aplikaci je zcela
+ideálním řešením -- dá se zde i explicitně požádat o~konkrétní diskovou kvótu a
+uživatel tak má volbu bez nutnosti práce programátora webové aplikace. Kamenem
+úrazu je zde však podpora, která se momentálně omezuje pouze na Google Chrome.
 
-
+Naštěstí existuje ještě standard \textit{IndexedDB API}, který má uspokojivou
+podporu a uložení gigabytu dat je s~ním možné, byť ne zaručené. S~využitím
+abstrahující knihovny \textit{Dexie} je proto skrz tento standard ukládání
+implementováno. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce
+se tím přináší velká úspora času a přenesených dat.
