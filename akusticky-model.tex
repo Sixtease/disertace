@@ -1,24 +1,108 @@
 \chapter{Akustický model}
 \label{kap:akusticky-model}
 
+% - množina fonémů
+% - vektorový formát
+% - HMM X CNN
+% - HTK X Kaldi X sphinx X Bourlard X TensorFlow
+% - Monofonémy X trifonémy
+% - mixtury
+%   - individuální
+%   - globální
+%   - na monofonémech vs. trifonémech
+
+Koncept celého projektu se zakládá na~přítomnosti automatického přepisu a jeho
+následném zdokonalování. Jelikož nebyl k~dispozici uspokojivý hotový nástroj pro
+získání automatického přepisu, nezbylo než jej vytvořit.
+
 Zjednodušený řetězec vedoucí od~zvukových dat k~jejich přepisu v~našem případě
-vypadá takto:
-1) sběr trénovacích dat,
-2) stavba akustického modelu,
-3) stavba jazykového modelu,
-4) automatické rozpoznávání.
+vypadá takto:\begin{enumerate}
+\item{sběr trénovacích dat,}
+\item{stavba akustického modelu,}
+\item{stavba jazykového modelu,}
+\item{automatické rozpoznávání.}
+\end{enumerate}
 
 V tomto řetězci je stavba akustického modelu patrně nevyznamnějším článkem a
 sama tvoří řetěz o~mnoha článcích. V~této kapitole pojednáme o~krocích
 podniknutých k~jeho sestavení, experimentech a různých volbách.
 
-- množina fonémů
-- vektorový formát
-- HMM X CNN
-- HTK X Kaldi X sphinx X Bourlard X TensorFlow
-- Monofonémy X trifonémy
-- mixtury
-  - individuální
-  - globální
-  - na monofonémech vs. trifonémech
+Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
+starší systém \textit{HTK}\footnote{hmm toolkit; Hidden Markov Model Toolkit} a
+modernější \textit{Kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
+Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~níž jsem mohl čerpat.
+
+Akustický model jsem trénoval výhradně z~vlastníh dat. Obětoval jsem tedy
+potenciální přínos většího množství trénovacích dat a upřednostnil trénování
+přímo na~konkrétního mluvčího.
+%TODO: od kdy se vyplatí dělat model na konkrétního mluvčího?
+
+Tvorba akustického modelu probíhala podle návodu v~manuálu k~HTK, \textit{HTK
+Book}. Popíšu tedy jen rozhodnutí, která nejsou zřejmá.
+
+\section{Segmentace}
+
+Zpravidla jeden zvukový soubor odpovídá jednomu přetočení magnetofonové pásky,
+obvyklá délka je tedy 45 až 120 minut. Takto dlouhé úseky nelze použít ani jako
+trénovací příklady ani jako cíl automatického rozpoznávání.
+
+Celá aplikace je pojata jako nástroj pro~zdokonalování automatického přepisu,
+takže vychází z~předpokladu, že nějaký přepis již existuje. Vycházeje z~téhož
+předpokladu při~segmentaci, realizoval jsem ji tak, že zvukový soubor se rozdělí
+na~úseky odpovídající jednotlivým větám v~přepisu, ne však delší než patnáct
+sekund. Pokud by věta byla delší, rozdělí se u nejbližšího slova
+před~patnáctisekundovou hranicí.
+
+V~případě, že pro daný záznam zatím žádný přepis neexistuje, rozdělí se naivně
+na~patnáctisekundové úseky.
+
+Nutno dodat, že rozdělování podle automaticky rozpoznaných hranic vět by šlo
+snadno vylepšit. Jde-li o~ručně přepsaná data, jsou hranice vět dobrým vodítkem,
+ale u~automaticky přepsaných by bylo lépe rozdělovat podle ticha mezi slovy.
+
+\section{Fonetika}
+
+Množinu fonémů jsem použil od~doc. Pavla Ircinga ze~Západočeské univerzity
+z~jeho skriptů z~devadesátých let minulého století. Fonémy mají tzv. pražský a
+plzeňský zápis. V~souladu se~zjevným územ jsem použil plzeňský zápis.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|l|l|l||l|l|l|l|}
+\hline
+IPA & plz. & praž. & grafém & IPA & plz. & praž. & grafém \\
+\hline
+% TODO: IPA
+& a & a & a &                 & mg & mg & sa\textbf{m}ba \\
+& aa & aa & á &               & mv & mv & tra\textbf{m}vaj \\
+& aw & au & au &              & n & n & \textbf{n}e \\
+& b & b & b &                 & ng & ng & pa\textbf{n}t \\
+& c & c & c &                 & nj & nj & \v{n} \\
+& ch & cz & č &               & o & o & o \\
+& d & d & d &                 & oo & oo & ó \\
+& dj & dj & \v{d} &           & ow & ou & ou \\
+& dz & dz & dz &              & p & p & p \\
+& dzh & dzz & dž &            & r & r & r \\
+& e & e & e &                 & rsh & rsz & t\textbf{\v{r}}i \\
+& ee & ee & é &               & rzh & rzz & \textbf{\v{r}}íz \\
+& ew & eu & eu &              & s & s & s \\
+& f & f & f &                 & sh & sz & š \\
+& g & g & g &                 & t & t & t \\
+& h & h & h &                 & tj & tj & \v{t} \\
+& i & i & i &                 & u & u & u \\
+& ii & ii & í &               & uu & uu & ú, \r{u} \\
+& j & j & j &                 & v & v & v \\
+& k & k & k &                 & x & ch & ch \\
+& l & l & l &                 & z & z & z \\
+& m & m & \textbf{m}ák &      & zh & zz & ž \\
+\hline
+\end{tabular}
+\caption{použité fonémy: plzeňský zápis, pražský zápis a nejčastější
+odpovídající grafém}\label{tab:phones}
+\end{center}
+\end{table}
+
+V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fonémy
+častějšími podobnými. Jednalo se o~tyto záměny:
+
 
