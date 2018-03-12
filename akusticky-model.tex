@@ -65,6 +65,7 @@ ale u~automaticky přepsaných by bylo lépe rozdělovat podle ticha mezi slovy.
 Množinu fonémů jsem použil od~doc. Pavla Ircinga ze~Západočeské univerzity
 z~jeho skriptů z~devadesátých let minulého století. Fonémy mají tzv. pražský a
 plzeňský zápis. V~souladu se~zjevným územ jsem použil plzeňský zápis.
+V~tabulce~\ref{tab:phones} jsou uvedeny.
 
 \begin{table}[htpb]
 \fontspec{DoulosSIL}
@@ -74,28 +75,29 @@ plzeňský zápis. V~souladu se~zjevným územ jsem použil plzeňský zápis.
 IPA & plz. & praž. & grafém & IPA & plz. & praž. & grafém \\
 \hline
 % TODO: IPA
-a & a & a & a &                m & mg & mg & sa\textbf{m}ba \\
-aː & aa & aa & á &             ɱ  & mv & mv & tra\textbf{m}vaj \\
-aʊ̯ & aw & au & au &            n  & n & n & \textbf{n}e \\
-b & b & b & b &                ŋ & ng & ng & pa\textbf{n}t \\
-t͡s & c & c & c &               ɲ  & nj & nj & \v{n} \\
-t͡ʃ & ch & cz & č &             o  & o & o & o \\
-d & d & d & d &                oː & oo & oo & ó \\
-ɟ & dj & dj & \v{d} &          oʊ̯ & ow & ou & ou \\
-d͡z & dz & dz & dz &            p  & p & p & p \\
-d͡ʒ & dzh & dzz & dž &          r  & r & r & r \\
-ɛ & e & e & e &                r̝̊ & rsh & rsz & t\textbf{\v{r}}i \\
-ɛː & ee & ee & é &             r̝  & rzh & rzz & \textbf{\v{r}}íz \\
-eʊ̯ & ew & eu & eu &            s  & s & s & s \\
-f & f & f & f &                ʃ & sh & sz & š \\
-g & g & g & g &                t & t & t & t \\
-ɦ & h & h & h &                c & tj & tj & \v{t} \\
-i & i & i & i &                ʊ & u & u & u \\
-iː & ii & ii & í &             uː  & uu & uu & ú, \r{u} \\
-j & j & j & j &                v & v & v & v \\
-k & k & k & k &                x & x & ch & ch \\
-l & l & l & l &                z & z & z & z \\
-m & m & m & \textbf{m}ák &     ʒ & zh & zz & ž \\
+a  & a   & a   & a      &     ɱ  & mg  & mg  & tra\underline{m}vaj \\
+aː & aa  & aa  & á      &     n  & n   & n   & \underline{n}e \\
+aʊ̯ & aw  & au  & au     &     ŋ  & ng  & ng  & pa\underline{n}t \\
+b  & b   & b   & b      &     ɲ  & nj  & nj  & \v{n} \\
+t͡s & c   & c   & c      &     o  & o   & o   & o \\
+t͡ʃ & ch  & cz  & č      &     oː & oo  & oo  & ó \\
+d  & d   & d   & d      &     oʊ̯ & ow  & ou  & ou \\
+ɟ  & dj  & dj  & \v{d}  &     p  & p   & p   & p \\
+d͡z & dz  & dz  & dz     &     r  & r   & r   & r \\
+d͡ʒ & dzh & dzz & dž     &     r̝̊  & rsh & rsz & t\underline{\v{r}}i \\
+ɛ  & e   & e   & e      &     r̝  & rzh & rzz & \underline{\v{r}}íz \\
+ɛː & ee  & ee  & é      &     s  & s   & s   & s \\
+eʊ̯ & ew  & eu  & eu     &     ʃ  & sh  & sz  & š \\
+f  & f   & f   & f      &     t  & t   & t   & t \\
+g  & g   & g   & g      &     c  & tj  & tj  & \v{t} \\
+ɦ  & h   & h   & h      &     ʊ  & u   & u   & u \\
+i  & i   & i   & i      &     uː & uu  & uu  & ú, \r{u} \\
+iː & ii  & ii  & í      &     v  & v   & v   & v \\
+j  & j   & j   & j      &     x  & x   & ch  & ch \\
+k  & k   & k   & k      &     z  & z   & z   & z \\
+l  & l   & l   & l      &     ʒ  & zh  & zz  & ž \\
+m  & m   & m   & \underline{m}ák
+                        &        &     &     & \\
 \hline
 \end{tabular}
 \caption{použité fonémy: IPA, plzeňský zápis, pražský zápis a nejčastější
@@ -105,4 +107,47 @@ odpovídající grafém}\label{tab:phones}
 \normalfont
 
 V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fonémy
-častějšími podobnými. Jednalo se o~tyto záměny:
+častějšími podobnými. V~tabulce~\ref{tab:phonesed} jsou záměny vyčísleny.
+\begin{table}[htpb]
+\fontspec{DoulosSIL}
+\begin{center}
+\begin{tabular}{|r|l|l||l|l|}
+\hline
+&
+\multicolumn{2}{|c||}{před záměnou} &
+\multicolumn{2}{|c|}{po záměně} \\
+\hline
+& IPA & plz. & IPA & plz. \\
+\hline
+    & ɱ  & mg & m & m \\
+    & aʊ̯ & aw & a ʊ & a u \\
+    & oː & oo & o & o \\
+\** & d͡z & dz & t͡s & c \\
+    & d͡ʒ & dzh & t͡ʃ & ch \\
+\** & eʊ̯ & ew & ɛ ʊ & e u \\
+\hline
+\end{tabular}
+\caption{použité záměny fonémů; hvězdičkou jsou vyznačeny záměny použité ještě
+v~době psaní textu}\label{tab:phonesed}
+\end{center}
+\end{table}
+\normalfont
+
+\section{Rozdělení dat}
+
+Pro natrénování modelu strojovým učením je potřeba trénovacích dat a pro
+vyhodnocení jeho úspěšnosti dat testovacích, která ve~fázi trénování nesmí být
+algoritmem spatřena. Při trénování samotném se pak mnohdy používá vyhrazených,
+tzv.~\textit{heldout} dat pro průběžné měření úspěšnosti. V~případě trénování
+akustického modelu s~použitím HTK je tomu nejinak. Heldout data jsou používána
+pro zjištění optimálního počtu mixtur modelů jednotlivých fonémů, a testovací
+pro závěrečné vyhodnocení.
+
+Anotovaná data mi přibývala velice pozvolna a začínal jsem s~několika minutami,
+ovšem přírůstky byly časté. Nemohl jsem si tedy dovolit udělat od~začátku pevnou
+testovací sadu, kterou bych používal po~celou dobu provádění experimentů. Místo
+toho jsem s~každou novou dávkou anotovaných dat celou sadu rozdělil podle vět v
+poměru 18:1:1 do trénovací, heldout a testovací sady. Tak jsem měl neustále
+vyvážený poměr jednotlivých datových sad. Zřejmou velkou nevýhodou bylo, že
+nešlo spolehlivě porovnávat výsledky jednotlivých experimentů vzhledem
+k~variabilní testovací sadě.
