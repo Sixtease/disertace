@@ -38,7 +38,9 @@ přímo na~konkrétního mluvčího.
 %TODO: od kdy se vyplatí dělat model na konkrétního mluvčího?
 
 Tvorba akustického modelu probíhala podle návodu v~manuálu k~HTK, \textit{HTK
-Book}. Popíšu tedy jen rozhodnutí, která nejsou zřejmá.
+Book}. V~hrubých rysech probíhá takto:
+
+Blíže popíšu jen rozhodnutí, která nejsou zřejmá.
 
 \section{Segmentace}
 
@@ -146,8 +148,31 @@ pro závěrečné vyhodnocení.
 Anotovaná data mi přibývala velice pozvolna a začínal jsem s~několika minutami,
 ovšem přírůstky byly časté. Nemohl jsem si tedy dovolit udělat od~začátku pevnou
 testovací sadu, kterou bych používal po~celou dobu provádění experimentů. Místo
-toho jsem s~každou novou dávkou anotovaných dat celou sadu rozdělil podle vět v
-poměru 18:1:1 do trénovací, heldout a testovací sady. Tak jsem měl neustále
+toho jsem s~každou novou dávkou anotovaných dat celou sadu rozdělil podle vět
+v~poměru 18:1:1 do trénovací, heldout a testovací sady. Tak jsem měl neustále
 vyvážený poměr jednotlivých datových sad. Zřejmou velkou nevýhodou bylo, že
 nešlo spolehlivě porovnávat výsledky jednotlivých experimentů vzhledem
 k~variabilní testovací sadě.
+
+Až když jsem měl několik desítek hodin anotovaných dat, vyhradil jsem si fixní
+testovací sadu. Běžně se testovací sada vybere jako náhodná podmnožina vzorků
+z~trénovací sady tak, aby měla kýženou velikost. V~mém případě vzorků zvíci
+hodinových nahrávek jsem sadu určil manuálně jako úsek druhé až jedenácté minuty
+(tedy deset minut minutu po~začátku) v~pěti nahrávkách,
+\begin{enumerate}
+\item{jedné kazety z~roku 1976,}
+\item{jedné z~roku 1982,}
+\item{jedné z~roku 1986,}
+\item{jedné z~roku 1990 a}
+\item{jednoho nedatovaného kotouče.}
+\end{enumerate}
+
+Sadu heldout nyní vybírám jako každou čtyřicátou větu. Z~každé dvacáté jsem
+snížil na~polovic nejen abych neplýtval trénovacími daty, nýbrž také protože
+vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten je přímo
+úměrný velikosti sady heldout.
+
+\section{Spojování trifonémů}
+
+% triphone-tree
+% neznámé trifonémy
