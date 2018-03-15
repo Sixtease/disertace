@@ -41,8 +41,56 @@ Tvorba akustického modelu probíhala podle návodu v~manuálu k~HTK, \textit{HT
 Book}. V~hrubých rysech probíhá takto:
 
 \begin{enumerate}
+
 \item{Vytvoření počátečních modelů}
 
+Modeluje se skrytými markovovskými řetězci. Všechny fonémy se inicializují jako
+shodné. Každý foném je reprezentován pěti stavy (vstupním, výstupním a třemi
+vnitřními). Přechodové pravděpodobnosti se nastaví tak, aby byly možné jen
+kýžené přechody, to jest ze~vstupního do~druhého a z~každéhu z~vnitřních stavů
+do~sebe samého nebo do~následujícího. Konkrétní pravděpodobnosti nejsou
+podstatné, ale použil jsem 60\% pro setrvání a 40\% pro postup ve~druhém a
+třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupního.
+Střed a variance jsou určeny identicky podle globálního středu a variance.
+
+Kromě vlastních fonémů (viz níže oddíl~\ref{sec:ac:fonetika}) přidám ještě foném
+pro~ticho (\textit{sil}).
+
+Pro kódování používám formát MFCC s~první a druhou derivací, nultým koeficientem
+a kepstrální normalizací (\texttt{MFCC\_0\_D\_A\_Z} v~notaci HTK).
+
+Následují dvě iterace tréninku Baum-Welchovým algoritmem\cite{welch2003hidden}.
+
+\item{Přidání modelu pro krátkou pauzu}
+
+Z~modelu pro ticho se odvodí model pro krátkou pauzu tak, že se povolí přechod
+rovnou z~druhého do~čtvrtého stavu a zpět, aby byl model robustnější a mohl
+modelovat pauzu mezi slovy, která je nezřídka nulová.
+
+Trénuje se opět dvěma iteracemi BW-algoritmu.
+
+\item{Nucené zarovnání a odvržení zmetkových vzorků}
+
+Pomocí Viterbiho algoritmu~\cite{forney1973viterbi} se provede tzv.
+\textit{forced alignment}, tzn. nucené zarovnání na~úrovni fonémů. Jinými slovy
+určí se přesný čas, kde začíná a končí který foném. Při tom se určí hranice, pod
+kterou když klesne \textit{likelihood} daného přepisu na~základě odpovídající
+nahrávky, tato se z~trénovacích dat odstraní jako pravěpodobně vadná. Následují
+další dvě iterace BW-algoritmu.
+
+\item{Přepočítání variance}
+
+Variance modelů byla určena podle původní trénovací sady. Nyní jsme z~ní
+vyřadili některé vzorky, proto proběhne její přepočtení, opět následované dvěma
+trénovacími iteracemi.
+
+\item{Přechod k~trifonémům}
+
+Z~nuceného zarovnání máme přepis obohacený o~konkrétní fonetické realizace. Z~té
+se nyní snadno vytvoří transkripce trifonémová tak, že ke každému fonému přidáme
+jeho levý a pravý kontext, pokud nejsou na~začátku nebo na~konci věty.
+
+O~kontext obohacené fonémy dostanou kopie modelů svých původců.
 
 \end{enumerate}
 
@@ -69,6 +117,7 @@ snadno vylepšit. Jde-li o~ručně přepsaná data, jsou hranice vět dobrým vo
 ale u~automaticky přepsaných by bylo lépe rozdělovat podle ticha mezi slovy.
 
 \section{Fonetika}
+\label{sec:ac:fonetika}
 
 Množinu fonémů jsem použil od~doc. Pavla Ircinga ze~Západočeské univerzity
 z~jeho skriptů z~devadesátých let minulého století. Fonémy mají tzv. pražský a
