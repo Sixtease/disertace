@@ -90,29 +90,29 @@ Z~nuceného zarovnání máme přepis obohacený o~konkrétní fonetické realiz
 se nyní snadno vytvoří transkripce trifonémová tak, že ke každému fonému přidáme
 jeho levý a pravý kontext, pokud nejsou na~začátku nebo na~konci věty.
 
-O~kontext obohacené fonémy dostanou kopie modelů svých původců.
-% TODO
+Je-li fonémů 45, pak trifonémů je až $45^3 = 91125$. Ne všechny se v~trénovacích
+datech objeví. V~praxi jich mám kolem 14 tisíc. Pokud by každý trifoném měl
+vlastní separátní model, došlo by k~opačnému problému než v~případě monofonémů,
+totiž že by celkový model měl příliš mnoho parametrů. Přechodové matice mohou
+všechny trifonémy odvozené od jednoho monofonému sdílet. Avšak které trifonémy
+mají sdílet varianci a které mají mít vlastní, je třeba rozhodnout opatrněji.
 
-Rozhodovací strom pro nalezení shluků fonému vhodných pro sloučení stavů jsem
-vybudoval velice podobný jako předkládá příklad v~HTK book, který vychází i
-z~příkladu od~dr. Peterka.
+Pro určení, které modely je vhodné sloučit, používám rozhodovací stromy.
+Na~základě předem definovaných kritérií se u~každého emitujícího stavu každé
+skupiny trifonémů provede rozdělení na~dva shluky, což umožní zvýšení
+\textit{log likelihood} dat. Vybere se kritérium, které ji zvýší nejvíce a
+postup se opakuje, dokud zvýšení neklesne pod~danou hranici. Takto získané
+shluky se pak sloučí do jednoho logického trifonému.
 
 \item{Štěpení mixtur}
 
 Posledním krokem ve~zvětšování komplexity modelu je štěpení tzv.~\textit{mixtur}
 (z~angl. \textit{mixtures}). Spočívá v~tom, že se přesněji modelují variantní
 realizace jednotlivých fonémů. Daný foném pak není modelován jednou gaußovskou
-distribucí, nýbrž složením několika.
+distribucí, nýbrž složením několika. Každá má svůj střed, svoji varianci a svoji
+váhu, jejichž celkový součet musí být roven jedné.
 
-Ideální počet mixtur pro každý foném není triviální nalézt. Neznám lepší metodu,
-než jeden či více fonémů rozštěpit a na~heldout datech vyzkoušet, zda došlo 
-ke~zlepšení či nikoliv. Každé takové otestování trvá několik minut a fonémů je 45,
-takže prozkoušení všech variant je časové neúnosné.
-
-Kupodivu, kdykoliv jsem zkoušel štěpit jednotlivé fonémy, nikdy jsem nedospěl
-k~lepšímu výsledku, než štěpením všech najednou.
-
-Úspěšnost někdy nezávisí na~počtu mixtur monotónně.
+Rozštěpení proběhne tak, že se mixtura s~nejvě
 
 \end{enumerate}
 
