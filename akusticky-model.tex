@@ -112,7 +112,21 @@ realizace jednotlivých fonémů. Daný foném pak není modelován jednou gauß
 distribucí, nýbrž složením několika. Každá má svůj střed, svoji varianci a svoji
 váhu, jejichž celkový součet musí být roven jedné.
 
-Rozštěpení proběhne tak, že se mixtura s~nejvě
+Rozštěpení u~jednoho modelu proběhne tak, že se mixtura s~největší vahou
+rozštěpí na dvě totožné, jen jedna dostane malinko větší váhu než druhá, aby se
+při trénování mohly rozejít. To se provede u~všech vnitřích stavů všech
+logických fonémů, t.j. u~všech markovovských modelů, provedou se čtyři trénovací
+iterace a úspěšnost se vyhodnotí na~sadě heldout.
+
+Pokud u~některé mixtury klesne její váha pod~daný práh, vymaže se, čímž se
+zamezí zbytečnému nárůstu parametrů a není proto potřeba zkoušet štěpit
+jednotlivé modely samostatně. Arci, takovým způsobem jsem nikdy nedosáhl lepšího
+výsledku, než štěpením všech modelů najednou.
+
+Závislost úspěšnosti na~počtu mixtur není monotónní, proto ve~štěpení pokračuji,
+i když někdy úspěšnost klesne. Konkrétně zastavím štěpení, pokud úspěšnost
+klesne o~více než 30\% oproti nejvyšší dosažené nebo pokud klesne více než
+třikrát za~sebou, ale nikdy když je mixtur méně než 16.
 
 \end{enumerate}
 
