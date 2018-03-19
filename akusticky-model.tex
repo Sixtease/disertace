@@ -130,8 +130,6 @@ třikrát za~sebou, ale nikdy když je mixtur méně než 16.
 
 \end{enumerate}
 
-Blíže popíšu jen rozhodnutí, která nejsou zřejmá.
-
 \section{Segmentace}
 
 Zpravidla jeden zvukový soubor odpovídá jednomu přetočení magnetofonové pásky,
@@ -154,6 +152,37 @@ ale u~automaticky přepsaných by bylo lépe rozdělovat podle ticha mezi slovy.
 
 \section{Fonetika}
 \label{sec:ac:fonetika}
+
+\subsection{Fonetický přepis}
+
+Trénovací data pro akustické modelování pomocí HTK mají formu párů
+parametrizovaných zvukových souborů (v~mém případě MFCC) a textových souborů,
+obsahujících fonetický přepis. Ten se může získat různými způsoby. Lze ručně
+anotovat data do~fonetického i běžného přepisu, což se ale běžně nedělá. Běžně
+se trénovací přepisy do fonetických převádějí automaticky. U jazyků
+s~nepravidelnou výslovností, jako je angličtina, je často nejlepší použít
+robustní výslovnostní slovník a v~případě jeho nedostatečnosti se uchýlit
+k~pravidlové výslovnosti, popř. anotovat mimoslovníková slova ručně.
+
+Čeština skýtá se svojí téměř deterministickou a navíc relativně jednoduchou
+fonetikou možnost používat primárně pravidlový přepis. Výjimky pak lze ošetřit
+slovníkem. Vzhledem k~tomu, že slovní zásoba Karla Makoně je svérázná a
+netypická, vydal jsem se právě touto cestou, neboť i kvalitní robustní slovník
+by zde byl nedostatečný a svou obsáhlostí zbytečný.
+
+Pro zachycení výjimek z~výslovnostních pravidel mám vlastní řešení. Uživatelé
+přepisovací aplikace jsou instruováni slova s~nepravidelnou výslovností označit,
+viz kapitolu \ref{kap:webove-rozhrani}. Když se toto stane, výslovnost spárovaná
+se~zápisem se přidá do~výslovnostního slovníku jako výslovnostní varianta.
+Výslovnostní slovník je implementován jako tabulka v~relační databázi. Tím, že
+se přidá výslovnostní varianta, se ošetří případ, že by mluvčí vyslovil slovo
+foneticky. Pokryjí se tím nejen cizí slova, jako \textit{Marie Markéta
+Alacoque} /alakok/, nýbrž také ledabyle vyslovená slova, jako \textit{protože}
+[brʒɛ]
+
+\subsection{Fonémy}
+
+% TODO cite
 
 Množinu fonémů jsem použil od~doc. Pavla Ircinga ze~Západočeské univerzity
 z~jeho skriptů z~devadesátých let minulého století. Fonémy mají tzv. pražský a
@@ -225,8 +254,6 @@ v~době psaní textu}\label{tab:phonesed}
 \end{center}
 \end{table}
 \normalfont
-
-% Vyslov.pm, psql
 
 \section{Rozdělení dat}
 
