@@ -176,54 +176,56 @@ viz kapitolu \ref{kap:webove-rozhrani}. Když se toto stane, výslovnost spárov
 se~zápisem se přidá do~výslovnostního slovníku jako výslovnostní varianta.
 Výslovnostní slovník je implementován jako tabulka v~relační databázi. Tím, že
 se přidá výslovnostní varianta, se ošetří případ, že by mluvčí vyslovil slovo
-foneticky. Pokryjí se tím nejen cizí slova, jako \textit{Marie Markéta
-Alacoque} /alakok/, nýbrž také ledabyle vyslovená slova, jako \textit{protože}
-[brʒɛ]
+foneticky. Pokryjí se tím nejen cizí slova, jako \textit{Marie Markéta Alacoque}
+[\fontspec{DoulosSIL}alakok\normalfont], nýbrž také ledabyle vyslovená slova,
+jako \textit{protože} [\fontspec{DoulosSIL}brʒɛ\normalfont].
 
 \subsection{Fonémy}
 
 % TODO cite
 
-Množinu fonémů jsem použil od~doc. Pavla Ircinga ze~Západočeské univerzity
-z~jeho skriptů z~devadesátých let minulého století. Fonémy mají tzv. pražský a
-plzeňský zápis. V~souladu se~zjevným územ jsem použil plzeňský zápis.
-V~tabulce~\ref{tab:phones} jsou uvedeny.
+Používám základní fonémy českého jazyka~\cite{palkova1992fonetika}
+reprezentované pomocí PACal~\cite{nouza1997phonetic}. Kromě základních fonémů
+používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
+jakož ani neřečové události.
+V~tabulce~\ref{tab:phones} jsou fonémy uvedeny.
 
 \begin{table}[htpb]
 \fontspec{DoulosSIL}
 \begin{center}
 \begin{tabular}{|l|l|l|l||l|l|l|l|}
 \hline
-IPA & plz. & praž. & grafém & IPA & plz. & praž. & grafém \\
+IPA & PACal & grafém & IPA & PACal & grafém \\
 \hline
 % TODO: IPA
-a  & a   & a   & a      &     ɱ  & mg  & mg  & tra\underline{m}vaj \\
-aː & aa  & aa  & á      &     n  & n   & n   & \underline{n}e \\
-aʊ̯ & aw  & au  & au     &     ŋ  & ng  & ng  & pa\underline{n}t \\
-b  & b   & b   & b      &     ɲ  & nj  & nj  & \v{n} \\
-t͡s & c   & c   & c      &     o  & o   & o   & o \\
-t͡ʃ & ch  & cz  & č      &     oː & oo  & oo  & ó \\
-d  & d   & d   & d      &     oʊ̯ & ow  & ou  & ou \\
-ɟ  & dj  & dj  & \v{d}  &     p  & p   & p   & p \\
-d͡z & dz  & dz  & dz     &     r  & r   & r   & r \\
-d͡ʒ & dzh & dzz & dž     &     r̝̊  & rsh & rsz & t\underline{\v{r}}i \\
-ɛ  & e   & e   & e      &     r̝  & rzh & rzz & \underline{\v{r}}íz \\
-ɛː & ee  & ee  & é      &     s  & s   & s   & s \\
-eʊ̯ & ew  & eu  & eu     &     ʃ  & sh  & sz  & š \\
-f  & f   & f   & f      &     t  & t   & t   & t \\
-g  & g   & g   & g      &     c  & tj  & tj  & \v{t} \\
-ɦ  & h   & h   & h      &     ʊ  & u   & u   & u \\
-i  & i   & i   & i      &     uː & uu  & uu  & ú, \r{u} \\
-iː & ii  & ii  & í      &     v  & v   & v   & v \\
-j  & j   & j   & j      &     x  & x   & ch  & ch \\
-k  & k   & k   & k      &     z  & z   & z   & z \\
-l  & l   & l   & l      &     ʒ  & zh  & zz  & ž \\
-m  & m   & m   & \underline{m}ák
-                        &        &     &     & \\
+a  & a   & a      &     ɱ  & mg  & tra\underline{m}vaj \\
+aː & aa  & á      &     n  & n   & \underline{n}e \\
+aʊ̯ & aw  & au     &     ŋ  & ng  & pa\underline{n}t \\
+b  & b   & b      &     ɲ  & nj  & \v{n} \\
+t͡s & c   & c      &     o  & o   & o \\
+t͡ʃ & ch  & č      &     oː & oo  & ó \\
+d  & d   & d      &     oʊ̯ & ow  & ou \\
+ɟ  & dj  & \v{d}  &     p  & p   & p \\
+d͡z & dz  & dz     &     r  & r   & r \\
+d͡ʒ & dzh & dž     &     r̝̊  & rsh & t\underline{\v{r}}i \\
+ɛ  & e   & e      &     r̝  & rzh & \underline{\v{r}}íz \\
+ɛː & ee  & é      &     s  & s   & s \\
+eʊ̯ & ew  & eu     &     ʃ  & sh  & š \\
+f  & f   & f      &     t  & t   & t \\
+g  & g   & g      &     c  & tj  & \v{t} \\
+ɦ  & h   & h      &     ʊ  & u   & u \\
+i  & i   & i      &     uː & uu  & ú, \r{u} \\
+iː & ii  & í      &     v  & v   & v \\
+j  & j   & j      &     x  & x   & ch \\
+k  & k   & k      &     z  & z   & z \\
+l  & l   & l      &     ʒ  & zh  & ž \\
+m  & m   & \underline{m}ák
+                  &        & sil & \\
+   &     &        &        & sp  & \\
 \hline
 \end{tabular}
-\caption{použité fonémy: IPA, plzeňský zápis, pražský zápis a nejčastější
-odpovídající grafém}\label{tab:phones}
+\caption{použité fonémy: IPA, PACal a nejčastější odpovídající
+grafém}\label{tab:phones}
 \end{center}
 \end{table}
 \normalfont
