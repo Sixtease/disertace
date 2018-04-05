@@ -30,11 +30,13 @@ podniknutých k~jeho sestavení, experimentech a různých volbách.
 Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
 starší systém \textit{HTK}\footnote{hmm toolkit; Hidden Markov Model Toolkit} a
 modernější \textit{Kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
-Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~níž jsem mohl čerpat.
+mého konzultanta Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~nichž jsem mohl
+čerpat.
 
-Akustický model jsem trénoval výhradně z~vlastníh dat. Obětoval jsem tedy
-potenciální přínos většího množství trénovacích dat a upřednostnil trénování
-přímo na~konkrétního mluvčího.
+Akustický model jsem trénoval výhradně z~vlastníh dat.
+% Obětoval jsem tedy
+% potenciální přínos většího množství trénovacích dat a upřednostnil trénování
+% přímo na~konkrétního mluvčího.
 %TODO: od kdy se vyplatí dělat model na konkrétního mluvčího?
 
 Tvorba akustického modelu probíhala podle návodu v~manuálu k~HTK, \textit{HTK
@@ -51,7 +53,7 @@ kýžené přechody, to jest ze~vstupního do~druhého a z~každéhu z~vnitřní
 do~sebe samého nebo do~následujícího. Konkrétní pravděpodobnosti nejsou
 podstatné, ale použil jsem 60\% pro setrvání a 40\% pro postup ve~druhém a
 třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupního.
-Střed a variance jsou určeny identicky podle globálního středu a variance.
+Střed a variance jsou určeny identicky podle globálních hodnot.
 
 Kromě vlastních fonémů (viz níže oddíl~\ref{sec:ac:fonetika}) přidám ještě foném
 pro~ticho (\textit{sil}).
@@ -115,7 +117,7 @@ váhu, jejichž celkový součet musí být roven jedné.
 Rozštěpení u~jednoho modelu proběhne tak, že se mixtura s~největší vahou
 rozštěpí na dvě totožné, jen jedna dostane malinko větší váhu než druhá, aby se
 při trénování mohly rozejít. To se provede u~všech vnitřích stavů všech
-logických fonémů, t.j. u~všech markovovských modelů, provedou se čtyři trénovací
+logických fonémů, t.j. u~všech markovovských modelů. Provedou se čtyři trénovací
 iterace a úspěšnost se vyhodnotí na~sadě heldout.
 
 Pokud u~některé mixtury klesne její váha pod~daný práh, vymaže se, čímž se
