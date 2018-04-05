@@ -87,6 +87,7 @@ vyřadili některé vzorky, proto proběhne její přepočtení, opět následov
 trénovacími iteracemi.
 
 \item{Přechod k~trifonémům}
+\label{item:htktrain:triphones}
 
 Z~nuceného zarovnání máme přepis obohacený o~konkrétní fonetické realizace. Z~té
 se nyní snadno vytvoří transkripce trifonémová tak, že ke každému fonému přidáme
@@ -298,5 +299,6 @@ vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten 
 
 \section{Spojování trifonémů}
 
-% triphone-tree
-% neznámé trifonémy
+Pro slučování modelů jednotlivých trifonémů, jak zmiňuje
+bod~\ref{item:htktrain:triphones} seznamu kroků trénování pomocí~HTK, je
+zapotřebí rozhodovacích stromů.
