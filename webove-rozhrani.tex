@@ -218,3 +218,27 @@ případech je lépe zachovat uložení, kde jedna nahrávka odpovídající vě
 jedné straně kazety či jednomu průchodu pásky z~kotouč na kotouč. Třetí a čtvrtá
 instance však navzdory rozdílnému účelu sdílejí tatáž data. Bylo proto nutné je
 duplikovat.
+
+\subsection{Délka segmentů}
+
+Délka úseků, na které nahrávky rozděluji, ovlivňuje, jak dlouho se každý segment
+bude stahovat a dekódovat. Čas stahování a dekódování segmentu, který obsahuje
+slovo, na němž je kurzor při prvním požadavku o~přehrávání, je roven zpoždění od
+uživatelské akce k začátku přehrávání. Podle internetového periodika
+UXMovement\cite{foursecondrule}, začíná uživatel po čtyřech sekundách čekání
+upouštět od předchozího záměru. Podle článku Nielsen Norman
+Group\cite{websiteresponsetimes} je hranice únosnosti 10 sekund.
+
+Pokud budou úseky příliš dlouhé, jejich stahování a dekódování zabere příliš
+mnoho času. Na druhou stranu s každým předělem vnášíme do přehrávání bod, kde se
+úseky nalepují a může tam vyvstat artefakt. Také s~každým segmentem se pojí
+extra HTTP request s~nezanedbatelnou režií.
+
+Jako vhodný kompromis se jeví segmenty o délce 30 - 120 sekund. Velikost
+dvouminutového segmentu je v~komprimovaném formátu při mono/24KHz kolem 0.6MB a
+na Intel Core2 o 2,5GHz se dekóduje asi 1.6 sekundy.
+
+\subsection{Hledání bodů předělu}
+
+Vhodným výběrem bodů předělu můžeme omezit dopad případných artefaktů
+způsobených nepřesným navázáním.
