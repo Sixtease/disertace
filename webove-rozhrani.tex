@@ -98,8 +98,8 @@ lineární seznam nahrávek. Jednotlivé kategorie jsou pak skrolovacími odkazy
 do~pravého sloupce a podle stupně skrolování se příslušná kategorie sama
 rozbalí (tzv. scrollspy).
 
-Pro lepší přehlednost je seznam nahrávek pouze na~úvodní stránce a nikoliv
-všude.
+Pro lepší přehlednost a v souladu s principem Separation of Concerns je seznam
+nahrávek pouze na~úvodní stránce a nikoliv všude.
 
 \subsection{Zobrazení přepisu}
 
@@ -195,3 +195,26 @@ podporu a uložení gigabytu dat je s~ním možné, byť ne zaručené. S~využi
 abstrahující knihovny \textit{Dexie} je proto skrz tento standard ukládání
 implementováno. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce
 se tím přináší velká úspora času a přenesených dat.
+
+\section{Rozdělení nahrávek na úseky}
+
+Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
+skrze Web Audio API v~dohlednu, a k tomu jak odrazující dopad má nutnost
+stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
+než změnit způsob, jakým jsou nahrávky uloženy.
+
+Nahrávky jsou uloženy v~několika instancích pro různé účely:
+
+\begin{enumerate}
+\item{na backendovém serveru ve formátu MFCC pro nucené zarovnávání,}
+\item{v~repozitáři LINDAT ve formátu FLAC za účelem archivace a bádání,}
+\item{na CDN ve formátu mp3 za účelem přímého stažení uživatelem,}
+\item{taktéž na CDN ve formátech OGG/Vorbis a mp3 pro webové rozhraní.}
+\end{enumerate}
+
+Pouze poslední jmenovanou instanci je žádoucí ukládat tak, aby každý soubor byl
+jen tak velký, aby jeho stažení a dekódování trvalo únosně dlouho. V~ostatních
+případech je lépe zachovat uložení, kde jedna nahrávka odpovídající většinou
+jedné straně kazety či jednomu průchodu pásky z~kotouč na kotouč. Třetí a čtvrtá
+instance však navzdory rozdílnému účelu sdílejí tatáž data. Bylo proto nutné je
+duplikovat.
