@@ -241,4 +241,24 @@ na Intel Core2 o 2,5GHz se dekóduje asi 1.6 sekundy.
 \subsection{Hledání bodů předělu}
 
 Vhodným výběrem bodů předělu můžeme omezit dopad případných artefaktů
-způsobených nepřesným navázáním.
+způsobených nepřesným navázáním. Ideálním by bylo dělit nahrávky v~momentech
+ticha. Ne vždy jsou momenty ticha každé dvě minuty, proto z momentů ticha
+ustupme k~požadavku pauzy v~řeči. Hovořit dvě minuty bez nádechu hraničí
+s~nemožností. Potýkáme se tedy s~úlohou nalézt pauzy v~řeči. Jednak je třeba
+ujasnit, podle jakého klíče budeme pauzy vybírat, a jednak, jak je budeme přesně
+hledat.
+
+Hledat pauzy v~řeči lze různými způsoby. Nejspolehlivější a nejnáročnější je
+manuální označování pauz. Pokoušel jsem se o~to sám a dosáhl jsem rychlosti
+přibližně čtyřnásobku rychlosti přehrávání, tedy jeden zapsaný bod předělu za
+třicet sekund. Dalších asi pět dobrovolných anotátorů se o~tento úkol pokusilo a
+došla jim trpělivost po nule až deseti minutách označkovaného materiálu.
+
+Další velice spolehlivou metodou je hledání podle predikovaných pseudofonémů
+ticha v~zarovnaném přepisu. Tuto metodu jsem mohl namnoze použít, neboť
+k~většině nahrávek mám automatický nebo i manuální přepis.
+
+Tam, kde pořízení přepisu nebo jeho automatické zarovnání selhalo, lze použít
+detekci ticha prostou akustickou analýzou. Tato metoda je velice náchylná
+k~chybám v~případě nahrávek s~malým poměrem signálu k~šumu, kterých se v~korpusu
+Karla Makoně vyskytuje neutěšeně mnoho.
