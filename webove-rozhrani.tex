@@ -251,8 +251,7 @@ hledat.
 Hledat pauzy v~řeči lze různými způsoby. Nejspolehlivější a nejnáročnější je
 manuální označování pauz. Pokoušel jsem se o~to sám a dosáhl jsem rychlosti
 přibližně čtyřnásobku rychlosti přehrávání, tedy jeden zapsaný bod předělu za
-třicet sekund. Dalších asi pět dobrovolných anotátorů se o~tento úkol pokusilo a
-došla jim trpělivost po nule až deseti minutách označkovaného materiálu.
+třicet sekund.
 
 Další velice spolehlivou metodou je hledání podle predikovaných pseudofonémů
 ticha v~zarovnaném přepisu. Tuto metodu jsem mohl namnoze použít, neboť
@@ -267,3 +266,36 @@ Kde nepomůže ani metoda detekce ticha, což se pozná podle toho, že detekova
 pauzy jsou příliš daleko od sebe nebo naopak zabírají valnou část nahrávky,
 nezbývá, než určit body předělu ve fixních intervalech, nehledě na to, že jich
 většina padne doprostřed slova.
+
+Pokusy dvě metody vyloučily: Manuální hledání bylo příliš neefektivní. Kromě mne
+se dalších asi pět dobrovolných anotátorů o~tento úkol pokusilo a došla jim
+trpělivost po nule až deseti minutách označkovaného materiálu. Detekci pomocí
+zarovnaného přepisu šlo použít i na některé nahrávky, u nichž přepis selhal tím
+způsobem, že se rozdělily na menší části, přepsaly se ony -- zpravidla
+s~katastrofální úspěšnosti. Tento přepis opět v~některých případech selhal, ale
+většina takové nahrávky byla nějakým přepisem pokryta. A jakkoliv nekvalitní
+takový přepis byl, právě dlouhé mezery mezi slovy se nalezly s~uspokojivou
+přesností. Krátké úseky, na nichž selhalo rozpoznávání řeči, byly pak příliš
+obtížné i pro detekci pomocí ticha. Jednalo se o úseky bez řečových událostí,
+nebo s~extrémním šumem.
+
+
+Celkový počet různě získaných bodů předělu shrnuje
+tabulka~\ref{tab:splitpoints}.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|l|l|l||l|l|l|l|}
+\hline
+metoda získání & počet \\
+\hline
+manuálně & \\
+podle zarovnaného přepisu & \\
+podle detekce ticha & \\
+fixní délkou & \\
+celkem & \\
+\hline
+\end{tabular}
+\caption{počet bodů předělu podle metody jejich získání}\label{tab:phones}
+\end{center}
+\end{table}
