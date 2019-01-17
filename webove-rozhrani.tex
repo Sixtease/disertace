@@ -238,7 +238,7 @@ Jako vhodný kompromis se jeví segmenty o délce 30 - 120 sekund. Velikost
 dvouminutového segmentu je v~komprimovaném formátu při mono/24KHz kolem 0.6MB a
 na Intel Core2 o 2,5GHz se dekóduje asi 1.6 sekundy.
 
-\subsection{Hledání bodů předělu}
+\subsection{Metody hledání bodů předělu}
 
 Vhodným výběrem bodů předělu můžeme omezit dopad případných artefaktů
 způsobených nepřesným navázáním. Ideálním by bylo dělit nahrávky v~momentech
@@ -287,15 +287,56 @@ tabulka~\ref{tab:splitpoints}.
 \begin{center}
 \begin{tabular}{|l|l|l|l||l|l|l|l|}
 \hline
-metoda získání & počet \\
+metoda získání & počet použitých \\
 \hline
-manuálně & \\
-podle zarovnaného přepisu & \\
-podle detekce ticha & \\
-fixní délkou & \\
-celkem & \\
+manuálně & 0 \\
+podle zarovnaného přepisu & 47374 \\
+podle detekce ticha & 0 \\
+fixní délkou & 33290 \\
+celkem & 80664 \\
 \hline
 \end{tabular}
 \caption{počet bodů předělu podle metody jejich získání}\label{tab:phones}
 \end{center}
 \end{table}
+
+\subsection{Výběr bodů předělu}
+
+V~naivní metodě určování bodů předělu pomocí fixního intervalu jsem zvolil délku
+šedesáti sekund. Že to je délka přijatelná, se diskutuje výše a s~další
+optimalizací tohoto parametru jsem neztrácel čas.
+
+Zajímavější je situace u~hledání pomocí zarovnaného přepisu. Zde se jedná
+o~programátorský úkol, kde na vstupu máme posloupnost slov vyskytujících se
+v~přepisu nahrávky, z~nichž každé s~sebou krom své formy a výslovnosti nese
+informaci, kde začíná, a pokud obsahuje na konci ticho, pak kde začíná
+pseudofoném ticha a jak je dlouhý.  Redukovat tedy vstup můžeme na posloupnost
+párů čísel, kde první vždy udává počátek ticha a druhé jeho konec. Na výstupu
+očekáváme posloupnost časových pozic, které rozdělují nahrávku na úseky o~délce
+nejméně 30 sekund, nejvýše 120 sekund, a které jsou uprostřed co nejdelších
+segmentů ticha.
+
+Povšimněme si, že úloha nemá řešení, pokud je nahrávka kratší třiceti sekund. To
+ovšem jednak v~mluveném korpusu Karla Makoně nenastává a jednak by to nevadilo,
+proože takovou nahrávku bychom jednoduše nechali v~jednom souboru.
+
+Druhým případem, kdy úloha nemá řešení, je, když mezi dvěma sousedními pauzami
+je rozestup větší než 120 sekund. Takový případ nastává, když je samotné
+detekované ticho velmi dlouhé. Takové případy jsem řešil manuální úpravou.
+
+Hledaný algoritmus se zdá být typickým příkladem pro dynamické programování:
+Nalezneme ideální rozdělení nahrávky, která obsahuje jen první slovo, a poté
+přidáváme slova a na základě dosavadního řešení a nového slova řešení
+rozšiřujeme.
+
+Je ale i jednodušší varianta: Začneme s~množinou všech pauz a iterujeme přes ně
+od nejkratší po nejdelší. Pauzu z~množiny odebereme, pokud sloučením sousedních
+segmentů nevznikne segment delší než 60 sekund. Přes vybrané pauzy znova
+iterujeme a pauzu odebereme, jestliže jeden z~jejích sousedů má méně než 30
+sekund.
+
+\subsection{Pojmenování souborů}
+
+Jsou-li vybrány body předělu, mohou se nahrávky podle nich rozdělit a výsledné
+segmenty uložit na disk. Zde vyvstává otázka, jak rozdělit soubory do adresářů a
+jak je pojmenovat.
