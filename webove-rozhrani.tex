@@ -339,4 +339,31 @@ sekund.
 
 Jsou-li vybrány body předělu, mohou se nahrávky podle nich rozdělit a výsledné
 segmenty uložit na disk. Zde vyvstává otázka, jak rozdělit soubory do adresářů a
-jak je pojmenovat.
+jak je pojmenovat. Zvolil jsem tento formát:
+
+$\$ID/\$format/\$ID--from-\$ZACATEK--to-\$KONEC.\$PRIPONA$
+
+tedy například
+
+$88-04A/ogg/88-04A--from-1155.27--to-1211.53.ogg$.
+
+Důvody jsou tyto: Není praktické z~důvodu omezení mnoha souborových systémů mít
+příliš mnoho souborů v~jednom adresáři. Proto rozdělení do adresářů podle
+identifikátorů nahrávek. Že formát je právě podadresář identifikátoru a ne třeba
+nadadresář, je arbitrární, obojí by bylo možné, nebo i mít soubory všech formátů
+v~jednom adresáři a jen je odlišovat příponou.
+
+Zopakovat identifikátor nahrávky i v~názvu souboru jsem se rozhodl proto, aby
+případný zatoulaný soubor mohl být snáze identifikován. Díky tomu, že se do
+názvu souboru uvede začátek i konec úseku v~rámci nahrávky zajistí, že název
+souboru přesně popisuje jeho obsah. Oproti tomu např. lineární číslování by při
+změně bodů předělu vedlo k~tomu, že jeden název souboru by byl totožný pro různé
+úseky v~různých verzích korpusu. To by mohlo vést k~problémům s~cachováním.
+Identifikátory pomocí kontrolních součtů nebo jinak postavených na základě
+binárního obsahu souboru by vedlo k~nutnosti změnit identifikátory při každé
+změně komprese apod., ačkoliv slyšitelný rozdíl by třeba nebyl žádný.
+
+Nyní, pokud by došlo ke změně bodů předělu, by se nové i staré úseky musely
+uchovávat v~jednom adresáři a až by všechny instance starých úseků byly
+vyhlazeny z~paměti cache všech klientů, by se staré mohly smazat. Jedinou
+nevýhodou je, že by se musely nové přebrat od starých, ale to není problém.
