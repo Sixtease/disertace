@@ -300,4 +300,28 @@ vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten 
 
 Pro slučování modelů jednotlivých trifonémů, jak zmiňuje
 bod~\ref{item:htktrain:triphones} seznamu kroků trénování pomocí~HTK, je
-zapotřebí rozhodovacích stromů.
+zapotřebí rozhodovacích stromů. Pro jejich tvorbu je potřeba ručně vytvořit
+otázky, na základě nichž, bude algoritmus dělit fonémy do shluků. K~tvorbě
+otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
+některé lingvistikou definované kategorie budou tvořit konzistentní shluky
+z~pohledu trénovacích dat. Pro tvorbu otázek jsem vycházel z~předlohy pro
+angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii ({\em
+https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
+
+\section{Štěpení mixtur}
+
+Kde gaussova distribuce nedokonale modeluje některý foném, ať už proto, že
+jeden foném mívá různé realizace, nebo proto, že rozdělení má jiný tvar než
+gaussián, lze vyšší přesnosti modelování dosáhnout tím, že jeden foném
+reprezentujeme množinou vážených gaussovských rozdělení, součet jejichž vah je
+roven jedné. Pokud je foném gaussiánem modelován dobře, rozdělení na dvě mixtury
+nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
+k~přetrénování. Je proto potřeba nalézt optimální počet mixtur pro každý
+jednotlivý trifoném.
+
+Hledání probíhá tak, že se rozštěpí nějaká množina gaussiánů na dvě o~téměř
+totožné váze, provedou se typicky dvě trénovací iterace a zjistí se, o kolik se
+zvedla či snížila úspěšnost. Výsledný model se pak může nebo nemusí vzít jako
+základ pro další štěpení.
+
+Protože modelů je opravdu mnoho (pro každý trifoném
