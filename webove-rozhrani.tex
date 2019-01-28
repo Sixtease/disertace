@@ -290,10 +290,10 @@ tabulka~\ref{tab:splitpoints}.
 metoda získání & počet použitých \\
 \hline
 manuálně & 0 \\
-podle zarovnaného přepisu & 47374 \\
+podle zarovnaného přepisu & 60424 \\
 podle detekce ticha & 0 \\
-fixní délkou & 33290 \\
-celkem & 80664 \\
+fixní délkou & 22043 \\
+celkem & 82467 \\
 \hline
 \end{tabular}
 \caption{počet bodů předělu podle metody jejich získání}\label{tab:phones}
@@ -367,3 +367,13 @@ Nyní, pokud by došlo ke změně bodů předělu, by se nové i staré úseky m
 uchovávat v~jednom adresáři a až by všechny instance starých úseků byly
 vyhlazeny z~paměti cache všech klientů, by se staré mohly smazat. Jedinou
 nevýhodou je, že by se musely nové přebrat od starých, ale to není problém.
+
+\subsection{Překryv úseků}
+
+Při testování se ukázalo, že vyřízneme-li pomocí programu \texttt{sox} úsek
+zvukového souboru, výsledný soubor skončí přehrávání o~několik desetin sekundy
+dříve. Jako by chybělo posledních několik set samplů. Příčinu tohoto fenoménu
+zatím neznám. Kompenzoval jsem jej tím, že jsem každý úsek prodloužil o~půl
+sekundy. Následkem toho bylo potřeba upravit přehrávání tak, aby každý úsek
+skončil tehdy, až dohraje jeho metadaty daná délka, nikoliv až do skutečného
+vyčerpání zvukových dat.
