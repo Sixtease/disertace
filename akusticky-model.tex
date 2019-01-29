@@ -324,4 +324,8 @@ totožné váze, provedou se typicky dvě trénovací iterace a zjistí se, o ko
 zvedla či snížila úspěšnost. Výsledný model se pak může nebo nemusí vzít jako
 základ pro další štěpení.
 
-Protože modelů je opravdu mnoho (pro každý trifoném
+Štěpí se obvykle vnitřní stavové modely jednotlivých fonémů. Optimální počet
+mixtur je tedy potřeba zjistit pro trojnásobek počtu použitých trifonémů. To
+jsou řádově tisíce až desítky tisíc. V~okamžiku psaní tohoto textu používám 8444
+reálných trifonémů, 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
+tisíc distribucí, u~nichž je potřeba určit optimální počet mixtur.
