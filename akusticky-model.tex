@@ -329,3 +329,16 @@ mixtur je tedy potřeba zjistit pro trojnásobek počtu použitých trifonémů.
 jsou řádově tisíce až desítky tisíc. V~okamžiku psaní tohoto textu používám 8444
 reálných trifonémů, 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
 tisíc distribucí, u~nichž je potřeba určit optimální počet mixtur.
+
+Aby byl úkol aspoň aproximací dosažitelný, je třeba hledat efektivněji než
+prohledáváním celého prostoru hrubou silou. První pomocí zde je, že modely jsou
+na sobě více méné nezávislé: Nalezneme-li optimální počet mixtur pro jeden
+z~nich, nemělo by to ovlivnit optimální počet mixtur u~jiného. Druhou pomocí je
+mechanismus zabudovaný do HTK, který odstaví všechny mixtury, které po
+natrénování mají příliš malou váhu. Můžeme proto beze strachu štěpit mnoho
+modelů najednou a mixtury s~malou vahou se pak automaticky odfiltrují.
+
+Typicky se tedy rozštěpí všechny modely najednou a toto se opakuje, dokud
+úspěšnost nezačne klesat. Kupodivu, pokoušel jsem se-li štěpit modely náležející
+každému monofonému zvlášť, nikdy jsem nedospěl k~tak dobrému výsledku, jako
+štěpením všech najednou.
