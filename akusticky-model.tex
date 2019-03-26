@@ -323,3 +323,24 @@ některé lingvistikou definované kategorie budou tvořit konzistentní shluky
 z~pohledu trénovacích dat. Pro tvorbu otázek jsem vycházel z~předlohy pro
 angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii ({\em
 https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
+
+\section{Experiment s kepstrální normalizací}
+
+Kepstrální normalizace je standardní technikou pro kompenzaci různorodých
+akustických podmínek v~rámci trénovacích a testovacích dat, viz Viikki a Laurila
+1998\cite{viikki1999cepstral}. Princip této techniky spočívá v~tom, že se ode
+všech melfrekvenčních kepstrálních koeficientů odečte jejich průměr z~akusticky
+konzistentního úseku. Já toto poněkud hrubiánsky činím na celých nahrávkách,
+které nejsou vždy akusticky konzistentní, ale často ano a nalezení akusticky
+podobných množin je jedním z~mých plánů pro budoucí práci.
+
+Nabízí se však otázka, zda má smysl odečítat průměr z~celé nahrávky, nebo by to
+mělo být jen z~řečových událostí, tedy s~vynechaným tichem (šumem, hluky atd.)
+Tato idea, přišedší ke mně od Davida Klusáčka, mne zaujala natolik, že jsem se
+ji pokusil ověřit. Vytvořil jsem proto jednak metadata s~časovými pozicemi všech
+izolovaných řečových událostí na základě zarovnaného automatického přepisu, kde
+jsem vynechal všechny fonémy \texttt{sil} a \texttt{sp}, a jednak sadu skriptů
+pro manipulaci se soubory MFCC.
+
+Celkový přínos pro úspěšnost rozpoznávání byl nulový, ale aparát pro dekódování
+a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
