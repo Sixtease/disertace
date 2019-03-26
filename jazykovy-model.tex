@@ -1,4 +1,34 @@
 \chapter{Jazykový model}
 \label{kap:jazykovy-model}
 
-TODO
+Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
+v~jazyce.\cite{ponte1998language} V~kontextu rozpoznávání řeči je tandemovým
+partnerem akustického modelu.\cite{jelinek1990self} Teprve kombinace akustického
+a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
+nejpravděpodobnější.
+
+Výběr jazykového modelu omezen nástrojem pro rozpoznávání. Lze zvolit pouze
+takový model, který nástroj dokáže využít. Všechny nástroje, které jsem použil,
+podporují N-gramové jazykové modely: HVite bigramový, Julius až trigramový a
+DeepSpeech taktéž trigramový.
+
+Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
+\begin{enumerate}
+\item{Obecné české texty,}
+\item{Makoňovy spisy,}
+\item{manuální přepisy nahrávek,}
+\item{automatické přepisy.}
+\end{enumerate}
+
+Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
+modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
+nahrávek, také je jich nejméně: přesně 709 493 slov v~okamžiku psaní tohoto
+textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
+se jedná o 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
+texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
+jsem nalezl, je Mononews z WMT obsahující 1 019 497 060 slov.
+
+Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy ve
+výše uvedeném pořadí. Aplikuji vyhlazování technikou
+Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro tréning
+jazykových modelů KenLM\cite{heafield2011kenlm}.
