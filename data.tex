@@ -345,7 +345,9 @@ páskám. Ty jsem nafotil do 258 fotografií. Jejich obsahem je posloupnost
 záznamů, z~nichž každý je uvozen pozicí počítadla na magnetofonu, za čímž
 následuje shrnutí tématu cca. do 50 znaků. Některé záznamy jsou zvýrazněn
 podtržením či kapitálkami. Typická délka jednoho takto označeného úseku je 1 -
-10 minut. Tyto indexy jsou přiložené k~nahrávkám.
+10 minut. Tyto indexy jsou přiložené k~nahrávkám. Problémem je, že u kotoučů
+není patrné, který digitalizovaný soubor odpovídá které stopě označené v~indexu
+jako {\em a}, {\em b}, {\em c} nebo {\em d}.
 
 Krom toho existují podrobnější indexy taktéž od Víta Elgra ve formě listů
 formátu A4, psané z~menší části na stroji, z~větší části psacím písmem, kde
@@ -359,6 +361,24 @@ tak minimálně 40 nahrávek.
 Konečně já sám si průběžně dělám poznámky k~právě poslouchané nahrávce na stejný
 způsob jako MUDr. Elger, jen digitálně a pozice označuju identifikátorem
 nahrávky a časovou pozicí. Zatím jsem takto pořídil 623 záznamy z~56 nahrávek.
+
+Pozice počítadla na magnetofonu, kterými označoval dr. Elger záznamy v indexech,
+jsem se pokusil převést na časové údaje. Počítadlo se inkrementuje při každé
+otáčce cívky, na kterou se páska navíjí. Uplynulý čas je tedy kvadratická funkce
+pozice počítadla. Mělo by tedy stačit nalézt několik málo odpovídajících párů
+pozic počítadla a času a z~toho interpolovat koeficienty v~hledaném polynomu.
+
+Tak jsem dospěl k~výrazu $t = 0.0008605c^2 + 1.674c + 3.998$. Bohužel vyšlo
+najevo, že po hodině trvání nahrávky se kotouč otáčí tak pomalu, že pozice
+počítadla se změní až za několik desítek sekund. To způsobuje, že interpolační
+koeficienty jsou velmi nepřesné a v~kombinaci s~nepřesností při určování nové
+pozice to způsobuje, že začátek hledaného tématu se nachází i více než minutu
+před či za predikovanou pozicí.
+
+Tento problém lze řešit jednak přesnějším určením funkce času podle pozice
+počítadla, a to buď použitím hardwarového počítadla, a nebo přesnější
+interpolací s~použítím většího množství bodů, a jednak využitím predikce začátku
+tématu v~několikaminutovém okolí pomocí komputačnělingvistíckých metod.
 
 \subsection{Pokusy o automatickou identifikaci témat}
 
@@ -426,6 +446,24 @@ na dotazu. Může to být způsobeno tím, že některé z~nich jsou pro rozpozn
 obtížnější na přepis, nebo také tím, že určité téma se vyskytuje v~oblasti,
 která je disproporčně buď z~velké nebo naopak z~malé části přepsána. Je téměř
 jisté, že aspoň pro některé z~vyhledaných témat, je recall velice nízký.
+
+Druhý pokus o návrh metody zmapování témat s~využitím digitální analýzy se zakládal na
+domněnce, že v~době, kdy Makoň o určitém tématu psal knihu, o něm bude
+pravděpodobně také mluvit na přednáškách. Pro ověření domněnky jsem se zaměřil
+na téma Svaté Terezie z~Avily. V roce 1988 Makoň překládal její dílo Hrad nitra
+(El castillo interior). Vzhledem k~tomu, že u většiny nahrávek známe rok jejich
+pořízení, lze zjistit distribuce výskytů vyhledávání podle roku. Pro dotaz na
+Svatou Terezii tuto distribuci ukazuje obrázek~\ref{fig:teresa-year}.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.6]{rc/teresa-by-year.eps}
+\caption{Number of hits for the query \texttt{terez.*} in the transcription by
+alleged year of the recording}
+\label{fig:teresa-year}
+\end{figure}
+
+Elevace kolem roku 1988 v~grafu domněnku korelace mezi tématem právě psané knihy
+a přednášek podporuje.
 
 \section{Nahrávání}
 

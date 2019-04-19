@@ -1,4 +1,87 @@
 \chapter{Závěr}
 \label{kap:zaver}
 
-TODO
+\section{Bilance}
+
+Nabízí se otázka, zda cíl disertační práce byl splněn. Odpověď je jednoznačně
+negativní, a to ze dvou důvodů:
+\begin{enumerate}
+\item{V~případě akusticky obtížných nahrávek je přepis
+zatím natolik nedokonalý, že neumožňuje uspokojivé vyhledávání, takže tyto
+nahrávky nadále zůstávají využitelné jen pro lineární nebo namátkový poslech.}
+\item{Webové rozhraní, zpřístupňující nahrávky veřejnosti, navzdory své
+nepopiratelné a osvědčené funkčnosti, vyžaduje pro efektivní využití aspoň
+zběžné zaškolení a tím se vylučuje široká veřejnost z~oboru lidí, kterým může
+sloužit.}
+\end{enumerate}
+
+Kusých cílů však bylo dosaženo se stejnou jednoznačností: Přepis je
+v~použitelníé kvalitě pro velkou část korpusu, stávající webová aplikace je
+solidním základem pro zlepšení v~oblasti uživatelského prožitku (UX) a hlavně, pro
+vážné zájemce jsou nahrávky k~dispozici.
+
+\section{Budoucí práce}
+
+Budoucí práce vidím nyní více, než jsem jí viděl na začátku projektu:
+
+Prvním a předním bodem je zmíněná optimalizace webového rozhraní s~ohledem na
+design a UX. Za tímto cílem je potřeba jednak konzultovat s~odborníky v~oboru,
+neboť jakkoliv jsem zkušený programátor, designéra to ze mne zatím neudělalo a
+obávám se, že doufat v~to by bylo pošetilé, jednak provádět průběžně testování
+s~uživateli, jak to radí např. Jan Řezáč ve své knize Web ostrý jako
+břitva\cite{rezac2016web}.
+
+Druhým bodem v~pořadí důležitosti, jak se mi nyní jeví, je důslednější aplikace
+moderních neuronových sítí na rozpoznávač řeči. Současný automatický přepis je
+sice získán pomocí DeepSpeech, což je systém postavený na TensorFlow, ovšem byl
+aplikován s~trigramovým jazykovým modelem a byl natrénován pouze na manuálních
+přepisech Karla Makoně, což možná byla nejlepší varianta pro GMM, ale u
+hlubokých neuronových sítí to tak vůbec být nemusí.
+
+Jako třetí bod budoucí práce bych zařadil integraci tematických anotací do
+webové aplikace. Jednak je stávajících dat tohoto druhu k~dispozici již takové
+množství, že může být k~užitku lidem, kteří hledají pasáže týkající se toho či
+onoho tématu, a jednak je vhodné využívat zapojení uživatelů i jiným způsobem
+než pro sběr manuálních přepisů, tím spíše, že s~rostoucím množstvím jejich
+přínos pro akustické a jazykové modelování klesá.
+
+\section{Shrnutí}
+
+Tato disertační práce se zabývá problematikou přepisu a zpřístupnění mluveného
+korpusu. Vychází z~konkrétní množiny nahrávek českého mystika Karla Makoně.
+V~jejím rámci byly vytvořeny 1. systém pro automatický přepis aplikovaný na zmíněném
+korpusu a v~komerční aplikaci, 2. webová aplikace pro přehrávání audia se
+synchronním zobrazením přepisu a sběr oprav přepisu od uživatelů a 3.
+vyhledávač nad danými nahrávkami.
+
+\section{Poděkování}
+
+{\em (in no particular order)}
+
+Děkuji svému školiteli doc. Vladislavu Kuboňovi za vřelou záštitu a svobodu při
+práci.
+
+Děkuji magistru Nino Peterkovi, Ph.D. za průpravu v~akustickém modelování.
+
+Děkuji magistru Davidu Klusáčkovi a magistru Ondřeji Bojarovi, Ph.D. za nápady a konzultace.
+
+Děkuji paní docentce Markétě Lopatkové za podporu k~cestám na konference.
+
+Děkuji vážené paní Libušce Brdičkové, která mě nesčetněkrát zachránila a bez níž
+bych byl ztracen.
+
+Děkuji doc. Zdeňkovi Žabokrtskému za upřímnou zpětnou vazbu a významnou pomoc.
+
+Děkuji Petru Kazdovi z~Konicy Minolty, že mi umožnil zužitkovat moje
+technologie v~komerčním sektoru.
+
+Děkuji Alence Valentové, že mi představila dílo Karla Makoně.
+
+Děkuji MUDr. Vítu Elgrovi za desítky let pořizování nahrávek, péči o ně a jejich
+poskytnutí.
+
+Děkuji ing. Milanu Tulachovi za spolupráci, testování a používání aplikace.
+
+Děkuji všem příznivcům Karla Makoně za spolupráci a zpětnou vazbu.
+
+Děkuji Karlu Makoňovi za moudrost, o kterou se s~námi dělí.

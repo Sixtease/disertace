@@ -1,5 +1,5 @@
-\chapter{Akustický model}
-\label{kap:akusticky-model}
+\chapter{Automatický přepis}
+\label{kap:asr}
 
 % - množina fonémů
 % - vektorový formát
@@ -344,3 +344,24 @@ pro manipulaci se soubory MFCC.
 
 Celkový přínos pro úspěšnost rozpoznávání byl nulový, ale aparát pro dekódování
 a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
+
+\section{Aktivní učení}
+
+Aktivní učení spočívá ve vhodném výběru trénovacích dat, viz např. Cohn
+1996\cite{cohn1996active}. V~mém případě trénovací sada postupně roste a je tedy
+nabíledni techniky aktivního učení využít tak, aby se získávala co nejvhodnější
+trénovací data.
+
+Podnikl jsem experiment, ve kterém jsem 2\% slova s~nízkou {\em confidence
+measure (c.m.)} červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
+s~klesající c.m. Instruoval jsem pak uživatele aplikace, aby přednostně
+přepisovali věty, které jsou opticky co nejčervenější. Bohužel přirozené puzení
+uživatelů přepisovat nahrávku kompletně a lineárně od začátku způsobilo, že
+přepisů, kde se tato instrukce dodržuje, je zcela mizivé množství.
+
+Druhý experiment spočíval v~tom, že webová aplikace sama vybírala věty pro
+přepis na základě toho, kolik obsahovala slov s~nízkou c.m. Uživatelé pak byli
+instruováni, aby nahrávku jen poslouchali, a opravu vložili, až když se
+přehrávání samo přeruší. Tento pokus skončil ještě palčivějším neúspěchem, neboť
+změna v~chování aplikace byla pro uživatele natolik nepříjemná, že jsem je
+raději navrátil do původního.
