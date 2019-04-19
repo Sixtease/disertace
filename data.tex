@@ -273,7 +273,10 @@ Namátkou mohu zmínit tato témata:
 \item{blahoslavenství,}
 \item{spící Ježíš na rozbouřeném moři,}
 \item{symbolika apoštolů coby lidských schopností,}
+\item{Máří Magdaléna,}
+\item{Lazar,}
 \item{úkol Jidášův,}
+\item{Lotr na kříži,}
 \item{ukřižování,}
 
 \item{obrácení Šavla ve Svatého Pavla,}
@@ -313,6 +316,7 @@ Namátkou mohu zmínit tato témata:
 \item{pohádka o Honzovi,}
 \item{posmrtný život,}
 \item{hadí síla,}
+\item{Satan,}
 \item{čakramy,}
 \item{pohlavní život,}
 \item{stylizace života,}
@@ -320,6 +324,7 @@ Namátkou mohu zmínit tato témata:
 \item{sat, čit, ananda,}
 \item{indická tradice,}
 \item{Tao,}
+\item{mithraismus.}
 
 \end{enumerate}
 
@@ -355,7 +360,72 @@ Konečně já sám si průběžně dělám poznámky k~právě poslouchané nahr
 způsob jako MUDr. Elger, jen digitálně a pozice označuju identifikátorem
 nahrávky a časovou pozicí. Zatím jsem takto pořídil 623 záznamy z~56 nahrávek.
 
-% TODO systematické mapování, korespondence s knihami
+\subsection{Pokusy o automatickou identifikaci témat}
+
+Provedl jsem dva ,,baselinové'' pokusy o automatickou identifikaci témat
+v~mluveném korpusu.
+
+První z~nich využívá toho, že pojmenované entity a některé další výrazy se běžně
+nevyskytují v~řeči, pokud se nemluví právě o nich. Vybral jsem namátkou klíčová
+slova
+\begin{enumerate}
+\item{Lazar,}
+\item{Mithra, mithraismus,}
+\item{Satan,}
+\item{Svatá Terezie}
+\item{a pohádka.}
+\end{enumerate}
+
+Pohádku jsem vybral jakožto opakující se téma, které není vázané na pojmenovanou
+entitu, ačkoliv by bývalo šlo použít jméno Honza, které se u Makoně vyskytuje
+často právě ve spojitosti s~pohádkou.
+
+V~přepisu korpusu, kde přibližně 70 hodin je
+přepsáno ručně a zbytek více než tisíce hodin automaticky, jsem vyhledal kmeny
+výše zmíněných slov. Výsledek hledání shrnuje tabulka~\ref{tab:topicsearch}.
+U výsledků jsem manuálně zkontroloval, je-li tématem skutečně hledaný výraz.
+Pokud bylo výsledků hledání více než 20, zkontroloval jsem toto u prvních
+dvaceti výsledků, ovšem každý z~jiné nahrávky.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|l|r|r|r|r|}
+\hline
+téma &
+dotaz &
+\makecell{výsledků v~automat. přepisu} &
+\makecell{očekávaný počet výsl. v~aut. přep.} &
+\makecell{výsledků v~manuálním přepisu} &
+precision \\
+\hline
+Lazar & \texttt{lazar.*} & 16 & 171 & 14 & 8/10   \\
+Mithra & \texttt{mithra.*|mitra.*} & 0 & 0 & 0 & n/a   \\
+Satan & \texttt{satan.*} & 308 & 1575 & 129 & 16/20   \\
+Sv. Teresa & \texttt{terez.*} & 882 & 1111 & 91 & 15/20   \\
+pohádka & \texttt{pohádk.*} & 216 & 671 & 55 & 18/20   \\
+\hline
+\multicolumn{5}{|l|}{průměrná precision} & 81.25\%\\
+\hline
+\end{tabular}
+\caption{výsledky textového vyhledávání v~přepisu; precision počítána pouze
+z~automatických přepisů}\label{tab:topicsearch}
+\end{center}
+\end{table}
+
+Precision převyšující 80\% se zdá být slibnou a poukazuje na fakt, že současná
+kvalita přepisu umožňuje v~korpusu rozumně vyhledávat. Všechny výsledky však
+byly velice dobře srozumitelné. Ani jeden nebyl v~některém z~akusticky
+defektních souborů, což vede k~domněnce, že tyto ještě nejsou ani zdaleka
+uspokojivě přepsané pro účely textového vyhledávání.
+
+Celkem 7.6\% slov v~korpusu je manuálně přepsáno. Sloupec ,,očekávaný počet
+výsledků v~automatickém přepisu'' obsahuje interpolaci toho, kolik výsledků by
+mělo být obsaženo, pokud by frekvence byla stejná jako v~manuálním přepisu. Je
+zvláštní, že poměr očekávaných a dosažených výsledků se tak různí v~závislosti
+na dotazu. Může to být způsobeno tím, že některé z~nich jsou pro rozpoznávač
+obtížnější na přepis, nebo také tím, že určité téma se vyskytuje v~oblasti,
+která je disproporčně buď z~velké nebo naopak z~malé části přepsána. Je téměř
+jisté, že aspoň pro některé z~vyhledaných témat, je recall velice nízký.
 
 \section{Nahrávání}
 
