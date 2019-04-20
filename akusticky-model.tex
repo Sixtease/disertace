@@ -325,6 +325,7 @@ angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii (
 https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
 
 \section{Experiment s kepstrální normalizací}
+\label{sec:mfcc-norm}
 
 Kepstrální normalizace je standardní technikou pro kompenzaci různorodých
 akustických podmínek v~rámci trénovacích a testovacích dat, viz Viikki a Laurila
@@ -365,3 +366,136 @@ instruováni, aby nahrávku jen poslouchali, a opravu vložili, až když se
 přehrávání samo přeruší. Tento pokus skončil ještě palčivějším neúspěchem, neboť
 změna v~chování aplikace byla pro uživatele natolik nepříjemná, že jsem je
 raději navrátil do původního.
+
+\section{Rozšíření trénovací množiny}
+\label{sec:confident}
+
+Skóre confidence measure se dá využít ještě jiným způsobem: lze vybrat všechny
+úseky v~korpusu kromě testovací sady, kde automatický přepis uvádí vysokou míru
+c.m. a přidat tyto úseky do trénovací množiny. Tento experiment jsem provedl
+tak, že minimální délku úseku jsem stanovil na 1 sekundu, minimální počet
+obsažených fonémů na 10 a minimální c.m. na 0.6. Práh 0.6 jsem určil namátkovou
+kontrolou, která poukazovala na zanedbatelnou chybovost takových úseků. Celkem
+tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
+Chybovost rozpoznávání klesla zanedbatelně.
+
+\section{Neuronové sítě}
+\label{sec:deepspeech}
+
+V~průběhu psaní této disertace se rozšířilo používání hlubokých neuronových sítí
+snad ve všech oblastech strojového učení, viz např. LeCun
+2015\cite{lecun2015deep}. Toto neminulo ani rozpoznávání řeči. Gaußovské mixtury
+přestaly být state of the art a systémy založené na hlubokých neuronových sítích
+(DNN) skýtají mnohem větší úspěšnosti díky tomu, že lépe modelují fenomén fonémů
+a umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy
+přeskočit vrstvu výslovnosti.
+
+Nezisková organizace Mozilla vydala vlastní svobodný nástroj pro rozpoznávání
+řeči DeepSpeech\cite{hannun2014deep} založený na
+TensorFlow\cite{abadi2016tensorflow}.
+
+V~době, kdy jsem s~DeepSpeech experimentoval, nebyla mi známa žádná implementace
+na češtinu. DeepSpeech dovoluje vstup pouze ve znakové sadě písmen bez
+diakritiky a několika málo interpunkčních znamének. Provedl jsem
+tedy jednoduché kódování češtiny tak, že každé diakritické znaménko se vyjádří
+jako apostrof před modifikovaným písmenem. Jediné dva případy, kdy jeden znak
+může mít různá znaménka, jsou {\em é ě} a {\em ú ů}. Přisoudil jsem proto znaku
+{\em ě} zápis \texttt{'j} a znaku {\em ů} zápis \texttt{'w}.
+
+Klasická věta {\em příliš žluťoučký kůň úpěl ďábelské ódy} by se tedy zapsala
+jako \texttt{p'r'ili's 'zlu'tou'ck'y k'w'n 'up'jl 'd'abelsk'e 'ody}. Je jasné,
+že takové kódování by nebylo jednoznačně převoditelné na původní text v~obecném
+případě, kdy se v~textu mohou vyskytovat apostrofy a navíc by si neporadilo se
+slovy s~jinými znaky, ale pro trénovací data pro akustické modelování češtiny
+dostačuje. Věty, kde se vyskytují jiné znaky, z~trénovací sady vyřazuji. Případné
+apriorní apostrofy mažu.
+
+DeepSpeech trénuji na stejné sadě jako výchozí markovovský systém, tedy na
+manuálních přepisech Karla Makoně. Jazykový model používám taktéž stejný, tedy trigramový, viz
+sekci~\ref{sec:jazykovy-model} o jazykovém modelování.
+
+DeepSpeech predikuje na úrovni písmen, takže v~některých případech umístil
+apostrof před neočekávaný znak. Také způsob, kterým DeepSpeech používá jazykový
+model, je svérázný. Dokud má akustický model důvěru ve svoji predikci,
+k~jazykovému modelu se neuchyluje. A pokud se uchýlí, vinou programátorské chyby
+výstup postrádá mezery.
+
+Bohužel vinou přímého mapování z~parametrizovaného audia na grafémy přicházíme o
+možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovnat
+v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
+
+Úspěšnost má DeepSpeech, jak jsem ho použil, znatelně nižší, než výchozí
+markovovský model. Připisuju to jednak chybné aplikaci jazykového modelu a
+jednak tomu, že DeepSpeech predikuje na úrovni písmen, takže velice často je
+skoro celé slovo správně, až na jedno písmeno. Je možné, že 70 hodin trénovacích
+dat je pro tento systém příliš málo, ačkoliv manuál i diskuze na fóru napovídají
+o opaku.
+
+\section{Jazykový model}
+\label{sec:jazykovy-model}
+
+Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
+v~jazyce.\cite{ponte1998language} V~kontextu rozpoznávání řeči je tandemovým
+partnerem akustického modelu.\cite{jelinek1990self} Teprve kombinace akustického
+a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
+nejpravděpodobnější.
+
+Výběr jazykového modelu omezen nástrojem pro rozpoznávání. Lze zvolit pouze
+takový model, který nástroj dokáže využít. Všechny nástroje, které jsem použil,
+podporují N-gramové jazykové modely: HVite bigramový, Julius až trigramový a
+DeepSpeech taktéž trigramový.
+
+Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
+\begin{enumerate}
+\item{Obecné české texty,}
+\item{Makoňovy spisy,}
+\item{manuální přepisy nahrávek,}
+\item{automatické přepisy.}
+\end{enumerate}
+
+Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
+modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
+nahrávek, také je jich nejméně: přesně 709 493 slov v~okamžiku psaní tohoto
+textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
+se jedná o 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
+texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
+jsem nalezl, je Mononews z WMT obsahující 1 019 497 060 slov.
+
+Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy ve
+výše uvedeném pořadí. Aplikuji vyhlazování technikou
+Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro tréning
+jazykových modelů KenLM\cite{heafield2011kenlm}.
+
+\section{Úspěšnost}
+
+Poslední naměřená úspěšnost markovovského akustického modelu s~výše zmíněným
+jazykovým modelem je 67,83\% word precision\footnote{počet správně určených slov
+dělen počtem slov ve zlatém standardu} a 54.68\% word accuracy\footnote{rozdíl
+počtu správně určených slov a chybně přidaných slov dělen počtem slov ve zlatém
+standardu}.
+
+Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada a testovací sadu
+jsem určil fixně taktéž až v~průběhu projektu, nelze jednotlivá historická skóre přímo
+porovnávat, musí se u každého experimentu pohlížet na to, jak změnil skóre
+oproti bezprostředně předcházejícímu.
+
+Tabulka~ref\{tab:asr-scores} uvádí seznam úspěšností jednotlivých experimentů.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+experiment & násobek word precision & násobek word accuracy \\
+\hline
+výchozí GMM model  & 1 & 1 \\
+vysoké c.m. v~trénovací sadě (sekce~\ref{sec:confident} & TODO & TODO \\
+vlastní kepstrální normalizace (sekce~\ref{sec:mfcc-norm} & 1.0007 & 1.0089 \\
+DeepSpeech (sekce~\ref{sec:deepspeech} & 0.7668 & -0.177 \\
+\hline
+\end{tabular}
+\caption{změny úspěšností jednotlivými experimenty}\label{tab:asr-scores}
+\end{center}
+\end{table}
+
+DeepSpeech měl na svědomí mnoho chybných vložení (insertions), čímž se accuracy
+dostala do záporných hodnot.
