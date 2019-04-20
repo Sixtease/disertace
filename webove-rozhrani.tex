@@ -3,7 +3,7 @@
 
 \section{Prototyp}
 
-Webové rozhraní, umožňující přístup zájemcům k~nahrávkám a jejich přepisu, byl
+Webové rozhraní, umožňující přístup zájemcům k~nahrávkám a jejich přepisu, bylo
 od začátku plánovanou součástí projektu. Rozhraní bylo navrženo s~těmito
 požadovanými vlastnosmi:
 
@@ -377,3 +377,134 @@ zatím neznám. Kompenzoval jsem jej tím, že jsem každý úsek prodloužil o~
 sekundy. Následkem toho bylo potřeba upravit přehrávání tak, aby každý úsek
 skončil tehdy, až dohraje jeho metadaty daná délka, nikoliv až do skutečného
 vyčerpání zvukových dat.
+
+\section{Backend}
+
+Popsaná webová aplikace, která je uživatelským rozhraním, spoléhá na aplikační
+rozhraní (API), odkud dostává aktuální přepisy, kam posílá příspěvky od
+uživatelů, a na hosting, odkud stahuje zvukové soubory.
+
+\subsection{API}
+
+Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
+
+\begin{itemize}
+\item{
+    Odeslání manuálního přepisu segmentu \\
+    cesta: \texttt{/subsubmit} \\
+    metoda: \texttt{POST} \\
+    parametry:
+    \begin{itemize}
+        \item{\texttt{trans} (řetězec): přepis jak jej vložil uživatel,}
+        \item{\texttt{filestem} (řetězec): identifikátor nahrávky,}
+        \item{\texttt{start} (desetinné číslo): pozice začátku přepsaného segmentu od začátku nahrávky v~sekundách,}
+        \item{\texttt{end} (desetinné číslo): pozice počátku přepsaného segmentu, ditto,}
+    \end{itemize}
+    odpověď při úspěchu: $\{
+        success: 1,
+        filestem: {\em řetězec},
+        start: {\em desetinné číslo},
+        end: {\em desetinné číslo},
+        data {\em (seznam zarovnaných slov)}: [ 
+            \{
+                fonet: {\em řetězec},
+                wordform: {\em řetězec},
+                occurrence: {\em řetězec},
+                humanic: 1, {\em (znamená, že je manuálně přepsané)}
+                timestamp: {\em desetinné číslo}, {\em (pozice začátku slova)}
+            \},
+            {\em ...}
+        ]
+    \}$ \\
+    odpověď při selhání: ${ message: {\em řetězec} }$
+}
+\item{
+    Požadavek na seznam přepisů \\
+    cesta: \texttt{/init} \\
+    metoda: \texttt{GET} \\
+    odpověď: \texttt{jsonp\_init(\{ subversions => \{ {\em identifikátor} => \{em verze}, {\em ...} \} \})} \\
+
+    Verze se inkrementuje při každém příspěvku. Slouží k~tomu, aby se mohly cachovat
+    transkripce, ale aby se cache nepoužila, pokud někdo přepis změnil.
+}
+\item{
+    Inicializace sezení \\
+    cesta: \texttt{/req} \\
+    metoda: \texttt{POST} \\
+    parametry:
+    \begin{itemize}
+        \item{\texttt{username} (řetězec),}
+        \item{\texttt{session} (řetězec, nepovinný),}
+    \end{itemize}
+    odpověď: ${ status: "OK" }$ \\
+
+    Slouží k~detekci začátku práce na přepisech pro účely sledování času
+    potřebného k~přepisům.
+}
+\item{
+    Požadavek statistiky, z~jaké části je která nahrávka přepsána \\
+    cesta: \texttt{/humpart} \\
+    metoda: \texttt{GET} \\
+    odpověď: $\{
+        {\em identifikátor}:
+            human: {\em celé číslo - počet manuálně přepsaných slov}
+            total: {\em celé číslo - celkový počet slov}
+        {\em ...}
+    \}$ \\
+
+    Tento endpoint momentálně nová verze webového rozhraní nepoužívá, byl
+    zamýšlen jako vodítko pro uživatele při výběru nahrávky pro přepis.
+}
+\item{
+    Změna atributů zarovnaného slova v~přepisu \\
+    cesta: \texttt{/saveword}
+    metoda: \texttt{POST}
+    parametry:
+    \begin{itemize}
+        \item{\texttt{wordform} (řetězec): slovo malými písmeny bez interpunkce}
+        \item{\texttt{occurrence} (řetězec): slovo, jak se vyskytuje v~textu}
+        \item{\texttt{fonet} (řetězec): fonémy oddělené mezerou, zavržený endpoint, používat \texttt{subsubmit}}
+        \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od začátku nahrávky v~sekundách}
+        \item{\texttt{stem} (řetězec): identifikátor nahrávky}
+    \end{itemize}
+    odpověď: ${ success: 1 }$
+
+    Editace slova v~přepisu. Používá se, když slovu, které je foneticky správně
+    přepsané a zarovnané, je potřeba změnit ortografickou formu, např. u cizích
+    slov, doplnit interpunkci atp.
+}
+\end{itemize}
+
+Veškerá komunikace je kódována v~UTF-8.
+
+Koncový bod \texttt{subsubmit} pro přijetí (nebo odmítnutí) přepisu úseku
+nahrávky, provede na straně serveru nucené zarovnání přijatého přepisu
+s~odpovídajícím úsekem audia. Z~toho důvodu je nutné, aby na serveru byly
+nainstalované nástroje \texttt{HVite} a \texttt{HCopy} z~HTK, dále aby tam byla
+kompletní sada nahrávek ve formátu MFCC a akustický model. Bohužel se zdá, že
+nucené zarovnání funguje v~HTK pouze s~monofonémovým modelem, takže přesnost
+v~rozlišování přesných a chybných příspěvků není optimální.
+
+\subsection{Ukládání dat}
+
+API používá databázi PostgreSQL pro ukládání příspěvků, metadat k~nim a nepravidelných
+výslovností. Ke každému příspěvku se ukládá
+\begin{itemize}
+\item{samotný přepis,}
+\item{identifikátor nahrávky,}
+\item{časové rozmezí odpovídajícího úseku nahrávky,}
+\item{datum a čas přispění,}
+\item{přezdívka autora, pokud ji vyplnil,}
+\item{identifikátor sezení}
+\item{a verze prohlížeče.}
+\end{itemize}
+
+Každé uživatelské sezení má taktéž svůj záznam a ukládá se proň totéž, co pro
+příspěvek, krom příspěvku samotného.
+
+Dále se v~databázi ukládají verze přepisů, které se inkrementují při každém
+příspěvku.
+
+Poslední věcí v~databázi je fonetický slovník. Ten slouží ke sběru fonetických
+reprezentací slov s~nestandardní výslovností, jejichž výslovnost a psanou formu
+poskytují uživatelé.
