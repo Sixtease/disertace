@@ -740,7 +740,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
         \item{\texttt{start} (desetinné číslo): pozice začátku přepsaného segmentu od začátku nahrávky v~sekundách,}
         \item{\texttt{end} (desetinné číslo): pozice počátku přepsaného segmentu, ditto,}
     \end{itemize}
-    odpověď při úspěchu: $\{
+    odpověď při úspěchu: \begin{alltt}\{
         success: 1,
         filestem: {\em řetězec},
         start: {\em desetinné číslo},
@@ -755,14 +755,14 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
             \},
             {\em ...}
         ]
-    \}$ \\
-    odpověď při selhání: ${ message: {\em řetězec} }$
+    \}\end{alltt}
+    odpověď při selhání: \texttt{\{ message: {\em řetězec} \}}
 }
 \item{
     Požadavek na seznam přepisů \\
     cesta: \texttt{/init} \\
     metoda: \texttt{GET} \\
-    odpověď: \texttt{jsonp\_init(\{ subversions => \{ {\em identifikátor} => \{em verze}, {\em ...} \} \})} \\
+    odpověď: \texttt{jsonp\_init(\{ subversions => \{ {\em identifikátor} => {\em verze}, {\em ...} \} \})} \\
 
     Verze se inkrementuje při každém příspěvku. Slouží k~tomu, aby se mohly cachovat
     transkripce, ale aby se cache nepoužila, pokud někdo přepis změnil.
@@ -776,7 +776,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
         \item{\texttt{username} (řetězec),}
         \item{\texttt{session} (řetězec, nepovinný),}
     \end{itemize}
-    odpověď: ${ status: "OK" }$ \\
+    odpověď: \texttt{\{ status: "OK" \}} \\
 
     Slouží k~detekci začátku práce na přepisech pro účely sledování času
     potřebného k~přepisům.
@@ -785,12 +785,12 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
     Požadavek statistiky, z~jaké části je která nahrávka přepsána \\
     cesta: \texttt{/humpart} \\
     metoda: \texttt{GET} \\
-    odpověď: $\{
+    odpověď: \begin{alltt}\{
         {\em identifikátor}:
             human: {\em celé číslo - počet manuálně přepsaných slov}
             total: {\em celé číslo - celkový počet slov}
         {\em ...}
-    \}$ \\
+    \}\end{alltt}
 
     Tento endpoint momentálně nová verze webového rozhraní nepoužívá, byl
     zamýšlen jako vodítko pro uživatele při výběru nahrávky pro přepis.
@@ -807,7 +807,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
         \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od začátku nahrávky v~sekundách}
         \item{\texttt{stem} (řetězec): identifikátor nahrávky}
     \end{itemize}
-    odpověď: ${ success: 1 }$
+    odpověď: \texttt{\{ success: 1 \}}
 
     Editace slova v~přepisu. Používá se, když slovu, které je foneticky správně
     přepsané a zarovnané, je potřeba změnit ortografickou formu, např. u cizích
