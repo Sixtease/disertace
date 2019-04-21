@@ -11,5 +11,42 @@ Jsem přesvědčen o tom, že v~budoucnu, až celý systém ještě vyzraje, bud
 sloužit u nahrávek jiných autorit, než je Karel Makoň. Objevila se však jiná
 forma využití.
 
+\section{Rozpoznávání řeči}
+
 Firma Konica Minolta vyvíjí produkt s~názvem AIR\^{e} Lens. Jde o platformu
-chytrých brýlí určených pro průmysl. 
+chytrých brýlí určených pro průmysl. Po hardwarové stránce se výrobek vyznačuje
+tím, že brýle samotné jsou velmi lehké, jen 35g, a výpočetní jednotka je k~nim
+připojena kabelem. Ta sestává z~počítače s~jedním gigabytem paměti a procesorem
+architektury ARM. Kvůli tomu, že již výrobcem není podporovaná, nelze na ni
+nainstalovat novější operační systém než Ubuntu 12.04.
+
+Kvůli zmíněným limitacím dlouho nebylo možné zařízení opatřit hlasovým
+ovládáním. První systém rozpoznávání řeči, který na brýlích AIR\^{e} Lens
+funguje, je právě ten, který vznikl v~rámci této disertační práce.
+
+Systém byl adaptován pro angličtinu. Použil jsem výslovnostní slovník a
+prediktor výslovnosti pro neznámá slova projektu CMU Sphinx\cite{lamere2003cmu}.
+Pro natrénování akustického modelu jsem použil svobodný korpus CommonVoice od
+organizace Mozilla.
+
+Hlasové ovládání funguje na principu rozpoznávání některého z~předem známé
+množiny výrazů, popřípadě jednoduché gramatiky. Navíc robustní jazykový model by
+zařízení neúměrně zatížil, proto jsem vyvinul mechanismus, pomocí něhož
+rozpoznávání řeči má formu serveru a každá klientská aplikace rozhoduje o tom,
+jaká gramatika se bude právě používat. Umožňuje to systém rozpoznávání řeči
+Julius\cite{lee2009recent}.
+
+\section{Komunitní přepisy}
+
+V~témže projektu se využívá i webová aplikace popsaná
+v~kapitole~\ref{kap:webove-rozhrani}. AIR\^{e} Lens poskytuje funkcionalitu
+vzdálené podpory, kde pracovník s~brýlemi sdílí svůj pohled se vzdáleným
+operátorem, který mu může kreslit do obrazu, a se kterým vede rozhovor. Tato
+sezení vzdálené podpory představují pro zákaznické firmy cennou znalostní bázi,
+neboť se v~nich ilustrativně a návodně řeší problémy jejich servisních techniků.
+
+S~využitím zmíněné webové aplikace se proto vyvíjí systém, který umožní
+zaznamenaná sezení vzdálené podpory zpětně přehrát i s~automaticky získaným
+přepisem komunikace a případné chyby v~něm opravit.
+
+Pro toto využití je potřeba aplikaci adaptovat na rozlišování mluvčích.
