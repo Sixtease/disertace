@@ -62,15 +62,6 @@ autorovy potřeby:
 \item{vyhledávání v~přepisech.}
 \end{itemize}
 
-Výslovnost je interně zaznamenána pomocí mezerou oddělených fonémů, z~nichž
-každý má reprezentaci z~malých písmen sady ASCII. Taková reprezentace není pro
-laické uživatele praktická, proto je součástí aplikace převod do~českého
-fonetického zápisu a zpět.
-
-Uživatelé jsou proto instruováni, aby slova s~nestandardní výslovností, na~která
-narazí poprvé, přepsali foneticky \textit{(džordž)} a poté, co uspěje
-automatické zarovnání, slovu opravil přepis \textit{(George)}.
-
 Tato původní verze posloužila k~přepsání asi 600 tisíc slov a běžela asi 5 let,
 než bylo nutné ji nahradit.
 
@@ -378,6 +369,193 @@ sekundy. Následkem toho bylo potřeba upravit přehrávání tak, aby každý �
 skončil tehdy, až dohraje jeho metadaty daná délka, nikoliv až do skutečného
 vyčerpání zvukových dat.
 
+
+\section{Použití aplikace}
+
+\fontspec{DoulosSIL} 
+
+Aplikace znamená použití. Použitelnost je tedy klíčovým faktorem pro její hodnocení.
+Přepis, který pořizuji, je fonetický i ortografický\footnote{Na pravopis jako
+takový se důraz neklade. Ortografickým přepisem myslím standardní zápis.}.
+
+\subsection{Expertíza uživatelů}
+
+Přepis, který pořizuji, ke na hranici toho, co se dá nazvat lingvistickou
+anotací dat. V~naší požehnané části světa, kde podíl analfabetů je zanedbatelný,
+je přepis mluveného slova stěží odbornou prací. Na druhou stranu zajistit, aby
+přepis přesně odpovídal mluvenému projevu
+\begin{itemize}
+\item{jakožto vyjádření vyřčených slov a jejich významu,}
+\item{na fonetické úrovni foném na foném}
+\item{a na časové ose}
+\end{itemize}
+je za hranicemi toho, co se dá očekávat od nevyškoleného uživatele.
+
+Lingvistická anotace dat obecně vyžaduje zaškolené pracovníky. Podíváme-li se
+např. na Pražský závislostní korpus, můžeme si povšimnout, že od anotátorů
+vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005complex}.
+
+Crowdsourcing, přístup založený na komunitní spolupráci nebo zapojování
+dobrovolníků nabývá na popularitě při získávání hodnot, které by jinak byly
+neúnosně drahé. Zmiňme např. Mihalcea (2004)\cite{mihalcea2004building}, kde se
+deleguje desambiguace významů slov na dobrovolníky.
+Wikicorpus\cite{reese2010wikicorpus}, jakož i MASC\cite{ide2010manually} od
+dobrovolníků sbírají anotace.
+
+Ve většině případů je kvalita pro anotaci dat velmi důležitá, proto je aspoň
+nějaká kontrola nezbytná, ať už je odbornost anotátorů jakkoliv vysoká. Je
+zřejmé, že čím méně expertízy na straně anotátorů, tím silnější kontroly je
+zapotřebí.
+
+Běžnou metodou kontroly kvality je mezianotátorská shoda. To má obrovskou
+nevýhodu, že každá část dat musí být anotována aspoň dvakrát, což snižuje
+výtěžnost aspoň o 50\%.
+
+Ještě jeden důvod hovoří proti jejímu použití v~případě tohoto projektu. Webová
+aplikace je dělaná pro lidi, kteří chtějí poslouchat Makoňovy nahrávky
+z~vlastního zájmu a jejich přínos pro kvalitu přepisu je spíše vedlejším
+produktem. Nebylo by snadné přesvědčit je, aby si vybrali právě nahrávku, kterou
+už někdo jiný přepsal.
+
+Naštěstí lze implementovat automatický mechanismus, který uživatelům dopomůže
+k~vyšší kvalitě příspěvků.
+
+Webová aplikace vychází z~předpokladu, že a-priori existuje nějaký přepis ke
+každé nahrávce, takže uživatelův příspěvek je vlastně korekcí. Každý příspěvek
+má formu nahrazení textového segmentu jiným. Jelikož přepisy jsou zarovnány
+s~audiem na časové ose, víme také, jakému přesně úseku nahrávky daný text
+odpovídá.
+
+Díky tomu mohu provést nucené zarovnání (forced alignment) textového úseku
+s~audiem. V~případě selhání zarovnání můžeme předpokládat, že úsek byl přepsán
+chybně, příspěvek odmítnout a dát tím uživateli zpětnou vazbu. Jelikož
+jednotlivé úseky odpovídají akustickému modelu v~různé míře, dochází k~falešně
+pozitivním i negativním vyhodnocením.
+
+Falešně pozitivní případ (když systém přijme chybný přepis) představuje skutečný
+problém, protože chyba vstoupí do trénovacích dat. Falešně negativní případy
+mohou uživatelé často obejít tím, že správný, leč odmítnutý přepis, pošlou
+znova, rozdělený do kratších částí. Touto metodou by se pochopitelně mohlo také
+podařit vnutit systému nesprávný přepis. Nepředpokládám však na straně uživatelů
+zlou vůli.
+
+Krom zachycení chybného přepisu slouží nucené zarovnání k~přesné synchronizaci
+na časové ose. Tento prvek zcela chybí prakticky ve všech programech pro přepis.
+Ku příkladu Transcriber\footnote{http://trans.sourceforge.net/}, vyzrálý
+svobodný přepisovací program pro Linux očekává časové zarovnávání na úrovni
+frází ze strany uživatele. Transcribe\footnote{https://transcribe.wreally.com/},
+komerční webový nástroj pro přepis nechává uživatele přidat časové značky
+kamkoliv do textu. Není zde žádný akustický model, tedy nic, vůči čemu provádět
+zarovnání.
+
+\subsection{Pořízení fonetického přepisu}
+\label{ssec:porizeni-fonetickeho-prepisu}
+
+Fonetický přepis je v~běžném případě produktem nuceného zarovnání. Pokud je více
+výslovnostních variant, automaticky se zvolí ta, která lépe odpovídá akustickému
+modelu. Na to je potřeba pořídit výslovnostní varianty každého slova. Používám
+kombinaci pravidlového převodníku inspirovaého Psutkou et
+al.\cite{psutka2004development} a dynamického výslovnostního slovníku. Dynamický
+výslovnostní slovník je seznam alternativních výslovností každého slova, který
+se rozšiřuje s~používáním aplikace.
+
+Manuál k~aplikaci vyzývá uživatele, aby text přepisovali podle standardního
+českého pravopisu, ale při zachování maximální věrnosti vyřčených slov, tedy aby
+nekorigovali /ɲaːk/ na {\em nějak}, nýbrž
+přepsali doslova jako {\em ňák}. Fonetický slovník obsahuje časté výslovnostní
+varianty, např. počáteční /v/ ve slovech začínajících na /o/.
+
+V~případě slov s~nestandardní výslovností, tedy primárně cizích slov, se od
+uživatelů žádá, aby slovo přepsali foneticky. Teprve po úspěšném zarovnání a
+integrace do přepisu mohou slovu nastavit kýženou pravopisnou formu. Toto je
+jeden z~mála případů, kdy se od uživatele chce něco nekonvenčního.
+
+Když je pravopisně chybný, fonetický zápis poslán, pak pokud projde fází
+nuceného zarovnání, se integruje do zobrazeného přepisu. Datová reprezentace
+každého slova sestává z~těchto prvků:
+\begin{enumerate}
+\item{výskyt:
+    slovo, jak se vyskytuje v textu, včetně zachování velkých a malých písmen a
+    přilehlé interpunkce,
+}
+\item{slovní forma:
+    slovo, jak je zaneseno v~jazykovém modelu a ve výslovnostním slovníku
+    (slovní forma se odvozuje algoritmicky z~výskytu převedením do malých písmen
+    a odstranění neabecedních znaků, z~toho plyne, že interpunkce a všechny
+    neabecední znaky jsou vždy součástí přilehlého slova a nikdy netvoří token
+    samy o sobě),
+}
+\item{výslovnost:
+    seznam fonémů,
+}
+\item{časová značka:
+    vzdálenost počátku slova od počátku nahrávky v~sekundách s~přesností na dvě
+    desetinná místa,
+}
+\item{manuálně přepsané:
+    pravdivostní hodnota odlišující manuálně přepsaná slova od automaticky
+    přepsaných,
+}
+\item{confidence measure:
+    míra jistoty, se kterou bylo slovo predikováno, pouze u automaticky
+    přepsaných slov.
+}
+\end{enumerate}
+Jakmile je slovo součástí přepisu, lze upravit jeho {\em výskyt}, tedy jak se
+jeví v~textu. Nyní může uživatel vložit správnou ortografickou formu odchylující
+se od českých pravidel výslovnosti.
+
+To má za následek přidání dvojice {\em slovní forma - výslovnost} do dynamického
+výslovnostního slovníku. Tento úkon je proto nutné provést jen jednou pro každé
+slovo a pokaždé, když na něho libovolný uživatel narazí znova, stačí zadat jeho
+ortografickou formu a správná výslovnost se dovodí automaticky.
+
+\subsection{Fonetický zápis}
+
+Přese všechny výhody reprezentace fonémů podle systému PACal se nejedná o
+pratktický zápis výslovnosti pro laické Čechy. Díky jednoduchému, povětšinou
+deterministickému mapování mezi fonémy a grafémy je fonetický zápis, nebo jak
+se tento mechanismus označuje anglicky, {\em pronunciation respelling},
+v~češtině něčím přirozeným a spolehlivým. Není ani potřeba explicitního dělení
+slabik, jako tomu je u angličtiny
+(Wikipedie\footnote{https://en.wikipedia.org/wiki/Pronunciation\_respelling}
+udává příklad {\em ``Diarrhoea'' is pronounced DYE-uh-REE-a}).
+Že tato technika je přirozenou pro všechny rodilé mluvčí češtiny se základním vzděláním,
+postuluji jako fakt bez podpůrného výzkumu a zakládám to čistě na vlastní
+zkušenosti.
+
+Převod z~fonetického zápisu do PACal obstarává zmíněný převodník, viz
+podsekci\ref{ssec:porizeni-fonetickeho-prepisu}. Je ale zapotřebí i opačného
+směru, aby se uživateli mohla dát možnost zkontrolovat, zda slovo, které
+přepsal, se uložilo se správnou výslovností.
+
+Za tímto účelem jsem vytvořil javascriptový modul pro převod mezi seznamem
+fonémů a českým fonetickým zápisem.
+
+Algoritmus je jednoduchý. Ve většině případů jeden foném odpovídá jednoznačně
+jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
+\begin{enumerate}
+\item{Foném \texttt{x} se píše {\em ch}.}
+\item{Fonémy \texttt{dz, dzh} se píšou {\em dz, dž}.}
+\item{Dvojhlásky \texttt{aw, ew, ow} se píšou {\em au, eu, ou}.}
+\item{
+    Sekvence \texttt{c h, o u, a u, e u, d z, d zh} se píšou
+    {\em c'h, o'u, a'u, e'u, d'z, d'ž}.
+    Budiž však poznamenáno, že sekvence \texttt{c h} je ryze hypotetická, ana
+    porušuje spodobu znělosti.
+}
+\item{
+    Neznělou zvýšenou alveolární vibrantu označuji {\em ř'}.
+}
+\item{
+    Palatální a labiodentální nazála se píšou {\em n', m'}.
+}
+\item{Ticho na konci slova ve fonetickém přepise nevyznačuji.}
+\end{enumerate}
+
+
+\normalfont 
+
 \section{Backend}
 
 Popsaná webová aplikace, která je uživatelským rozhraním, spoléhá na aplikační
@@ -514,141 +692,3 @@ Tyto se při každé změně zálohují na externí cloudové úložiště. Do t
 denně a na požádání exportují do HTML, které je přístupné z~CDN.
 CDN slouží též k~servírování samotných nahrávek.
 
-\section{Použití aplikace}
-
-\fontspec{DoulosSIL} 
-
-Aplikace znamená použití. Použitelnost je tedy klíčovým faktorem pro její hodnocení.
-Přepis, který pořizuji, je fonetický i ortografický\footnote{Na pravopis jako
-takový se důraz neklade. Ortografickým přepisem myslím standardní zápis.}.
-
-\subsection{Expertíza uživatelů}
-
-Přepis, který pořizuji, ke na hranici toho, co se dá nazvat lingvistickou
-anotací dat. V~naší požehnané části světa, kde podíl analfabetů je zanedbatelný,
-je přepis mluveného slova stěží odbornou prací. Na druhou stranu zajistit, aby
-přepis přesně odpovídal mluvenému projevu
-\begin{itemize}
-\item{jakožto vyjádření vyřčených slov a jejich významu,}
-\item{na fonetické úrovni foném na foném}
-\item{a na časové ose}
-\end{itemize}
-je za hranicemi toho, co se dá očekávat od nevyškoleného uživatele.
-
-Lingvistická anotace dat obecně vyžaduje zaškolené pracovníky. Podíváme-li se
-např. na Pražský závislostní korpus, můžeme si povšimnout, že od anotátorů
-vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005complex}.
-
-Crowdsourcing, přístup založený na komunitní spolupráci nebo zapojování
-dobrovolníků nabývá na popularitě při získávání hodnot, které by jinak byly
-neúnosně drahé. Zmiňme např. Mihalcea (2004)\cite{mihalcea2004building}, kde se
-deleguje desambiguace významů slov na dobrovolníky.
-Wikicorpus\cite{reese2010wikicorpus}, jakož i MASC\cite{ide2010manually} od
-dobrovolníků sbírají anotace.
-
-Ve většině případů je kvalita pro anotaci dat velmi důležitá, proto je aspoň
-nějaká kontrola nezbytná, ať už je odbornost anotátorů jakkoliv vysoká. Je
-zřejmé, že čím méně expertízy na straně anotátorů, tím silnější kontroly je
-zapotřebí.
-
-Běžnou metodou kontroly kvality je mezianotátorská shoda. To má obrovskou
-nevýhodu, že každá část dat musí být anotována aspoň dvakrát, což snižuje
-výtěžnost aspoň o 50\%.
-
-Ještě jeden důvod hovoří proti jejímu použití v~případě tohoto projektu. Webová
-aplikace je dělaná pro lidi, kteří chtějí poslouchat Makoňovy nahrávky
-z~vlastního zájmu a jejich přínos pro kvalitu přepisu je spíše vedlejším
-produktem. Nebylo by snadné přesvědčit je, aby si vybrali právě nahrávku, kterou
-už někdo jiný přepsal.
-
-Naštěstí lze implementovat automatický mechanismus, který uživatelům dopomůže
-k~vyšší kvalitě příspěvků.
-
-Webová aplikace vychází z~předpokladu, že a-priori existuje nějaký přepis ke
-každé nahrávce, takže uživatelův příspěvek je vlastně korekcí. Každý příspěvek
-má formu nahrazení textového segmentu jiným. Jelikož přepisy jsou zarovnány
-s~audiem na časové ose, víme také, jakému přesně úseku nahrávky daný text
-odpovídá.
-
-Díky tomu mohu provést nucené zarovnání (forced alignment) textového úseku
-s~audiem. V~případě selhání zarovnání můžeme předpokládat, že úsek byl přepsán
-chybně, příspěvek odmítnout a dát tím uživateli zpětnou vazbu. Jelikož
-jednotlivé úseky odpovídají akustickému modelu v~různé míře, dochází k~falešně
-pozitivním i negativním vyhodnocením.
-
-Falešně pozitivní případ (když systém přijme chybný přepis) představuje skutečný
-problém, protože chyba vstoupí do trénovacích dat. Falešně negativní případy
-mohou uživatelé často obejít tím, že správný, leč odmítnutý přepis, pošlou
-znova, rozdělený do kratších částí. Touto metodou by se pochopitelně mohlo také
-podařit vnutit systému nesprávný přepis. Nepředpokládám však na straně uživatelů
-zlou vůli.
-
-Krom zachycení chybného přepisu slouží nucené zarovnání k~přesné synchronizaci
-na časové ose. Tento prvek zcela chybí prakticky ve všech programech pro přepis.
-Ku příkladu Transcriber\footnote{http://trans.sourceforge.net/}, vyzrálý
-svobodný přepisovací program pro Linux očekává časové zarovnávání na úrovni
-frází ze strany uživatele. Transcribe\footnote{https://transcribe.wreally.com/},
-komerční webový nástroj pro přepis nechává uživatele přidat časové značky
-kamkoliv do textu. Není zde žádný akustický model, tedy nic, vůči čemu provádět
-zarovnání.
-
-\subsection{Pořízení fonetického přepisu}
-
-Fonetický přepis je v~běžném případě produktem nuceného zarovnání. Pokud je více
-výslovnostních variant, automaticky se zvolí ta, která lépe odpovídá akustickému
-modelu. Na to je potřeba pořídit výslovnostní varianty každého slova. Používám
-kombinaci pravidlového systému inspirovaého Psutkou et
-al.\cite{psutka2004development} a dynamického výslovnostního slovníku. Dynamický
-výslovnostní slovník je seznam alternativních výslovností každého slova, který
-se rozšiřuje s~používáním aplikace.
-
-Manuál k~aplikaci vyzývá uživatele, aby text přepisovali podle standardního
-českého pravopisu, ale při zachování maximální věrnosti vyřčených slov, tedy aby
-nekorigovali /ɲaːk/ na {\em nějak}, nýbrž
-přepsali doslova jako {\em ňák}. Fonetický slovník obsahuje časté výslovnostní
-varianty, např. počáteční /v/ ve slovech začínajících na /o/.
-
-V~případě slov s~nestandardní výslovností, tedy primárně cizích slov, se od
-uživatelů žádá, aby slovo přepsali foneticky. Teprve po úspěšném zarovnání a
-integrace do přepisu mohou slovu nastavit kýženou pravopisnou formu. Toto je
-jeden z~mála případů, kdy se od uživatele chce něco nekonvenčního.
-
-Když je pravopisně chybný, fonetický zápis poslán, pak pokud projde fází
-nuceného zarovnání, se integruje do zobrazeného přepisu. Datová reprezentace
-každého slova sestává z~těchto prvků:
-\begin{enumerate}
-\item{výskyt:
-    slovo, jak se vyskytuje v textu, včetně zachování velkých a malých písmen a
-    přilehlé interpunkce,
-}
-\item{slovní forma:
-    slovo, jak je zaneseno v~jazykovém modelu a ve výslovnostním slovníku
-    (slovní forma se odvozuje algoritmicky z~výskytu převedením do malých písmen
-    a odstranění neabecedních znaků, z~toho plyne, že interpunkce a všechny
-    neabecední znaky jsou vždy součástí přilehlého slova a nikdy netvoří token
-    samy o sobě),
-}
-\item{výslovnost:
-    seznam fonémů,
-}
-\item{časová značka:
-    vzdálenost počátku slova od počátku nahrávky v~sekundách s~přesností na dvě
-    desetinná místa,
-}
-\item{manuálně přepsané:
-    pravdivostní hodnota odlišující manuálně přepsaná slova od automaticky
-    přepsaných,
-}
-\item{confidence measure:
-    míra jistoty, se kterou bylo slovo predikováno, pouze u automaticky
-    přepsaných slov.
-}
-\end{enumerate}
-Jakmile je slovo součástí přepisu, lze upravit jeho {\em výskyt}, tedy jak se
-jeví v~textu. Nyní může uživatel vložit správnou ortografickou formu odchylující
-se od českých pravidel výslovnosti.
-
-To má za následek přidání dvojice {\em slovní forma - výslovnost} do dynamického
-výslovnostního slovníku.
-
-\normalfont 
