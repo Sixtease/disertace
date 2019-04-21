@@ -1,4 +1,46 @@
 \chapter{Vyhledávání}
 \label{kap:vyhledavani}
 
-TODO
+Možnost vyhledávat v~nahrávkách byl pro mne jeden z~hlavních cílů od začátku
+projektu. Se~získáním přepisů náhrávek, byť kolísavé kvality, bylo možné hledání
+implementovat.
+
+Vyhledávání lze delegovat na existující vyhledávače jako Google
+prostě tím, že se přepis vystaví na internetu. Není to však uspokojivé řešení,
+protože z~hlediska vyhledávačů jsou přepisy nahrávek nezajímavé, takže je
+vzhledem k~jejich rozsahu kompletně neindexují. Dá se to ověřit tím, že do
+Googlu vložíme dotaz
+\texttt{inurl:http://storage.positron.cz/makon/transkripce}, což je prostor na
+CDN shodou okolností taktéž od Googlu, kam se přepisy exportují ve formátu HTML.
+Dostaneme několik výsledků, každý směřující na některý z~přepisů. Vyhledávač
+tedy o nahrávkách ví a má je aspoň částečně indexované.
+
+Když však vložíme dotaz \texttt{Ta pětadvacátá si sedla, skrčila se a čekala, až
+ji uklovají.}, což je věta, vyskytující se v~nahrávce s~identifikátorem
+\texttt{85-05A}, žádný výsledek nedostaneme. To ilustruje, že nahrávky nejsou
+kompletně indexované, byť k~nim vyhledávač má přístup.
+
+Jak adresovat tento problém a přimět populární vyhledávače, aby přepisy
+důkladněji indexovaly, neřku-li umisťovaly je na první stránky výsledků, je mimo
+rozsah této disertační práce.
+
+Mít vlastní vyhledávač je však tak jako tak u dat takového rozsahu dobré.
+Implementoval jsem jej pomocí produktu Elasticsearch.
+
+Aby bylo možné každý nalezený výsledek proměnit v~odkaz na příslušnou pasáž
+v~nahrávce, zvolil jsem za jednotlivé dokumenty nikoliv celé nahrávky, nýbrž
+věty.
+
+Ke každému dokumentu se ukládá
+\begin{itemize}
+\item{textová reprezentace,}
+\item{posloupnost fonémů,}
+\item{stupeň
+manuálního přepisu, tedy zda je přepis pořízen zcela automaticky, zcela manuálně
+nebo kombinací obého}
+\item{a také vektor confidence measure jednotlivých automaticky přepsaných slov.}
+\end{itemize}
+
+Pro skloňování je použito pravidlového stemmingu, který je dodáván s~distribucí
+Elasticsearch a pro češtinu, obzvlášť toho druhu, kde se vyskytuje mnoho
+nestandardních a archaických slov, funguje báječně.

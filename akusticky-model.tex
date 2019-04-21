@@ -466,6 +466,23 @@ výše uvedeném pořadí. Aplikuji vyhlazování technikou
 Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro tréning
 jazykových modelů KenLM\cite{heafield2011kenlm}.
 
+K~manuálním přepisům je třeba podotknout, že u nich dochází k~jednomu
+nežádoucímu jevu. Přepisy se pořizují tak, aby byly maximálně věrné tomu, co je
+vyřčeno. Proto se doslova... vlasně do hlásky přepisují i přebrepty a zadrhnutí.
+Je otázkou, zda takové jevy chceme mít v~jazykovém modelu. Aniž bych se na ni
+pokoušel poskytnout definitivná odpověď, můj přístup, jak se s~tímto vypořádat,
+je, že instruuji uživatele, aby každé slovo, po kterém následuje přerušení toku
+mluvy, doplnili třemi tečkami. Například ve větě {\em ,,To je ta relativnost
+dobrého a zlého, tak kdybychom... to je tam jinak postaveno.''} patří tři tečky
+za slovo {\em kdybychom}. Pokud se mluvčí zadrhne uprostřed slova nebo vysloví
+něco, co není slovem, pokyn zní připojit k~takovému útvaru pomlčku. Příkladem
+budiž věta {\em ,,To je první š- špatný pohled, chybný pohled na rodiče a na
+předcházející generaci.''}. Zde patří pomlčka za vyslovené {\em š}, za kterým
+teprve následuje vyslovené slovo {\em špatný}.
+
+Toto značení umožňuje při stavbě jazykového modelu větu ukončit při setkání
+s~takovým slovem nebo takové slovo přeskočit.
+
 \section{Úspěšnost}
 
 Poslední naměřená úspěšnost markovovského akustického modelu s~výše zmíněným
