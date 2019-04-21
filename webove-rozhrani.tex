@@ -276,7 +276,7 @@ tabulka~\ref{tab:splitpoints}.
 
 \begin{table}[htpb]
 \begin{center}
-\begin{tabular}{|l|l|l|l||l|l|l|l|}
+\begin{tabular}{|l|l|}
 \hline
 metoda získání & počet použitých \\
 \hline
@@ -553,6 +553,162 @@ jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
 \item{Ticho na konci slova ve fonetickém přepise nevyznačuji.}
 \end{enumerate}
 
+Modul umožňuje obousměrný převod, ačkoliv v~aplikaci je zapotřebí jen směr ze seznamu fonémů do
+fonetického zápisu určeného pro člověka. Uživatel sice může explicitně vyznačit
+neznělé {\em eř} oproti znělému, či posloupnost hlásek {\em o}, {\em u} oproti
+dvojhlásce {\em ou} pomocí apostrofu. Za sedm let provozu však tohoto nebylo ani
+jednou potřeba.
+
+Podotýkám, že ve výstupu převodníku do fonetického zápisu se nikdy nevyskytují
+sekvence {\em di, ti, ni, dě, tě, ně}. Palatální souhlásky jsou vždy vyjádřeny
+explicitně a např. sekvence {\em n i} se vždy vyjádří jako {\em ny}.
+
+V tabulce~\ref{tab:priklady-fonetiky} uvádím několik příkadů slov, jejich výslovností a fonetickým zápisem, jak jej
+produkuje algoritmus, pokud na vstup dostane příslušnou výslovnost ve formátu
+PACal:
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|l|l|l}
+\hline
+slovo & výslovnost v~IPA & výsl. v~PACal & fonetický zápis \\
+\hline
+nic & ɲit͡s  & nj i c & ňic \\
+kdo & gdo & g d o & gdo \\
+disk & disk & d i s k & dysk \\
+dřít & dr̝ iːt & d rzh ii t & dřít \\
+třít & tr̝̊ iːt & t rsh ii t & tř'ít \\
+auto & aʊ̯to & aw t o & auto \\
+nauka & nauka & n a u k a & na'uka \\
+džbán & d͡ʒ baːn  & dzh b aa n & džbán \\
+odžít & odʒiːt & o d dz ii t & od'žít \\
+odznak & od͡z nak  & o dz n a k & odznak \\
+podzemí & podzɛmiː & p o d z e m ii & pod'zemí \\
+noc & not͡s  & n o c & noc \\
+tento & tɛnto & t e n t o & tento \\
+hangár & haŋgaːr & h a ng g aa r & han'gár \\
+samba & samba & s a m b a & samba \\
+tonfa & toɱfa & t o mg f a & tom'fa \\
+\hline
+\end{tabular}
+\caption{Příklady algoritmicky získaného fonetického zápisu}\label{tab:priklady-fonetiky}
+\end{center}
+\end{table}
+
+Použití apostrofu pro rozlišení víceznačností a zvláštností není stoprocentně
+intuitivní a představuje další bod, kde je zapotřebí uživatele zaškolit, aby
+tuto funkcionalitu dokázal patřičně využívat.
+
+\subsection{Vyhodnocení kvality přepisů}
+
+Jak stojí výše, webová aplikace krom jiného slouží pro získání kvalitního
+zarovnaného přepisu od laických uživatelů. Pokusím se vyhodnotit, do jaké míry
+se to podařilo.
+
+Pro vyhodnocení kvality přepisů nemám žádná referenční data. Naopak, přepisy
+používám jako gold standard, tedy referenční data pro trénování akustického ba i
+jazykového modelu. Lze se však namátkou podívat na několik vzorků a získat tak
+představu o tom, jak si systém vede.
+
+Jednou z~věcí, které můžeme posoudit, jsou přijetí a odmítnutí příspěvků
+zarovnávačem. Celkem z~109640 pokusů o zarovnání jich 3419 bylo odmítnuto, což
+jsou 3.12\%. Manuálně jsem prošel 20 náhodně vybraných odmítnutých pokusů a
+přišel jsem k~těmto číslům:
+\begin{itemize}
+\item{
+    V~\textbf{11} případech se jednalo o falešné negativum, kde přepis byl
+    správný a měl být přijat,
+}
+\item{
+    ve \textbf{4} případech byly příčinou odmítnutí akustické nedostatky jako
+    např. šum,
+}
+\item{
+    ve \textbf{4} případech se jednalo o pravdivá negativa způsobená chybně
+    zvolenými hranicemi segmentu a
+}
+\item{
+     v \textbf{1} případě se jednalo o pravdivé negativum způsobené chybným
+    přepisem.
+}
+\end{itemize}
+
+Ve 25\% tohoto minimalistického vzorku tedy zarovnávač splnil svoje validační
+poslání, předšed tomu, aby se do trénovacích dat dostal chybný vzorek. V~55\%
+případů selhal a byl jen otravnou překážkou v~práci a ve zbývajících 20\%
+případů sice odmítl validní přepis, ale zabránil tomu, aby se do trénovacích dat
+dostal defektní vzorek, na což se dá dívat v~pozitivním světle.
+
+Dá se také vyhodnotit scénář s~nestandardní výslovností. Za tím účelem jsem
+z~dynamického výslovnostního slovníku vybral 4 nadějné záznamy a prohlédl si
+příspěvky, které je obsahují. Tabulka~\ref{tab:eval-pronunc} uvádí pro každý
+z~nich správnou ortografickou formu, chybnou výslovnost získanou převodníkem,
+správnou výslovnost a konečně možný fonetický zápis. Ke každému údaji je uvedeno,
+kolikrát se objevil v~manuálně přepsaných datech.
+
+\begin{table*}[htpb]
+\begin{center}
+\begin{tabular}{|l r|l r|l r|l r|}
+\hline
+psaná forma                     & \#
+    & chybná výslovnost             & \#
+        & správná počeštělá výslovnost  & \#
+            & fonetický zápis               & \# \\
+\hline
+Moody & 2 & moʔodi & 0 & muːdi & 4 & múdy, můdy & 2 \\
+Descartes & 2 & dɛst͡s artɛs  & 0 & dɛkaːrt & 4 & dekárt & 2   \\
+Weinfurter & 30 & vɛinfʊrtɛr & 13 & vajnfʊrtr & 19 & vajnfurtr & 2 \\
+Michelangelo & 6 & mixɛlaŋgɛlo & 2 & mikɛlaŋd͡ʒ ɛlo  & 4 & mikelandželo & 0 \\
+\hline
+\end{tabular}
+\caption{Příklady nestandardní výslovnosti v~manuálních přepisech}
+\label{tab:eval-pronunc}
+\end{center}
+\end{table*}
+
+\begin{table*}[htpb]
+\begin{center}
+\begin{tabular}{|l|r|r|}
+\hline
+ & foneticky správně & foneticky chybně \\
+\hline
+ortograficky správně & 25 & 15 \\
+\hline
+ortograficky chybně & 6 & 0 \\
+\hline
+\end{tabular}
+\caption{Správnost fonetické a ortografické reprezentece cizích slov na základě
+tabulky~\ref{tab:eval-pronunc}}
+\label{tab:pronunc-rate}
+\end{center}
+\end{table*}
+
+Z~tabulky~\ref{tab:pronunc-rate} je patrno, že ve většině případů je správně jak
+po stránce fonetické, tak po stránce pravopisné. Pouze asi ve 13\% případů je
+uchována pravopisně nesprávná forma. To připisuji tomu, že uživatelé, kteří jsou
+si této problematiky vědomi, většinou celý proces dokončí a formu upraví.
+
+Na druhou stranu téměř třetina případů vykazuje ponechání chybné fonetické
+reprezentace. To představuje závažný problém alespoň z~dvou úhlů pohledu: Jednak
+se tím dokazuje, že nucené zarovnání selhává při zachycení zcela odlišné
+výslovnosti, a jednak se touto cestou dostávají do trénovacích dat špatné
+vzorky.
+
+Jednou z~patrných příčin je, že dynamický slovník rozpoznává pouze exaktně
+shodná slova. V~jednom souboru je například vidět, jak všechny výskyty slova
+{\em Weinfurter} mají výslovnost správně, zatímco ostatní formy, jako např. {\em
+Weinfurterovi}, chybně.
+
+Krom toho jistě budou hrát roli neinformovanost a roztržitost uživatelů, což se
+jim dá mít těžko za zlé, vzhledem k~tomu, jak náročná činnost na soustředění se
+od nich chce.
+
+Naproti tomu případ nesprávné ortografické formy nepředstavuje tak závažný
+problém. Může to sice ztížit vyhledávání, ale to se dá provést na výslovnosti, a
+to už nyní manuálně, a lze to i automatizovat.
+
+Čtvrtá kombinace fonetického zápisu a špatné výslovnosti se pochopitelně
+nevyskytuje.
 
 \normalfont 
 
@@ -671,6 +827,7 @@ výslovností. Ke každému příspěvku se ukládá
 \item{samotný přepis,}
 \item{identifikátor nahrávky,}
 \item{časové rozmezí odpovídajícího úseku nahrávky,}
+\item{zda byl přepis přijat,}
 \item{datum a čas přispění,}
 \item{přezdívka autora, pokud ji vyplnil,}
 \item{identifikátor sezení}
