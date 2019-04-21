@@ -74,8 +74,8 @@ funkce nebylo možné zprovoznit bez zásadních změn v~provedení. Předevší
 o~ekvalizér, čili frekvenční korekci při poslechu. Akutním důvodem pak byl fakt,
 že všechny významné prohlížeče opouštěly podporu Flashe.
 
-Pro novou verzi jsem zvolil technologie React + Redux jako aplikační rámec, Web
-Audio API jako platformu pro nakládání se~zvukem a Twitter Bootstrap jako základ
+Pro novou verzi jsem zvolil technologie React + Redux\cite{abramov2015redux} jako aplikační rámec, Web
+Audio API\cite{adenot2013web} jako platformu pro nakládání se~zvukem a Twitter Bootstrap jako základ
 pro vzhled prvků. Zdrojový kód píšu v~ECMAScript~6 a o~kompilaci se stará
 webpack.
 
@@ -192,7 +192,8 @@ se tím přináší velká úspora času a přenesených dat.
 Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
 skrze Web Audio API v~dohlednu, a k tomu jak odrazující dopad má nutnost
 stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
-než změnit způsob, jakým jsou nahrávky uloženy.
+než změnit způsob, jakým jsou nahrávky uloženy. Že způsob uložení souborů hraje
+roli, dokládá i Reppen (2010)\cite{reppen2010building}.
 
 Nahrávky jsou uloženy v~několika instancích pro různé účely:
 
@@ -398,9 +399,14 @@ vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005com
 Crowdsourcing, přístup založený na komunitní spolupráci nebo zapojování
 dobrovolníků nabývá na popularitě při získávání hodnot, které by jinak byly
 neúnosně drahé. Zmiňme např. Mihalcea (2004)\cite{mihalcea2004building}, kde se
-deleguje desambiguace významů slov na dobrovolníky.
-Wikicorpus\cite{reese2010wikicorpus}, jakož i MASC\cite{ide2010manually} od
-dobrovolníků sbírají anotace.
+deleguje desambiguace významů slov na dobrovolníky pomocí webového rozhraní.
+Wikicorpus\cite{reese2010wikicorpus}, jakož i MASC\footnote{Manually annotated
+subcorpus}\cite{ide2010manually} od dobrovolníků sbírají anotace. Bojar
+(2008)\cite{bojar2008czeng} pro CzEng také sbírá mnoho překladů od dobrovolníků.
+Marge (2009)\cite{5494979} zkoumá možnosti využití technologie Mechanical Turk
+pro získání přepisů mluveného slova.
+Naproti tomu např. Maekawa (2000)\cite{maekawa2000spontaneous} popisuje tvorbu
+mluveného korpusu spontánní japonštiny s~využitím placených anotátorů.
 
 Ve většině případů je kvalita pro anotaci dat velmi důležitá, proto je aspoň
 nějaká kontrola nezbytná, ať už je odbornost anotátorů jakkoliv vysoká. Je
