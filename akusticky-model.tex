@@ -425,7 +425,7 @@ možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovna
 v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
 
 Úspěšnost má DeepSpeech, jak jsem ho použil, znatelně nižší, než výchozí
-markovovský model. Připisuju to jednak chybné aplikaci jazykového modelu a
+markovovský model, a sice 51.76\% word error rate. Připisuju to jednak chybné aplikaci jazykového modelu a
 jednak tomu, že DeepSpeech predikuje na úrovni písmen, takže velice často je
 skoro celé slovo správně, až na jedno písmeno. Je možné, že 70 hodin trénovacích
 dat je pro tento systém příliš málo, ačkoliv manuál i diskuze na fóru napovídají
@@ -470,9 +470,7 @@ jazykových modelů KenLM\cite{heafield2011kenlm}.
 
 Poslední naměřená úspěšnost markovovského akustického modelu s~výše zmíněným
 jazykovým modelem je 67,83\% word precision\footnote{počet správně určených slov
-dělen počtem slov ve zlatém standardu} a 54.68\% word accuracy\footnote{rozdíl
-počtu správně určených slov a chybně přidaných slov dělen počtem slov ve zlatém
-standardu}.
+dělen počtem slov ve zlatém standardu} a 46.32\% word error rate.
 
 Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada a testovací sadu
 jsem určil fixně taktéž až v~průběhu projektu, nelze jednotlivá historická skóre přímo
@@ -485,14 +483,23 @@ Tabulka~ref\{tab:asr-scores} uvádí seznam úspěšností jednotlivých experim
 \begin{center}
 \begin{tabular}{|l|l|l|}
 \hline
-experiment & násobek word precision & násobek word accuracy \\
+experiment & násobek word precision & násobek word error rate \\
 \hline
 výchozí GMM model  & 1 & 1 \\
 vysoké c.m. v~trénovací sadě (sekce~\ref{sec:confident} & TODO & TODO \\
-vlastní kepstrální normalizace (sekce~\ref{sec:mfcc-norm} & 1.0007 & 1.0089 \\
-DeepSpeech (sekce~\ref{sec:deepspeech} & 0.7666 & 0.8822 \\
+vlastní kepstrální normalizace (sekce~\ref{sec:mfcc-norm} & 1.0007 & 0.9890 \\
+DeepSpeech (sekce~\ref{sec:deepspeech} & 0.7666 & 1.1422 \\
 \hline
 \end{tabular}
 \caption{změny úspěšností jednotlivými experimenty}\label{tab:asr-scores}
 \end{center}
 \end{table}
+
+Proč je úspěšnost tak nízká? V~roce 2016 publikovali Mizera et
+al.~\cite{mizera2016kaldi} sadu receptů na rozpoznávání řeči pro češtinu.
+Uvádějí jako state of the art techniky GMM-HMM a DNN-HMM a word error rate pro
+jednotlivé recepty mezi 8.49 a 48.47 podle povahy dat. Úspěšnost na korpusu
+Karla Makoně v~tomto porovnání není vyloženě nízká. Zásadním faktorem je jistě
+kolísavá akustická kvalita nahrávek. Svoji roli zde jistě hraje i použití jednak
+zastaralého systému HTK a jednak pro češtinu jen ledabyle přizpůsobeného
+systému DeepSpeech.
