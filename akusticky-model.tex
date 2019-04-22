@@ -11,11 +11,14 @@
 %   - globální
 %   - na monofonémech vs. trifonémech
 
-Koncept celého projektu se zakládá na~přítomnosti automatického přepisu a jeho
-následném zdokonalování. Rozpoznávání češtiny se věnovali mnozí přede mnou,
+Koncept celého projektu se zakládá na~přítomnosti počátečního přepisu a jeho
+následném zdokonalování. Pro získání počátečního přepisu bylo nutné sestavit
+systém pro automatický přepis, z~historických důvodů častěji označovaný jako
+rozpoznávání řeči. Rozpoznávání češtiny se věnovali mnozí přede mnou,
 například Ircing et al. 2001\cite{ircing2001large}, Psutka et al.
 2005\cite{psutka2005automatic}, či Byrne et al. 1999\cite{byrne1999large}.
-Inspirace pro tvorbu systému rozpoznávání řeči bylo tedy dost.
+V následujících odstavcích popíšu tvorbu rozpoznávače řeči pro korpus Karla
+Makoně.
 
 Zjednodušený řetězec vedoucí od~zvukových dat k~jejich přepisu v~našem případě
 vypadá takto:\begin{enumerate}
@@ -25,12 +28,13 @@ vypadá takto:\begin{enumerate}
 \item{automatické rozpoznávání.}
 \end{enumerate}
 
-V tomto řetězci je stavba akustického modelu patrně nevyznamnějším článkem a
-sama tvoří řetěz o~mnoha článcích. V~této kapitole pojednáme o~krocích
-podniknutých k~jeho sestavení, experimentech a různých volbách.
+První trénovací sadu jsem pořídil svépomocí přepisem asi 15 minut nahrávky
+\texttt{85-05A}.
+
+\section{Základní tvorba akustického modelu}
 
 Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
-starší systém \textit{HTK}\footnote{hmm toolkit; Hidden Markov Model Toolkit}\cite{young2002htk} a
+starší systém \textit{HTK}\footnote{HMM ToolKit; HMM = Hidden Markov Model}\cite{young2002htk} a
 modernější \textit{Kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
 mého konzultanta Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~nichž jsem mohl
 čerpat.
@@ -57,8 +61,8 @@ podstatné, ale použil jsem 60\% pro setrvání a 40\% pro postup ve~druhém a
 třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupního.
 Střed a variance jsou určeny identicky podle globálních hodnot.
 
-Kromě vlastních fonémů (viz níže oddíl~\ref{sec:ac:fonetika}) přidám ještě foném
-pro~ticho (\textit{sil}).
+Kromě vlastních fonémů (viz níže sekci~\ref{sec:ac:fonetika}) přidám ještě foném
+pro~ticho (\texttt{sil}).
 
 Pro kódování používám formát MFCC s~první a druhou derivací, nultým koeficientem
 a kepstrální normalizací (\texttt{MFCC\_0\_D\_A\_Z} v~notaci HTK).
@@ -75,7 +79,7 @@ Trénuje se opět dvěma iteracemi BW-algoritmu.
 
 \item{Nucené zarovnání a odvržení zmetkových vzorků}
 
-Pomocí Viterbiho algoritmu~\cite{forney1973viterbi} se provede tzv.
+Pomocí Viterbiho algoritmu\cite{forney1973viterbi} se provede tzv.
 \textit{forced alignment}, tzn. nucené zarovnání na~úrovni fonémů. Jinými slovy
 určí se přesný čas, kde začíná a končí který foném. Při tom se určí hranice, pod
 kterou když klesne \textit{likelihood} daného přepisu na~základě odpovídající
@@ -136,7 +140,7 @@ iterace a úspěšnost se vyhodnotí na~sadě heldout.
 
 Pokud u~některé mixtury klesne její váha pod~daný práh, vymaže se, čímž se
 zamezí zbytečnému nárůstu parametrů a není proto potřeba zkoušet štěpit
-jednotlivé modely samostatně. Arci, takovým způsobem jsem nikdy nedosáhl lepšího
+jednotlivé modely samostatně. Arci, štěpením modelů jednoho po druhém jsem nikdy nedosáhl lepšího
 výsledku, než štěpením všech modelů najednou.
 
 Závislost úspěšnosti na~počtu mixtur není monotónní, proto ve~štěpení pokračuji,
@@ -144,10 +148,10 @@ i když někdy úspěšnost klesne. Konkrétně zastavím štěpení, pokud úsp
 klesne o~více než 30\% oproti nejvyšší dosažené nebo pokud klesne více než
 třikrát za~sebou, ale nikdy když je mixtur méně než 16.
 
-Pokud je foném gaußiánem modelován dobře, rozdělení na dvě mixtury
-nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
-k~přetrénování. Je proto potřeba nalézt optimální počet mixtur pro každý
-jednotlivý trifoném.
+%Pokud je foném gaußiánem modelován dobře, rozdělení na dvě mixtury
+%nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
+%k~přetrénování. Je proto potřeba nalézt optimální počet mixtur pro každý
+%jednotlivý trifoném.
 
 \end{enumerate}
 
@@ -179,7 +183,7 @@ ale u~automaticky přepsaných by bylo lépe rozdělovat podle ticha mezi slovy.
 Trénovací data pro akustické modelování pomocí HTK mají formu párů
 parametrizovaných zvukových souborů (v~mém případě MFCC) a textových souborů,
 obsahujících fonetický přepis. Ten se může získat různými způsoby. Lze ručně
-anotovat data do~fonetického i běžného přepisu, což se ale běžně nedělá. Běžně
+anotovat data do~fonetického i běžného přepisu, což je zdlouhavé a náročné. Běžně
 se trénovací přepisy do fonetických převádějí automaticky. U jazyků
 s~nepravidelnou výslovností, jako je angličtina, je často nejlepší použít
 robustní výslovnostní slovník a v~případě jeho nedostatečnosti se uchýlit
@@ -191,22 +195,14 @@ slovníkem. Vzhledem k~tomu, že slovní zásoba Karla Makoně je svérázná a
 netypická, vydal jsem se právě touto cestou, neboť i kvalitní robustní slovník
 by zde byl nedostatečný a svou obsáhlostí zbytečný.
 
-Pro zachycení výjimek z~výslovnostních pravidel mám vlastní řešení. Uživatelé
-přepisovací aplikace jsou instruováni slova s~nepravidelnou výslovností označit,
-viz kapitolu \ref{kap:webove-rozhrani}. Když se toto stane, výslovnost spárovaná
-se~zápisem se přidá do~výslovnostního slovníku jako výslovnostní varianta.
-Výslovnostní slovník je implementován jako tabulka v~relační databázi. Tím, že
-se přidá výslovnostní varianta, se ošetří případ, že by mluvčí vyslovil slovo
-foneticky. Pokryjí se tím nejen cizí slova, jako \textit{Marie Markéta Alacoque}
-[\fontspec{DoulosSIL}alakok\normalfont], nýbrž také ledabyle vyslovená slova,
-jako \textit{protože} [\fontspec{DoulosSIL}brʒɛ\normalfont].
+Pro podrobnější popis získávání fonetického přepisu viz sekci~\ref{ssec:porizeni-fonetickeho-prepisu}.
 
 \subsection{Fonémy}
 
 % TODO cite
 
-Používám základní fonémy českého jazyka~\cite{palkova1992fonetika}
-reprezentované pomocí PACal~\cite{nouza1997phonetic}. Kromě základních fonémů
+Používám základní fonémy českého jazyka\cite{palkova1992fonetika}
+reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních fonémů
 používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
 jakož ani neřečové události.
 V~tabulce~\ref{tab:phones} jsou fonémy uvedeny.
@@ -261,7 +257,7 @@ V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fo
 \multicolumn{2}{|c||}{před záměnou} &
 \multicolumn{2}{|c|}{po záměně} \\
 \hline
-& IPA & plz. & IPA & plz. \\
+& IPA & PACal & IPA & PACal \\
 \hline
     & ɱ  & mg & m & m \\
     & aʊ̯ & aw & a ʊ & a u \\
@@ -516,7 +512,7 @@ DeepSpeech (sekce~\ref{sec:deepspeech} & 0,7666 & 1,1422 \\
 \end{table}
 
 Proč je úspěšnost tak nízká? V~roce 2016 publikovali Mizera et
-al.~\cite{mizera2016kaldi} sadu receptů na rozpoznávání řeči pro češtinu.
+al.\cite{mizera2016kaldi} sadu receptů na rozpoznávání řeči pro češtinu.
 Uvádějí jako state of the art techniky GMM-HMM a DNN-HMM a word error rate pro
 jednotlivé recepty mezi 8.49 a 48.47 podle povahy dat. Úspěšnost na korpusu
 Karla Makoně v~tomto porovnání není vyloženě nízká. Zásadním faktorem je jistě

@@ -432,7 +432,9 @@ má formu nahrazení textového segmentu jiným. Jelikož přepisy jsou zarovná
 s~audiem na časové ose, víme také, jakému přesně úseku nahrávky daný text
 odpovídá.
 
-Díky tomu mohu provést nucené zarovnání (forced alignment) textového úseku
+Dále se vychází z~existence akustického modelu pro nahrávky, viz kapitolu~\ref{kap:asr}.
+
+Díky těmto dvěma prvkům mohu provést nucené zarovnání (forced alignment) textového úseku
 s~audiem. V~případě selhání zarovnání můžeme předpokládat, že úsek byl přepsán
 chybně, příspěvek odmítnout a dát tím uživateli zpětnou vazbu. Jelikož
 jednotlivé úseky odpovídají akustickému modelu v~různé míře, dochází k~falešně
@@ -457,7 +459,8 @@ zarovnání.
 \subsection{Pořízení fonetického přepisu}
 \label{ssec:porizeni-fonetickeho-prepisu}
 
-Fonetický přepis je v~běžném případě produktem nuceného zarovnání. Pokud je více
+Fonetický přepis je nezbytný pro trénování akustického modelu. Pořizuje se
+provedením nuceného zarovnání na každý manuálně přepsaný segment. Pokud je více
 výslovnostních variant, automaticky se zvolí ta, která lépe odpovídá akustickému
 modelu. Na to je potřeba pořídit výslovnostní varianty každého slova. Používám
 kombinaci pravidlového převodníku inspirovaého Psutkou et

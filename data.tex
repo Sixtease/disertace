@@ -456,7 +456,7 @@ pořízení, lze zjistit distribuce výskytů vyhledávání podle roku. Pro dot
 Svatou Terezii tuto distribuci ukazuje obrázek~\ref{fig:teresa-year}.
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.8]{rc/teresa-by-year.eps}
+\includegraphics[scale=0.9]{rc/teresa-by-year.eps}
 \caption{Počet výsledků vyhledání dotazu \texttt{terez.*} v~přepisech podle
 udaného roku nahrávky}
 \label{fig:teresa-year}
@@ -544,11 +544,15 @@ z~analogového signálu do digitálního formátu. Kotouče jsem digitalizoval p
 přehrávače {\em Tesla B-115} připojeného zezačátku do {\em Ion Tape 2 PC},
 později do {\em Lexicon Alpha}.
 
+\subsection{Volba identifikátorů}
+
 Každý takto zdigitalizovaný soubor jsem pojmenoval podle následujícího
 algoritmu: Pokud šlo o kazetu s~identifikátorem, použil jsem tento identifikátor
 a k~němu připojil písmeno \texttt{A} nebo \texttt{B} pro rozlišení strany. Pokud
 byl na obalu nějaký další popisek, připojil jsem ho za pomlčku k~oběma stranám.
-Pokud byl popisek na kazetě, pak pouze k~souboru odpovídající strany. V~případě
+Pokud byl popisek na kazetě, pak pouze k~souboru odpovídající strany.
+
+V~případě
 kotoučů jsem identifikátor prefigoval řetězcem \texttt{kotouc-} a připojil
 rozlišovací dvoumístné číslo počínaje \texttt{01} a označení stopy \texttt{-a}
 až \texttt{-d}.
@@ -557,10 +561,13 @@ Písmeno \texttt{a} dostal vždy levý kanál prvního průchodu, \texttt{c} pra
 kanál. Písmeno \texttt{b} dostal levý kanál zpátečního průchodu a \texttt{d}
 pravý kanál. Ukazuje se, že toto značení nebylo nejšťastněji zvolené, protože
 některé kotouče jsem dostal převinuté na opačnou stranu, takže dochází
-k~nepředvídatelné záměně mezi písmeny \texttt{a}, \texttt{c} X \texttt{b},
+k~nepředvídatelné záměně mezi písmeny \texttt{a}, \texttt{c} versus \texttt{b},
 \texttt{d}.
 
-\subsection{Akustická kvalita}
+Pokud nahrávka identifikátor neměla, použil jsem řetězec \texttt{neident} a
+pořadové číslo.
 
-Akustická kvalita nahrávek je největší slabinou korpusu. Kvalita není
-konzistentně špatná, je velmi kolísavá.
+%\section{Akustická kvalita}
+%
+%Akustická kvalita nahrávek je největší slabinou korpusu. Kvalita není
+%konzistentně špatná, je velmi kolísavá.
