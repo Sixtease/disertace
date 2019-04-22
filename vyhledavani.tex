@@ -27,6 +27,13 @@ rozsah této disertační práce.
 Mít vlastní vyhledávač je však tak jako tak u dat takového rozsahu dobré.
 Implementoval jsem jej pomocí produktu Elasticsearch.
 
+Elasticsearch je svobodný vyhledávač napsaný v~Javě, který umožňuje fulltextové
+vyhledávání v~dokumentech. Dokumenty se rozumí datové struktury, které se
+vyhledávači poskytnou ve formátu JSON. Elasticsearch má mnoho funkcionalit,
+z~nichž pro mne je klíčové rozhraní na základě HTTP naplňující konvence REST,
+automatický stemming, zvýrazňování nalezených pasáží a možnost vyhledávat
+v~libovolných položkách dokumentu.
+
 Aby bylo možné každý nalezený výsledek proměnit v~odkaz na příslušnou pasáž
 v~nahrávce, zvolil jsem za jednotlivé dokumenty nikoliv celé nahrávky, nýbrž
 věty.
@@ -44,3 +51,6 @@ nebo kombinací obého}
 Pro skloňování je použito pravidlového stemmingu, který je dodáván s~distribucí
 Elasticsearch a pro češtinu, obzvlášť toho druhu, kde se vyskytuje mnoho
 nestandardních a archaických slov, funguje báječně.
+
+Momentálně je vyhledávač nainstalován na témž serveru jako API a je dostupný
+z~webové aplikace.

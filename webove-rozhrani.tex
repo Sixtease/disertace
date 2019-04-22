@@ -752,72 +752,90 @@ uživatelů, a na hosting, odkud stahuje zvukové soubory.
 
 Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
 
-\begin{itemize}
+\begin{enumerate}
 \item{
-    Odeslání manuálního přepisu segmentu \\
-    cesta: \texttt{/subsubmit} \\
-    metoda: \texttt{POST} \\
-    parametry:
+    Odeslání manuálního přepisu segmentu
     \begin{itemize}
-        \item{\texttt{trans} (řetězec): přepis jak jej vložil uživatel,}
-        \item{\texttt{filestem} (řetězec): identifikátor nahrávky,}
-        \item{\texttt{start} (desetinné číslo): pozice začátku přepsaného segmentu od začátku nahrávky v~sekundách,}
-        \item{\texttt{end} (desetinné číslo): pozice počátku přepsaného segmentu, ditto,}
-    \end{itemize}
+    \item{cesta: \texttt{/subsubmit}}
+    \item{metoda: \texttt{POST}}
+    \item{
+        parametry:
+        \begin{itemize}
+            \item{\texttt{trans} (řetězec): přepis jak jej vložil uživatel,}
+            \item{\texttt{filestem} (řetězec): identifikátor nahrávky,}
+            \item{\texttt{start} (desetinné číslo): pozice začátku přepsaného segmentu od začátku nahrávky v~sekundách,}
+            \item{\texttt{end} (desetinné číslo): pozice počátku přepsaného segmentu, ditto,}
+        \end{itemize}
+    }
+    \item{
     odpověď při úspěchu: \begin{alltt}\{
-        success: 1,
-        filestem: {\em řetězec},
-        start: {\em desetinné číslo},
-        end: {\em desetinné číslo},
-        data {\em (seznam zarovnaných slov)}: [ 
-            \{
-                fonet: {\em řetězec},
-                wordform: {\em řetězec},
-                occurrence: {\em řetězec},
-                humanic: 1, {\em (znamená, že je manuálně přepsané)}
-                timestamp: {\em desetinné číslo}, {\em (pozice začátku slova)}
-            \},
-            {\em ...}
-        ]
-    \}\end{alltt}
-    odpověď při selhání: \texttt{\{ message: {\em řetězec} \}}
+  success: 1,
+  filestem: {\em řetězec},
+  start: {\em desetinné číslo},
+  end: {\em desetinné číslo},
+  data {\em (seznam zarovnaných slov)}: [ 
+    \{
+      fonet: {\em řetězec},
+      wordform: {\em řetězec},
+      occurrence: {\em řetězec},
+      humanic: 1, {\em (znamená, že je manuálně přepsané)}
+      timestamp: {\em desetinné číslo}, {\em (pozice začátku slova)}
+      slen: {\em desetinné číslo}, {\em (délka ticha, jen když > 0)}
+    \},
+    {\em ...}
+  ]
+\}\end{alltt}
+    }
+    \item{odpověď při selhání: \texttt{\{ message: {\em řetězec} \}}}
+    \end{itemize}
 }
 \item{
-    Požadavek na seznam přepisů \\
-    cesta: \texttt{/init} \\
-    metoda: \texttt{GET} \\
-    odpověď: \texttt{jsonp\_init(\{ subversions => \{ {\em identifikátor} => {\em verze}, {\em ...} \} \})} \\
+    Požadavek na seznam přepisů
+    \begin{itemize}
+      \item{cesta: \texttt{/init}}
+      \item{metoda: \texttt{GET}}
+      \item{
+        odpověď:\\ \texttt{jsonp\_init(\{ subversions => \{ {\em identifikátor} => {\em verze}, {\em ...} \} \})}
+      }
+    \end{itemize}
 
     Verze se inkrementuje při každém příspěvku. Slouží k~tomu, aby se mohly cachovat
     transkripce, ale aby se cache nepoužila, pokud někdo přepis změnil.
 }
 \item{
-    Inicializace sezení \\
-    cesta: \texttt{/req} \\
-    metoda: \texttt{POST} \\
-    parametry:
+    Inicializace sezení
     \begin{itemize}
-        \item{\texttt{username} (řetězec),}
-        \item{\texttt{session} (řetězec, nepovinný),}
+      \item{cesta: \texttt{/req}}
+      \item{metoda: \texttt{POST}}
+      \item{parametry:
+        \begin{itemize}
+          \item{\texttt{username} (řetězec),}
+          \item{\texttt{session} (řetězec, nepovinný),}
+        \end{itemize}
+      }
+      \item{odpověď: \texttt{\{ status: "OK" \}}}
     \end{itemize}
-    odpověď: \texttt{\{ status: "OK" \}} \\
 
     Slouží k~detekci začátku práce na přepisech pro účely sledování času
     potřebného k~přepisům.
 }
 \item{
-    Požadavek statistiky, z~jaké části je která nahrávka přepsána \\
-    cesta: \texttt{/humpart} \\
-    metoda: \texttt{GET} \\
-    odpověď: \begin{alltt}\{
-        {\em identifikátor}:
-            human: {\em celé číslo - počet manuálně přepsaných slov}
-            total: {\em celé číslo - celkový počet slov}
-        {\em ...}
-    \}\end{alltt}
+    Požadavek statistiky, z~jaké části je která nahrávka přepsána
+    \begin{itemize}
+      \item{cesta: \texttt{/humpart}}
+      \item{metoda: \texttt{GET}}
+      \item{odpověď: \begin{alltt}\{
+  {\em identifikátor}:
+      human: {\em celé číslo - počet manuálně přepsaných slov}
+      total: {\em celé číslo - celkový počet slov}
+  {\em ...}
+\}\end{alltt}
+      }
+    \end{itemize}
 
     Tento endpoint momentálně nová verze webového rozhraní nepoužívá, byl
-    zamýšlen jako vodítko pro uživatele při výběru nahrávky pro přepis.
+    zamýšlen jako vodítko pro uživatele při výběru nahrávky pro přepis a
+    pro navození soutěživého ducha.
 }
 \item{
     Změna atributů zarovnaného slova v~přepisu \\
@@ -825,11 +843,13 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
     metoda: \texttt{POST}
     parametry:
     \begin{itemize}
-        \item{\texttt{wordform} (řetězec): slovo malými písmeny bez interpunkce}
-        \item{\texttt{occurrence} (řetězec): slovo, jak se vyskytuje v~textu}
-        \item{\texttt{fonet} (řetězec): fonémy oddělené mezerou, zavržený endpoint, používat \texttt{subsubmit}}
-        \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od začátku nahrávky v~sekundách}
-        \item{\texttt{stem} (řetězec): identifikátor nahrávky}
+        \item{\texttt{wordform} (řetězec): slovo malými písmeny bez interpunkce,}
+        \item{\texttt{occurrence} (řetězec): slovo, jak se vyskytuje v~textu,}
+        \item{\texttt{fonet} (řetězec): fonémy oddělené mezerou, zavržený
+        parametr, používá se endpoint \texttt{subsubmit},}
+        \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od
+        začátku nahrávky v~sekundách,}
+        \item{\texttt{stem} (řetězec): identifikátor nahrávky,}
     \end{itemize}
     odpověď: \texttt{\{ success: 1 \}}
 
@@ -837,7 +857,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
     přepsané a zarovnané, je potřeba změnit ortografickou formu, např. u cizích
     slov, doplnit interpunkci atp.
 }
-\end{itemize}
+\end{enumerate}
 
 Veškerá komunikace je kódována v~UTF-8.
 
@@ -860,8 +880,8 @@ výslovností. Ke každému příspěvku se ukládá
 \item{zda byl přepis přijat,}
 \item{datum a čas přispění,}
 \item{přezdívka autora, pokud ji vyplnil,}
-\item{identifikátor sezení}
-\item{a verze prohlížeče.}
+\item{identifikátor sezení,}
+\item{verze prohlížeče.}
 \end{itemize}
 
 Každé uživatelské sezení má taktéž svůj záznam a ukládá se proň totéž, co pro
