@@ -315,12 +315,13 @@ vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten 
 Pro slučování modelů jednotlivých trifonémů, jak zmiňuje
 bod~\ref{item:htktrain:triphones} seznamu kroků trénování pomocí~HTK, je
 zapotřebí rozhodovacích stromů. Pro jejich tvorbu je potřeba ručně vytvořit
-otázky, na základě nichž, bude algoritmus dělit fonémy do shluků. K~tvorbě
+otázky, na základě nichž bude algoritmus dělit fonémy do shluků. K~tvorbě
 otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
 některé lingvistikou definované kategorie budou tvořit konzistentní shluky
 z~pohledu trénovacích dat. Pro tvorbu otázek jsem vycházel z~předlohy pro
 angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii ({\em
 https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
+% TODO otázky do apendixu
 
 \section{Experiment s kepstrální normalizací}
 \label{sec:mfcc-norm}
@@ -341,7 +342,7 @@ izolovaných řečových událostí na základě zarovnaného automatického př
 jsem vynechal všechny fonémy \texttt{sil} a \texttt{sp}, a jednak sadu skriptů
 pro manipulaci se soubory MFCC.
 
-Celkový přínos pro úspěšnost rozpoznávání byl nulový, ale aparát pro dekódování
+Celkový přínos pro úspěšnost rozpoznávání byl nulový (viz sekci~\ref{sec:evaluace}), ale aparát pro dekódování
 a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
 
 \section{Aktivní učení}
@@ -351,8 +352,8 @@ Aktivní učení spočívá ve vhodném výběru trénovacích dat, viz např. C
 nabíledni techniky aktivního učení využít tak, aby se získávala co nejvhodnější
 trénovací data.
 
-Podnikl jsem experiment, ve kterém jsem 2\% slova s~nízkou {\em confidence
-measure (c.m.)} červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
+Podnikl jsem experiment, ve kterém jsem slova s~nízkou {\em confidence
+measure (c.m.)} (pod 0.3) červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
 s~klesající c.m. Instruoval jsem pak uživatele aplikace, aby přednostně
 přepisovali věty, které jsou opticky co nejčervenější. Bohužel přirozené puzení
 uživatelů přepisovat nahrávku kompletně a lineárně od začátku způsobilo, že
@@ -427,8 +428,8 @@ v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhr
 markovovský model, a sice 51.76\% word error rate. Připisuju to jednak chybné aplikaci jazykového modelu a
 jednak tomu, že DeepSpeech predikuje na úrovni písmen, takže velice často je
 skoro celé slovo správně, až na jedno písmeno. Je možné, že 70 hodin trénovacích
-dat je pro tento systém příliš málo, ačkoliv manuál i diskuze na fóru napovídají
-o opaku.
+dat je pro tento systém příliš málo, ačkoliv manuál ani diskuze na fóru tomu
+nenasvědčují.
 
 \section{Jazykový model}
 \label{sec:jazykovy-model}
@@ -439,7 +440,7 @@ partnerem akustického modelu.\cite{jelinek1990self} Teprve kombinace akustické
 a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
 nejpravděpodobnější.
 
-Výběr jazykového modelu omezen nástrojem pro rozpoznávání. Lze zvolit pouze
+Výběr jazykového modelu je omezen nástrojem pro rozpoznávání. Lze zvolit pouze
 takový model, který nástroj dokáže využít. Všechny nástroje, které jsem použil,
 podporují N-gramové jazykové modely: HVite bigramový, Julius až trigramový a
 DeepSpeech taktéž trigramový.
@@ -456,7 +457,7 @@ Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
 modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
 nahrávek, také je jich nejméně: přesně 709 493 slov v~okamžiku psaní tohoto
 textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
-se jedná o 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
+představují 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT obsahující 1 019 497 060 slov.
 
@@ -469,7 +470,7 @@ K~manuálním přepisům je třeba podotknout, že u nich dochází k~jednomu
 nežádoucímu jevu. Přepisy se pořizují tak, aby byly maximálně věrné tomu, co je
 vyřčeno. Proto se doslova... vlasně do hlásky přepisují i přebrepty a zadrhnutí.
 Je otázkou, zda takové jevy chceme mít v~jazykovém modelu. Aniž bych se na ni
-pokoušel poskytnout definitivná odpověď, můj přístup, jak se s~tímto vypořádat,
+pokoušel poskytnout definitivní odpověď, můj přístup, jak se s~tímto vypořádat,
 je, že instruuji uživatele, aby každé slovo, po kterém následuje přerušení toku
 mluvy, doplnili třemi tečkami. Například ve větě {\em ,,To je ta relativnost
 dobrého a zlého, tak kdybychom... to je tam jinak postaveno.''} patří tři tečky
@@ -483,6 +484,7 @@ Toto značení umožňuje při stavbě jazykového modelu větu ukončit při se
 s~takovým slovem nebo takové slovo přeskočit.
 
 \section{Úspěšnost}
+\label{sec:evaluace}
 
 Poslední naměřená úspěšnost markovovského akustického modelu s~výše zmíněným
 jazykovým modelem je 67,83\% word precision\footnote{počet správně určených slov
@@ -499,12 +501,12 @@ Tabulka~\ref{tab:asr-scores} uvádí seznam úspěšností jednotlivých experim
 \begin{center}
 \begin{tabular}{|l|l|l|}
 \hline
-experiment & násobek word precision & násobek word error rate \\
+experiment & \makecell{násobek\\ word\\ precision} & \makecell{násobek\\ word error\\ rate} \\
 \hline
 výchozí GMM model  & 1 & 1 \\
-vysoké c.m. v~trénovací sadě (sekce~\ref{sec:confident} & TODO & TODO \\
-vlastní kepstrální normalizace (sekce~\ref{sec:mfcc-norm} & 1,0007 & 0,9890 \\
-DeepSpeech (sekce~\ref{sec:deepspeech} & 0,7666 & 1,1422 \\
+vysoké c.m. v~trénovací sadě (sekce~\ref{sec:confident}) & TODO & TODO \\
+vlastní kepstrální normalizace (sekce~\ref{sec:mfcc-norm}) & 1,0007 & 0,9890 \\
+DeepSpeech (sekce~\ref{sec:deepspeech}) & 0,7666 & 1,1422 \\
 \hline
 \end{tabular}
 \caption{změny úspěšností jednotlivými experimenty}\label{tab:asr-scores}

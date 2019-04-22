@@ -8,14 +8,14 @@ od začátku plánovanou součástí projektu. Rozhraní bylo navrženo s~těmit
 požadovanými vlastnosmi:
 
 \begin{itemize}
-\item{výběr nahrávky ze~seznamu}
-\item{poslech nahrávky s~obvyklými ovládacími prvky přehrávače}
-\item{zobrazení přepisu nahrávky}
-\item{vyznačení právě přehrávaného slova}
-\item{možnost provést změnu v~přepisu}
-\item{automatické zarovnání přepisu se~zvukem}
+\item{výběr nahrávky ze~seznamu,}
+\item{poslech nahrávky s~obvyklými ovládacími prvky přehrávače,}
+\item{zobrazení přepisu nahrávky,}
+\item{vyznačení právě přehrávaného slova,}
+\item{možnost provést změnu v~přepisu,}
+\item{automatické zarovnání přepisu se~zvukem,}
 \item{případné odmítnutí přepisu, pokud zarovnání selže (přepis neodpovídá
-vyřčeným slovům)}
+vyřčeným slovům).}
 \end{itemize}
 
 První implementace byla založena na přehrávači \textit{jPlayer}, modulu pro
@@ -39,24 +39,29 @@ na~zvláštním serveru.
 Přepis byl uložen a přenášen ve~formátu \textit{JSONp}\footnote{JSON =
 JavaScript Object Notation, JSONp = JSON with Padding}, čili jako \textit{JSON}
 obalený v~javascriptové funkci kvůli zamezení problémů s~přístupem napříč
-doménami.  Každé slovo s~sebou neslo informaci o~svojí pozici v~nahrávce
-s~přesností na~setiny sekundy, výslovnost, zápis, slovníkovou formu, délku ticha
-za~slověm, informaci o~tom, zda bylo manuálně přepsáno nebo automaticky
-rozpoznáno, a v~případě automaticky rozpoznaných slov \textit{confidence
-measure} čili míru jistoty rozpoznání.
+doménami.
 
-Převod ze~zápisu slova do~jeho fonetické podoby se děje na~základě pravidlového
-algoritmu z~dílny Doc. Pavla Ircinga po~úpravě od~Mgr.~Nina Peterka, Ph.D. Tento
-algoritmus zahrnuje časté výjimky z~českých výslovnostních pravidel, ale
-neobsahuje rozsáhlý výslovnostní slovník cizích slov. Karel Makoň navíc nezřídka
-hovoří o~osobách, jejichž jména se v~mnoha korpusech neobjeví vůbec.
+%Každé slovo s~sebou neslo informaci o~svojí pozici v~nahrávce
+%s~přesností na~setiny sekundy, výslovnost, zápis, slovníkovou formu, délku ticha
+%za~slovem, informaci o~tom, zda bylo manuálně přepsáno nebo automaticky
+%rozpoznáno, a v~případě automaticky rozpoznaných slov \textit{confidence
+%measure} čili míru jistoty rozpoznání.
+
+%Převod ze~zápisu slova do~jeho fonetické podoby se děje na~základě pravidlového
+%algoritmu z~dílny Doc. Pavla Ircinga po~úpravě od~Mgr.~Nina Peterka, Ph.D. Tento
+%algoritmus zahrnuje časté výjimky z~českých výslovnostních pravidel, ale
+%neobsahuje rozsáhlý výslovnostní slovník cizích slov. Karel Makoň navíc nezřídka
+%hovoří o~osobách, jejichž jména se v~mnoha korpusech neobjeví vůbec.
 
 Nad rámec výše popsaných funkcionalit přibyly další na~základě přání uživatelů a
 autorovy potřeby:
 
 \begin{itemize}
-\item{indikace, do~jaké míry je která nahrávka přepsána,}
-\item{manuální posouvání hranic přepisovaného zvukového úseku,}
+\item{indikace, do~jaké míry je která nahrávka
+přepsána\footnote{\label{fn:not-in-v2}Tato
+funkcionalita momentálně není implementována v~nové verzi aplikace.},}
+\item{manuální posouvání hranic přepisovaného zvukového
+úseku\footnotemark[\getrefnumber{fn:not-in-v2}],}
 \item{úprava zápisu slova s~ponecháním výslovnosti,}
 \item{identifikace uživatelů včetně sezení, prohlížeče atp.,}
 \item{vyhledávání v~přepisech.}
@@ -111,9 +116,16 @@ aktuálně přehrávané slovo bylo vždy snadné najít. Nemožnost označit a 
 přepsat příliš dlouhý úsek bylo pro uživatele možná někdy nepříjemné, ale
 redukovalo chyby jak v~přepisu, tak v~automatickém zarovnávání.
 
+Čtvero elementů, které je potřeba graficky odlišit, je: 
+\begin{enumerate}
+\item{automaticky přepsaná slova},
+\item{manuálně přepsaná slova,}
+\item{slovo aktuálně přehrávané,}
+\item{slovo vybrané kliknutím.}
+\end{enumerate}
+
 Zobrazení celého přepisu při zachování plynulosti a grafickém odlišení
-automaticky a manuálně přepsaných slov, slova aktuálně přehrávaného a navíc
-slova vybraného kliknutím bylo první velkou výzvou pro návrh stránky přehrávání.
+čtvera elementů bylo první velkou výzvou pro návrh stránky přehrávání.
 První, nezaslouženou pomocí k~tomu byl vývoj výkonu počítačů od~vzniku první
 verze, jakož i optimalizace prohlížečů na~rychlost. Množství elementů, které lze
 nyní realisticky zobrazit, se znatelně zvýšilo, ačkoliv naivní řešení zabalení
@@ -138,7 +150,7 @@ vysokou cenu. Web Audio API je standard pro~pokročilé zpracování zvukového
 signálu v~prohlížeči. Základním konceptem je graf procesních uzlů, které mají
 vstup a výstup a mohou se libovolně propojovat. K~dispozici jsou zdroje zvuku
 jako oscilátory nebo přehrávače streamů, souborů (tag \texttt{<audio>}) a dat
-v~paměti (\texttt{AudioBuffer}) a efekty jako zesílení, dynamická komprese,
+v~paměti (\texttt{AudioBuffer}) a efekty jako zesílení, dynamická komprese, či
 mixování kanálů.
 
 Velká výhoda Web Audio API oproti elementu \texttt{<audio>} je možnost přesného
@@ -159,11 +171,8 @@ stažení a dekódování opravdu dlouho a navíc prohlížeč kvůli tomu spot�
 gigabyte operační paměti.
 
 Jsou plány na~to, aby Web Audio API umožnila dekódovat jen část
-nahrávky,\footnote{github.com/WebAudio/web-audio-api/issues/1305} proto tento
-neutěšený stav zatím nechávám být. Případným řešením by mohlo být buď
-streamování (\texttt{<audio>} jako zdrojový uzel) a stažení pouze při potřebě
-ukládání úseku nebo změna uložení nahrávek nikoliv jeden soubor na jednu pásku,
-nýbrž např. po~minutových úsecích.
+nahrávky,\footnote{github.com/WebAudio/web-audio-api/issues/1305}, avšak
+palčivost problému mne přiměla nečekat, viz následující sekci.
 
 Díky tomu, že Web Audio API umožňuje přehrávání binárních dat z~proměnné
 v~paměti, nabízí se dekódovanou nahrávku uložit na~persistentní úložiště
@@ -181,19 +190,19 @@ ideálním řešením -- dá se zde i explicitně požádat o~konkrétní diskov
 uživatel tak má volbu bez nutnosti práce programátora webové aplikace. Kamenem
 úrazu je zde však podpora, která se momentálně omezuje pouze na Google Chrome.
 
-Naštěstí existuje ještě standard \textit{IndexedDB API}, který má uspokojivou
+Existuje ještě standard \textit{IndexedDB API}, který má uspokojivou
 podporu a uložení gigabytu dat je s~ním možné, byť ne zaručené. S~využitím
-abstrahující knihovny \textit{Dexie} je proto skrz tento standard ukládání
-implementováno. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce
-se tím přináší velká úspora času a přenesených dat.
+abstrahující knihovny \textit{Dexie} jsem proto skrz tento standard ukládání
+implementoval. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce
+se tím přináší velká úspora času a přenesených dat. Nicméně s~rozdělením
+nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 
 \section{Rozdělení nahrávek na úseky}
 
 Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
 skrze Web Audio API v~dohlednu, a k tomu jak odrazující dopad má nutnost
 stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
-než změnit způsob, jakým jsou nahrávky uloženy. Že způsob uložení souborů hraje
-roli, dokládá i Reppen (2010)\cite{reppen2010building}.
+než změnit způsob, jakým jsou nahrávky uloženy.
 
 Nahrávky jsou uloženy v~několika instancích pro různé účely:
 
@@ -214,7 +223,9 @@ duplikovat.
 \subsection{Délka segmentů}
 
 Délka úseků, na které nahrávky rozděluji, ovlivňuje, jak dlouho se každý segment
-bude stahovat a dekódovat. Čas stahování a dekódování segmentu, který obsahuje
+bude stahovat a dekódovat.
+Délka úseků, na které nahrávky rozděluji, ovlivňuje, jak dlouho se každý segment
+bude stahovat a dekódovat.  Čas stahování a dekódování segmentu, který obsahuje
 slovo, na němž je kurzor při prvním požadavku o~přehrávání, je roven zpoždění od
 uživatelské akce k začátku přehrávání. Podle internetového periodika
 UXMovement\cite{foursecondrule}, začíná uživatel po čtyřech sekundách čekání
@@ -264,7 +275,7 @@ se dalších asi pět dobrovolných anotátorů o~tento úkol pokusilo a došla 
 trpělivost po nule až deseti minutách označkovaného materiálu. Detekci pomocí
 zarovnaného přepisu šlo použít i na některé nahrávky, u nichž přepis selhal tím
 způsobem, že se rozdělily na menší části, přepsaly se ony -- zpravidla
-s~katastrofální úspěšnosti. Tento přepis opět v~některých případech selhal, ale
+s~katastrofální úspěšností. Tento přepis opět v~některých případech selhal, ale
 většina takové nahrávky byla nějakým přepisem pokryta. A jakkoliv nekvalitní
 takový přepis byl, právě dlouhé mezery mezi slovy se nalezly s~uspokojivou
 přesností. Krátké úseky, na nichž selhalo rozpoznávání řeči, byly pak příliš
@@ -273,7 +284,9 @@ nebo s~extrémním šumem.
 
 
 Celkový počet různě získaných bodů předělu shrnuje
-tabulka~\ref{tab:splitpoints}.
+tabulka~\ref{tab:splitpoints}\footnote{Vysoký počet předělů fixní délkou je způsoben tím, že
+k~některým nahrávkám jsem doposud nepořídil zarovnaný přepis s~vyznačením délky
+ticha.}.
 
 \begin{table}[htpb]
 \begin{center}
@@ -327,17 +340,21 @@ segmentů nevznikne segment delší než 60 sekund. Přes vybrané pauzy znova
 iterujeme a pauzu odebereme, jestliže jeden z~jejích sousedů má méně než 30
 sekund.
 
+Zbylá množina pauz splňuje počáteční podmínky, pokud to je vzhledem ke vstupním
+datům možné. Algoritmus je nejen jednoduchý na naprogramování, ale má také milou
+lineární složitost.
+
 \subsection{Pojmenování souborů}
 
 Jsou-li vybrány body předělu, mohou se nahrávky podle nich rozdělit a výsledné
 segmenty uložit na disk. Zde vyvstává otázka, jak rozdělit soubory do adresářů a
-jak je pojmenovat. Zvolil jsem tento formát:
+jak je pojmenovat. Že způsob uložení souborů hraje roli, dokládá i Reppen (2010)\cite{reppen2010building}. Zvolil jsem tento formát:
 
-$\$ID/\$format/\$ID--from-\$ZACATEK--to-\$KONEC.\$PRIPONA$
+\texttt{{\em{}ID}/{\em{}format}/{\em{}ID}--from-{\em{}ZACATEK}--to-{\em{}KONEC}.{\em{}PRIPONA}}
 
 tedy například
 
-$88-04A/ogg/88-04A--from-1155.27--to-1211.53.ogg$.
+\texttt{88-04A/ogg/88-04A--from-1155.27--to-1211.53.ogg}.
 
 Důvody jsou tyto: Není praktické z~důvodu omezení mnoha souborových systémů mít
 příliš mnoho souborů v~jednom adresáři. Proto rozdělení do adresářů podle
@@ -356,7 +373,7 @@ binárního obsahu souboru by vedlo k~nutnosti změnit identifikátory při kaž
 změně komprese apod., ačkoliv slyšitelný rozdíl by třeba nebyl žádný.
 
 Nyní, pokud by došlo ke změně bodů předělu, by se nové i staré úseky musely
-uchovávat v~jednom adresáři a až by všechny instance starých úseků byly
+uchovávat v~jednom adresáři a, až by všechny instance starých úseků byly
 vyhlazeny z~paměti cache všech klientů, by se staré mohly smazat. Jedinou
 nevýhodou je, že by se musely nové přebrat od starých, ale to není problém.
 
@@ -373,15 +390,11 @@ vyčerpání zvukových dat.
 
 \section{Použití aplikace}
 
-\fontspec{DoulosSIL} 
-
-Aplikace znamená použití. Použitelnost je tedy klíčovým faktorem pro její hodnocení.
-Přepis, který pořizuji, je fonetický i ortografický\footnote{Na pravopis jako
-takový se důraz neklade. Ortografickým přepisem myslím standardní zápis.}.
+Aplikace {\em znamená} použití. Použitelnost je tedy klíčovým faktorem pro její hodnocení.
 
 \subsection{Expertíza uživatelů}
 
-Přepis, který pořizuji, ke na hranici toho, co se dá nazvat lingvistickou
+Přepis, který pořizuji, je na hranici toho, co se dá nazvat lingvistickou
 anotací dat. V~naší požehnané části světa, kde podíl analfabetů je zanedbatelný,
 je přepis mluveného slova stěží odbornou prací. Na druhou stranu zajistit, aby
 přepis přesně odpovídal mluvenému projevu
@@ -460,19 +473,20 @@ zarovnání.
 \label{ssec:porizeni-fonetickeho-prepisu}
 
 Fonetický přepis je nezbytný pro trénování akustického modelu. Pořizuje se
-provedením nuceného zarovnání na každý manuálně přepsaný segment. Pokud je více
+provedením nuceného zarovnání na každý {\em ortograficky}\footnote{Na pravopis jako takový se důraz neklade. Ortografickým přepisem myslím standardní zápis.} manuálně přepsaný segment. Pokud je více
 výslovnostních variant, automaticky se zvolí ta, která lépe odpovídá akustickému
 modelu. Na to je potřeba pořídit výslovnostní varianty každého slova. Používám
 kombinaci pravidlového převodníku inspirovaého Psutkou et
-al.\cite{psutka2004development} a dynamického výslovnostního slovníku. Dynamický
+al. (2004)\cite{psutka2004development} a dynamického výslovnostního slovníku. Dynamický
 výslovnostní slovník je seznam alternativních výslovností každého slova, který
 se rozšiřuje s~používáním aplikace.
 
 Manuál k~aplikaci vyzývá uživatele, aby text přepisovali podle standardního
 českého pravopisu, ale při zachování maximální věrnosti vyřčených slov, tedy aby
-nekorigovali /ɲaːk/ na {\em nějak}, nýbrž
+nekorigovali \fontspec{DoulosSIL} /ɲaːk/ \normalfont na {\em nějak}, nýbrž
 přepsali doslova jako {\em ňák}. Fonetický slovník obsahuje časté výslovnostní
-varianty, např. počáteční /v/ ve slovech začínajících na /o/.
+varianty, např. počáteční \fontspec{DoulosSIL} /v/ \normalfont ve slovech
+začínajících na \fontspec{DoulosSIL} /o/\normalfont {\em (vopice vobludná)}.
 
 V~případě slov s~nestandardní výslovností, tedy primárně cizích slov, se od
 uživatelů žádá, aby slovo přepsali foneticky. Teprve po úspěšném zarovnání a
@@ -483,31 +497,34 @@ Když je pravopisně chybný, fonetický zápis poslán, pak pokud projde fází
 nuceného zarovnání, se integruje do zobrazeného přepisu. Datová reprezentace
 každého slova sestává z~těchto prvků:
 \begin{enumerate}
-\item{výskyt:
+\item{Výskyt:
     slovo, jak se vyskytuje v textu, včetně zachování velkých a malých písmen a
-    přilehlé interpunkce,
+    přilehlé interpunkce.
 }
-\item{slovní forma:
-    slovo, jak je zaneseno v~jazykovém modelu a ve výslovnostním slovníku
-    (slovní forma se odvozuje algoritmicky z~výskytu převedením do malých písmen
-    a odstranění neabecedních znaků, z~toho plyne, že interpunkce a všechny
+\item{Slovní forma:
+    slovo, jak je zaneseno v~jazykovém modelu a ve výslovnostním slovníku.
+    (Slovní forma se odvozuje algoritmicky z~výskytu převedením do malých písmen
+    a odstraněním neabecedních znaků. Z~toho plyne, že interpunkce a všechny
     neabecední znaky jsou vždy součástí přilehlého slova a nikdy netvoří token
-    samy o sobě),
+    samy o sobě.)
 }
-\item{výslovnost:
-    seznam fonémů,
+\item{Výslovnost:
+    seznam fonémů.
 }
-\item{časová značka:
+\item{Časová značka:
     vzdálenost počátku slova od počátku nahrávky v~sekundách s~přesností na dvě
-    desetinná místa,
+    desetinná místa.
 }
-\item{manuálně přepsané:
+\item{Manuálně přepsané:
     pravdivostní hodnota odlišující manuálně přepsaná slova od automaticky
-    přepsaných,
+    přepsaných.
 }
-\item{confidence measure:
+\item{Confidence measure:
     míra jistoty, se kterou bylo slovo predikováno, pouze u automaticky
     přepsaných slov.
+}
+\item{Ticho:
+    začátek a délka ticha, pokud se za slovem vyskytuje.
 }
 \end{enumerate}
 Jakmile je slovo součástí přepisu, lze upravit jeho {\em výskyt}, tedy jak se
@@ -516,7 +533,7 @@ se od českých pravidel výslovnosti.
 
 To má za následek přidání dvojice {\em slovní forma - výslovnost} do dynamického
 výslovnostního slovníku. Tento úkon je proto nutné provést jen jednou pro každé
-slovo a pokaždé, když na něho libovolný uživatel narazí znova, stačí zadat jeho
+slovo. Pokaždé, když na toto slovo libovolný uživatel narazí znova, stačí zadat jeho
 ortografickou formu a správná výslovnost se dovodí automaticky.
 
 \subsection{Fonetický zápis}
@@ -534,7 +551,7 @@ postuluji jako fakt bez podpůrného výzkumu a zakládám to čistě na vlastn�
 zkušenosti.
 
 Převod z~fonetického zápisu do PACal obstarává zmíněný převodník, viz
-podsekci\ref{ssec:porizeni-fonetickeho-prepisu}. Je ale zapotřebí i opačného
+podsekci~\ref{ssec:porizeni-fonetickeho-prepisu}. Je ale zapotřebí i opačného
 směru, aby se uživateli mohla dát možnost zkontrolovat, zda slovo, které
 přepsal, se uložilo se správnou výslovností.
 
@@ -545,10 +562,10 @@ Algoritmus je jednoduchý. Ve většině případů jeden foném odpovídá jedn
 jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
 \begin{enumerate}
 \item{Foném \texttt{x} se píše {\em ch}.}
-\item{Fonémy \texttt{dz, dzh} se píšou {\em dz, dž}.}
-\item{Dvojhlásky \texttt{aw, ew, ow} se píšou {\em au, eu, ou}.}
+\item{Fonémy \texttt{dz, dzh} se píší {\em dz, dž}.}
+\item{Dvojhlásky \texttt{aw, ew, ow} se píší {\em au, eu, ou}.}
 \item{
-    Sekvence \texttt{c h, o u, a u, e u, d z, d zh} se píšou
+    Sekvence \texttt{c h, o u, a u, e u, d z, d zh} se píší
     {\em c'h, o'u, a'u, e'u, d'z, d'ž}.
     Budiž však poznamenáno, že sekvence \texttt{c h} je ryze hypotetická, ana
     porušuje spodobu znělosti.
@@ -557,7 +574,7 @@ jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
     Neznělou zvýšenou alveolární vibrantu označuji {\em ř'}.
 }
 \item{
-    Palatální a labiodentální nazála se píšou {\em n', m'}.
+    Palatální a labiodentální nazála se píší {\em n', m'}.
 }
 \item{Ticho na konci slova ve fonetickém přepise nevyznačuji.}
 \end{enumerate}
@@ -577,25 +594,26 @@ produkuje algoritmus, pokud na vstup dostane příslušnou výslovnost ve formá
 PACal:
 
 \begin{table}[htpb]
+\fontspec{DoulosSIL}
 \begin{center}
-\begin{tabular}{|l|l|l|l}
+\begin{tabular}{|l|l|l|l|}
 \hline
 slovo & výslovnost v~IPA & výsl. v~PACal & fonetický zápis \\
 \hline
 nic & ɲit͡s  & nj i c & ňic \\
 kdo & gdo & g d o & gdo \\
 disk & disk & d i s k & dysk \\
-dřít & dr̝ iːt & d rzh ii t & dřít \\
-třít & tr̝̊ iːt & t rsh ii t & tř'ít \\
+dřít & dr̝iːt & d rzh ii t & dřít \\
+třít & tr̝̊iːt & t rsh ii t & tř'ít \\
 auto & aʊ̯to & aw t o & auto \\
 nauka & nauka & n a u k a & na'uka \\
-džbán & d͡ʒ baːn  & dzh b aa n & džbán \\
+džbán & d͡ʒbaːn  & dzh b aa n & džbán \\
 odžít & odʒiːt & o d dz ii t & od'žít \\
-odznak & od͡z nak  & o dz n a k & odznak \\
+odznak & od͡znak  & o dz n a k & odznak \\
 podzemí & podzɛmiː & p o d z e m ii & pod'zemí \\
 noc & not͡s  & n o c & noc \\
 tento & tɛnto & t e n t o & tento \\
-hangár & haŋgaːr & h a ng g aa r & han'gár \\
+hangár & ɦaŋgaːr & h a ng g aa r & han'gár \\
 samba & samba & s a m b a & samba \\
 tonfa & toɱfa & t o mg f a & tom'fa \\
 \hline
@@ -603,6 +621,7 @@ tonfa & toɱfa & t o mg f a & tom'fa \\
 \caption{Příklady algoritmicky získaného fonetického zápisu}\label{tab:priklady-fonetiky}
 \end{center}
 \end{table}
+\normalfont
 
 Použití apostrofu pro rozlišení víceznačností a zvláštností není stoprocentně
 intuitivní a představuje další bod, kde je zapotřebí uživatele zaškolit, aby
@@ -621,7 +640,7 @@ představu o tom, jak si systém vede.
 
 Jednou z~věcí, které můžeme posoudit, jsou přijetí a odmítnutí příspěvků
 zarovnávačem. Celkem z~109640 pokusů o zarovnání jich 3419 bylo odmítnuto, což
-jsou 3.12\%. Manuálně jsem prošel 20 náhodně vybraných odmítnutých pokusů a
+je 3.12\%. Manuálně jsem prošel 20 náhodně vybraných odmítnutých pokusů a
 přišel jsem k~těmto číslům:
 \begin{itemize}
 \item{
