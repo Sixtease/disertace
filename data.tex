@@ -541,10 +541,26 @@ Pro digitalizaci jsem používal nejdříve zařízení {\em Ion Tape 2 PC}, kte
 poskytuje USB rozhraní jako externí zvuková karta. Později jsem začal používat
 přehrávač značky {\em Denon} a externí zvukovou kartu {\em Lexicon Alpha} coby převodník
 z~analogového signálu do digitálního formátu. Kotouče jsem digitalizoval pomocí
-přehrávače Tesla B-115 připojeného taktéž do zvukové karty Lexicon Alpha.
+přehrávače {\em Tesla B-115} připojeného zezačátku do {\em Ion Tape 2 PC},
+později do {\em Lexicon Alpha}.
 
-% získávání přepisů
-%  iniciální přepis v Praatu nebo to byl Transcriber?
-%  graf přibývání podle přispěvatelů, času, nahrávek atp.
-% nahrávky samotné (z předchozích článků)
-% grafické indexy
+Každý takto zdigitalizovaný soubor jsem pojmenoval podle následujícího
+algoritmu: Pokud šlo o kazetu s~identifikátorem, použil jsem tento identifikátor
+a k~němu připojil písmeno \texttt{A} nebo \texttt{B} pro rozlišení strany. Pokud
+byl na obalu nějaký další popisek, připojil jsem ho za pomlčku k~oběma stranám.
+Pokud byl popisek na kazetě, pak pouze k~souboru odpovídající strany. V~případě
+kotoučů jsem identifikátor prefigoval řetězcem \texttt{kotouc-} a připojil
+rozlišovací dvoumístné číslo počínaje \texttt{01} a označení stopy \texttt{-a}
+až \texttt{-d}.
+
+Písmeno \texttt{a} dostal vždy levý kanál prvního průchodu, \texttt{c} pravý
+kanál. Písmeno \texttt{b} dostal levý kanál zpátečního průchodu a \texttt{d}
+pravý kanál. Ukazuje se, že toto značení nebylo nejšťastněji zvolené, protože
+některé kotouče jsem dostal převinuté na opačnou stranu, takže dochází
+k~nepředvídatelné záměně mezi písmeny \texttt{a}, \texttt{c} X \texttt{b},
+\texttt{d}.
+
+\subsection{Akustická kvalita}
+
+Akustická kvalita nahrávek je největší slabinou korpusu. Kvalita není
+konzistentně špatná, je velmi kolísavá.
