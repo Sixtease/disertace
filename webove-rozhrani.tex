@@ -174,6 +174,154 @@ nahrávek pouze na~úvodní stránce.
 
 Podrobněji se budu zabývat pouze pohledem detailu nahrávky.
 Obrázek~\ref{fig:scn1lab} ukazuje rozhraní v~průběhu přehrávání.
+Obrázek~\ref{fig:scn2lab} ukazuje rozhraní při editaci segmentu.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.6]{rc/radio-makon-cs-1-lab.png}
+\caption{webové rozhraní při přehrávání}
+\label{fig:scn1lab}
+\end{figure}
+
+Vysvětliky k~obrázku~\ref{fig:scn1lab}:
+\begin{enumerate}
+\item{
+    Záhlaví a v~něm
+    \begin{itemize}
+    \item{jméno aplikace odkazující na úvodní stránku,}
+    \item{odkaz na informace o projektu,}
+    \item{vyhledávací políčko,}
+    \item{vstupní pole pro uživatelovu přezdívku;}
+    \end{itemize}
+}
+\item{Identifkátor nahrávky;}
+\item{Automaticky přepsané segmenty v~šedi;}
+\item{Manuálně přepsané segmenty v~černi;}
+\item{Právě přehrávané slovo zvýrazněné žlutým pozadím;}
+\item{Označené slovo zvýrazněné modří st. regent na pozadí;}
+\item{
+    Informace o označeném slově:
+    \begin{itemize}
+    \item{
+        výskyt: slovo s~kontextuálním velkým písmenem,
+        interpunkcí, jak se nachází v~textu
+        (navíc právě editované, jak prozrazuje označené iniciální písmeno),
+    }
+    \item{forma: normalizovaná slovní forma, jak se objevuje ve slovníku,}
+    \item{
+        výslovnost: český fonetický zápis použité výslovnosti (viz
+        podsekci~\ref{ssec:respelling}),
+    }
+    \item{
+        pozice: čas v~sekundách od začátku nahrávky do začátku slova;
+    }
+    \end{itemize}
+}
+\item{
+    Ukládání:
+    \begin{itemize}
+    \item{přímý odkaz k~celé nahrávce ve formátu mp3,}
+    \item{označení celého přepisu pro snadné vložení (copy-paste);}
+    \end{itemize}
+}
+\item{Grafický ekvalizér pro kompenzaci úzkopásmového šumu;}
+\item{
+    Ovládací prvky přehrávání:
+    \begin{itemize}
+    \item{tlačítko pro pozastavení / pokračování,}
+    \item{současná pozice,}
+    \item{posuvník (scrollbar) přehrávání,}
+    \item{celková délka nahrávky;}
+    \end{itemize}
+}
+\item{aktuální pozice reflektovaná v~URL;}
+\end{enumerate}
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.6]{rc/radio-makon-cs-2-lab.png}
+\caption{rozhraní ve stavu editace segmentu}
+\label{fig:scn2lab}
+\end{figure}
+
+Vysvětlivky k~obrázku~\ref{fig:scn2lab}:
+\begin{enumerate}
+\item{
+    Označení textového úseku myší definuje segment k~editaci tak, že označené
+    části slov se doplní na celá;
+}
+\item{
+    Editační okénko a v~něm:
+    \begin{itemize}
+    \item{textové pole (textarea) předvyplněná stávajícím přepisem,}
+    \item{tlačítko pro přehrání odpovídajícího segmentu,}
+    \item{tlačítko pro uložení,}
+    \item{
+        tlačítko pro stažení segmentu, kteréžto inicializuje operaci uložení
+        souboru pro úsek audia odpovídající označenému textu. Syntéza uloženého
+        souboru se odehrává v~prohlížeči.
+    }
+    \end{itemize}
+}
+\end{enumerate}
+
+Nejčastější úkony mají klávesové zkratky: \texttt{ctrl+mezerník} pro
+přehrání/pozastavení a \texttt{ctrl+enter} pro uložení korekce.
+
+\subsection{Zobrazení přepisu}
+
+Mnohý program pro přepisování ukazuje transkript jako vertikální seznam vyřčení,
+viz obrázek\ref{fig:transcriber} pro příklad z~Transcriberu. To připisuji faktu,
+že atomickými prvky přepisu jsou uživatelem definované fráze a jejich hranice
+jsou spolehlivé, respektive není na programu, aby je definoval nebo
+zpochybňoval. V~mém případě jsou atomickými prvky slova. Ano, jsou zde i věty,
+ale segmentace na věty automatickým přepisovačem je velice nespolehlivá, takže
+je žádoucí, aby označení a přepsání segmentu, který přesahuje přes hranice věty,
+bylo přirozené a snadné.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.4]{rc/transcriber1.png}
+\caption{Uživatelské rozhraní Transcriberu}
+\label{fig:transcriber1}
+\end{figure}
+
+Toto je jeden z~důvodů, proč zobrazuji přepis v~podstatě jako jeden zalomený
+řádek.
+
+\subsection{Problém s~rychlostí}
+
+Na zobrazení přepisu byly kladeny tyto požadavky:
+\begin{enumerate}
+\item{
+    Právě přehrávané slovo aby bylo zvýrazněno;
+    \label{feats:item:curword}
+}
+\item{
+    Manuálně přepsané segmenty aby byly jasně odlišené od automaticky
+    přepsaných;
+    \label{feats:item:manualdistinct}
+}
+\item{
+    Označení neprázdné množiny znaků (krom mezery) myší aby spustilo editační
+    mód pro označený text doplněný na celá slova;
+    při úspěšném uložení změny, aby se tato vmísila do zobrazeného textu;
+    \label{feats:item:selectable}
+}
+\item{
+    Kliknutí na slovo aby o~něm vyvolalo zobrazení kontextových informací
+    (toto zvu {\em ,,vybrané slovo''}, neb pojem {\em ,,označené slovo''} je již
+    obsazen);
+    \label{feats:item:clickable}
+}
+\item{
+    Celý přepis aby byl viditelný najednou pro možnost vyhledávání;
+    \label{feats:item:showall}
+}
+\item{
+    Stránka aby byla responzivní.
+    \label{feats:item:speed}
+}
+\end{enumerate}
+
+Skloubit tyto požadavky je obtížnější, než by se mohlo zdát.
 
 \section{Prototyp}
 
@@ -703,6 +851,7 @@ slovo. Pokaždé, když na toto slovo libovolný uživatel narazí znova, stač�
 ortografickou formu a správná výslovnost se dovodí automaticky.
 
 \subsection{Fonetický zápis}
+\label{ssec:respelling}
 
 Přese všechny výhody reprezentace fonémů podle systému PACal se nejedná o
 pratktický zápis výslovnosti pro laické Čechy. Díky jednoduchému, povětšinou
