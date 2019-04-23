@@ -13,7 +13,7 @@ moji, abych tak řekl, cílovou skupinu, tedy ty, jimž bude produkt sloužit.
 Webová aplikace by tedy měla skloubit tyto dva účely:
 \begin{enumerate}
 \item{sloužit uživatelům, aby mohli  materiál co nejlépe konzumovat,}
-\item{ponouknat uživatele, aby dali co nejkvalitnější přispěvek.}
+\item{ponouknat uživatele, aby dali co nejkvalitnější příspěvek.}
 \end{enumerate}
 
 Pokud je mi známo, není žádného projektu se srovnatelným východiskem. Můžeme
@@ -40,7 +40,7 @@ vezměme
 }
 \end{enumerate}
 
-Každé číslo v~seznamu níže označují program, pro který platí ten který výrok. Ku
+Každé číslo v~seznamu níže označuje program, pro který platí ten který výrok. Ku
 příkladu z~nich jen Transcriber umožňuje anotaci mluvčích, proto u druhé položky
 stojí pouze číslo (1).
 
@@ -170,6 +170,13 @@ zobrazeného přepisu se stránka překryla rozhraním pro opravu přepisu, jež
 (\texttt{<textarea>}) s předvyplněným současným přepisem, ovládací prvky pro
 přehrátí odpovídající pasáže, odeslání opraveného přepisu a opuštění editačního
 okénka.
+Rozhraní prototypu ukazuje obrázek~\ref{fig:prototyp}.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.8]{rc/makonfm-cs-1.png}
+\caption{první verze webové aplikace}
+\label{fig:prototyp}
+\end{figure}
 
 %Každé slovo s~sebou neslo informaci o~svojí pozici v~nahrávce
 %s~přesností na~setiny sekundy, výslovnost, zápis, slovníkovou formu, délku ticha
@@ -214,8 +221,8 @@ Audio API\cite{adenot2013web} jako platformu pro nakládání se~zvukem a Twitte
 pro vzhled prvků. Zdrojový kód píšu v~ECMAScript~6 a o~kompilaci se stará
 webpack.
 
-Aplikace sestává z~několika {\em pohledů\footnote{Pohled ve smyslu ,,view''
-z~architekturního přístupu ,,model - view - controller''. Podobně jako autoři
+Aplikace sestává z~několika {\em pohledů\footnote{Pohled ve smyslu ,,view``
+z~architekturního přístupu ,,model - view - controller``. Podobně jako autoři
 frameworku Django, pojmem pohled - view míním jednu stránku definovanou cestou
 v~URL i s~její funkcionalitou.}}:
 \begin{enumerate}
@@ -243,7 +250,7 @@ Obrázek~\ref{fig:scn1lab} ukazuje rozhraní v~průběhu přehrávání.
 Obrázek~\ref{fig:scn2lab} ukazuje rozhraní při editaci segmentu.
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.6]{rc/radio-makon-cs-1-lab.png}
+\includegraphics[scale=0.7]{rc/radio-makon-cs-1-lab.png}
 \caption{webové rozhraní při přehrávání}
 \label{fig:scn1lab}
 \end{figure}
@@ -303,7 +310,7 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
 \end{enumerate}
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.6]{rc/radio-makon-cs-2-lab.png}
+\includegraphics[scale=0.7]{rc/radio-makon-cs-2-lab.png}
 \caption{rozhraní ve stavu editace segmentu}
 \label{fig:scn2lab}
 \end{figure}
@@ -335,7 +342,7 @@ přehrání/pozastavení a \texttt{ctrl+enter} pro uložení korekce.
 \subsection{Zobrazení přepisu}
 
 Mnohý program pro přepisování ukazuje transkript jako vertikální seznam vyřčení,
-viz obrázek\ref{fig:transcriber} pro příklad z~Transcriberu. To připisuji faktu,
+viz obrázek~\ref{fig:transcriber} pro příklad z~Transcriberu. To připisuji faktu,
 že atomickými prvky přepisu jsou uživatelem definované fráze a jejich hranice
 jsou spolehlivé, respektive není na programu, aby je definoval nebo
 zpochybňoval. V~mém případě jsou atomickými prvky slova. Ano, jsou zde i věty,
@@ -344,9 +351,9 @@ je žádoucí, aby označení a přepsání segmentu, který přesahuje přes hr
 bylo přirozené a snadné.
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.4]{rc/transcriber1.png}
+\includegraphics[scale=0.46]{rc/transcriber1.png}
 \caption{Uživatelské rozhraní Transcriberu}
-\label{fig:transcriber1}
+\label{fig:transcriber}
 \end{figure}
 
 Toto je jeden z~důvodů, proč zobrazuji přepis v~podstatě jako jeden zalomený
@@ -373,7 +380,7 @@ Na zobrazení přepisu byly kladeny tyto požadavky:
 }
 \item{
     Kliknutí na slovo aby o~něm vyvolalo zobrazení kontextových informací
-    (toto zvu {\em ,,vybrané slovo''}, neb pojem {\em ,,označené slovo''} je již
+    (toto zvu {\em ,,vybrané slovo``}, neb pojem {\em ,,označené slovo``} je již
     obsazen);
     \label{feats:item:clickable}
 }
@@ -402,15 +409,9 @@ paměťovou náročnost stránky.
 V~původní, první verzi webové aplikace, jsem toto vyřešil obětováním
 bodu~ref{feats:item:showall}: zobrazovaly se jen tři řádky textu, přičemž právě
 přehrávané slovo se vždy drželo v~tom prostředním. Ukazuje to
-obrázek~\ref{fig:makonfm} jen s~tím, že právě přehrávané slovo je v~prvním
+obrázek~\ref{fig:prototyp} jen s~tím, že právě přehrávané slovo je v~prvním
 řádku, poněvadž se přehrává začátek nahrávky. Díky pokroku ve webových
 standardech a jejich podpoře ze strany prohlížečů je nyní možné řešení.
-
-\begin{figure}[htpb]
-\includegraphics[scale=0.7]{rc/makonfm-cs-1.png}
-\caption{Původní webové rozhraní z~roku 2012}
-\label{fig:makonfm}
-\end{figure}
 
 \subsection{Řešení}
 
@@ -535,7 +536,7 @@ nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
 skrze Web Audio API v~dohlednu, a k tomu jak odrazující dopad má nutnost
 stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
-než změnit způsob, jakým jsou nahrávky uloženy.
+než změnit způsob, jakým jsou nahrávky uloženy. Toto je popsáno v~článku Krůza 2019/1, na jehož bibliografické údaje se zatím čeká.
 
 Nahrávky jsou uloženy v~několika instancích pro různé účely:
 
@@ -871,7 +872,7 @@ se tento mechanismus označuje anglicky, {\em pronunciation respelling},
 v~češtině něčím přirozeným a spolehlivým. Není ani potřeba explicitního dělení
 slabik, jako tomu je u angličtiny
 (Wikipedie\footnote{https://en.wikipedia.org/wiki/Pronunciation\_respelling}
-udává příklad {\em ``Diarrhoea'' is pronounced DYE-uh-REE-a}).
+udává příklad {\em ``Diarrhoea`` is pronounced DYE-uh-REE-a}).
 Že tato technika je přirozenou pro všechny rodilé mluvčí češtiny se základním vzděláním,
 postuluji jako fakt bez podpůrného výzkumu a zakládám to čistě na vlastní
 zkušenosti.
@@ -882,7 +883,7 @@ směru, aby se uživateli mohla dát možnost zkontrolovat, zda slovo, které
 přepsal, se uložilo se správnou výslovností.
 
 Za tímto účelem jsem vytvořil javascriptový modul pro převod mezi seznamem
-fonémů a českým fonetickým zápisem.
+fonémů a českým fonetickým zápisem. Popsán je v~článku Krůza 2018~\cite{biblio:KrPhoneticTranscription2018}.
 
 Algoritmus je jednoduchý. Ve většině případů jeden foném odpovídá jednoznačně
 jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
