@@ -1,6 +1,180 @@
 \chapter{Webové rozhraní}
 \label{kap:webove-rozhrani}
 
+\section{Porovnání s~jinými scénáři}
+
+Mým dílčím cílem je co nejlepší ortografický\footnote{Na pravopis jako takový se důraz
+neklade. Ortografickým přepisem myslím standardní zápis.} a fonetický přepis
+tisícihodinového korpusu jednoho mluvčího rozděleného do přibližně hodinových
+celků. Existuje skupina lidí, které nahrávky zajímají. Tito lidé představují na
+jednu stranu potenciál, který mohu využít pro svůj účel, a na druhou stranu
+moji, abych tak řekl, cílovou skupinu, tedy ty, jimž bude produkt sloužit.
+
+Webová aplikace by tedy měla skloubit tyto dva účely:
+\begin{enumerate}
+\item{sloužit uživatelům, aby mohli  materiál co nejlépe konzumovat,}
+\item{ponouknat uživatele, aby dali co nejkvalitnější přispěvek.}
+\end{enumerate}
+
+Pokud je mi známo, není žádného projektu se srovnatelným východiskem. Můžeme
+však porovnávat jednotlivé aspekty, vyskytující se v~jiných aplikacích.
+
+\subsection{Programy pro přepis}
+\label{ssec:diff:trans}
+
+Nejpodobnější a přitom rozšířený typ aplikace je pro přepis mluveného slova
+člověkem. Porovnejme tyto dva úkoly a zpytujme hlavní rozdíly. K~porovnání
+vezměme
+\begin{enumerate}
+\item{
+    Transcriber\footnote{trans.sourceforge.net}, klasický svobodný program
+    napsaný v~TCL,
+}
+\item{
+    oTranscribe\footnote{otranscribe.com}, svobodný moderní webový přepisovací
+    nástroj a
+}
+\item{
+    Transcribe\footnote{transcribe.wreally.com}, komerční webový přepisovací
+    nástroj.
+}
+\end{enumerate}
+
+Každé číslo v~seznamu níže označují program, pro který platí ten který výrok. Ku
+příkladu z~nich jen Transcriber umožňuje anotaci mluvčích, proto u druhé položky
+stojí pouze číslo (1).
+
+
+
+\noindent
+\begin{tabularx}{\textwidth}{
+    @{\hspace{1.5em}}% Space for left bullet
+    >{{\hsize=0.9\hsize}\leavevmode\llap{\textbullet~}\raggedright}% Left bullet + formatting of column
+    X% Left column specification
+    @{\hspace{0.2em}}
+    >{\hsize=0.2\hsize}
+    X
+    @{\quad\hspace{1.5em}}% Space between columns + right bullet space
+    >{\leavevmode\llap{\textbullet~}\raggedright\arraybackslash}% Right bullet + formatting of column
+    X% Right column specification
+    @{}% No column space on right
+  }
+  \em{přepisovací programy}: & & \em{moje aplikace}: \\
+  jsou optimalizované pro pořízení přepisu od nuly; &
+    (1,2,3) &
+      vždy vychází z~existence předchozího přepisu; \\
+
+  umožňují anotaci mluvčích; &
+    (1) &
+      předpokládá, že všechna slova pocházejí od jednoho mluvčího; \\
+
+  nepotřebují kontrolu kvality: uživatel může přepisovat dle libosti a konečným
+  měřítkem je jeho vlastní spokojenost; &
+    (1,2,3) &
+      vyžaduje přesnost přepisu neboť tento je použit pro trénování
+      statistických modelů; \\
+
+  zarovnávají na úrovni frází, pokud vůbec; &
+    (1)\footnote{
+        Transcriber explicitně zarovnává text s mluveným slovem, oproti zbylým
+        dvěma, které toliko umožňují přidání časových značek do přepisu.
+    } &
+      zarovnává na úrovni slov, interně na úrovni fonémů; \\
+
+  točí se kolem uživatele: každý může přepisovat jakákoliv data si zvolí; &
+    (1,2,3) &
+      točí se kolem dat: sbírka nahrávek je středobodem aplikace a přepisovat
+      lze pouze ji; \\
+
+  předpokládá, že přepisovat je uživatelův záměr; &
+    (1,2,3) &
+      předpokládá, že uživatel chce poslouchat, popř. vyhledávat nebo číst
+      s~poslechem, a k~přepisu ho nutno přimět; \\
+
+  nesdílejí data mezi uživateli; &
+    (1,2)\footnote{Transcribe podporuje kolaborativní přepis} &
+      musí počítat s~kolizemi. \\
+\end{tabularx}
+
+\vspace{5mm}
+
+Navzdory těmto odlišnostem se v~přepisovacím softwaru skrývá mnoho poučného.
+Snadnost provádění běžných úkonů, jako pozastavení a obnovení přehrávání či
+posun jsou pro uživatelský prožitek (UX) stěžejní a tím i pro množství a kvalitu
+příspěvků. I způsob synchronního zobrazení textu se zvukem má velký dopad a
+v~potenciálních přístupech je značná svoboda pro variaci.
+
+\subsection{Wiki}
+
+Tam, kde se moje aplikace odchyluje od přepisovacích programů, tam do značné
+míry připomíná wiki: komunitní platformu, která slouží uživatelům včetně
+přispěvatelů, ale kde kvalita příspěvků je podstatná, zatímco samotná
+spokojenost přispěvovatelova nemá takovou důležitost.
+
+Jeden podstatný rozdíl oproti wiki je, že wiki je kreativní, kdežto náš úkol je
+mechanický. Uživatel má pramálo prostoru pro vlastní invenci: poskytnutí jiného
+než doslovného přepisu se vnímá jako chyba.
+
+Populární wiki mají dobrá opatření pro konflikty v~editacích, což je oblast, kde
+bych se mohl nechat poučit. Zatím k~tomu ale nebyl důvod, protože pokud vždy
+použiji nejnovější verzi každého segmentu, výsledek zůstane konzistentní, i když
+segment od uživatele A padne do širšího přepisu od uživatele B.
+
+V přepisu, jak se zobrazuje návštěvníkům, nově odeslaný segment přepisu vždy
+přepíše stávající verzi, ale všechny příspěvky udržuji v~databázi, takže každý
+lze zvrátit {\em (undo)}, také lze shlukovat příspěvky podle jejich autora atd.,
+ale zatím něčeho takového nebylo zapotřebí.
+
+\subsection{Korpusy}
+
+Tento projekt není prvním, který zahrnuje komunitní péči o korpus. Za zmínku
+stojí Manually annotated sub-corpus\cite{ide2010manually}, kde se anotace různého
+druhu střádají od dobrovolníků. Dále Wikicorpus\cite{reese2010wikicorpus},
+korpus článků z~Wikipedie s~určitou úrovní lingvistické anotace. Můj projekt
+může s~těmito v~budoucnu dosáhnout značné podobnosti, až se hlavní bod zájmu
+stočí od samotného přepisu k~anotaci.
+
+Je zde také CzEng\cite{bojar2008czeng}, česko-anglický paralelní korpus, kde
+velká část překladů pochází od dobrovolníků. Podobnost ve východisku je zde
+pozoruhodná, neboť v~obou projektech se z~původního materiálu dojde k~derivátu
+pomocí počítačového zpracování a chyby v~něm se pak komunitně opravují.
+V~případě CzEngu jde o strojový překlad, v~mém o strojový přepis. Nicméně
+specifika projektů přinášejí odlišné problémy a diktují odlišné přístupy.
+
+Marge (2009)\cite{5494979} zkoumá použití platformy Mechanical Turk k~získání
+přepisů mluveného slova. Mihalcea (2004)\cite{mihalcea2004building} prezentuje
+webové rozhraní pro desambiguaci významu slov (word-sense disambiguation) a
+zaměřuje se především na ošetření neshod mezi anotátory.
+
+\section{Popis webové aplikace}
+
+Aplikace sestává z~několika {\em pohledů\footnote{Pohled ve smyslu ,,view''
+z~architekturního přístupu ,,model - view - controller''. Podobně jako autoři
+frameworku Django, pojmem pohled - view míním jednu stránku definovanou cestou
+v~URL i s~její funkcionalitou.}}:
+\begin{enumerate}
+\item{úvodní stránky se seznamem nahrávek, kde každý záznam odkazuje na detailní
+pohled,}
+\item{detail nahrávky, kde je možné přehrávání, zobrazuje se přepis tento se dá
+editovat,}
+\item{výsledky vyhledávání, kde každý záznam obsahuje úryvek odpovídající
+vyhledávanému dotazu a odkazuje na příslušnou pasáž nahrávky v~detailním
+pohledu,}
+\item{různé statické podstránky s~obecnými informacemi, manuálem atd.}
+\end{enumerate}
+
+Úvodní stránka má
+dvousloupcový formát, kde vlevo je rozbalovací seznam kategorií a vpravo
+lineární seznam nahrávek. Jednotlivé kategorie jsou pak skrolovacími odkazy
+do~pravého sloupce a podle stupně skrolování se příslušná kategorie sama
+rozbalí (tzv. scrollspy).
+
+Pro lepší přehlednost a v souladu s principem Separation of Concerns je seznam
+nahrávek pouze na~úvodní stránce.
+
+Podrobněji se budu zabývat pouze pohledem detailu nahrávky.
+Obrázek~\ref{fig:scn1lab} ukazuje rozhraní v~průběhu přehrávání.
+
 \section{Prototyp}
 
 Webové rozhraní, umožňující přístup zájemcům k~nahrávkám a jejich přepisu, bylo
@@ -411,14 +585,7 @@ vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005com
 
 Crowdsourcing, přístup založený na komunitní spolupráci nebo zapojování
 dobrovolníků nabývá na popularitě při získávání hodnot, které by jinak byly
-neúnosně drahé. Zmiňme např. Mihalcea (2004)\cite{mihalcea2004building}, kde se
-deleguje desambiguace významů slov na dobrovolníky pomocí webového rozhraní.
-Wikicorpus\cite{reese2010wikicorpus}, jakož i MASC\footnote{Manually annotated
-subcorpus}\cite{ide2010manually} od dobrovolníků sbírají anotace. Bojar
-(2008)\cite{bojar2008czeng} pro CzEng také sbírá mnoho překladů od dobrovolníků.
-Marge (2009)\cite{5494979} zkoumá možnosti využití technologie Mechanical Turk
-pro získání přepisů mluveného slova.
-Naproti tomu např. Maekawa (2000)\cite{maekawa2000spontaneous} popisuje tvorbu
+neúnosně drahé, viz podsekci~\ref{ssec:setting-corpora}. Nicméně např. Maekawa (2000)\cite{maekawa2000spontaneous} popisuje tvorbu
 mluveného korpusu spontánní japonštiny s~využitím placených anotátorů.
 
 Ve většině případů je kvalita pro anotaci dat velmi důležitá, proto je aspoň
@@ -462,10 +629,9 @@ zlou vůli.
 
 Krom zachycení chybného přepisu slouží nucené zarovnání k~přesné synchronizaci
 na časové ose. Tento prvek zcela chybí prakticky ve všech programech pro přepis.
-Ku příkladu Transcriber\footnote{http://trans.sourceforge.net/}, vyzrálý
-svobodný přepisovací program pro Linux očekává časové zarovnávání na úrovni
-frází ze strany uživatele. Transcribe\footnote{https://transcribe.wreally.com/},
-komerční webový nástroj pro přepis nechává uživatele přidat časové značky
+Ku příkladu Transcriber očekává časové zarovnávání na úrovni
+frází ze strany uživatele. Transcribe
+nechává uživatele přidat časové značky
 kamkoliv do textu. Není zde žádný akustický model, tedy nic, vůči čemu provádět
 zarovnání.
 
@@ -473,7 +639,7 @@ zarovnání.
 \label{ssec:porizeni-fonetickeho-prepisu}
 
 Fonetický přepis je nezbytný pro trénování akustického modelu. Pořizuje se
-provedením nuceného zarovnání na každý {\em ortograficky}\footnote{Na pravopis jako takový se důraz neklade. Ortografickým přepisem myslím standardní zápis.} manuálně přepsaný segment. Pokud je více
+provedením nuceného zarovnání na každý {\em ortograficky} manuálně přepsaný segment. Pokud je více
 výslovnostních variant, automaticky se zvolí ta, která lépe odpovídá akustickému
 modelu. Na to je potřeba pořídit výslovnostní varianty každého slova. Používám
 kombinaci pravidlového převodníku inspirovaého Psutkou et
