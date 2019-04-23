@@ -321,7 +321,63 @@ Na zobrazení přepisu byly kladeny tyto požadavky:
 }
 \end{enumerate}
 
-Skloubit tyto požadavky je obtížnější, než by se mohlo zdát.
+Skloubit tyto požadavky je obtížnější, než by se mohlo zdát. Zejména
+responzivita se těžko slučuje s~ostatními body. Proč?
+
+Body~\ref{feats:item:curword} až~\ref{feats:item:clickable} volají po tom, aby
+každé slovo bylo obaleno ve vlastním elementu.
+Bod~\ref{feats:item:showall} a medián počtu slov v~nahrávce zvíci šesti tisíc
+dává dohromady šest tisíc elementů \texttt{span} jen pro statické zobrazení
+textu.
+
+Může se zdát, že to není takový problém, ale ovlivňuje to responzivitu a
+paměťovou náročnost stránky.
+
+V~původní, první verzi webové aplikace, jsem toto vyřešil obětováním
+bodu~ref{feats:item:showall}: zobrazovaly se jen tři řádky textu, přičemž právě
+přehrávané slovo se vždy drželo v~tom prostředním. Ukazuje to
+obrázek~\ref{fig:makonfm} jen s~tím, že právě přehrávané slovo je v~prvním
+řádku, poněvadž se přehrává začátek nahrávky. Díky pokroku ve webových
+standardech a jejich podpoře ze strany prohlížečů je nyní možné řešení.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.7]{rc/makonfm-cs-1.png}
+\caption{Původní webové rozhraní z~roku 2012}
+\label{fig:makonfm}
+\end{figure}
+
+\subsection{Řešení}
+
+Můžeme využít šťastného faktu, že ručně přepsaná slova a automaticky přepsaná
+slova mají tendenci se shlukovat. Průměrný počet slov v~jednom příspěvku je 7,9.
+Navíc drtivá většina takových segmentů bezprostředně navazuje na další ručně
+přepsané segmenty.\footnote{Medián počtu shluků je 1 (většina nahrávek nemá
+žádné ručně přepsané slovo), maximum je 1109. Medián pouze z~nahrávek, které
+obsahují ruční korekce, je 8.}
+Z~toho plyne, že obalení každého souvislého shluku manuálně či automaticky
+přepsaných slov do zvláštního HTML elementu nepředstavuje problém, což řeší
+bod~\ref{feats:item:manualdistinct}.
+
+Bod~\ref{feats:item:selectable} lze implementovat s~použitím metody objektového
+modelu dokumentu ({\em DOM}) \texttt{document.selection} a objektů
+\texttt{Range}, které umožňují nalézt nejhlubší HTML elementy a pozice v~jejich
+textu, kde začíná a končí označený úsek. Díky tomu, že délka slov je známa, mohu
+z~označeného úseku dovodit odpovídající slova v~přepisu.
+
+Body~\ref{feats:item:curword} a~\ref{feats:item:clickable} se dá implementovat
+dvěma způsoby: Buďto zabalením přehrávaného a vybraného slova do zvláštního
+elementu anebo vykreslením zvýrazňujícího obdélníku na pozadí slova.
+
+Výhodou obalení slov elementem by byla větší robustnost a menší náchylnost
+k~chybám. Nicméně neustálé změny v~DOMu při přehrávání s~potenciálními častými
+operacemi {\em reflow}\footnote{Při operaci reflow prohlížeč přepočítává pozice
+všech elementů a překresluje je.} hovoří proti tomuto řešení. Nalézt přesné
+pozice slova a vykreslení obdélníku přesně pod ním\footnote{Pod ním na ose Z.
+Přes něho na osách X, Y.}, vyhnout se chybám v~pozicování a udržet
+obdélník na správném místě i po změně velikosti okna či odskrolování, to je
+dozajista výzva, nicméně přesto jsem zvolil tuto cestu. Navýšení výkonnosti pro
+běžné používání převažuje potenciální chyby v~okrajových případech, najmě když
+eventuální chyby nejsou kritické a zmizí při dalším přehrávání.
 
 \section{Prototyp}
 
