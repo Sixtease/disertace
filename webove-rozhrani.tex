@@ -148,6 +148,72 @@ zaměřuje se především na ošetření neshod mezi anotátory.
 
 \section{Popis webové aplikace}
 
+Webová aplikace, sloužící k~přehrávání a sběru přepisů, existuje ve dvou
+verzích. První, prototyp, byl implementován hned za začátku projektu v~roce
+2012 a popisuje ho článek Krůza, Peterek 2012\cite{kruuza2012making}. Druhá,
+modernější verze začala vznikat na konci roku 2016 a poprvé byla nasazena na
+konci září 2017. Tu popisuje článek Krůza, Kuboň
+2018\cite{biblio:KrKuSecondGenerationWeb2018}.
+
+\subsection{Prototyp}
+
+První implementace byla založena na přehrávači \textit{jPlayer}, modulu pro
+knihovnu \textit{jQuery}, který využívá standard HTML5 s~jeho elementem
+\texttt{<audio>} a technologii \textit{Adobe Flash}. Pro~dynamickou odezvu
+zobrazených prvků na~změny v~datovém modelu jsem použil knihovnu
+\textit{knockout}.
+
+Aplikace měla formu jediné stránky s~rozbalovatelným výběrem nahrávky,
+ovládacími prvky přehrávače a třemi řádky přepisu. Při označení části
+zobrazeného přepisu se stránka překryla rozhraním pro opravu přepisu, jež zvu
+\textit{editačním okénkem}. V~editačním okénku se zobrazilo vstupní pole
+(\texttt{<textarea>}) s předvyplněným současným přepisem, ovládací prvky pro
+přehrátí odpovídající pasáže, odeslání opraveného přepisu a opuštění editačního
+okénka.
+
+%Každé slovo s~sebou neslo informaci o~svojí pozici v~nahrávce
+%s~přesností na~setiny sekundy, výslovnost, zápis, slovníkovou formu, délku ticha
+%za~slovem, informaci o~tom, zda bylo manuálně přepsáno nebo automaticky
+%rozpoznáno, a v~případě automaticky rozpoznaných slov \textit{confidence
+%measure} čili míru jistoty rozpoznání.
+
+%Převod ze~zápisu slova do~jeho fonetické podoby se děje na~základě pravidlového
+%algoritmu z~dílny Doc. Pavla Ircinga po~úpravě od~Mgr.~Nina Peterka, Ph.D. Tento
+%algoritmus zahrnuje časté výjimky z~českých výslovnostních pravidel, ale
+%neobsahuje rozsáhlý výslovnostní slovník cizích slov. Karel Makoň navíc nezřídka
+%hovoří o~osobách, jejichž jména se v~mnoha korpusech neobjeví vůbec.
+
+Nad rámec výše popsaných funkcionalit přibyly další na~základě přání uživatelů a
+autorovy potřeby:
+
+\begin{itemize}
+\item{indikace, do~jaké míry je která nahrávka
+přepsána\footnote{\label{fn:not-in-v2}Tato
+funkcionalita momentálně není implementována v~nové verzi aplikace.},}
+\item{manuální posouvání hranic přepisovaného zvukového
+úseku\footnotemark[\getrefnumber{fn:not-in-v2}],}
+\item{úprava zápisu slova s~ponecháním výslovnosti,}
+\item{identifikace uživatelů včetně sezení, prohlížeče atp.,}
+\item{vyhledávání v~přepisech.}
+\end{itemize}
+
+Tato původní verze posloužila k~přepsání asi 600 tisíc slov a běžela asi 5 let,
+než bylo nutné ji nahradit.
+
+Pro kompletní přepis aplikace se postupně objevilo několik důvodů. Hlavním
+z~nich bylo, že původní aplikace mohla jen těžko sloužit pro širokou veřejnost
+jako prostředek k~popularizaci nahrávek. Dalším důvodem bylo, že některé kýžené
+funkce nebylo možné zprovoznit bez zásadních změn v~provedení. Především šlo
+o~ekvalizér, čili frekvenční korekci při poslechu. Akutním důvodem pak byl fakt,
+že všechny významné prohlížeče opouštěly podporu Flashe.
+
+\subsection{Základní rysy druhé verze}
+
+Pro novou verzi jsem zvolil technologie React + Redux\cite{abramov2015redux} jako aplikační rámec, Web
+Audio API\cite{adenot2013web} jako platformu pro nakládání se~zvukem a Twitter Bootstrap jako základ
+pro vzhled prvků. Zdrojový kód píšu v~ECMAScript~6 a o~kompilaci se stará
+webpack.
+
 Aplikace sestává z~několika {\em pohledů\footnote{Pohled ve smyslu ,,view''
 z~architekturního přístupu ,,model - view - controller''. Podobně jako autoři
 frameworku Django, pojmem pohled - view míním jednu stránku definovanou cestou
@@ -379,147 +445,36 @@ dozajista výzva, nicméně přesto jsem zvolil tuto cestu. Navýšení výkonno
 běžné používání převažuje potenciální chyby v~okrajových případech, najmě když
 eventuální chyby nejsou kritické a zmizí při dalším přehrávání.
 
-\section{Prototyp}
+Efektivitu repozicování obdélníku podporuje i fakt, že se dají dopředu spočítat
+souřadnice všech slov najednou a pak je přepočítat jen ve dvou případech:
+1) při zřídkavé události změny velikosti okna a
+2) když se opravený segment vkládá do zobrazeného přepisu, ve kterémžto případě
+je nutno souřadnice přepočítávat pouze pro slova, která jsou v~dokumentu za
+vloženým segmentem.\footnote{Dalo by se optimalizovat dále a zastavit přepočet
+v~momentě, kdy se nějakému slovu nezmění horizontální souřadnice. Pak by stačilo
+připočíst rozdíl ve vertikální souřadnici všem následujícím slovům. Jinými
+slovy, pokud jeden řádek zůstane stejný, pak i všechny pod ním.}
 
-Webové rozhraní, umožňující přístup zájemcům k~nahrávkám a jejich přepisu, bylo
-od začátku plánovanou součástí projektu. Rozhraní bylo navrženo s~těmito
-požadovanými vlastnosmi:
+\subsection{Vizuální odlišení manuálního a automatického přepisu}
 
-\begin{itemize}
-\item{výběr nahrávky ze~seznamu,}
-\item{poslech nahrávky s~obvyklými ovládacími prvky přehrávače,}
-\item{zobrazení přepisu nahrávky,}
-\item{vyznačení právě přehrávaného slova,}
-\item{možnost provést změnu v~přepisu,}
-\item{automatické zarovnání přepisu se~zvukem,}
-\item{případné odmítnutí přepisu, pokud zarovnání selže (přepis neodpovídá
-vyřčeným slovům).}
-\end{itemize}
+Jak je vidět na obrázku~\ref{fig:scn1lab}, vykresluje se automatický přepis
+v~šedé a manuální v~černé. Proč jsem zvolil rozlišení barvou a ne standardním
+versus tučným písmem? Za prvé, standardní písmo je optimalizované pro čtení.
+Tučné písmo je na to, aby bodově zvýrazňovalo úseky. Když se použije na dlouhé
+pasáže, působí těžkopádně. Automatický přepis obsahuje mnoho chyb, takže nedává
+smysl ho optimalizovat pro ideální četbu.
 
-První implementace byla založena na přehrávači \textit{jPlayer}, modulu pro
-knihovnu \textit{jQuery}, který využívá standard HTML5 s~jeho elementem
-\texttt{<audio>} a technologii \textit{Adobe Flash}. Pro~dynamickou odezvu
-zobrazených prvků na~změny v~datovém modelu jsem použil knihovnu
-\textit{knockout}.
+Je ještě jeden praktický důvod. Když se varianty písma liší pouze v~barvě,
+nikoliv ve velikosti, a když segment automatického přepisu je beze změny odeslán
+jako zkorigovaný, pak jeho vložení do textu nezpůsobí reflow, což šetří
+výpočetní kapacitu a napomáhá responzivitě. Může se to zdát jako okrajový
+případ, ale domnívám se, že identifikace správně automaticky přepsaných slov je
+legitimní způsob přispívání, tak proč ho neoptimalizovat?
 
-Aplikace měla formu jediné stránky s~rozbalovatelným výběrem nahrávky,
-ovládacími prvky přehrávače a třemi řádky přepisu. Při označení části
-zobrazeného přepisu se stránka překryla rozhraním pro opravu přepisu, jež zvu
-\textit{editačním okénkem}. V~editačním okénku se zobrazilo vstupní pole
-(\texttt{<textarea>}) s předvyplněným současným přepisem, ovládací prvky pro
-přehrátí odpovídající pasáže, odeslání opraveného přepisu a opuštění editačního
-okénka.
-
-Šlo o~prostou statickou HTML stránku s~JavaScriptem. K~audiu se přistupovalo
-pomocí externí CDN, zatímco přepisy a API pro~zarovnávání oprav byly
-na~zvláštním serveru.
-
-Přepis byl uložen a přenášen ve~formátu \textit{JSONp}\footnote{JSON =
-JavaScript Object Notation, JSONp = JSON with Padding}, čili jako \textit{JSON}
-obalený v~javascriptové funkci kvůli zamezení problémů s~přístupem napříč
-doménami.
-
-%Každé slovo s~sebou neslo informaci o~svojí pozici v~nahrávce
-%s~přesností na~setiny sekundy, výslovnost, zápis, slovníkovou formu, délku ticha
-%za~slovem, informaci o~tom, zda bylo manuálně přepsáno nebo automaticky
-%rozpoznáno, a v~případě automaticky rozpoznaných slov \textit{confidence
-%measure} čili míru jistoty rozpoznání.
-
-%Převod ze~zápisu slova do~jeho fonetické podoby se děje na~základě pravidlového
-%algoritmu z~dílny Doc. Pavla Ircinga po~úpravě od~Mgr.~Nina Peterka, Ph.D. Tento
-%algoritmus zahrnuje časté výjimky z~českých výslovnostních pravidel, ale
-%neobsahuje rozsáhlý výslovnostní slovník cizích slov. Karel Makoň navíc nezřídka
-%hovoří o~osobách, jejichž jména se v~mnoha korpusech neobjeví vůbec.
-
-Nad rámec výše popsaných funkcionalit přibyly další na~základě přání uživatelů a
-autorovy potřeby:
-
-\begin{itemize}
-\item{indikace, do~jaké míry je která nahrávka
-přepsána\footnote{\label{fn:not-in-v2}Tato
-funkcionalita momentálně není implementována v~nové verzi aplikace.},}
-\item{manuální posouvání hranic přepisovaného zvukového
-úseku\footnotemark[\getrefnumber{fn:not-in-v2}],}
-\item{úprava zápisu slova s~ponecháním výslovnosti,}
-\item{identifikace uživatelů včetně sezení, prohlížeče atp.,}
-\item{vyhledávání v~přepisech.}
-\end{itemize}
-
-Tato původní verze posloužila k~přepsání asi 600 tisíc slov a běžela asi 5 let,
-než bylo nutné ji nahradit.
-
-\section{Verze 2}
-
-Pro kompletní přepis aplikace se postupně objevilo několik důvodů. Hlavním
-z~nich bylo, že původní aplikace mohla jen těžko sloužit pro širokou veřejnost
-jako prostředek k~popularizaci nahrávek. Dalším důvodem bylo, že některé kýžené
-funkce nebylo možné zprovoznit bez zásadních změn v~provedení. Především šlo
-o~ekvalizér, čili frekvenční korekci při poslechu. Akutním důvodem pak byl fakt,
-že všechny významné prohlížeče opouštěly podporu Flashe.
-
-Pro novou verzi jsem zvolil technologie React + Redux\cite{abramov2015redux} jako aplikační rámec, Web
-Audio API\cite{adenot2013web} jako platformu pro nakládání se~zvukem a Twitter Bootstrap jako základ
-pro vzhled prvků. Zdrojový kód píšu v~ECMAScript~6 a o~kompilaci se stará
-webpack.
-
-\subsection{Výběr nahrávky}
-
-První verze obsahovala všudypřítomný rozklikávatelný kategorizovaný seznam
-nahrávek. Toto jednoduché řešení mělo jen málo nevýhod. Jedna z~nich byla, že
-nešlo použít běžné textové vyhledávání. V~nové verzi je proto použit
-dvousloupcový formát, kde vlevo je rozbalovací seznam kategorií a vpravo
-lineární seznam nahrávek. Jednotlivé kategorie jsou pak skrolovacími odkazy
-do~pravého sloupce a podle stupně skrolování se příslušná kategorie sama
-rozbalí (tzv. scrollspy).
-
-Pro lepší přehlednost a v souladu s principem Separation of Concerns je seznam
-nahrávek pouze na~úvodní stránce a nikoliv všude.
-
-\subsection{Zobrazení přepisu}
-
-V~první verzi se zobrazovaly vždy tři řádky, kde v~prostředním bylo aktuálně
-přehrávané slovo. Výjimkou samozřejmě byly případy, kdy se přehrával začátek
-nebo konec nahrávky. Délka řádku odpovídala šířce okna prohlížeče. Takto malý
-rozsah zobrazeného textu byl zvolen proto, že aby bylo možné vizuálně odlišit
-ručně přepsaná slova od~automaticky rozpoznaných a od~nich ještě slovo aktuálně
-přehrávané, muselo být každé slovo obaleno ve~vlastním HTML elementu. Při~větším
-množství slov pak bylo rozhraní velice náročné na~výpočetní výkon a znatelně
-pomalé, což při synchronním zobrazování přepisu s~přehráváním zvuku není
-přijatelné.
-
-Zobrazení jen tří řádků mělo pochopitelně velké nevýhody. Především to, že se
-člověk nemohl zorientovat v~širším rámci nahrávky (jejíž průměrná délka je kolem
-hodiny) a že opět nebylo možné vyhledávat v~jejím rámci. Výhodou naopak bylo, že
-aktuálně přehrávané slovo bylo vždy snadné najít. Nemožnost označit a tedy ani
-přepsat příliš dlouhý úsek bylo pro uživatele možná někdy nepříjemné, ale
-redukovalo chyby jak v~přepisu, tak v~automatickém zarovnávání.
-
-Čtvero elementů, které je potřeba graficky odlišit, je: 
-\begin{enumerate}
-\item{automaticky přepsaná slova},
-\item{manuálně přepsaná slova,}
-\item{slovo aktuálně přehrávané,}
-\item{slovo vybrané kliknutím.}
-\end{enumerate}
-
-Zobrazení celého přepisu při zachování plynulosti a grafickém odlišení
-čtvera elementů bylo první velkou výzvou pro návrh stránky přehrávání.
-První, nezaslouženou pomocí k~tomu byl vývoj výkonu počítačů od~vzniku první
-verze, jakož i optimalizace prohlížečů na~rychlost. Množství elementů, které lze
-nyní realisticky zobrazit, se znatelně zvýšilo, ačkoliv naivní řešení zabalení
-každého slova stále není praktické. Druhým pomocným faktorem je, že manuálně a
-automaticky přepsaná slova se většinou vyskytují ve~větších shlucích. Jen
-v~málokterých souborech se často střídají manuálně a automaticky přepsané úseky.
-To vypovídá o~nevoli uživatelů k~jinému než kompletnímu, lineárnímu přepisu.
-% TODO: ref. aktivní učení
-Každý shluk manuálně respektive automaticky přepsaných slov stačí tedy zabalit
-do~jednoho elementu.
-
-Zvýraznění jednotlivých slov -- aktuálně přehrávaného a vybraného klikem myší --
-se realizuje pomocí umístění barevného rámečku pod~zvýrazněné slovo. To lze
-provést díky tomu, že prohlížeče nyní umožňují zjistit polohu označeného textu a
-označení lze provést automaticky.\footnote{Viz \texttt{getClientRects} a
-\texttt{Range} ve~webových standardech.}
+Přes to přese všechno automaticky přepsané úseky balím do elementů
+\texttt{<span>} a manuálně přepsané do elementů \texttt{<b>}, protože potom se
+rozlišení zachová při zkopírování textu z~webové stránky do textového editoru
+podporujícího formátování.
 
 \subsection{Web Audio API}
 
