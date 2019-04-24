@@ -35,11 +35,11 @@ První trénovací sadu jsem pořídil svépomocí přepisem asi 15 minut nahrá
 
 Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
 starší systém \textit{HTK}\footnote{HMM ToolKit; HMM = Hidden Markov Model}\cite{young2002htk} a
-modernější \textit{Kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
+modernější \textit{Kaldi}\cite{povey2011kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
 mého konzultanta Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~nichž jsem mohl
 čerpat.
 
-Akustický model jsem trénoval výhradně z~vlastníh dat.
+Akustický model jsem trénoval výhradně z~vlastních dat.
 % Obětoval jsem tedy
 % potenciální přínos většího množství trénovacích dat a upřednostnil trénování
 % přímo na~konkrétního mluvčího.
@@ -96,7 +96,7 @@ trénovacími iteracemi.
 \label{item:htktrain:triphones}
 
 Z~nuceného zarovnání máme přepis obohacený o~konkrétní fonetické realizace. Z~té
-se nyní snadno vytvoří transkripce trifonémová tak, že ke každému fonému přidáme
+se nyní snadno vytvoří přepis trifonémový tak, že ke každému fonému přidáme
 jeho levý a pravý kontext, pokud nejsou na~začátku nebo na~konci věty.
 
 Je-li fonémů 45, pak trifonémů je až $45^3 = 91125$. Ne všechny se v~trénovacích
@@ -210,7 +210,7 @@ V~tabulce~\ref{tab:phones} jsou fonémy uvedeny.
 \begin{table}[htpb]
 \fontspec{DoulosSIL}
 \begin{center}
-\begin{tabular}{|l|l|l|l||l|l|l|l|}
+\begin{tabular}{|l|l|l||l|l|l|}
 \hline
 IPA & PACal & grafém & IPA & PACal & grafém \\
 \hline
@@ -353,7 +353,7 @@ nabíledni techniky aktivního učení využít tak, aby se získávala co nejvh
 trénovací data.
 
 Podnikl jsem experiment, ve kterém jsem slova s~nízkou {\em confidence
-measure (c.m.)} (pod 0.3) červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
+measure (c.m.)} (pod 0,3) červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
 s~klesající c.m. Instruoval jsem pak uživatele aplikace, aby přednostně
 přepisovali věty, které jsou opticky co nejčervenější. Bohužel přirozené puzení
 uživatelů přepisovat nahrávku kompletně a lineárně od začátku způsobilo, že
@@ -370,10 +370,11 @@ raději navrátil do původního.
 \label{sec:confident}
 
 Skóre confidence measure se dá využít ještě jiným způsobem: lze vybrat všechny
-úseky v~korpusu kromě testovací sady, kde automatický přepis uvádí vysokou míru
+úseky v~korpusu kromě testovací sady\footnote{K zamyšlení: je zde opravdu nutné
+vynechat testovací data?}, kde automatický přepis uvádí vysokou míru
 c.m. a přidat tyto úseky do trénovací množiny. Tento experiment jsem provedl
 tak, že minimální délku úseku jsem stanovil na 1 sekundu, minimální počet
-obsažených fonémů na 10 a minimální c.m. na 0.6. Práh 0.6 jsem určil namátkovou
+obsažených fonémů na 10 a minimální c.m. na 0,6. Práh 0,6 jsem určil namátkovou
 kontrolou, která poukazovala na zanedbatelnou chybovost takových úseků. Celkem
 tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
 Chybovost rozpoznávání klesla zanedbatelně.
@@ -405,7 +406,7 @@ může mít různá znaménka, jsou {\em é ě} a {\em ú ů}. Přisoudil jsem p
 Klasická věta {\em příliš žluťoučký kůň úpěl ďábelské ódy} by se tedy zapsala
 jako \texttt{p'r'ili's 'zlu'tou'ck'y k'w'n 'up'jl 'd'abelsk'e 'ody}. Je jasné,
 že takové kódování by nebylo jednoznačně převoditelné na původní text v~obecném
-případě, kdy se v~textu mohou vyskytovat apostrofy a navíc by si neporadilo se
+případě, kdy se v~textu mohou vyskytovat apostrofy, a navíc by si neporadilo se
 slovy s~jinými znaky, ale pro trénovací data pro akustické modelování češtiny
 dostačuje. Věty, kde se vyskytují jiné znaky, z~trénovací sady vyřazuji. Případné
 apriorní apostrofy mažu.
@@ -425,7 +426,7 @@ možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovna
 v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
 
 Úspěšnost má DeepSpeech, jak jsem ho použil, znatelně nižší, než výchozí
-markovovský model, a sice 51.76\% word error rate. Připisuju to jednak chybné aplikaci jazykového modelu a
+markovovský model, a sice 51,76\% word error rate. Připisuji to jednak chybné aplikaci jazykového modelu a
 jednak tomu, že DeepSpeech predikuje na úrovni písmen, takže velice často je
 skoro celé slovo správně, až na jedno písmeno. Je možné, že 70 hodin trénovacích
 dat je pro tento systém příliš málo, ačkoliv manuál ani diskuze na fóru tomu
@@ -455,7 +456,7 @@ Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 
 Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
 modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
-nahrávek, také je jich nejméně: přesně 709 493 slov v~okamžiku psaní tohoto
+nahrávek, také je jich nejméně: přesně 712 388 slov v~okamžiku psaní tohoto
 textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
 představují 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
@@ -516,7 +517,7 @@ DeepSpeech (sekce~\ref{sec:deepspeech}) & 0,7666 & 1,1422 \\
 Proč je úspěšnost tak nízká? V~roce 2016 publikovali Mizera et
 al.\cite{mizera2016kaldi} sadu receptů na rozpoznávání řeči pro češtinu.
 Uvádějí jako state of the art techniky GMM-HMM a DNN-HMM a word error rate pro
-jednotlivé recepty mezi 8.49 a 48.47 podle povahy dat. Úspěšnost na korpusu
+jednotlivé recepty mezi 8,49 a 48,47 podle povahy dat. Úspěšnost na korpusu
 Karla Makoně v~tomto porovnání není vyloženě nízká. Zásadním faktorem je jistě
 kolísavá akustická kvalita nahrávek. Svoji roli zde jistě hraje i použití jednak
 zastaralého systému HTK a jednak pro češtinu jen ledabyle přizpůsobeného

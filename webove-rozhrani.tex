@@ -100,7 +100,7 @@ stojí pouze číslo (1).
 
 Navzdory těmto odlišnostem se v~přepisovacím softwaru skrývá mnoho poučného.
 Snadnost provádění běžných úkonů, jako pozastavení a obnovení přehrávání či
-posun jsou pro uživatelský prožitek (UX) stěžejní a tím i pro množství a kvalitu
+posun jsou pro uživatelský prožitek {\em (UX)} stěžejní a tím i pro množství a kvalitu
 příspěvků. I způsob synchronního zobrazení textu se zvukem má velký dopad a
 v~potenciálních přístupech je značná svoboda pro variaci.
 
@@ -126,6 +126,7 @@ lze zvrátit {\em (undo)}, také lze shlukovat příspěvky podle jejich autora 
 ale zatím něčeho takového nebylo zapotřebí.
 
 \subsection{Korpusy}
+\label{ssec:setting-corpora}
 
 Tento projekt není prvním, který zahrnuje komunitní péči o korpus. Za zmínku
 stojí Manually annotated sub-corpus\cite{ide2010manually}, kde se anotace různého
@@ -143,7 +144,7 @@ specifika projektů přinášejí odlišné problémy a diktují odlišné pří
 
 Marge (2009)\cite{5494979} zkoumá použití platformy Mechanical Turk k~získání
 přepisů mluveného slova. Mihalcea (2004)\cite{mihalcea2004building} prezentuje
-webové rozhraní pro desambiguaci významu slov (word-sense disambiguation) a
+webové rozhraní pro desambiguaci významu slov {\em (word-sense disambiguation)} a
 zaměřuje se především na ošetření neshod mezi anotátory.
 
 \section{Popis webové aplikace}
@@ -228,7 +229,7 @@ v~URL i s~její funkcionalitou.}}:
 \begin{enumerate}
 \item{úvodní stránky se seznamem nahrávek, kde každý záznam odkazuje na detailní
 pohled,}
-\item{detail nahrávky, kde je možné přehrávání, zobrazuje se přepis tento se dá
+\item{detail nahrávky, kde je možné přehrávání, zobrazuje se přepis a tento se dá
 editovat,}
 \item{výsledky vyhledávání, kde každý záznam obsahuje úryvek odpovídající
 vyhledávanému dotazu a odkazuje na příslušnou pasáž nahrávky v~detailním
@@ -240,7 +241,7 @@ pohledu,}
 dvousloupcový formát, kde vlevo je rozbalovací seznam kategorií a vpravo
 lineární seznam nahrávek. Jednotlivé kategorie jsou pak skrolovacími odkazy
 do~pravého sloupce a podle stupně skrolování se příslušná kategorie sama
-rozbalí (tzv. scrollspy).
+rozbalí (tzv. {\em scrollspy}).
 
 Pro lepší přehlednost a v souladu s principem Separation of Concerns je seznam
 nahrávek pouze na~úvodní stránce.
@@ -275,7 +276,7 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
     Informace o označeném slově:
     \begin{itemize}
     \item{
-        výskyt: slovo s~kontextuálním velkým písmenem,
+        výskyt: slovo s~kontextuálním velkým písmenem a
         interpunkcí, jak se nachází v~textu
         (navíc právě editované, jak prozrazuje označené iniciální písmeno),
     }
@@ -293,7 +294,7 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
     Ukládání:
     \begin{itemize}
     \item{přímý odkaz k~celé nahrávce ve formátu mp3,}
-    \item{označení celého přepisu pro snadné vložení (copy-paste);}
+    \item{označení celého přepisu pro snadné vložení {\em (copy-paste)};}
     \end{itemize}
 }
 \item{Grafický ekvalizér pro kompenzaci úzkopásmového šumu;}
@@ -302,7 +303,7 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
     \begin{itemize}
     \item{tlačítko pro pozastavení / pokračování,}
     \item{současná pozice,}
-    \item{posuvník (scrollbar) přehrávání,}
+    \item{posuvník {\em (scrollbar)} přehrávání,}
     \item{celková délka nahrávky;}
     \end{itemize}
 }
@@ -324,7 +325,7 @@ Vysvětlivky k~obrázku~\ref{fig:scn2lab}:
 \item{
     Editační okénko a v~něm:
     \begin{itemize}
-    \item{textové pole (textarea) předvyplněná stávajícím přepisem,}
+    \item{textové pole {\em (textarea)} předvyplněná stávajícím přepisem,}
     \item{tlačítko pro přehrání odpovídajícího segmentu,}
     \item{tlačítko pro uložení,}
     \item{
@@ -352,7 +353,7 @@ bylo přirozené a snadné.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.46]{rc/transcriber1.png}
-\caption{Uživatelské rozhraní Transcriberu}
+\caption{uživatelské rozhraní Transcriberu}
 \label{fig:transcriber}
 \end{figure}
 
@@ -375,7 +376,7 @@ Na zobrazení přepisu byly kladeny tyto požadavky:
 \item{
     Označení neprázdné množiny znaků (krom mezery) myší aby spustilo editační
     mód pro označený text doplněný na celá slova;
-    při úspěšném uložení změny, aby se tato vmísila do zobrazeného textu;
+    při úspěšném uložení změny aby se tato vmísila do zobrazeného textu;
     \label{feats:item:selectable}
 }
 \item{
@@ -400,14 +401,14 @@ responzivita se těžko slučuje s~ostatními body. Proč?
 Body~\ref{feats:item:curword} až~\ref{feats:item:clickable} volají po tom, aby
 každé slovo bylo obaleno ve vlastním elementu.
 Bod~\ref{feats:item:showall} a medián počtu slov v~nahrávce zvíci šesti tisíc
-dává dohromady šest tisíc elementů \texttt{span} jen pro statické zobrazení
+dává dohromady šest tisíc elementů \texttt{<span>} jen pro statické zobrazení
 textu.
 
 Může se zdát, že to není takový problém, ale ovlivňuje to responzivitu a
 paměťovou náročnost stránky.
 
 V~původní, první verzi webové aplikace, jsem toto vyřešil obětováním
-bodu~ref{feats:item:showall}: zobrazovaly se jen tři řádky textu, přičemž právě
+bodu~\ref{feats:item:showall}: zobrazovaly se jen tři řádky textu, přičemž právě
 přehrávané slovo se vždy drželo v~tom prostředním. Ukazuje to
 obrázek~\ref{fig:prototyp} jen s~tím, že právě přehrávané slovo je v~prvním
 řádku, poněvadž se přehrává začátek nahrávky. Díky pokroku ve webových
@@ -505,7 +506,7 @@ stažení a dekódování opravdu dlouho a navíc prohlížeč kvůli tomu spot�
 gigabyte operační paměti.
 
 Jsou plány na~to, aby Web Audio API umožnila dekódovat jen část
-nahrávky,\footnote{github.com/WebAudio/web-audio-api/issues/1305}, avšak
+nahrávky\footnote{github.com/WebAudio/web-audio-api/issues/1305}, avšak
 palčivost problému mne přiměla nečekat, viz následující sekci.
 
 Díky tomu, že Web Audio API umožňuje přehrávání binárních dat z~proměnné
@@ -536,7 +537,7 @@ nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
 skrze Web Audio API v~dohlednu, a k tomu jak odrazující dopad má nutnost
 stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
-než změnit způsob, jakým jsou nahrávky uloženy. Toto je popsáno v~článku Krůza 2019/1, na jehož bibliografické údaje se zatím čeká.
+než změnit způsob, jakým jsou nahrávky uloženy. Toto je popsáno v~článku Krůza 2019/1\cite{kruza2019restructuring}
 
 Nahrávky jsou uloženy v~několika instancích pro různé účely:
 
@@ -549,15 +550,13 @@ Nahrávky jsou uloženy v~několika instancích pro různé účely:
 
 Pouze poslední jmenovanou instanci je žádoucí ukládat tak, aby každý soubor byl
 jen tak velký, aby jeho stažení a dekódování trvalo únosně dlouho. V~ostatních
-případech je lépe zachovat uložení, kde jedna nahrávka odpovídající většinou
+případech je lépe zachovat uložení, kde jedna nahrávka odpovídá většinou
 jedné straně kazety či jednomu průchodu pásky z~kotouče na kotouč. Třetí a čtvrtá
 instance však navzdory rozdílnému účelu sdílejí tatáž data. Bylo proto nutné je
 duplikovat.
 
 \subsection{Délka segmentů}
 
-Délka úseků, na které nahrávky rozděluji, ovlivňuje, jak dlouho se každý segment
-bude stahovat a dekódovat.
 Délka úseků, na které nahrávky rozděluji, ovlivňuje, jak dlouho se každý segment
 bude stahovat a dekódovat.  Čas stahování a dekódování segmentu, který obsahuje
 slovo, na němž je kurzor při prvním požadavku o~přehrávání, je roven zpoždění od
@@ -572,8 +571,8 @@ mnoho času. Na druhou stranu s každým předělem vnášíme do přehrávání
 extra HTTP request s~nezanedbatelnou režií.
 
 Jako vhodný kompromis se jeví segmenty o délce 30 - 120 sekund. Velikost
-dvouminutového segmentu je v~komprimovaném formátu při mono/24KHz kolem 0.6MB a
-na Intel Core2 o 2,5GHz se dekóduje asi 1.6 sekundy.
+dvouminutového segmentu je v~komprimovaném formátu při mono/24KHz kolem 0,6MB a
+na Intel Core2 o 2,5GHz se dekóduje asi 1,6 sekundy.
 
 \subsection{Metody hledání bodů předělu}
 
@@ -661,11 +660,11 @@ protože takovou nahrávku bychom jednoduše nechali v~jednom souboru.
 
 Druhým případem, kdy úloha nemá řešení, je, když mezi dvěma sousedními pauzami
 je rozestup větší než 120 sekund. Takový případ nastává, když je samotné
-detekované ticho velmi dlouhé. Takové případy jsem řešil manuální úpravou.
+detekované ticho velmi dlouhé. Tyto případy jsem řešil manuální úpravou.
 
 Hledaný algoritmus se zdá být typickým příkladem pro dynamické programování:
 Nalezneme ideální rozdělení nahrávky, která obsahuje jen první slovo, a poté
-přidáváme slova a na základě dosavadního řešení a nového slova řešení
+přidáváme slova, načež na základě dosavadního řešení a nového slova řešení
 rozšiřujeme.
 
 Je ale i jednodušší varianta: Začneme s~množinou všech pauz a iterujeme přes ně
@@ -774,7 +773,7 @@ odpovídá.
 
 Dále se vychází z~existence akustického modelu pro nahrávky, viz kapitolu~\ref{kap:asr}.
 
-Díky těmto dvěma prvkům mohu provést nucené zarovnání (forced alignment) textového úseku
+Díky těmto dvěma prvkům mohu provést nucené zarovnání {\em (forced alignment)} textového úseku
 s~audiem. V~případě selhání zarovnání můžeme předpokládat, že úsek byl přepsán
 chybně, příspěvek odmítnout a dát tím uživateli zpětnou vazbu. Jelikož
 jednotlivé úseky odpovídají akustickému modelu v~různé míře, dochází k~falešně
@@ -967,7 +966,7 @@ představu o tom, jak si systém vede.
 
 Jednou z~věcí, které můžeme posoudit, jsou přijetí a odmítnutí příspěvků
 zarovnávačem. Celkem z~109640 pokusů o zarovnání jich 3419 bylo odmítnuto, což
-je 3.12\%. Manuálně jsem prošel 20 náhodně vybraných odmítnutých pokusů a
+je 3,12\%. Manuálně jsem prošel 20 náhodně vybraných odmítnutých pokusů a
 přišel jsem k~těmto číslům:
 \begin{itemize}
 \item{
@@ -1072,7 +1071,7 @@ nevyskytuje.
 \section{Backend}
 
 Popsaná webová aplikace, která je uživatelským rozhraním, spoléhá na aplikační
-rozhraní (API), odkud dostává aktuální přepisy, kam posílá příspěvky od
+rozhraní {\em (API)}, odkud dostává aktuální přepisy, kam posílá příspěvky od
 uživatelů, a na hosting, odkud stahuje zvukové soubory.
 
 \subsection{API}
@@ -1127,7 +1126,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
     \end{itemize}
 
     Verze se inkrementuje při každém příspěvku. Slouží k~tomu, aby se mohly cachovat
-    transkripce, ale aby se cache nepoužila, pokud někdo přepis změnil.
+    přepisy, ale aby se cache nepoužila, pokud někdo přepis změnil.
 }
 \item{
     Inicializace sezení
@@ -1221,7 +1220,7 @@ Poslední věcí v~databázi je fonetický slovník. Ten slouží ke sběru fone
 reprezentací slov s~nestandardní výslovností, jejichž výslovnost a psanou formu
 poskytují uživatelé.
 
-Transkripce se ukládají trojitě. Primárně na serveru v~souborech ve formátu JSONP.
+Přepisy se ukládají trojitě. Primárně na serveru v~souborech ve formátu JSONP.
 Tyto se při každé změně zálohují na externí cloudové úložiště. Do třetice se
 denně a na požádání exportují do HTML, které je přístupné z~CDN.
 CDN slouží též k~servírování samotných nahrávek.
