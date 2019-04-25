@@ -914,7 +914,7 @@ explicitně a např. sekvence {\em n i} se vždy vyjádří jako {\em ny}.
 
 V tabulce~\ref{tab:priklady-fonetiky} uvádím několik příkadů slov, jejich výslovností a fonetickým zápisem, jak jej
 produkuje algoritmus, pokud na vstup dostane příslušnou výslovnost ve formátu
-PACal:
+PACal.
 
 \begin{table}[htpb]
 \fontspec{DoulosSIL}
@@ -931,7 +931,7 @@ třít & tr̝̊iːt & t rsh ii t & tř'ít \\
 auto & aʊ̯to & aw t o & auto \\
 nauka & nauka & n a u k a & na'uka \\
 džbán & d͡ʒbaːn  & dzh b aa n & džbán \\
-odžít & odʒiːt & o d dz ii t & od'žít \\
+odžít & odʒiːt & o d zh ii t & od'žít \\
 odznak & od͡znak  & o dz n a k & odznak \\
 podzemí & podzɛmiː & p o d z e m ii & pod'zemí \\
 noc & not͡s  & n o c & noc \\
@@ -1008,7 +1008,7 @@ psaná forma                     & \#
             & fonetický zápis               & \# \\
 \hline
 Moody & 2 & moʔodi & 0 & muːdi & 4 & múdy, můdy & 2 \\
-Descartes & 2 & dɛst͡s artɛs  & 0 & dɛkaːrt & 4 & dekárt & 2   \\
+Descartes & 2 & dɛst͡sartɛs  & 0 & dɛkaːrt & 4 & dekárt & 2   \\
 Weinfurter & 30 & vɛinfʊrtɛr & 13 & vajnfʊrtr & 19 & vajnfurtr & 2 \\
 Michelangelo & 6 & mixɛlaŋgɛlo & 2 & mikɛlaŋd͡ʒ ɛlo  & 4 & mikelandželo & 0 \\
 \hline
@@ -1162,20 +1162,22 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
 }
 \item{
     Změna atributů zarovnaného slova v~přepisu \\
-    cesta: \texttt{/saveword}
-    metoda: \texttt{POST}
-    parametry:
     \begin{itemize}
-        \item{\texttt{wordform} (řetězec): slovo malými písmeny bez interpunkce,}
-        \item{\texttt{occurrence} (řetězec): slovo, jak se vyskytuje v~textu,}
-        \item{\texttt{fonet} (řetězec): fonémy oddělené mezerou, zavržený
-        parametr, používá se endpoint \texttt{subsubmit},}
-        \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od
-        začátku nahrávky v~sekundách,}
-        \item{\texttt{stem} (řetězec): identifikátor nahrávky,}
+        \item{cesta: \texttt{/saveword}}
+        \item{metoda: \texttt{POST}}
+        \item{parametry:
+            \begin{itemize}
+                \item{\texttt{wordform} (řetězec): slovo malými písmeny bez interpunkce,}
+                \item{\texttt{occurrence} (řetězec): slovo, jak se vyskytuje v~textu,}
+                \item{\texttt{fonet} (řetězec): fonémy oddělené mezerou, zavržený
+                parametr, používá se endpoint \texttt{subsubmit},}
+                \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od
+                začátku nahrávky v~sekundách,}
+                \item{\texttt{stem} (řetězec): identifikátor nahrávky,}
+            \end{itemize}
+        }
+        \item{odpověď: \texttt{\{ success: 1 \}}}
     \end{itemize}
-    odpověď: \texttt{\{ success: 1 \}}
-
     Editace slova v~přepisu. Používá se, když slovu, které je foneticky správně
     přepsané a zarovnané, je potřeba změnit ortografickou formu, např. u cizích
     slov, doplnit interpunkci atp.

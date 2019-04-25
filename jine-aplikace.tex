@@ -3,7 +3,7 @@
 
 Bylo mojí představou, že jakmile systém pro komunitní opravy přepisů vytvořím,
 bude o jeho aplikaci na ostatní sbírky dat zájem z~mnoha stran. Makoň přece není
-jediným duchovním učitelem, jehož jeho žáci nahrávali. Faktem však je, že se mi
+jediným duchovním učitelem, kterého jeho žáci nahrávali. Faktem však je, že se mi
 nepodařilo najít žádnou jinou komunitu, kde by tento scénář fungoval a kde by
 byl o společné přepisy zájem.
 
@@ -30,8 +30,9 @@ Pro natrénování akustického modelu jsem použil svobodný korpus CommonVoice
 organizace Mozilla.
 
 Hlasové ovládání funguje na principu rozpoznávání některého z~předem známé
-množiny výrazů, popřípadě jednoduché gramatiky. Navíc robustní jazykový model by
-zařízení neúměrně zatížil, proto jsem vyvinul mechanismus, pomocí něhož
+množiny výrazů, popřípadě jednoduché gramatiky. Robustní jazykový model by
+zařízení neúměrně zatížil, takže rozpoznávání řeči s~velkým slovníkem nepřipadá
+v~úvahu. Proto jsem vyvinul mechanismus, pomocí něhož
 rozpoznávání řeči má formu serveru a každá klientská aplikace rozhoduje o tom,
 jaká gramatika se bude právě používat. Umožňuje to systém rozpoznávání řeči
 Julius\cite{lee2001julius}\cite{lee2009recent}.
