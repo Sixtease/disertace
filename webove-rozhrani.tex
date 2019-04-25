@@ -6,7 +6,7 @@
 Mým dílčím cílem je co nejlepší ortografický\footnote{Na pravopis jako takový se důraz
 neklade. Ortografickým přepisem myslím standardní zápis.} a fonetický přepis
 tisícihodinového korpusu jednoho mluvčího rozděleného do přibližně hodinových
-celků. Existuje skupina lidí, které nahrávky zajímají. Tito lidé představují na
+celků. Existuje skupina lidí, kterou nahrávky zajímají. Tito lidé představují na
 jednu stranu potenciál, který mohu využít pro svůj účel, a na druhou stranu
 moji, abych tak řekl, cílovou skupinu, tedy ty, jimž bude produkt sloužit.
 
@@ -743,7 +743,7 @@ např. na Pražský závislostní korpus, můžeme si povšimnout, že od anotá
 vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005complex}.
 
 Crowdsourcing, přístup založený na komunitní spolupráci nebo zapojování
-dobrovolníků nabývá na popularitě při získávání hodnot, které by jinak byly
+dobrovolníků nabývá, na popularitě při získávání hodnot, které by jinak byly
 neúnosně drahé, viz podsekci~\ref{ssec:setting-corpora}. Nicméně např. Maekawa (2000)\cite{maekawa2000spontaneous} popisuje tvorbu
 mluveného korpusu spontánní japonštiny s~využitím placených anotátorů.
 
@@ -754,7 +754,7 @@ zapotřebí.
 
 Běžnou metodou kontroly kvality je mezianotátorská shoda. To má obrovskou
 nevýhodu, že každá část dat musí být anotována aspoň dvakrát, což snižuje
-výtěžnost aspoň o 50\%.
+výtěžnost nejméně o 50\%.
 
 Ještě jeden důvod hovoří proti jejímu použití v~případě tohoto projektu. Webová
 aplikace je dělaná pro lidi, kteří chtějí poslouchat Makoňovy nahrávky
@@ -787,12 +787,8 @@ podařit vnutit systému nesprávný přepis. Nepředpokládám však na straně
 zlou vůli.
 
 Krom zachycení chybného přepisu slouží nucené zarovnání k~přesné synchronizaci
-na časové ose. Tento prvek zcela chybí prakticky ve všech programech pro přepis.
-Ku příkladu Transcriber očekává časové zarovnávání na úrovni
-frází ze strany uživatele. Transcribe
-nechává uživatele přidat časové značky
-kamkoliv do textu. Není zde žádný akustický model, tedy nic, vůči čemu provádět
-zarovnání.
+na časové ose. Tento prvek zcela chybí prakticky ve všech programech pro přepis,
+viz porovnání v~podsekci~\ref{ssec:diff:trans}.
 
 \subsection{Pořízení fonetického přepisu}
 \label{ssec:porizeni-fonetickeho-prepisu}
@@ -811,7 +807,8 @@ Manuál k~aplikaci vyzývá uživatele, aby text přepisovali podle standardníh
 nekorigovali \fontspec{DoulosSIL} /ɲaːk/ \normalfont na {\em nějak}, nýbrž
 přepsali doslova jako {\em ňák}. Fonetický slovník obsahuje časté výslovnostní
 varianty, např. počáteční \fontspec{DoulosSIL} /v/ \normalfont ve slovech
-začínajících na \fontspec{DoulosSIL} /o/\normalfont {\em (vopice vobludná)}.
+začínajících na \fontspec{DoulosSIL} /o/\normalfont, tedy \fontspec{DoulosSIL}
+/vopit͡si  voblʊdnoʊ̯ /   \normalfont mohou přepsat jako {\em opici obludnou}.
 
 V~případě slov s~nestandardní výslovností, tedy primárně cizích slov, se od
 uživatelů žádá, aby slovo přepsali foneticky. Teprve po úspěšném zarovnání a
@@ -845,7 +842,7 @@ každého slova sestává z~těchto prvků:
     přepsaných.
 }
 \item{Confidence measure:
-    míra jistoty, se kterou bylo slovo predikováno, pouze u automaticky
+    míra jistoty, se kterou bylo slovo predikováno; pouze u automaticky
     přepsaných slov.
 }
 \item{Ticho:
