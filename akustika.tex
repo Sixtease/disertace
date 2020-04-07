@@ -131,10 +131,13 @@ v~bodech ticha, viz sekci~\ref{sec:segmenty}. Výsledná matice o rozměrech
 úseků pro tento účel zvětšil na 10 minut a tím dosáhl počtu 8146 úseků.
 
 Pro orientaci uvedu některé údaje z~matice podobnosti. 
-Průměrná vzdálenost je $1,67\cdot{}10^{35}$.
 Medián vzdálenosti je 55,8.
-Maximální vzdálenost je $3,40\cdot{}10^{38}$.
+Maximální vzdálenost je $3,40\cdot{}10^{38}$, ovšem ta nastává v~okrajových
+případech, bez zjevného důvodu patrného lidskému uchu. Bez této astronomické
+maximální vzdálenosti dosahují vzdálenosti hodnot do 27~814.
 Počet nulových vzdáleností je 275 z~celkových 33~174~585.
+
+
 
 Abychom tato čísla mohli interpretovat, porovnejme je se vzdálenostmi jiných
 zvuků, které si snad čtenář dokáže představit.
@@ -153,7 +156,7 @@ samotného malotraktoru 48,2 a Hrušínský od téhož 23,7.
 
 Vzdálenost mezi úryvky ze Slavností sněženek a PSP ČR se pohybují mezi 31,8 a
 127,9. Konkrétně Holišová má od Okamury vzdálenost 31,8 a samotný malotraktor od
-Okamury 127,9. Zde se rozdíly ukazují spíše nahodilými.
+Okamury 127,9.
 
 Jako třetí příklad uvedu dvě skladby z~populární hudby: Billie Jean od Michaela
 Jacksona, která je zvukově celou dobu téměř neměnná (což nic neubírá na její
@@ -161,16 +164,47 @@ kvalitě) a skladbu Shadow Sun od metalové skupiny Moonspell. Ta je žánrově 
 Billie Jean velmi vzdálená a obsahuje velice různorodé pasáže. Vzdálenost celých
 skladeb od sebe je 48,3. Vzdálenost sloky a refrénu v~rámci Shadow Sun je 46,5,
 vzdálenost refrénu Shadow Sun od Billie Jean je 299,0 a vzdálenost sloky Shadow
-Sun od Billie Jean je 47,4. Může se zdát zvláštní, že
-Billie Jean je o tolik podobnější celé skladbě Shadow Sun než jejímu izolovanému
-refrénu. Vyplývá z~toho, že přítomnost podobné pasáže je pro skóre více
-rozhodující než přítomnost rozdílné pasáže.
-Že hodnoty dávají smysl je patrno i z~toto, že se refrén Shadow Sun od všech
-ostatních vzorků liší hodnotou nad 200, kromě celé skladby Shadow Sun a
-její sloky, kde najdeme hodnoty pod 50.
+Sun od Billie Jean je 47,4.
 
 Vzdálenost hudebních úseků od poslanců se pohybuje od 23,1 (Jackson X
 Sklenák) do 519 (refrén Shadow Sun X Tomio Okamura). Vzdálenost hudebních
 úseků od Slavností sněženek se pohybuje od 27,0 (Jackson X Holišová) do 311
-(refrén Shadow Sun X malotraktor). Je pozoruhodné, že malotraktor s~lidským
-hlasu je metalovému refrénu podobnější než samotný malotraktor. 
+(refrén Shadow Sun X malotraktor).
+
+Je tedy patrno, že akustická variabilita korpusu Karla Makoně je i podle tohoto
+měřítka obrovská.
+
+\section{Shlukování}
+
+Kompenzovat akustické nedostatky znamená měnit akustické kvality dat tak, aby
+lépe odpovídaly nějakému kritériu. To může být subjektivní: aby se zvuk určitému
+posluchači lépe poslouchal. Může být také objektivní, strojově vyhodnotitelné,
+což pak umožní nasazení strojových metod.
+
+V~korpusu Karla Makoně se nevyskytuje asi žádná nahrávka ve vysoké kvalitě
+srovnatelné s~materiálem pořízeným ve studiových podmínkách. Velká část
+nahrávek, obzvlášť kazety z~let 1984 a dál, jsou veskrze srozumitelné a bez
+zásadních defektů. Z~celého korpusu jsem vybral množinu 431 souboru v~uspokojivé
+kvalitě.
+
+Tato referenční množina je mnohem konzistentnější co do akustické metriky než
+celý korpus, ale v~porovnání s~ilustračními příklady mimo korpus stále řádově
+divergentnější. Vzdálenosti se pohybují od 1,6 do 14~653 s~průměrem  54,7 a
+mediánem 9,40.
+
+Na množině úseků, které jsem porovnával akustickou metrikou, jsem provedl
+hierarchické shlukování. Vzdálenost clusteru jsem nastavil jako maximální
+vzdálenost mezi dvěma prvky, aby jednotlivé clustery byly co nejkompaktnější.
+
+\section{Kompenzace}
+
+Expertní manuální odstranění by bylo ideálním postupem pro získání nejlepšího
+možného výsledku, ale stejně jako v případě přepisu je pro velikost korpusu
+nedostupný. Krom toho je manuální čištění řemeslem, které neovládám.
+
+Jaké jsou možnosti automatického akustického zdokonalování signálu?
+
+% >>> np.mean(a)
+% 54.730708459073007
+% >>> np.median(a)
+% 9.3979599999999994
