@@ -415,22 +415,12 @@ DeepSpeech trénuji na stejné sadě jako výchozí markovovský systém, tedy n
 manuálních přepisech Karla Makoně. Jazykový model používám taktéž stejný, tedy trigramový, viz
 sekci~\ref{sec:jazykovy-model} o jazykovém modelování.
 
-DeepSpeech predikuje na úrovni písmen, takže v~některých případech umístil
-apostrof před neočekávaný znak. Také způsob, kterým DeepSpeech používá jazykový
-model, je svérázný. Dokud má akustický model důvěru ve svoji predikci,
-k~jazykovému modelu se neuchyluje. A pokud se uchýlí, vinou programátorské chyby
-výstup postrádá mezery.
-
 Bohužel vinou přímého mapování z~parametrizovaného audia na grafémy přicházíme o
 možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovnat
 v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
 
-Úspěšnost má DeepSpeech, jak jsem ho použil, znatelně nižší, než výchozí
-markovovský model, a sice 51,76\% word error rate. Připisuji to jednak chybné aplikaci jazykového modelu a
-jednak tomu, že DeepSpeech predikuje na úrovni písmen, takže velice často je
-skoro celé slovo správně, až na jedno písmeno. Je možné, že 89 hodin trénovacích
-dat je pro tento systém příliš málo, ačkoliv manuál ani diskuze na fóru tomu
-nenasvědčují.
+Úspěšnost má DeepSpeech, jak jsem ho použil, znatelně vyšší než výchozí
+markovovský model, a sice 20,90\% word error rate.
 
 \section{Jazykový model}
 \label{sec:jazykovy-model}
