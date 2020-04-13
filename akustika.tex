@@ -108,9 +108,35 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \label{fig:spectr-fasttalk}
 \end{figure}
 
-\section{Kompenzace akustických vad}
+Systematicky můžeme rušivý signál rozdělit takto:
+\begin{enumerate}
+\item{
+    aditivní šum, jevící se jako hučení až syčení a obzvlášť patrný v~tichých
+    pasážích,
+}
+\item{
+    stacionární nebo téměř stacionární rušení, například monotónní pískání na
+    několika frekvencích, které produkuji nekvalitní obvody magnetofonu
+    nebo mazací tón,
+}
+\item{
+    nestacionární ruseni, např. řeč na pozadí, bouchnutí dveří apod.,
+}
+\item{
+    velká ozvěna místnosti nebo špatně ekvalizovaný mikrofon zesilující
+    některé frekvence na úkor jiných,
+}
+\item{
+    nelineární zkreslení magnetofonu,
+}
+\item{
+    kolísání rychlosti.
+}
+\end{enumerate}
+Ty nastávají při záznamu na magnetofonový pásek. Při přehrávání dochází
+k~dalším.
 
-\subsection{Metrika}
+\section{Metrika}
 
 Předpokladem pro práci s~akustickými vlastnostmi dat je porovnávání na jejich
 základě. Je tedy nutné mít metriku, která by odrážela akustickou podobnost
@@ -127,7 +153,7 @@ nahrávek, ale podle těchto zlomů.
 Pro jednoduchost jsem nahrávky rozdělil do menších úseků a udělal matici
 akustické vzdálenosti na nich. Pokusil jsem se využít hotových úseků rozdělených
 v~bodech ticha, viz sekci~\ref{sec:segmenty}. Výsledná matice o rozměrech
-80~000 \times 80~000 však trpěla defekty při čtení a zápisu, proto jsem velikost
+80~000 × 80~000 však trpěla defekty při čtení a zápisu, proto jsem velikost
 úseků pro tento účel zvětšil na 10 minut a tím dosáhl počtu 8146 úseků.
 
 Pro orientaci uvedu některé údaje z~matice podobnosti. 
@@ -154,22 +180,11 @@ udělal něco pro rodinu`` z~filmu Slavnosti sněženek. Jednotliví mluvčí (B
 Holišová a Rudolf Hrušínský) mají vzájemnou vzdálenost 13,9. Holišová od
 samotného malotraktoru 48,2 a Hrušínský od téhož 23,7.
 
-Vzdálenost mezi úryvky ze Slavností sněženek a PSP ČR se pohybují mezi 31,8 a
-127,9. Konkrétně Holišová má od Okamury vzdálenost 31,8 a samotný malotraktor od
-Okamury 127,9.
-
-Jako třetí příklad uvedu dvě skladby z~populární hudby: Billie Jean od Michaela
-Jacksona, která je zvukově celou dobu téměř neměnná (což nic neubírá na její
-kvalitě) a skladbu Shadow Sun od metalové skupiny Moonspell. Ta je žánrově od
-Billie Jean velmi vzdálená a obsahuje velice různorodé pasáže. Vzdálenost celých
-skladeb od sebe je 48,3. Vzdálenost sloky a refrénu v~rámci Shadow Sun je 46,5,
-vzdálenost refrénu Shadow Sun od Billie Jean je 299,0 a vzdálenost sloky Shadow
-Sun od Billie Jean je 47,4.
-
-Vzdálenost hudebních úseků od poslanců se pohybuje od 23,1 (Jackson X
-Sklenák) do 519 (refrén Shadow Sun X Tomio Okamura). Vzdálenost hudebních
-úseků od Slavností sněženek se pohybuje od 27,0 (Jackson X Holišová) do 311
-(refrén Shadow Sun X malotraktor).
+Srovnejme ještě mluvenou řeč s~populární hudbou. Uvedu dva extrémní příklady, na
+které jsem narazil:
+Skladba Billie Jean od Michalea Jacksona má od poslance Sklenáka vzdálenost
+23,1, zatímco refrén skladby Shadow Sun od metalové skupiny Moonspell od
+poslance Okamury 519.
 
 Je tedy patrno, že akustická variabilita korpusu Karla Makoně je i podle tohoto
 měřítka obrovská.
@@ -198,13 +213,94 @@ vzdálenost mezi dvěma prvky, aby jednotlivé clustery byly co nejkompaktnějš
 
 \section{Kompenzace}
 
-Expertní manuální odstranění by bylo ideálním postupem pro získání nejlepšího
-možného výsledku, ale stejně jako v případě přepisu je pro velikost korpusu
-nedostupný. Krom toho je manuální čištění řemeslem, které neovládám.
+Akustické nedostatky ztěžují rozpoznávání řeči a jsou tak už dlouho předmětem
+bádání. Ku příkladu Gillespie a Atlas\cite{gillespie2002diversity} ukazují
+zdrcující vliv dozvuku (angl. {\em reverberation}) na rozpoznávání řeči pomocí
+markovovských modelů a zkoumají možnosti kompenzace. Jošioka et
+al.\cite{reverbmagazine} předkládají souhrn technik pro kompenzaci dozvuku, Ko
+et al.\cite{reverbaugment} digitálně simulují dozvuk v~trénovacích datech.
+Seltzer et al.\cite{dnnnoiserobust} se věnují tematice šumu v~rozpoznávání řeči
+založeném na hlubokých neuronových sítích.
 
-Jaké jsou možnosti automatického akustického zdokonalování signálu?
+Revoluční článek\cite{cyclegan}, v~němž Žú et al. představují CycleGAN, čili
+cyklicky konzistentní generativní oponentní síť, dal lidstvu do rukou mocný
+nástroj a zábavnou hračku, která našla využití pro odstraňování mlhy
+z~fotografií\cite{Engin_2018_CVPR_Workshops}, udělování cizích grimas
+tvářím\cite{jin2017faceoff}, v~biomedicíně\cite{yang2018biogan} a také pro
+zpracování mluvené řeči: Kaneko a Temeoka\cite{kaneko2017parallel} předkládají
+doménový transfer hlasu a Hoseini-Asl et al.\cite{hosseini2018malevoicegan} činí
+totéž pro účely rozpoznávání řeči. Nejblíže mému problému je Pascual et al.
+s~projektem SEGAN\cite{pascual2017segan}, kde se GAN používá pro odstranění
+šumu.
 
-% >>> np.mean(a)
-% 54.730708459073007
-% >>> np.median(a)
-% 9.3979599999999994
+CycleGAN je stvořena pro použití na dvou sadách dat, z~nichž každá reprezentuje
+určitou doménu, mezi nimiž lze najít mapovací funkci. V~případě korpusu Karla
+Makoně je jedna jasná doména akusticky relativně dobrých nahrávek a celý zbytek,
+který ovšem konzistentní doménu netvoří. Poškozené nahrávky trpí různými
+kombinacemi neduhů v~růnzné míře. Nelze proto CycleGAN přímo aplikovat na
+,,zdravé`` a ,,poškozené`` nahrávky. Jak by taky bylo lze nalézt funkci mapující
+nahrávku bez neduhů na poškozenou, když není jasné, jaké poškození by měla
+vykazovat. Tento směr sice není kýžený, ale pro natrénování dané architektury
+nezbytný.
+
+Adaptace GAN tak, aby si s~nekonzistentními daty na jedné straně převodu
+poradila, by jistě byla zajímavým a přínosným počinem, nicméně začít se dá
+využitím výše zmíněného shlukování, které poskytuje potřebné konzistentní
+domény poškozených nahrávek.
+
+Experiment jsem provedl na dvou shlucích: 1) na přebuzených nahrávkách a 2) na
+nahrávkách pořízených nízkou rychlostí 2,38cm/s. Oba shluky jsem vybral tak, aby
+měly maximální interní vzdálenost 25. Pro trénování jsem použil metodu
+navrhovanou dvojicí Kaneko a Tameoka\cite{kaneko2017parallel}, jak ji
+implementoval Lei Mao\footnote{github.com/leimao/Voice\_Converter\_CycleGAN}.
+Tréning běžel po 200 epoch.
+
+\subsection{Vyhodnocení}
+
+Tabulka~\ref{tab:ganeval} uvádí WER při automatickém přepisu na tom kterém
+shluku původně a po transferu.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l||r|r|}
+\hline
+                 & původní & po transferu \\
+\hline
+přebuzené        & 0.450   & 0.441 \\
+nízkorychlostní  & 0.685   & 0.939 \\
+\hline
+\end{tabular}
+\caption{chybovost WER u dvou skupin poškozených nahrávek před a po doménovém
+transferu}\label{tab:ganeval}
+\end{center}
+\end{table}
+
+Mírné, ale patrné umenšení chybovosti u přebuzených nahrávek sice samo o sobě
+nepřináší kýžené řešení problému s~neuspokojivými výsledky rozpoznávání
+poškozených nahrávek, ale poskytuje příslib potenciálu metody. Snad důležitější
+než zvýšená úspěšnost automatického přepisu je však zvýšený komfort při
+poslechu. Bohužel pro tento přínost zatím nemám kvantitativní vyhodnocení, ale
+subjektivně ho potvrdit mohu.
+
+U katastrofálního zvýšení chybovosti po transferu velmi poškozených nahrávek
+pořizovaných nízkou rychlostí je nutno se pozastavit.
+Obrázek~\ref{fig:gan:plzen} ukazuje, jak se u těchto nahrávek doménový transfer
+odrazil v~průběhu signálu a ve spektru. Obrázek~\ref{fig:gan:overdrive} ukazuje
+pro porovnání totéž u přebuzených nahrávek. Povšimněme si, jak u nahrávek
+pořízených nízkou rychlostí po přesunu zcela zmizela některá slova. Je-li signál
+příliš těžko odlišitelný od ruchů, transfer patrně raději změní takový úsek
+v~ticho.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.4]{rc/gan-plzen.eps}
+\caption{průběh signálu (nahoře) a spektrogram (dole) nahrávky pořízené
+rychlostí 2,38cm/s před doménovým transferem (vlevo) a po něm (vpravo)}
+\label{fig:plzen}
+\end{figure}
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.4]{rc/gan-overdrive.eps}
+\caption{průběh signálu (nahoře) a spektrogram (dole) přebuzené nahrávky
+před doménovým transferem (vlevo) a po něm (vpravo)}
+\label{fig:overdrive}
+\end{figure}
