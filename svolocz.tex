@@ -63,6 +63,7 @@ korpusu pro tréning rozpoznávání řeči je obé bezvýznamné: Označení ml
 z~principu, vynechání odkazů pro jejich řídkost.
 
 \subsection{Zarovnávání}
+\label{subsec:svolocz:zarovnavani}
 
 Jedna z~překážek použití stenografických přepisu pro trénování rozpoznávačů řeči
 je velmi volné párování neboli zarovnání přepisů ke zvuku. Každý zvukový záznam
@@ -115,7 +116,8 @@ slov}
 
 Kvalita trénovacích dat pro rozpoznávání řeči závisí i na tom, jak jsou
 rozdělena. Za prvé je žádoucí, aby byly trénovací vzorky podobně dlouhé
-jako testovací vzorky. V~případě automatického přepisu korpusu Karla Makoně lze
+jako testovací vzorky\cite{nagorski2003search}.
+V~případě automatického přepisu korpusu Karla Makoně lze
 nastavit délku vstupních úseků libovolně. V~obecném případě nelze předvídat.
 Za druhé je pro tréning výhodné, aby jednotlivé vzorky měly podobnou délku kvůli
 efektivnímu využití operační paměti grafické procesní jednotky. Stačí jeden
@@ -124,14 +126,44 @@ kraťoučkých vzorků způsobí, že se paměť při dávce zaplní jen málo a
 časem. Za třetí, chci-li, aby byla trénovací sada dala použitelná i pro ostatní,
 je dobré, aby se délkou vzorků příliš neodlišovala od ostatních datových sad.
 
+Nad to je ale důležité, aby přepis dokonale odpovídal obsahu. A protože
+vyřezáváme trénovací vzorky z~delších souborů, při čemž může dojít
+k~nepřesnostem, je záhodno volit místa řezu tak, aby padla pokud možno do
+delších pauz v~řeči. Je to týž problém jako v~sekci~\ref{sec:segmenty}. V~tomto
+případě jsem dospěl k~hranicím 12 - 30 sekund.
+
+\subsection{Výběr trénovacích vzorků}
+
+Po rozdělení desetiminutových nahrávek na úseky vhodné délkou pro trénink je
+nutné spárovat tyto úseky s~odpovídajícími úseky manuálních přepisů, a ty, které
+jsou spárovány spolehlivě, zařadit do samotné trénovací množiny.
+V~podsekci~\ref{subsec:svolocz:zarovnavani} jsem popsal, že máme párování
+jednotlivých slov v~automatickém a manuálním přepisu s~určitou mírou
+spolehlivosti a že automatický přepis je spárován se zvukovým záznamem. Zbývá
+tedy vybrat úseky, které můžeme považovat za spolehlivě přepsané, a zbytek
+zahodit.
+
+Nahrávky se překrývají tak, že z~každého čtrnáctiminutového souboru je jen deset
+minut pokryto odpovídajícím přepisem, takže zahodit musíme minimálně 40\% úseků.
+Dospěl jsem k~následujícím kritériím:
+
+\begin{enumerate}
+\item{Spolehlivost prvního a posledního slova v~úseku alespoň 70\%.}
+\item{Průměrná spolehlivost všech slov v~úseku alespoň 70\%.}
+\item{Alespoň 5 slov v~úseku.}
+\end{enumerate}
+
+
+
 %           cstest      selftest
 % ovm       0.728954    0.216131
 % bible     0.947226    0.091958
 % cucfgn    0.728446    0.316287
 % vystadial 0.739838    0.509930
 % svolocz   0.397490    0.083978
-% makon     0.776815    0.191772
+% makon     0.773216    0.191772
 % oral2013  0.607015    0.783525
+% all       0.283574    0.283574
 %
 % cucfgnOF  0.683059    0.141142
 % all\o                 0.130555
