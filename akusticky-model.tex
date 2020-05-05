@@ -31,6 +31,19 @@ vypadá takto:\begin{enumerate}
 První trénovací sadu jsem pořídil svépomocí přepisem asi 15 minut nahrávky
 \texttt{85-05A}.
 
+V~průběhu práce jsem sestavil dva zcela odlišné akustické modely: Jeden založený
+na skrytých markovovských modelech a jeden založený na neuronových sítích.
+Hlavním důvodem bylo to, že když jsem začínal, nebyly ještě hluboké neuronové
+sítě tak rozšířené. Jsou ale i dvě další výhody, které použití markovovských
+modelů opodstatňují: 1) Nepotřebují tolik trénovacích dat, takže se více hodí do
+začátku, kde je přepsaná množina malá, a 2) umožňují získat přesné zarovnání
+slov a hlásek na časové pozice ve zvukovém záznamu. Dosud neznám žádný nástroj
+založený na hlubokých neuronových sítích, který by toto poskytoval.
+
+Nejdříve popíšu výstavbu markovovského modelu a poté od
+sekce~\ref{sec:deepspeech} se budu věnovat modelu založenému na neuronových
+sítích.
+
 \section{Základní tvorba akustického modelu}
 
 Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
@@ -395,32 +408,34 @@ Nezisková organizace Mozilla vydala vlastní svobodný nástroj pro rozpoznáv�
 řeči DeepSpeech\cite{hannun2014deep} založený na
 TensorFlow\cite{abadi2016tensorflow}.
 
-V~době, kdy jsem s~DeepSpeech experimentoval, nebyla mi známa žádná implementace
-na češtinu. DeepSpeech dovoluje vstup pouze ve znakové sadě písmen bez
-diakritiky a několika málo interpunkčních znamének. Provedl jsem
-tedy jednoduché kódování češtiny tak, že každé diakritické znaménko se vyjádří
-jako apostrof před modifikovaným písmenem. Jediné dva případy, kdy jeden znak
-může mít různá znaménka, jsou {\em é ě} a {\em ú ů}. Přisoudil jsem proto znaku
-{\em ě} zápis \texttt{'j} a znaku {\em ů} zápis \texttt{'w}.
+Akustický model jsem natrénoval dvojí: Jednak čistě na manuálních přepisech
+Makoňových nahrávek (v~době psaní 100 hodin) a jednak na agregované sadě popsané
+v~sekci~\ref{sec:csasr:results}.
 
-Klasická věta {\em příliš žluťoučký kůň úpěl ďábelské ódy} by se tedy zapsala
-jako \texttt{p'r'ili's 'zlu'tou'ck'y k'w'n 'up'jl 'd'abelsk'e 'ody}. Je jasné,
-že takové kódování by nebylo jednoznačně převoditelné na původní text v~obecném
-případě, kdy se v~textu mohou vyskytovat apostrofy, a navíc by si neporadilo se
-slovy s~jinými znaky, ale pro trénovací data pro akustické modelování češtiny
-dostačuje. Věty, kde se vyskytují jiné znaky, z~trénovací sady vyřazuji. Případné
-apriorní apostrofy mažu.
+Model natrénovaný jen na Makoňových nahrávkách zkonvergoval po osmi epochách a
+dosáhl word error rate 19,2\% na testovací sadě. Druhý model jsem vytvořil tak,
+že jsem trénoval nejdříve na agregované trénovací sadě s~použitím Makoňovy
+heldout sady pro validaci. Tato část zkonvergovala po 16 epochách a dosáhla WER
+27,3\%. Následně jsem pokračoval v~tréninku na Makoňových nahrávkách. Tato část
+zkonvergovala po dvou epochách a konečné skóre bylo 23,5\% WER.
 
-DeepSpeech trénuji na stejné sadě jako výchozí markovovský systém, tedy na
-manuálních přepisech Karla Makoně. Jazykový model používám taktéž stejný, tedy trigramový, viz
-sekci~\ref{sec:jazykovy-model} o jazykovém modelování.
+Na testovací sadě má tedy vyšší úspěšnost model trénovaný jen na 100h Makoňových
+nahrávek, předče model trénovaný na 1500 hodinách. Onen druhý robustnější model
+má však mnohem lepší výsledky na velice poškozených nahrávkách, které jsem
+v~době výběru testovací sady ještě neměl k~dispozici, any byly digitalizovány
+mnohem později. Jedná se hlavně o nahrávky pořizované při nízké rychlosti
+převíjení pásky, zmiňované jednak v~sekci~\ref{sec:akustika:kompenzace} a jednak
+v~sekcích~\ref{sec:data:rec} a \ref{sec:data:digitisation}.
+
+Na kraťoučkém minutovém úseku jedné z~nejpoškozenějších nahrávek, který jsem
+přepsal, má ryze makoňovský model WER 94,1\%, zatímco robustní model má WER
+75,8\%.
+
+% TODO aplikovat csmak na voice transfer data
 
 Bohužel vinou přímého mapování z~parametrizovaného audia na grafémy přicházíme o
 možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovnat
 v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
-
-Úspěšnost má DeepSpeech, jak jsem ho použil, znatelně vyšší než výchozí
-markovovský model, a sice 20,90\% word error rate.
 
 \section{Jazykový model}
 \label{sec:jazykovy-model}
