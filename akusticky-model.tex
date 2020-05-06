@@ -500,30 +500,22 @@ určil fixně taktéž až v~průběhu projektu. Výrazně v~ní chybí přepisy
 nejméně srozumitelných nahrávek, které byly digitalizovány až po provedení
 většiny experimentů, a navíc k~nim pořizovat ruční přepisy je velice nesnadné.
 
-Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate.
+Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate. Je
+s~podivem, že model dotrénovaný na Makoňových nahrávkách má na obecné testovací
+množině větší úspěšnost než výchozí model trénovaný na všech datech, uvedená
+v~tabulce~\ref{tab:csasr:results}.
 
 \begin{table}[htpb]
 \begin{center}
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|l|l|}
 \hline
-testovací data      & \makecell{standardní\\ testovací\\ množina (50min)}
-                             & \makecell{5 minut\\ přebuzených záznamů}
-                                      & \makecell{
-                                          5 minut\\ záznamů pořízených\\
-                                          nízkou rychlostí
-                                      }
-                                               & \makecell{
-                                                   1 minuta obzvláště\\
-                                                   nesrozumitelného záznamu
-                                               } \\
+model & GMM & \makecell{ DNN trénovaný\\ na Makoňovi }      & \makecell{ DNN trénovaný\\ na různých sadách } \\
 \hline
-výchozí GMM model   & 46,3\% &        &        & \\
-\makecell{
-    DNN trénovaný\\ na Makoňovi
-}                   & 19,2\% & 45.0\% & 68,5\% & 94,1\% \\
-\makecell{
-    DNN trénovaný\\ na různých sadách
-}                   & 23,5\% & 34,8\% & 42,1\% & 75,9\% \\
+\makecell{standardní\\ testovací\\ množina (50min)} & 46,3\% & 19,2\% & 23,5\% \\
+\makecell{5 minut\\ přebuzených záznamů} & & 45.0\% & 34,8\% \\
+\makecell{ 5 minut\\ záznamů pořízených\\ nízkou rychlostí } & & 68,5\% & 42,1\% \\
+\makecell{ 1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\
+\makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{25,3\%} \\
 \hline
 \end{tabular}
 \caption{Chybovosti tří důležitých modelů na různých testovacích sadách}\label{tab:asr-scores}
