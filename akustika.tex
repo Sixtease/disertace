@@ -137,6 +137,7 @@ Ty nastávají při záznamu na magnetofonový pásek. Při přehrávání doch�
 k~dalším.
 
 \section{Metrika}
+\label{sec:akustika:metrika}
 
 Předpokladem pro práci s~akustickými vlastnostmi dat je porovnávání na jejich
 základě. Je tedy nutné mít metriku, která by odrážela akustickou podobnost
@@ -257,9 +258,15 @@ implementoval Lei Mao\footnote{github.com/leimao/Voice\_Converter\_CycleGAN}.
 Tréning běžel po 200 epoch.
 
 \subsection{Vyhodnocení}
+\label{sec:akustika:vyhodnoceni}
 
 Tabulka~\ref{tab:ganeval} uvádí WER při automatickém přepisu na tom kterém
-shluku původně a po transferu.
+shluku původně a po transferu. Toto porovnání bylo provedeno pomocí modelu
+natrénovaného pouze na promluvách Karla Makoně. Robustnější model popsaný
+v~sekci~\ref{sec:deepspeech} má chybovost na nízkorychlostních nahrávkách
+42,1\% %0.421338
+a 34,8\%  %0.348183
+na nahrávkách přebuzených.
 
 \begin{table}[htpb]
 \begin{center}
@@ -267,8 +274,8 @@ shluku původně a po transferu.
 \hline
                  & původní & po transferu \\
 \hline
-přebuzené        & 0.450   & 0.441 \\
-nízkorychlostní  & 0.685   & 0.939 \\
+přebuzené        & 45,0\%   & 44,1\% \\
+nízkorychlostní  & 68,5\%   & 93,9\% \\
 \hline
 \end{tabular}
 \caption{chybovost WER u dvou skupin poškozených nahrávek před a po doménovém

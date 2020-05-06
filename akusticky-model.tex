@@ -344,8 +344,9 @@ akustických podmínek v~rámci trénovacích a testovacích dat, viz Viikki a L
 1998\cite{viikki1998cepstral}. Princip této techniky spočívá v~tom, že se ode
 všech melfrekvenčních kepstrálních koeficientů odečte jejich průměr z~akusticky
 konzistentního úseku. Já toto poněkud hrubiánsky činím na celých nahrávkách,
-které nejsou vždy akusticky konzistentní, ale často ano a nalezení akusticky
-podobných množin je jedním z~mých plánů pro budoucí práci.
+které nejsou vždy akusticky konzistentní, ale často ano. a nalezení akusticky
+podobných množin je jedním z~mých plánů pro budoucí práci.\footnote{Tato úloha
+je již vyřešena a popsána v~sekci~\ref{sec:akustika:metrika} a následující.}
 
 Nabízí se však otázka, zda má smysl odečítat průměr z~celé nahrávky, nebo by to
 mělo být jen z~řečových událostí, tedy s~vynechaným tichem (šumem, hluky atd.)
@@ -355,7 +356,7 @@ izolovaných řečových událostí na základě zarovnaného automatického př
 jsem vynechal všechny fonémy \texttt{sil} a \texttt{sp}, a jednak sadu skriptů
 pro manipulaci se soubory MFCC.
 
-Celkový přínos pro úspěšnost rozpoznávání byl nulový (viz sekci~\ref{sec:evaluace}), ale aparát pro dekódování
+Celkový přínos pro úspěšnost rozpoznávání byl nulový, ale aparát pro dekódování
 a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
 
 \section{Aktivní učení}
@@ -390,7 +391,7 @@ tak, že minimální délku úseku jsem stanovil na 1 sekundu, minimální poče
 obsažených fonémů na 10 a minimální c.m. na 0,6. Práh 0,6 jsem určil namátkovou
 kontrolou, která poukazovala na zanedbatelnou chybovost takových úseků. Celkem
 tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
-Chybovost rozpoznávání klesla zanedbatelně.
+Chybovost rozpoznávání se statisticky významně nezměnila.
 
 \section{Neuronové sítě}
 \label{sec:deepspeech}
@@ -429,9 +430,8 @@ v~sekcích~\ref{sec:data:rec} a \ref{sec:data:digitisation}.
 
 Na kraťoučkém minutovém úseku jedné z~nejpoškozenějších nahrávek, který jsem
 přepsal, má ryze makoňovský model WER 94,1\%, zatímco robustní model má WER
-75,8\%.
-
-% TODO aplikovat csmak na voice transfer data
+75,8\%. Porovnání na větším, asi pětiminutovém úseku je uvedeno
+v~sekci~\ref{sec:akustika:vyhodnoceni}.
 
 Bohužel vinou přímého mapování z~parametrizovaného audia na grafémy přicházíme o
 možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovnat
@@ -465,7 +465,7 @@ nahrávek, také je jich nejméně: přesně 712 388 slov v~okamžiku psaní toh
 textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
 představují 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
-jsem nalezl, je Mononews z WMT obsahující 1 019 497 060 slov.
+jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
 
 Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy ve
 výše uvedeném pořadí. Aplikuji vyhlazování technikou
@@ -492,38 +492,47 @@ s~takovým slovem nebo takové slovo přeskočit.
 \section{Úspěšnost}
 \label{sec:evaluace}
 
-Poslední naměřená úspěšnost markovovského akustického modelu s~výše zmíněným
-jazykovým modelem je 67,83\% word precision\footnote{počet správně určených slov
-dělen počtem slov ve zlatém standardu} a 46,32\% word error rate.
+Poslední naměřená word error rate markovovského akustického modelu s~výše zmíněným
+jazykovým modelem je 46,3\%.
 
-Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada a testovací sadu
-jsem určil fixně taktéž až v~průběhu projektu, nelze jednotlivá historická skóre přímo
-porovnávat, musí se u každého experimentu pohlížet na to, jak změnil skóre
-oproti bezprostředně předcházejícímu.
+Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada, jsem testovací sadu
+určil fixně taktéž až v~průběhu projektu. Výrazně v~ní chybí přepisy těch
+nejméně srozumitelných nahrávek, které byly digitalizovány až po provedení
+většiny experimentů, a navíc k~nim pořizovat ruční přepisy je velice nesnadné.
 
-Tabulka~\ref{tab:asr-scores} uvádí seznam úspěšností jednotlivých experimentů.
+Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate.
 
 \begin{table}[htpb]
 \begin{center}
 \begin{tabular}{|l|l|l|}
 \hline
-experiment & \makecell{násobek\\ word\\ precision} & \makecell{násobek\\ word error\\ rate} \\
+testovací data      & \makecell{standardní\\ testovací\\ množina (50min)}
+                             & \makecell{5 minut\\ přebuzených záznamů}
+                                      & \makecell{
+                                          5 minut\\ záznamů pořízených\\
+                                          nízkou rychlostí
+                                      }
+                                               & \makecell{
+                                                   1 minuta obzvláště\\
+                                                   nesrozumitelného záznamu
+                                               } \\
 \hline
-výchozí GMM model  & 1 & 1 \\
-vysoké c.m. v~trénovací sadě (sekce~\ref{sec:confident}) & TODO & TODO \\
-vlastní kepstrální normalizace (sekce~\ref{sec:mfcc-norm}) & 1,0007 & 0,9890 \\
-DeepSpeech (sekce~\ref{sec:deepspeech}) & 0,7666 & 1,1422 \\
+výchozí GMM model   & 46,3\% &        &        & \\
+\makecell{
+    DNN trénovaný\\ na Makoňovi
+}                   & 19,2\% & 45.0\% & 68,5\% & 94,1\% \\
+\makecell{
+    DNN trénovaný\\ na různých sadách
+}                   & 23,5\% & 34,8\% & 42,1\% & 75,9\% \\
 \hline
 \end{tabular}
-\caption{změny úspěšností jednotlivými experimenty}\label{tab:asr-scores}
+\caption{Chybovosti tří důležitých modelů na různých testovacích sadách}\label{tab:asr-scores}
 \end{center}
 \end{table}
 
-Proč je úspěšnost tak nízká? V~roce 2016 publikovali Mizera et
+Je úspěšnost nízká nebo vysoká? V~roce 2016 publikovali Mizera et
 al.\cite{mizera2016kaldi} sadu receptů na rozpoznávání řeči pro češtinu.
 Uvádějí jako state of the art techniky GMM-HMM a DNN-HMM a word error rate pro
 jednotlivé recepty mezi 8,49 a 48,47 podle povahy dat. Úspěšnost na korpusu
-Karla Makoně v~tomto porovnání není vyloženě nízká. Zásadním faktorem je jistě
-kolísavá akustická kvalita nahrávek. Svoji roli zde jistě hraje i použití jednak
-zastaralého systému HTK a jednak pro češtinu jen ledabyle přizpůsobeného
-systému DeepSpeech.
+Karla Makoně v~tomto porovnání tedy nijak nepřekvapuje, obzvláště s~přihlédnutím
+k~velké akustické variabilitě materiálu.
