@@ -162,7 +162,8 @@ Medián vzdálenosti je 55,8.
 Maximální vzdálenost je $3,40\cdot{}10^{38}$, ovšem ta nastává v~okrajových
 případech, bez zjevného důvodu patrného lidskému uchu. Bez této astronomické
 maximální vzdálenosti dosahují vzdálenosti hodnot do 27~814.
-Počet nulových vzdáleností je 275 z~celkových 33~174~585.
+Počet nulových vzdáleností je 275 z~celkových 33~174~585 a skutečně odpovídají
+duplicitním úsekům.
 
 
 
@@ -209,7 +210,7 @@ divergentnější. Vzdálenosti se pohybují od 1,6 do 14~653 s~průměrem  54,7
 mediánem 9,40.
 
 Na množině úseků, které jsem porovnával akustickou metrikou, jsem provedl
-hierarchické shlukování. Vzdálenost clusteru jsem nastavil jako maximální
+hierarchické shlukování\cite{johnson1967hierarchical}. Vzdálenost clusteru jsem nastavil jako maximální
 vzdálenost mezi dvěma prvky, aby jednotlivé clustery byly co nejkompaktnější.
 
 \section{Kompenzace}
@@ -242,7 +243,7 @@ který ovšem konzistentní doménu netvoří. Poškozené nahrávky trpí různ
 kombinacemi neduhů v~růnzné míře. Nelze proto CycleGAN přímo aplikovat na
 ,,zdravé`` a ,,poškozené`` nahrávky. Jak by taky bylo lze nalézt funkci mapující
 nahrávku bez neduhů na poškozenou, když není jasné, jaké poškození by měla
-vykazovat. Tento směr sice není kýžený, ale pro natrénování dané architektury
+vykazovat? Tento směr sice není kýžený, ale pro natrénování dané architektury
 nezbytný.
 
 Adaptace GAN tak, aby si s~nekonzistentními daty na jedné straně převodu
@@ -283,11 +284,10 @@ transferu}\label{tab:ganeval}
 \end{center}
 \end{table}
 
-Mírné, ale patrné umenšení chybovosti u přebuzených nahrávek sice samo o sobě
+Mírné umenšení chybovosti u přebuzených nahrávek je statisticky nevýznamné a
 nepřináší kýžené řešení problému s~neuspokojivými výsledky rozpoznávání
-poškozených nahrávek, ale poskytuje příslib potenciálu metody. Snad důležitější
-než zvýšená úspěšnost automatického přepisu je však zvýšený komfort při
-poslechu. Bohužel pro tento přínost zatím nemám kvantitativní vyhodnocení, ale
+poškozených nahrávek. Snad důležitější je však zvýšený komfort při
+poslechu. Bohužel pro tento přínos zatím nemám kvantitativní vyhodnocení, ale
 subjektivně ho potvrdit mohu.
 
 U katastrofálního zvýšení chybovosti po transferu velmi poškozených nahrávek

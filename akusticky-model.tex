@@ -68,7 +68,7 @@ Book}. V~hrubých rysech probíhá takto:
 Modeluje se skrytými markovovskými řetězci. Všechny fonémy se inicializují jako
 shodné. Každý foném je reprezentován pěti stavy (vstupním, výstupním a třemi
 vnitřními). Přechodové pravděpodobnosti se nastaví tak, aby byly možné jen
-kýžené přechody, to jest ze~vstupního do~druhého a z~každéhu z~vnitřních stavů
+kýžené přechody, to jest ze~vstupního do~druhého a z~každého z~vnitřních stavů
 do~sebe samého nebo do~následujícího. Konkrétní pravděpodobnosti nejsou
 podstatné, ale použil jsem 60\% pro setrvání a 40\% pro postup ve~druhém a
 třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupního.
@@ -174,6 +174,10 @@ Zpravidla jeden zvukový soubor odpovídá jednomu přetočení magnetofonové p
 obvyklá délka je tedy 45 až 120 minut. Takto dlouhé úseky nelze použít ani jako
 trénovací příklady ani jako cíl automatického rozpoznávání.
 
+Sofistikovanější segmentaci popisuji v~sekci~\ref{sec:segmenty}. Pro účely
+vývoje iniciálního systému automatického přepisu jsem však použil jednodušší
+metodu:
+
 Celá aplikace je pojata jako nástroj pro~zdokonalování automatického přepisu,
 takže vychází z~předpokladu, že nějaký přepis již existuje. Vycházeje z~téhož
 předpokladu při~segmentaci, realizoval jsem ji tak, že zvukový soubor se rozdělí
@@ -183,10 +187,6 @@ před~patnáctisekundovou hranicí.
 
 V~případě, že pro daný záznam zatím žádný přepis neexistuje, rozdělí se naivně
 na~patnáctisekundové úseky.
-
-Nutno dodat, že rozdělování podle automaticky rozpoznaných hranic vět by šlo
-snadno vylepšit. Jde-li o~ručně přepsaná data, jsou hranice vět dobrým vodítkem,
-ale u~automaticky přepsaných by bylo lépe rozdělovat podle ticha mezi slovy.
 
 \section{Fonetika}
 \label{sec:ac:fonetika}
@@ -291,7 +291,8 @@ v~době psaní textu}\label{tab:phonesed}
 Pro natrénování modelu strojovým učením je potřeba trénovacích dat a pro
 vyhodnocení jeho úspěšnosti dat testovacích, která ve~fázi trénování nesmí být
 algoritmem spatřena. Při trénování samotném se pak mnohdy používá vyhrazených,
-tzv.~\textit{heldout} dat pro průběžné měření úspěšnosti. V~případě trénování
+tzv.~\textit{heldout} dat\footnote{často zaměňovaných s~vývojovou testovací sadou
+označovanou běžně jako \textit{dev} / \textit{dtest}} pro průběžné měření úspěšnosti. V~případě trénování
 akustického modelu s~použitím HTK je tomu nejinak. Heldout data jsou používána
 pro zjištění optimálního počtu mixtur modelů jednotlivých fonémů, a testovací
 pro závěrečné vyhodnocení.
@@ -344,7 +345,7 @@ akustických podmínek v~rámci trénovacích a testovacích dat, viz Viikki a L
 1998\cite{viikki1998cepstral}. Princip této techniky spočívá v~tom, že se ode
 všech melfrekvenčních kepstrálních koeficientů odečte jejich průměr z~akusticky
 konzistentního úseku. Já toto poněkud hrubiánsky činím na celých nahrávkách,
-které nejsou vždy akusticky konzistentní, ale často ano. a nalezení akusticky
+které nejsou vždy akusticky konzistentní, ale často ano, a nalezení akusticky
 podobných množin je jedním z~mých plánů pro budoucí práci.\footnote{Tato úloha
 je již vyřešena a popsána v~sekci~\ref{sec:akustika:metrika} a následující.}
 
@@ -352,9 +353,14 @@ Nabízí se však otázka, zda má smysl odečítat průměr z~celé nahrávky, 
 mělo být jen z~řečových událostí, tedy s~vynechaným tichem (šumem, hluky atd.)
 Tato idea, přišedší ke mně od Davida Klusáčka, mne zaujala natolik, že jsem se
 ji pokusil ověřit. Vytvořil jsem proto jednak metadata s~časovými pozicemi všech
-izolovaných řečových událostí na základě zarovnaného automatického přepisu, kde
-jsem vynechal všechny fonémy \texttt{sil} a \texttt{sp}, a jednak sadu skriptů
+izolovaných řečových událostí na základě zarovnaného automatického přepisu, a jednak sadu skriptů
 pro manipulaci se soubory MFCC.
+
+Ke každému souboru MFCC jsem vytvořil kopii, ze které
+jsem vynechal všechny fonémy \texttt{sil} a \texttt{sp}. Průměry kepstrálních
+koeficientů jsem pak spočetl na těchto kopiích a odečetl je od hodnot
+v~originálech. Trénování i testování jsem pak prováděl na takto upravených
+souborech místo standardní normalizace, jak ji poskytuje systém HTK.
 
 Celkový přínos pro úspěšnost rozpoznávání byl nulový, ale aparát pro dekódování
 a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
@@ -366,7 +372,8 @@ Aktivní učení spočívá ve vhodném výběru trénovacích dat, viz např. C
 nabíledni techniky aktivního učení využít tak, aby se získávala co nejvhodnější
 trénovací data.
 
-Podnikl jsem experiment, ve kterém jsem slova s~nízkou {\em confidence
+Podnikl jsem experiment, ve kterém jsem ve webovém rozhraní ke sběru trénovacích
+dat (viz kapitolu~\ref{kap:webove-rozhrani}) slova s~nízkou {\em confidence
 measure (c.m.)} (pod 0,3) červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
 s~klesající c.m. Instruoval jsem pak uživatele aplikace, aby přednostně
 přepisovali věty, které jsou opticky co nejčervenější. Bohužel přirozené puzení
@@ -391,7 +398,8 @@ tak, že minimální délku úseku jsem stanovil na 1 sekundu, minimální poče
 obsažených fonémů na 10 a minimální c.m. na 0,6. Práh 0,6 jsem určil namátkovou
 kontrolou, která poukazovala na zanedbatelnou chybovost takových úseků. Celkem
 tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
-Chybovost rozpoznávání se statisticky významně nezměnila.
+Chybovost rozpoznávání se statisticky významně nezměnila, za to doba trénování
+se zvýšila citelně.
 
 \section{Neuronové sítě}
 \label{sec:deepspeech}
@@ -441,7 +449,7 @@ v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhr
 \label{sec:jazykovy-model}
 
 Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
-v~jazyce.\cite{ponte1998language} V~kontextu rozpoznávání řeči je tandemovým
+v~přirozeném jazyce.\cite{ponte1998language} V~kontextu rozpoznávání řeči je tandemovým
 partnerem akustického modelu.\cite{jelinek1990self} Teprve kombinace akustického
 a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
 nejpravděpodobnější.
@@ -449,7 +457,7 @@ nejpravděpodobnější.
 Výběr jazykového modelu je omezen nástrojem pro rozpoznávání. Lze zvolit pouze
 takový model, který nástroj dokáže využít. Všechny nástroje, které jsem použil,
 podporují N-gramové jazykové modely: HVite bigramový, Julius až trigramový a
-DeepSpeech taktéž trigramový.
+DeepSpeech libovolného řádu.
 
 Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 \begin{enumerate}
@@ -461,9 +469,9 @@ Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 
 Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
 modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
-nahrávek, také je jich nejméně: přesně 712 388 slov v~okamžiku psaní tohoto
+nahrávek, také je jich nejméně: přesně 715 285 slov v~okamžiku psaní tohoto
 textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
-představují 8 119 427 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
+představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
 
@@ -502,21 +510,24 @@ většiny experimentů, a navíc k~nim pořizovat ruční přepisy je velice nes
 
 Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate. Je
 s~podivem, že model dotrénovaný na Makoňových nahrávkách má na obecné testovací
-množině větší úspěšnost než výchozí model trénovaný na všech datech, uvedená
-v~tabulce~\ref{tab:csasr:results}.
+množině větší úspěšnost (v~tabulce tučně) než výchozí model trénovaný na všech datech, jehož
+úspěšnost je uvedená v~tabulce~\ref{tab:csasr:results}. Dalo by se čekat, že
+když se po konvergenci na obecné trénovací množině aplikují ještě
+další trénovací epochy na jiných specifických datech, měl by výkon stoupnout na
+oněch specifických datech a poklesnout na datech obecných. Příčinu tohoto jevu
+jsem dosud neměl příležitost prozkoumat.
 
 \begin{table}[htpb]
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
-model & GMM & \makecell{ DNN trénovaný\\ na Makoňovi }      & \makecell{ DNN trénovaný\\ na různých sadách } \\
+model & GMM & \makecell{ DNN trénovaný\\ na Makoňovi } & \makecell{ DNN trénovaný\\ na různých sadách } \\
 \hline
-\makecell{standardní\\ testovací\\ množina (50min)} & 46,3\% & 19,2\% & 23,5\% \\
-\makecell{5 minut\\ přebuzených záznamů} & & 45.0\% & 34,8\% \\
-\makecell{ 5 minut\\ záznamů pořízených\\ nízkou rychlostí } & & 68,5\% & 42,1\% \\
-\makecell{ 1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\
-\makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{25,3\%} \\
-\hline
+\makecell{standardní testovací\\ množina (50min)} & 46,3\% & 19,2\% & 23,5\% \\ \hline
+\makecell{5 minut\\ přebuzených záznamů} & & 45.0\% & 34,8\% \\ \hline
+\makecell{ 5 minut\\ záznamů pořízených\\ nízkou rychlostí } & & 68,5\% & 42,1\% \\ \hline
+\makecell{ 1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\ \hline
+\makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{25,3\%} \\ \hline
 \end{tabular}
 \caption{Chybovosti tří důležitých modelů na různých testovacích sadách}\label{tab:asr-scores}
 \end{center}

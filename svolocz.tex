@@ -3,8 +3,7 @@
 
 Trénovacích dat pro rozpoznávání řeči není nikdy dost. V~době psaní tohoto textu
 je manuálně přepsaných asi 100 hodin z~Mluveného korpusu Karla Makoně. To je pro
-natrénování modelu pro jednoho mluvčího použitelné množství a takto dosažená WER
-je 19\%. Zda by více trénovacích dat od jiných mluvčích mohlo pomoci, je však
+natrénování modelu pro jednoho mluvčího použitelné množství. Zda by více trénovacích dat od jiných mluvčích mohlo pomoci, je však
 otevřená otázka.
 
 Veřejně k~dispozici je několik zdrojů trénovacích dat pro účely trénování
@@ -75,7 +74,7 @@ zarovnání.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.25]{rc/svolocz-overlap.eps}
-\caption{Apriorní zarovnání a překruv zvukových záznamů k~přepisům. Vyobrazen je
+\caption{Apriorní zarovnání a překryv zvukových záznamů k~přepisům. Vyobrazen je
 záznam z 12. února 2020 kolem 10. hodiny. Přepis záznamu vlevo nahoře pokrývá
 pozice od 01:34 do 11:24. Vpravo dole pak od 01:24 do 12:00.}
 \label{fig:svolocz:overlap}
@@ -100,7 +99,9 @@ editačních operací. Zjistil jsem samotné editační operace pro přechod
 z~automatického přepisu k~manuálnímu a pro každé slovo v~automatickém přepisu
 spočetl, kolik úprav naň připadá. Na základě toho definuji pro každé automaticky
 vygenerované slovo spolehlivost párování se slovem manuálně zapsaným jako
-\begin{equation}1 - \frac{počet editačních operací}{počet písmen}\end{equation}
+\begin{equation}1 - \frac{e(w)}{l(w)}\end{equation}
+kde $e(w)$ je počet editačních operací nad slovem $w$ a $l(w)$ je délka slova
+$w$ v~písmenech.
 
 Obrázek~\ref{fig:svolocz:align} proces zarovnání manuálních přepisů se zvukovým
 záznamem zachycuje.
@@ -129,8 +130,10 @@ je dobré, aby se délkou vzorků příliš neodlišovala od ostatních datovýc
 Nad to je ale důležité, aby přepis dokonale odpovídal obsahu. A protože
 vyřezáváme trénovací vzorky z~delších souborů, při čemž může dojít
 k~nepřesnostem, je záhodno volit místa řezu tak, aby padla pokud možno do
-delších pauz v~řeči. Je to týž problém jako v~sekci~\ref{sec:segmenty}. V~tomto
-případě jsem dospěl k~hranicím 12 - 30 sekund.
+delších pauz v~řeči. Je to týž problém jako v~sekci~\ref{sec:segmenty}, kde je
+podrobně popsán. V~tomto
+případě jsem dospěl k~hranicím 12 - 30 sekund a data tak rozdělil na úseky o
+délce v~tomto rozpětí.
 
 \subsection{Výběr trénovacích vzorků}
 
@@ -168,7 +171,7 @@ kritériu. Je to z~toho důvodu, že liší-li se výrazně počet slov v~manuá
 automatickém přepisu, projeví se to jako mnoho operací přidání či smazání
 písmene odpovídající jednomu slovu v~automatickém přepisu. V~takovém případě
 mohou všechna slova mít stoprocentní spolehlivost, jen jedno hluboce pod nulou.
-Takový úsek by pak při použití mediánu přijat, zatímco průměr výrazně negativní
+Takový úsek by pak byl při použití mediánu přijat, zatímco průměr výrazně negativní
 hodnotu započte a úsek správně odmítne.
 
 \subsection{Shrnutí extrakce trénovacích dat}
@@ -209,15 +212,16 @@ Oral2013\cite{oral2013} a 5) amatérsky namluvenou Bibli dostupnou z~adresy
 Na všech sadách včetně manuálních přepisů nahrávek Karla Makoně jsem natrénoval
 model s~použitím téhož systému Mozilla DeepSpeech, týchž hyperparametrů a téhož
 obecného jazykového modelu. Ten jsem natrénoval na datech z~WMT
-2019\cite{wmt19}. Z~toho důvodu je u parlamentního korpusu vyšší chybovost než
-výše zmiňovaných 8,40\% a u Makoňova korpusu taktéž vyšší chybovost než je
-uvedena v~sekci~\ref{sec:deepspeech}.
+2019\cite{wmt19}.
 
 Nakonec jsem natrénoval akustický model na všech trénovacích
 sadách sloučených do jedné.
 Tabulka~\ref{tab:csasr:results} shrnuje word error rate systémů trénovaných na
 jednotlivých částech testovaných jednak na testovací sadě z~téhož zdroje a
 jednak na agregované testovací sadě sloučené ze všech dílčích.
+Z~důvodu použití obecného jazykového modelu je u parlamentního korpusu vyšší chybovost než
+výše zmiňovaných 8,40\% a u Makoňova korpusu taktéž vyšší chybovost než 19\%
+uvedených v~sekci~\ref{sec:deepspeech}.
 
 \begin{table}[htpb]
 \begin{center}

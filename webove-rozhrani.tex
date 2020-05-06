@@ -106,7 +106,7 @@ v~potenciálních přístupech je značná svoboda pro variaci.
 
 \subsection{Wiki}
 
-Tam, kde se moje aplikace odchyluje od přepisovacích programů, tam do značné
+Kde se moje aplikace odchyluje od přepisovacích programů, tam do značné
 míry připomíná wiki: komunitní platformu, která slouží uživatelům včetně
 přispěvatelů, ale kde kvalita příspěvků je podstatná, zatímco samotná
 spokojenost přispěvovatelova nemá takovou důležitost.
@@ -243,7 +243,7 @@ lineární seznam nahrávek. Jednotlivé kategorie jsou pak skrolovacími odkazy
 do~pravého sloupce a podle stupně skrolování se příslušná kategorie sama
 rozbalí (tzv. {\em scrollspy}).
 
-Pro lepší přehlednost a v souladu s principem Separation of Concerns je seznam
+Pro lepší přehlednost a v souladu s principem {\em separation of concerns} je seznam
 nahrávek pouze na~úvodní stránce.
 
 Podrobněji se budu zabývat pouze pohledem detailu nahrávky.
@@ -338,7 +338,7 @@ Vysvětlivky k~obrázku~\ref{fig:scn2lab}:
 \end{enumerate}
 
 Nejčastější úkony mají klávesové zkratky: \texttt{ctrl+mezerník} pro
-přehrání/pozastavení a \texttt{ctrl+enter} pro uložení korekce.
+přehrání / pozastavení a \texttt{ctrl+enter} pro uložení korekce.
 
 \subsection{Zobrazení přepisu}
 
@@ -489,7 +489,7 @@ v~paměti (\texttt{AudioBuffer}) a efekty jako zesílení, dynamická komprese, 
 mixování kanálů.
 
 Velká výhoda Web Audio API oproti elementu \texttt{<audio>} je možnost přesného
-časování, až na~jednotlivé samply. Přehrávání výseku odpovídajícího označenému
+časování až k~jednotlivým samplům. Přehrávání výseku odpovídajícího označenému
 textu se proto nemusí provádět pomocí velice nepřesného časovače
 \texttt{setTimeout}.
 
@@ -814,7 +814,7 @@ začínajících na \fontspec{DoulosSIL} /o/\normalfont, tedy \fontspec{DoulosSI
 
 V~případě slov s~nestandardní výslovností, tedy primárně cizích slov, se od
 uživatelů žádá, aby slovo přepsali foneticky. Teprve po úspěšném zarovnání a
-integrace do přepisu mohou slovu nastavit kýženou pravopisnou formu. Toto je
+integraci do přepisu mohou slovu nastavit kýženou pravopisnou formu. Toto je
 jeden z~mála případů, kdy se od uživatele chce něco nekonvenčního.
 
 Když je pravopisně chybný, fonetický zápis poslán, pak pokud projde fází
@@ -860,6 +860,12 @@ výslovnostního slovníku. Tento úkon je proto nutné provést jen jednou pro 
 slovo. Pokaždé, když na toto slovo libovolný uživatel narazí znova, stačí zadat jeho
 ortografickou formu a správná výslovnost se dovodí automaticky.
 
+Například při prvním setkání se jménem {\em George} je potřeba je přepsat jako
+{\em džordž}. Poté lze tomuto slovu změnit výskyt na {\em George}, čímž se do
+dynamického výslovnostního slovníku tento pár zápis - výskyt přidá. Všechny
+další výskyty tohoto jména se pak mohou přepisovat jako {\em George} a správnou
+výslovnost systém aplikuje automaticky.
+
 \subsection{Fonetický zápis}
 \label{ssec:respelling}
 
@@ -881,7 +887,7 @@ směru, aby se uživateli mohla dát možnost zkontrolovat, zda slovo, které
 přepsal, se uložilo se správnou výslovností.
 
 Za tímto účelem jsem vytvořil javascriptový modul pro převod mezi seznamem
-fonémů a českým fonetickým zápisem. Popsán je v~článku Krůza 2018~\cite{biblio:KrPhoneticTranscription2018}.
+fonémů a českým fonetickým zápisem. Popsán je v~článku Krůza 2018\cite{biblio:KrPhoneticTranscription2018}.
 
 Algoritmus je jednoduchý. Ve většině případů jeden foném odpovídá jednoznačně
 jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
@@ -907,14 +913,14 @@ jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:
 Modul umožňuje obousměrný převod, ačkoliv v~aplikaci je zapotřebí jen směr ze seznamu fonémů do
 fonetického zápisu určeného pro člověka. Uživatel sice může explicitně vyznačit
 neznělé {\em eř} oproti znělému, či posloupnost hlásek {\em o}, {\em u} oproti
-dvojhlásce {\em ou} pomocí apostrofu. Za sedm let provozu však tohoto nebylo ani
+dvojhlásce {\em ou} pomocí apostrofu. Za osm let provozu však tohoto nebylo ani
 jednou potřeba.
 
 Podotýkám, že ve výstupu převodníku do fonetického zápisu se nikdy nevyskytují
 sekvence {\em di, ti, ni, dě, tě, ně}. Palatální souhlásky jsou vždy vyjádřeny
 explicitně a např. sekvence {\em n i} se vždy vyjádří jako {\em ny}.
 
-V tabulce~\ref{tab:priklady-fonetiky} uvádím několik příkadů slov, jejich výslovností a fonetickým zápisem, jak jej
+V tabulce~\ref{tab:priklady-fonetiky} uvádím několik příkadů slov s~jejich výslovností a fonetickým zápisem, jak jej
 produkuje algoritmus, pokud na vstup dostane příslušnou výslovnost ve formátu
 PACal.
 
@@ -1012,7 +1018,7 @@ psaná forma                     & \#
 Moody & 2 & moʔodi & 0 & muːdi & 4 & múdy, můdy & 2 \\
 Descartes & 2 & dɛst͡sartɛs  & 0 & dɛkaːrt & 4 & dekárt & 2   \\
 Weinfurter & 30 & vɛinfʊrtɛr & 13 & vajnfʊrtr & 19 & vajnfurtr & 2 \\
-Michelangelo & 6 & mixɛlaŋgɛlo & 2 & mikɛlaŋd͡ʒ ɛlo  & 4 & mikelandželo & 0 \\
+Michelangelo & 6 & mixɛlaŋgɛlo & 2 & mikɛlaŋd͡ʒɛlo  & 4 & mikelandželo & 0 \\
 \hline
 \end{tabular}
 \caption{Příklady nestandardní výslovnosti v~manuálních přepisech}
@@ -1031,7 +1037,7 @@ ortograficky správně & 25 & 15 \\
 ortograficky chybně & 6 & 0 \\
 \hline
 \end{tabular}
-\caption{Správnost fonetické a ortografické reprezentece cizích slov na základě
+\caption{Správnost fonetické a ortografické reprezentace cizích slov na základě
 tabulky~\ref{tab:eval-pronunc}}
 \label{tab:pronunc-rate}
 \end{center}
