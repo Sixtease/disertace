@@ -1,26 +1,32 @@
 \chapter{Závěr}
 \label{kap:zaver}
 
-\section{Bilance}
+\section{Výsledky disertační práce}
 
-Nabízí se otázka, zda cíl disertační práce byl splněn. Odpověď je jednoznačně
-negativní, a to ze dvou důvodů:
+Hlavními přínosy této disertační práce jsou
+
 \begin{enumerate}
-\item{V~případě akusticky obtížných nahrávek je přepis
-zatím natolik nedokonalý, že neumožňuje uspokojivé vyhledávání, takže tyto
-nahrávky nadále zůstávají využitelné jen pro lineární nebo namátkový poslech.}
-\item{Webové rozhraní, zpřístupňující nahrávky veřejnosti, navzdory své
-nepopiratelné a osvědčené funkčnosti, vyžaduje pro efektivní využití aspoň
-zběžné zaškolení a tím se vylučuje široká veřejnost z~oboru lidí, kterým může
-sloužit.}
+\item{pořízení kompletního přepisu mluveného korpusu Karla Makoně,}
+\item{vyvinutí webového rozhraní, které umožňuje
+    \begin{itemize}
+    \item{synchronní konzumaci mluveného projevu a jeho přepisu,}
+    \item{
+        sběr oprav přepisu od laických uživatelů použitelný jako trénovací data
+        pro strojové učení,
+    }
+    \end{itemize}
+}
+\item{umožnění fulltextového vyhledávání v~korpusu Karla Makoně,}
+\item{částečné zmapování obsahu korpusu Karla Makoně,}
+\item{
+    pořízení tisícihodinového trénovacího korpusu pro automatický přepis
+    češtiny,
+}
+\item{
+    vyvinutí obecného systému automatického přepisu češtiny s~kompetitivní
+    úspěšností.
+}
 \end{enumerate}
-
-Kusých cílů však bylo dosaženo se stejnou jednoznačností: Přepis je
-v~použitelné kvalitě pro velkou část korpusu, stávající webová aplikace je
-solidním základem pro zlepšení v~oblasti uživatelského prožitku (UX) a hlavně, pro
-vážné zájemce jsou nahrávky k~dispozici.
-Za největší přínos práce nevztahující se konkrétně ke korpusu Karla Makoně
-považuji vyvinutí a nasazení systému pro komunitní korekce přepisů.
 
 Korpus je k~dispozici v~repozitáři Lindat:\\
 \texttt{https://lindat.mff.cuni.cz/repository/xmlui/handle/11372/LRT-1455}.\\
@@ -30,6 +36,9 @@ Všechny zdrojové kódy jsou k~dispozici na GitHubu \texttt{github.com/Sixtease
 Relevantní repoziráře:
 \begin{itemize}
 \item{\texttt{Evadevi} skripty pro rozpoznávání řeči nezávislé na datech,}
+\item{\texttt{cz-parliament-speech-corpus}
+    kompilace záznamů jednání parlamentu ČR pro trénování ASR,
+}
 \item{\texttt{MakonASR} automatický přepis Makoňova korpusu pomocí Evadevi / HTK,}
 \item{\texttt{DsMakonASR} automatický přepis Makoňova korpusu pomocí DeepSpeech,}
 \item{\texttt{MakonFM} backendová aplikace a prototyp front-endu,}
@@ -40,76 +49,52 @@ Relevantní repoziráře:
 
 \section{Budoucí práce}
 
-Budoucí práce vidím nyní více, než jsem jí viděl na začátku projektu:
+Budoucí práce vidím nyní více, než jsem jí viděl na začátku projektu.
 
-Prvním a předním bodem je zmíněná optimalizace webového rozhraní s~ohledem na
-design a UX. Za tímto cílem je potřeba jednak konzultovat s~odborníky v~oboru,
-neboť jakkoliv jsem zkušený programátor, designéra to ze mne zatím neudělalo, jednak provádět průběžně testování
-s~uživateli, jak to radí např. Jan Řezáč ve své knize Web ostrý jako
-břitva\cite{rezac2016web}.
+Krom v~textu práce zmíněných bodů:
+\begin{itemize}
+\item{nahradit nucené zarovnávání pomocí HTK a monofonémových modelů
+dokonalejším systémem,}
+\item{automatizovat indexaci manuálních oprav do vyhledávače,}
+\item{integrovat vysvětlivky, aby se dále redukovala potřeba zaškolení,}
+\item{umožnit editaci bez nutnosti předchozího označování,}
+\end{itemize}
+se chci zaměřit na dvě oblasti:
 
-Druhým bodem v~pořadí důležitosti, jak se mi nyní jeví, je důslednější aplikace
-moderních neuronových sítí na rozpoznávač řeči. Současný automatický přepis je
-sice získán pomocí DeepSpeech, což je systém postavený na TensorFlow, ovšem byl
-%aplikován s~trigramovým jazykovým modelem a byl 
-natrénován pouze na manuálních
-přepisech Karla Makoně, což možná byla nejlepší varianta pro GMM, ale u
-hlubokých neuronových sítí to tak vůbec být nemusí.
-
-Jako třetí bod budoucí práce bych zařadil integraci tematických anotací do
+Za prvé bych rád zařadil integraci tematických anotací do
 webové aplikace. Jednak je stávajících dat tohoto druhu k~dispozici již takové
 množství, že může být k~užitku lidem, kteří hledají pasáže týkající se toho či
 onoho tématu, a jednak je vhodné využívat zapojení uživatelů i jiným způsobem
 než pro sběr manuálních přepisů, tím spíše, že s~rostoucím množstvím jejich
 přínos pro akustické a jazykové modelování klesá.
 
-Konečně olbřímím úkolem bude pokus o kompenzaci akustických nedostatků
-v~korpusu. Jednak pro kvalitu poslechu by bylo dobré vyčistit nahrávky od šumu,
-aplikovat vícepásmovou dynamickou kompresi a kompenzaci zrychlení krom jiných
-úprav, které se mohou ukázat jako vhodné. Jednak pro úspěšnost automatického
-přepisu by bylo záhodno pokusit se o sdružení akusticky podobných částí korpusu
-a natrénovat pro každou kategorii zvláštní akustický model, například pomocí
-přidaného šumu.\cite{zur2009noise}\cite{VARGA1993247}
+Za druhé bych rád pokračoval v~akustickém čištění poškozených záznamů, aby bylo
+nahrávkám lépe rozumět, aby vzrostla přesnost jejich přepisu a aby se daly
+pohodlně poslouchat třeba v~autě.
+%\cite{zur2009noise}\cite{VARGA1993247}
 
-\section{Shrnutí}
-
-Tato disertační práce se zabývá problematikou přepisu a zpřístupnění mluveného
-korpusu se~zapojením komunity. Vychází z~konkrétní množiny nahrávek českého mystika Karla Makoně.
-V~jejím rámci byly vytvořeny 1. systém pro automatický přepis aplikovaný na zmíněném
-korpusu a v~komerční aplikaci, 2. webová aplikace pro přehrávání audia se
-synchronním zobrazením přepisu a sběr oprav přepisu od uživatelů a 3.
-vyhledávač nad danými nahrávkami. Pomocí systému bylo shromážděno toho času
-přibližně 89 hodin manuálních přepisů. Automatický přepis dosahuje word error
-rate 46,32\%. Technologie se kromě tohoto projektu využívá v~komerčním sektoru.
+Konečně pokud by se našla jiná sada nahrávek s~jinou komunitou, která by
+vyvinutou technologii využila, rád bych ji nasadil, aby se užitek rozšířil i
+mimo příznivce Karla Makoně.
 
 \section{Poděkování}
 
 {\em (bez zvláštního pořadí)}
 
 Děkuji svému školiteli doc. Vladislavu Kuboňovi za vřelou záštitu a svobodu při
-práci.
-
-Děkuji dr. Nino Peterkovi za průpravu v~akustickém modelování.
-
-Děkuji dr. Davidu Klusáčkovi a dr. Ondřeji Bojarovi. za nápady a konzultace.
-
-Děkuji paní docentce Markétě Lopatkové za podporu cestovat na konference.
-
+práci.\\
+Děkuji dr. Nino Peterkovi za průpravu v~akustickém modelování.\\
+Děkuji dr. Davidu Klusáčkovi za mnoho rad a pomoc při akustických úpravách.\\
+Děkuji dr. Ondřeji Bojarovi. za nápady a konzultace.\\
+Děkuji paní docentce Markétě Lopatkové za podporu k~cestám na konference.\\
 Děkuji vážené paní Libušce Brdičkové, která mě nesčetněkrát zachránila a bez níž
-bych byl ztracen.
-
-Děkuji doc. Zdeňkovi Žabokrtskému za upřímnou zpětnou vazbu a významnou pomoc.
-
-Děkuji Petru Kazdovi z~Konicy Minolty, že mi umožnil zužitkovat moje
-technologie v~komerčním sektoru.
-
-Děkuji Alence Valentové, že mi představila dílo Karla Makoně.
-
+bych byl ztracen.\\
+Děkuji doc. Zdeňkovi Žabokrtskému za upřímnou zpětnou vazbu a významnou pomoc.\\
+Děkuji Petru Kazdovi z~Konicy Minolty, že mi umožnil skloubit práci na disertaci
+s~prací pro chléb vezdejší.\\
+Děkuji Alence Valentové, že mi představila dílo Karla Makoně.\\
 Děkuji MUDr. Vítu Elgrovi za desítky let pořizování nahrávek, péči o ně a jejich
-poskytnutí.
-
-Děkuji ing. Milanu Tulachovi za spolupráci, testování a používání aplikace.
-
-Děkuji všem příznivcům Karla Makoně za spolupráci a zpětnou vazbu.
-
+poskytnutí.\\
+Děkuji ing. Milanu Tulachovi za spolupráci, testování a používání aplikace.\\
+Děkuji všem příznivcům Karla Makoně za spolupráci a zpětnou vazbu.\\
 Děkuji Karlu Makoňovi za moudrost, o kterou se s~námi dělí.

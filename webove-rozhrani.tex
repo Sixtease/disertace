@@ -1232,3 +1232,23 @@ Tyto se při každé změně zálohují na externí cloudové úložiště. Do t
 denně a na požádání exportují do HTML, které je přístupné z~CDN.
 CDN slouží též k~servírování samotných nahrávek.
 
+
+\section{Budoucí práce}
+
+Webovou aplikaci je potřeba dále zdokonalovat s~ohledem na UX. Jednak bych rád
+dále snížil potřebu zaškolení uživatele zpřehledňováním ovládacích prvků a
+integrací vhodného systému nápovědy. Jednak bych rád odstranil nutnost označovat
+úsek, aby ho člověk mohl opravit.
+Metody zvýšení použitelnosti webu lze načerpat např. v~knize Jana Řezáče Web
+ostrý jako břitva\cite{rezac2016web}.
+
+Nucené zarovnání je nyní založeno na programu \texttt{HVite} ze sady HTK a
+využívá jednotného monofonémového akustického modelu pro všechna data. Je
+potřeba tento stav napravit, aby se zvýšila přesnost rozpoznání validního úseku
+od vadného. Dosáhne se toho buďto natrénováním různých akustických modelů pro
+různé skupiny nahrávek nebo použitím jiného programu.
+
+Nabízí se julius. Ten sice neoplývá funkcionalitou nuceného zarovnání s~daným
+textem, ovšem dokáže provést nucené zarovnání s~textem, který predikuje. Pomocí
+vhodně zvolené restriktivní gramatiky by se tak nuceného zarovnání dalo
+dosáhnout. Práh pro odmítnutí by se pak mohl nastavit pomocí confidence measure.

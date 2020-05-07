@@ -116,7 +116,7 @@ Systematicky můžeme rušivý signál rozdělit takto:
 }
 \item{
     stacionární nebo téměř stacionární rušení, například monotónní pískání na
-    několika frekvencích, které produkuji nekvalitní obvody magnetofonu
+    několika frekvencích, které produkují nekvalitní obvody magnetofonu
     nebo mazací tón,
 }
 \item{
@@ -164,8 +164,6 @@ případech, bez zjevného důvodu patrného lidskému uchu. Bez této astronomi
 maximální vzdálenosti dosahují vzdálenosti hodnot do 27~814.
 Počet nulových vzdáleností je 275 z~celkových 33~174~585 a skutečně odpovídají
 duplicitním úsekům.
-
-
 
 Abychom tato čísla mohli interpretovat, porovnejme je se vzdálenostmi jiných
 zvuků, které si snad čtenář dokáže představit.
@@ -225,6 +223,76 @@ et al.\cite{reverbaugment} digitálně simulují dozvuk v~trénovacích datech.
 Seltzer et al.\cite{dnnnoiserobust} se věnují tematice šumu v~rozpoznávání řeči
 založeném na hlubokých neuronových sítích.
 
+\subsection{Spektrální odečet šumu}
+
+Jako baseline svého druhu jsem se pokusil automatizovaně aplikovat zavedenou
+metodu zvanou redukce šumu, \textit{noise reduction}. Pro jednoduchost zde
+předpokládám, že každá nahrávka trpí konstantním stacionárním šumem. To pro
+všechny nahrávky neplatí, ale pro ověření způsobilosti metody to není podstatné.
+Pro redukci šumu jsem použil program \texttt{sox}. Metoda spočívá pro každou
+nahrávku v~těchto krocích:
+\begin{enumerate}
+\item{Identifikovat a izolovat vzorek čistého stacionárního šumu,}
+\item{extrahovat profil šumu a}
+\item{aplikovat redukci šumu na základě získaného profilu.}
+\end{enumerate}
+
+O body 2 a 3 se postará sox. Co do získání vhodného vzorku šumu, použil jsem
+následující metodu:
+\begin{enumerate}
+\item{
+    Určit a extrahovat všechna predikovaná ticha za použití zarovnaného
+    automatického přepisu.
+}
+\item{
+    Seřadit ticha sestupně podle délky a vybrat jich 100 kolem 25. percentilu.
+    Tak se zajistí, že se nepoužijí ani příliš krátká ani příliš dlouhá ticha.
+    V~dlouhých bývají nestacionární ruchy, proto se jim vyhýbám.
+}
+\item{
+    Pomocí programu musly vygenerovat matici vzdáleností na tiších.
+}
+\item{
+    Vybrat deset tich s~nejmenším mediánem na vzdálenostní matici. Tato ticha
+    jsou nejvíce podobna ostatním, a tím pádem s~nejmenší pravděpodobností
+    obsahují nestacionární události.
+}
+\item{
+    Konkatenovat vybraná ticha.
+}
+\end{enumerate}
+
+Subjektivní vyhodnocení potvrzuje očekávaný výsledek, že relativně kvalitní
+záznamy, které trpí pouze trochou aditivního šumu, se po redukci lépe
+poslouchají. Záznamům trpící jinými defekty a celkově nižší kvalitou je někdy po
+operaci hůře rozumět.
+
+Pro kvantitativní vyhodnocení jsem natrénoval systém rozpoznávání řeči, který
+popisuji v~kapitole~\ref{kap:asr}, na datech po odstranění šumu. Chybovost na
+slovech vzrostla skoro na sto procent, což znamená, že systém zcela přestal
+fungovat. Přesnou příčinu neznám, ovšem vzhledem k~nízkým očekáváním, které jsem
+od metody měl, nepovažuji za účelné se po ní pídit.
+V~tabulce~\ref{tab:results-denoise} uvádím chybovost modelu natrénovaného na
+původních datech a datech po redukci, testované ho opět na původních datech a
+datech po redukci šumu.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l||r|r|}
+\hline
+WER    & původní model & model po redukci \\
+\hline
+původní testovací sada & 19,2\% & 94,0\% \\
+sada po redukci šumu   & 69.8\% & 94,1\% \\
+\hline
+\end{tabular}
+\caption{Word error rate při trénovacích i testovacích datech před redukcí šumu
+a po ní.}\label{tab:results-denoise}
+\end{center}
+\end{table}
+
+\subsection{Neurální doménový transfer}
+
 Revoluční článek\cite{cyclegan}, v~němž Žú et al. představují CycleGAN, čili
 cyklicky konzistentní generativní oponentní síť, dal lidstvu do rukou mocný
 nástroj a zábavnou hračku, která našla využití pro odstraňování mlhy
@@ -266,8 +334,7 @@ shluku původně a po transferu. Toto porovnání bylo provedeno pomocí modelu
 natrénovaného pouze na promluvách Karla Makoně. Robustnější model popsaný
 v~sekci~\ref{sec:deepspeech} má chybovost na nízkorychlostních nahrávkách
 42,1\% %0.421338
-a 34,8\%  %0.348183
-na nahrávkách přebuzených.
+a na nahrávkách přebuzených 34,8\%. %0.348183
 
 \begin{table}[htpb]
 \begin{center}
@@ -275,8 +342,8 @@ na nahrávkách přebuzených.
 \hline
                  & původní & po transferu \\
 \hline
-přebuzené        & 45,0\%   & 44,1\% \\
-nízkorychlostní  & 68,5\%   & 93,9\% \\
+přebuzené        & 45,0\%  & 44,1\% \\
+nízkorychlostní  & 68,5\%  & 93,9\% \\
 \hline
 \end{tabular}
 \caption{chybovost WER u dvou skupin poškozených nahrávek před a po doménovém
