@@ -1,17 +1,40 @@
-\documentclass[12pt,notitlepage]{report}
-%\pagestyle{headings}
-\pagestyle{plain}
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
 
-\frenchspacing % aktivuje použití některých českých typografických pravidel
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+% \documentclass[12pt,a4paper]{report}
+% \setlength\textwidth{145mm}
+% \setlength\textheight{247mm}
+% \setlength\oddsidemargin{15mm}
+% \setlength\evensidemargin{15mm}
+% \setlength\topmargin{0mm}
+% \setlength\headsep{0mm}
+% \setlength\headheight{0mm}
+% % \openright zařídí, aby následující text začínal na pravé straně knihy
+% \let\openright=\clearpage
 
-%\usepackage[utf8]{inputenc} % nastavuje použité kódování cp1250
+%% Pokud tiskneme oboustranně:
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{14.2mm}
+\setlength\evensidemargin{0mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+\let\openright=\cleardoublepage
+
+%% Vytváříme PDF/A-2u
+%\usepackage[a-2u]{pdfx}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
 \usepackage[czech]{babel}
-\usepackage{a4wide} % nastavuje standardní evropský formát stránek A4
-%\usepackage{index} % nutno použít v případě tvorby rejstříku balíčkem makeindex
-%\usepackage{fancybox} % umožňuje pokročilé rámečkování :-)
-\usepackage{graphicx} % nezbytné pro standardní vkládání obrázků do dokumentu
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 
-\usepackage[left=4cm,right=3cm,top=3cm,bottom=2cm]{geometry} % nastavení dané velikosti okrajů
+\usepackage{graphicx} % nezbytné pro standardní vkládání obrázků do dokumentu
 
 \usepackage{rotating}
 \usepackage{fontspec}
@@ -21,90 +44,147 @@
 \usepackage{refcount}
 \usepackage{tabularx}
 \usepackage{caption}
+\usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
 
 %\newindex{default}{idx}{ind}{Rejstřík} % zavádí rejstřík v případě použití balíku index
 
-\title{Mluven\'{y} korpus Karla Makon\v{e}}   % tyto dvě položky jsou zde v podstatě formálně, 
-\author{Mgr. Jan Oldřich Krůza} % ve skutečnosti nejsou nikde dále v dokumentu použity
 
-%\date{}
 
+
+
+
+
+
+
+% Název práce v jazyce práce (přesně podle zadání)
+\def\NazevPrace{Iterativní zdokonalování přepisu zvukových nahrávek s využitím
+zpětné vazby posluchačů}
+
+% Název práce v angličtině
+\def\NazevPraceEN{Iterative Improving of Transcribed Speech Recordings
+Exploiting Listener's Feedback}
+
+% Jméno autora
+\def\AutorPrace{Jan Oldřich Krůza}
+
+% Rok odevzdání
+\def\RokOdevzdani{2020}
+
+% Název katedry nebo ústavu, kde byla práce oficiálně zadána
+% (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
+\def\Katedra{Ústav formální a aplikované lingvistiky}
+\def\KatedraEN{Institute of Formal and Applied Linguistics}
+
+% Jedná se o katedru (department) nebo o ústav (institute)?
+\def\TypPracoviste{Katedra}
+\def\TypPracovisteEN{Department}
+
+% Vedoucí práce: Jméno a příjmení s~tituly
+\def\Vedouci{doc. RNDr. Vladislav Kuboň, Ph.D.}
+
+% Pracoviště vedoucího (opět dle Organizační struktury MFF)
+\def\KatedraVedouciho{Ústav formální a aplikované lingvistiky}
+\def\KatedraVedoucihoEN{Institute of Formal and Applied Linguistics}
+
+% Studijní program a obor
+\def\StudijniProgram{informatika}
+\def\StudijniObor{matematická lingvistika}
+
+% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
+% zapůjčil software, literaturu apod.)
+\def\Podekovani{%
+Děkuji svému školiteli doc. Vladislavu Kuboňovi za vřelou záštitu a svobodu při
+práci.\\
+Děkuji dr. Nino Peterkovi za průpravu v~akustickém modelování.\\
+Děkuji dr. Davidu Klusáčkovi za mnoho rad a pomoc při akustických úpravách.\\
+Děkuji dr. Ondřeji Bojarovi. za nápady a konzultace.\\
+Děkuji paní docentce Markétě Lopatkové za podporu k~cestám na konference.\\
+Děkuji vážené paní Libušce Brdičkové, která mě nesčetněkrát zachránila a bez níž
+bych byl ztracen.\\
+Děkuji doc. Zdeňkovi Žabokrtskému za upřímnou zpětnou vazbu a významnou pomoc.\\
+Děkuji Petru Kazdovi z~Konicy Minolty, že mi umožnil skloubit práci na disertaci
+s~prací pro chléb vezdejší.\\
+Děkuji Alence Valentové, že mi představila dílo Karla Makoně.\\
+Děkuji MUDr. Vítu Elgrovi za desítky let pořizování nahrávek, péči o ně a jejich
+poskytnutí.\\
+Děkuji ing. Milanu Tulachovi za spolupráci, testování a používání aplikace.\\
+Děkuji všem příznivcům Karla Makoně za spolupráci a zpětnou vazbu.\\
+Děkuji Karlu Makoňovi za moudrost, o kterou se s~námi dělí.
+}
+
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+\def\Abstrakt{%
+Tato disertační práce se zabývá zpřístupněním zvukových
+záznamů jednoho mluvčího úzké i široké veřejnosti.
+
+Motivací práce byla existence chátrajících nahrávek hovorů českého mystika
+Karla Makoně na kazetách a kotoučích. Cílem je zachování materiálu pro
+budoucí generace a zpřístupnění nahrávek pomocí digitálních technologií,
+především přístupnosti nahrávek na internetu a možnosti vyhledávání v~nich.
+
+Práce představuje tvorbu systému pro přepis velké sady zvukových záznamů
+se zapojením laické komunity. Navržené řešení spočívá ve vytvoření základního
+přepisu nízké kvality pomocí automatického rozpoznávání řeči a vyvinutí
+aplikace, která umožní od členů komunity i nahodilých zájemců získávat opravy
+automatického přepisu, použitelné jako trénovací data pro další zlepšování
+tohoto přepisu.
+
+Popíše se samotný mluvený korpus. Představí se autor a
+jeho dílo,
+témata v~nahrávkách, nahrávání samotné, digitalizace a získané přepisy.
+Dále se rozvede tvorba systému pro automatický
+přepis korpusu od akustického modelování, přes jazykové modelování, různé
+provedené experimenty až k~vyhodnocení úspěšnosti. V~neposlední řadě se popíše
+webová aplikace pro sběr manuálních přepisů. Zmíní se odlišnosti od ostatních mně známých
+systémů, detaily návrhu a řešení, mechanismus pro kompenzaci vysokých nároků na kvalitu
+přepisu a nízkých nároků na odbornost přispěvatelů a vyhodnocení funkčnosti
+po osmi letech provozu.
+}
+\def\AbstraktEN{%
+This Ph.D. thesis deals with making a corpus of audio
+recordings of a single speaker accessible to wide public and interested community.
+
+The work has been motivated by the existence of a set of perishing recordings
+of the Czech mystic Karel Makoň on magnetophone tapes. The aim is to conserve
+the material for future generations and making it accessible using
+digital technologies, in particular publishing the recordings online
+and enabling the users to search through them.
+
+The thesis introduces the creation of a system for transcribing a large set of
+speech recordings employing a lay community. The solution designed is based on
+obtaining a baseline low-quality transcription by means of automated speech
+recognition and developing an application that allows for collecting corrections
+of the automatic transcription in a fashion that makes it usable as training
+data for further improvement of said transcription.
+
+The spoken corpus itself is described. The
+author and his works, topics covered in the talks, the process of recording
+and digitization as well as the gained transcription are introduced.
+Next, the development of a system for automated transcription of
+the corpus, from acoustic modeling, to language modeling, various experiments
+undertaken and evaluation are presented. Then, the web application for gathering
+manual transcript corrections is described.
+Differences to other settings, design and implementation details, a way to
+compensate high demand for transcription quality and low demand for worker
+expertise, as well as an evaluation of the system's performance after eight
+years of operation are covered.
+}
+
+% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
+\def\KlicovaSlova{%
+{rozpoznávání řeči} {mluvený korpus} {komunitní transkripce}
+}
+\def\KlicovaSlovaEN{%
+{speech recognition} {speech corpus} {community transcription}
+}
+
+\include{makra}
+
+%% Titulní strana a různé povinné informační strany
 \begin{document}
+\include{titulka}
 
-%\hyphenation{tran-sla-tion}
-
-%\csprimeson % zapne jednoduché psaní českých uvozovek pomocí klasických znaků, ale potom pozor 
-            % na originální apostrofy, které budou chybně interpretovány!!!
-
-\begin{titlepage}
-\begin{center}
-
-\vspace{15mm}
-
-\large
-Univerzita Karlova v~Praze\\
-Matematicko-fyzikální fakulta\\
-
-\vspace{5mm}
-
-{\Large\bf DISERTAČNÍ PRÁCE}
-
-\vspace{25mm}
-
-\includegraphics[scale=0.5]{rc/mff-logo.eps} 
-
-\vspace{25mm}
-%\vspace{\fill}
-
-%\normalsize
-
-Mgr. Jan Oldřich Krůza\\
-\vspace{5mm}
-{\Large\bf Mluven\'{y} korpus Karla Makon\v{e}}\\
-\vspace{5mm}
-Ústav formální a aplikované lingvistiky\\
-\end{center}
-\vspace{10mm}
-
-\large
-\noindent Vedoucí disertační práce práce: Doc. Vladislav Kuboň
-
-\noindent Studijní program: Informatika, matematická lingvistika
-
-\vspace{20mm}
-
-\begin{center}
-2019
-\end{center}
-
-\end{titlepage} % zde končí úvodní strana
-
-\thispagestyle{empty} %nastavuje prazdne zahlavi a zapati
-\normalsize % nastavení normální velikosti fontu
-\ \vspace{10mm} 
-
-%\noindent Děkuji komu a komu
-
-\vspace{\fill} % nastavuje dynamické umístění následujícího textu do spodní části stránky
-\noindent Prohlašuji, že jsem svou disertační práci napsal samostatně a výhradně
-s~použitím citovaných pramenů a osobních konzultací. Souhlasím se zapůjčováním
-práce.
-
-\bigskip
-\noindent V~Praze dne \today \hspace{\fill}Mgr. Jan Oldřich Krůza
-
-\setcounter{page}{2} % nastavení číslování stránek
-\tableofcontents % vkládá automaticky generovaný obsah dokumentu
-
-\newpage % přechod na novou stránku
-
-%%% Následuje strana s abstrakty.
-\input{abstrakt.tex}
-
-\newpage
-
-%%% Následuje text bakalářské práce členěný do kapitol, které se číslují, označí názvy a graficky oddělí.
-%%% Nedoporučuje se používat víc než dvě úrovně číslování kapitol.
+\tableofcontents
 
 \input{uvod.tex}
 \input{data.tex}
@@ -117,5 +197,7 @@ práce.
 
 \bibliographystyle{unsrt}
 \bibliography{citace}
+
+\chapwithtoc{Seznam publikací}
 
 \end{document}
