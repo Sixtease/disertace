@@ -179,8 +179,8 @@ hodnotu započte a úsek správně odmítne.
 Konstanty a algoritmy použité při extrakci trénovacích dat ze záznamů jednání
 Parlamentu České republiky jsou jen hrubě zvoleny a je velký prostor pro jejich
 odladění. Vedou ale už teď k~velmi kvalitní datové sadě o velikosti 1058 hodin.
-Z~celkového počtu 539.057 úseků jich bylo 142.530 (26\%) zahrnuto do trénovací
-sady. Z~celkového počtu 396.527 zavržených úseků jich 350.258 (88\%) bylo
+Z~celkového počtu 539~057 úseků jich bylo 142~530 (26\%) zahrnuto do trénovací
+sady. Z~celkového počtu 396~527 zavržených úseků jich 350~258 (88\%) bylo
 zavrženo kvůli nespolehlivým hraničním slovům. Toto kritérium je však aplikováno
 jako první, takže je v~tomto čísle zahrnuto i mnoho úseků, které by jinak byly
 odmítnuty některým dalším kritériem.
@@ -191,13 +191,68 @@ o 17\%. Přidá se tak 5\% úseků z~celkového počtu. Pokud však započteme f
 skutečnosti 9\% celkového počtu. Je to možnost, jak zvýšit objem trénovacích dat
 za cenu zvýšení počtu úseků se špatně určenými hranicemi.
 
-\subsection{Rozpoznávání řeči na různých sadách}
+\section{Číslovky a zkratky}
+
+Číselných výrazů je v~parlamentních přepisech mnoho. Představují 489~880
+ze~25~010~269 tokenů v~kompletním stenografickém přepisu, to jsou téměř dvě
+procenta. Ve výše popsaných trénovacích datech je aspoň jedno číslo ve 24\%
+vzorků.
+
+Původní moje řešení spočívalo v~zahrnutí číslic do abecedy a tedy
+v~pokusu o přepis číselných výrazů přímo na číslice. V~systému rozpoznávání řeči
+natrénovaném na těchto datech, popsaném v~následující sekci, bohužel výsledkem bylo, že
+číselné výrazy se vždy přepsaly na prázdný řetězec.
+
+K~problému se lze postavit čtyřmi způsoby:
+\begin{enumerate}
+\item{ignorovat ho,}
+\item{vyřadit číslice z~trénovacích dat,}
+\item{manuálně číslice rozepsat do slov,}
+\item{číslice rozepsat automaticky.}
+\end{enumerate}
+
+První možnost ignorování problému asi netřeba rozebírat.
+Vyřazení vět s~číslicemi je snadný a použitelný přístup, ale byla by škoda
+přijít o čtvrtinu trénovacích dat a o drtivou většinu příkladů číslovek.
+Manuální přepis by byl jistě ideální, ale vzhledem k~objemu dat pro mne
+nerealizovatelný.
+
+Pro automatický rozpis číslic do slov lze využít hotového aparátu: iniciálního
+přepisu a algoritmu pro zarovnávání se stenografickým přepisem.
+
+Rozpis provádím ve dvou krocích:
+\begin{enumerate}
+\item{vygenerování možných čtení číslicového výrazu,}
+\item{výběr nejpravděpodobnější varianty.}
+\end{enumerate}
+
+Pro generování možných čtení čísel jsem vyšel z~algoritmu použitého v~modulu pro
+Perl \texttt{Lingua::CS::Num2Word}, který jsem doplnil o řád miliard pro
+kardinální číslovky, rozšířil tak, aby se místo jedné varianty generovaly
+pokud možno všechny gramaticky přípustné, a zahrnul podporu genitivu a
+akuzativu, decimálních a ordinálních číslovek, dat a hodin.
+
+Ve stenografických přepisech před dalším zpracováním rozvedu všechny tokeny
+obsahující číslice do variant rozpisu a při zarovnávání s~iniciálním
+automatickým přepisem vyberu tu variantu, která má nejmenší editační vzdálenost.
+
+Spolu s~číslicemi expanduji také zkratky a symboly. Např. velmi častý symbol
+paragraf (§) rozepisuji do variant {\em paragraf, paragrafu, paragrafů,
+paragrafem, paragrafech}, které se podle iniciálního přepisu vyskytují jako
+jediné časté. Dalšími častými zkratkami s~různými variantami rozpisu jsou {čl. -- článek,
+odst. -- odstavec, tzv. -- takzvaný}.
+
+Po provedení expanze se podobnost stenografického a iniciálního automatického
+přepisu zvýšila, což se odrazilo i na zvýšení počtu přijatých úseků z~26\% na
+35\%. Množství trénovacích dat v~hodinách vzrostlo o 86, tedy na 1144.
+
+\section{Rozpoznávání řeči na různých sadách}
 \label{sec:csasr:results}
 
 Výše popsanou datovou sadu jsem použil pro natrénování rozpoznávače řeči pomocí
 systému DeepSpeech, stejně jako to popisuju v~kapitole~\ref{kap:asr}. Sadu jsem
 rozdělil na trénovací (train), ladicí (dev) a testovací (test) v~poměru 18:1:1.
-Hyperparametry jsem nastavil následovně: learning rate 0.0001, dropout rate 0.2,
+Hyperparametry jsem nastavil následovně: learning rate 0,0001, dropout rate 0,2,
 zbytek ponechán defaultně. Ke konvergenci došlo po 12 epochách. Výsledná WER
 byla 8,40\% s~použitím pentagramového jazykového modelu natrénovaného na
 stenografických přepisech.
@@ -234,10 +289,12 @@ cucfn     & 31,6\%  & 72,8\% \\
 makoň     & 30,4\%  & 77,3\% \\
 oral2013  & 78,4\%  & 60,7\% \\
 ovm       & 21,6\%  & 72,9\% \\
-parlament & 8,74\%  & 39,7\% \\
+parlament s~číslicemi & 8,74\%  & 39,7\% \\
+parlament ve slovech  & 7,89\%  & 36,0\% \\
 vystadial & 51,0\%  & 74,0\% \\
 \hline
-všechny   & 28,4\%  & 28,4\% \\
+vše s~číslicemi   & 28,4\%  & 28,4\% \\
+vše ve slovech    & 26,0\%  & 26,0\% \\
 \hline
 \end{tabular}
 \caption{Word error rate rozpoznávání řeči na jednotlivých korpusech a na jejich
