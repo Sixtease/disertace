@@ -47,7 +47,7 @@ sítích.
 \section{Základní tvorba akustického modelu}
 
 Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
-starší systém \textit{HTK}\footnote{HMM ToolKit; HMM = Hidden Markov Model}\cite{young2002htk} a
+starší systém \textit{HTK}\footnote{HMM ToolKit; HMM = Hidden Markov Model.}\cite{young2002htk} a
 modernější \textit{Kaldi}\cite{povey2011kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
 mého konzultanta Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~nichž jsem mohl
 čerpat.
@@ -195,20 +195,10 @@ na~patnáctisekundové úseky.
 
 Trénovací data pro akustické modelování pomocí HTK mají formu párů
 parametrizovaných zvukových souborů (v~mém případě MFCC) a textových souborů,
-obsahujících fonetický přepis. Ten se může získat různými způsoby. Lze ručně
-anotovat data do~fonetického i běžného přepisu, což je zdlouhavé a náročné. Běžně
-se trénovací přepisy do fonetických převádějí automaticky. U jazyků
-s~nepravidelnou výslovností, jako je angličtina, je často nejlepší použít
-robustní výslovnostní slovník a v~případě jeho nedostatečnosti se uchýlit
-k~pravidlové výslovnosti, popř. anotovat mimoslovníková slova ručně.
-
-Čeština skýtá se svojí téměř deterministickou a navíc relativně jednoduchou
-fonetikou možnost používat primárně pravidlový přepis. Výjimky pak lze ošetřit
-slovníkem. Vzhledem k~tomu, že slovní zásoba Karla Makoně je svérázná a
-netypická, vydal jsem se právě touto cestou, neboť i kvalitní robustní slovník
-by zde byl nedostatečný a svou obsáhlostí zbytečný.
-
-Pro podrobnější popis získávání fonetického přepisu viz sekci~\ref{ssec:porizeni-fonetickeho-prepisu}.
+obsahujících fonetický přepis. Ten se může získat různými způsoby. Používám
+upravenou metodu od Psutky et al.\cite{psutka2004development} Pro podrobnější
+popis získávání fonetického přepisu viz
+sekci~\ref{ssec:porizeni-fonetickeho-prepisu}.
 
 \subsection{Fonémy}
 
@@ -253,8 +243,8 @@ m  & m   & \underline{m}ák
    &     &        &        & sp  & \\
 \hline
 \end{tabular}
-\caption{použité fonémy: IPA, PACal a nejčastější odpovídající
-grafém}\label{tab:phones}
+\caption{Použité fonémy: IPA, PACal a nejčastější odpovídající
+grafém.}\label{tab:phones}
 \end{center}
 \end{table}
 \normalfont
@@ -280,19 +270,20 @@ V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fo
 \** & eʊ̯ & ew & ɛ ʊ & e u \\
 \hline
 \end{tabular}
-\caption{použité záměny fonémů; hvězdičkou jsou vyznačeny záměny použité ještě
-v~době psaní textu}\label{tab:phonesed}
+\caption{Použité záměny fonémů; hvězdičkou jsou vyznačeny záměny použité ještě
+v~době psaní textu.}\label{tab:phonesed}
 \end{center}
 \end{table}
 \normalfont
 
 \section{Rozdělení dat}
+\label{sec:asr:rozdeleni-dat}
 
 Pro natrénování modelu strojovým učením je potřeba trénovacích dat a pro
 vyhodnocení jeho úspěšnosti dat testovacích, která ve~fázi trénování nesmí být
 algoritmem spatřena. Při trénování samotném se pak mnohdy používá vyhrazených,
-tzv.~\textit{heldout} dat\footnote{často zaměňovaných s~vývojovou testovací sadou
-označovanou běžně jako \textit{dev} / \textit{dtest}} pro průběžné měření úspěšnosti. V~případě trénování
+tzv.~\textit{heldout} dat\footnote{Často zaměňovaných s~vývojovou testovací sadou
+označovanou běžně jako \textit{dev} / \textit{dtest}.} pro průběžné měření úspěšnosti. V~případě trénování
 akustického modelu s~použitím HTK je tomu nejinak. Heldout data jsou používána
 pro zjištění optimálního počtu mixtur modelů jednotlivých fonémů, a testovací
 pro závěrečné vyhodnocení.
@@ -333,8 +324,8 @@ otázky, na základě nichž bude algoritmus dělit fonémy do shluků. K~tvorb�
 otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
 některé lingvistikou definované kategorie budou tvořit konzistentní shluky
 z~pohledu trénovacích dat. Pro tvorbu otázek jsem vycházel z~předlohy pro
-angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii ({\em
-https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
+angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii
+(\texttt{https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
 % TODO otázky do apendixu
 
 \section{Experiment s kepstrální normalizací}
@@ -351,7 +342,7 @@ je již vyřešena a popsána v~sekci~\ref{sec:akustika:metrika} a následujíc�
 
 Nabízí se však otázka, zda má smysl odečítat průměr z~celé nahrávky, nebo by to
 mělo být jen z~řečových událostí, tedy s~vynechaným tichem (šumem, hluky atd.)
-Tato idea, přišedší ke mně od Davida Klusáčka, mne zaujala natolik, že jsem se
+Tato idea, přišedší ke mně od dr. Davida Klusáčka, mne zaujala natolik, že jsem se
 ji pokusil ověřit. Vytvořil jsem proto jednak metadata s~časovými pozicemi všech
 izolovaných řečových událostí na základě zarovnaného automatického přepisu, a jednak sadu skriptů
 pro manipulaci se soubory MFCC.
@@ -417,20 +408,26 @@ Nezisková organizace Mozilla vydala vlastní svobodný nástroj pro rozpoznáv�
 řeči DeepSpeech\cite{hannun2014deep} založený na
 TensorFlow\cite{abadi2016tensorflow}.
 
-Akustický model jsem natrénoval dvojí: Jednak čistě na manuálních přepisech
+Akustický model jsem na něm natrénoval dvojí: Jednak čistě na manuálních přepisech
 Makoňových nahrávek (v~době psaní 100 hodin) a jednak na agregované sadě popsané
 v~sekci~\ref{sec:csasr:results}.
 
 Model natrénovaný jen na Makoňových nahrávkách zkonvergoval po osmi epochách a
 dosáhl word error rate 19,2\% na testovací sadě. Druhý model jsem vytvořil tak,
 že jsem trénoval nejdříve na agregované trénovací sadě s~použitím Makoňovy
-heldout sady pro validaci. Tato část zkonvergovala po 16 epochách a dosáhla WER
-27,3\%. Následně jsem pokračoval v~tréninku na Makoňových nahrávkách. Tato část
-zkonvergovala po dvou epochách a konečné skóre bylo 23,5\% WER.
+heldout sady pro validaci. Tato část zkonvergovala po 15 epochách a dosáhla WER
+16,6\%. Následně jsem pokračoval v~tréninku na Makoňových nahrávkách. Tato část
+zkonvergovala po dvou epochách a konečné skóre bylo 13,0\% WER.
 
-Na testovací sadě má tedy vyšší úspěšnost model trénovaný jen na 100h Makoňových
-nahrávek, předče model trénovaný na 1500 hodinách. Onen druhý robustnější model
-má však mnohem lepší výsledky na velice poškozených nahrávkách, které jsem
+Dokud jsem ale trénoval s~číslicemi, viz sekci~\ref{sec:svolocz:cislovky},
+dosáhl tento model výrazně nižší úspěšnosti s~téměř dvojnásobnou chybovostí
+27,3\% resp. 23,5\% WER.
+Na testovací sadě měl tedy vyšší úspěšnost model trénovaný jen na 100h Makoňových
+nahrávek se standardní abecedou, předče model trénovaný na 1500 hodinách na
+abecedě rozšířené o číslice.
+
+
+Nejmarkantnější zlepšení přináší robustní model na velice poškozených nahrávkách, které jsem
 v~době výběru testovací sady ještě neměl k~dispozici, any byly digitalizovány
 mnohem později. Jedná se hlavně o nahrávky pořizované při nízké rychlosti
 převíjení pásky, zmiňované jednak v~sekci~\ref{sec:akustika:kompenzace} a jednak
@@ -523,13 +520,13 @@ jsem dosud neměl příležitost prozkoumat.
 \hline
 model & GMM & \makecell{ DNN trénovaný\\ na Makoňovi } & \makecell{ DNN trénovaný\\ na různých sadách } \\
 \hline
-\makecell{standardní testovací\\ množina (50min)} & 46,3\% & 19,2\% & 23,5\% \\ \hline
+\makecell{standardní testovací\\ množina (50min)} & 46,3\% & 19,2\% & 13,0\% \\ \hline
 \makecell{5 minut\\ přebuzených záznamů} & & 45,0\% & 34,8\% \\ \hline
 \makecell{ 5 minut\\ záznamů pořízených\\ nízkou rychlostí } & & 68,5\% & 42,1\% \\ \hline
 \makecell{ 1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\ \hline
-\makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{25,3\%} \\ \hline
+\makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{22,2\%} \\ \hline %25,3 s číslicema
 \end{tabular}
-\caption{Chybovosti tří důležitých modelů na různých testovacích sadách}\label{tab:asr-scores}
+\caption{Chybovosti tří důležitých modelů na různých testovacích sadách.}\label{tab:asr-scores}
 \end{center}
 \end{table}
 

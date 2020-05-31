@@ -108,8 +108,8 @@ záznamem zachycuje.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.4]{rc/svolocz-align.eps}
-\caption{schéma zarovnání zvukových záznamů ke stenografickým přepisům na úrovni
-slov}
+\caption{Schéma zarovnání zvukových záznamů ke stenografickým přepisům na úrovni
+slov.}
 \label{fig:svolocz:align}
 \end{figure}
 
@@ -192,6 +192,7 @@ skutečnosti 9\% celkového počtu. Je to možnost, jak zvýšit objem trénovac
 za cenu zvýšení počtu úseků se špatně určenými hranicemi.
 
 \section{Číslovky a zkratky}
+\label{sec:svolocz:cislovky}
 
 Číselných výrazů je v~parlamentních přepisech mnoho. Představují 489~880
 ze~25~010~269 tokenů v~kompletním stenografickém přepisu, to jsou téměř dvě
@@ -215,7 +216,7 @@ První možnost ignorování problému asi netřeba rozebírat.
 Vyřazení vět s~číslicemi je snadný a použitelný přístup, ale byla by škoda
 přijít o čtvrtinu trénovacích dat a o drtivou většinu příkladů číslovek.
 Manuální přepis by byl jistě ideální, ale vzhledem k~objemu dat pro mne
-nerealizovatelný.
+nerealizovatelný. Zbývá se tedy pokusit o čtvrtou možnost.
 
 Pro automatický rozpis číslic do slov lze využít hotového aparátu: iniciálního
 přepisu a algoritmu pro zarovnávání se stenografickým přepisem.
@@ -251,11 +252,13 @@ přepisu zvýšila, což se odrazilo i na zvýšení počtu přijatých úseků 
 
 Výše popsanou datovou sadu jsem použil pro natrénování rozpoznávače řeči pomocí
 systému DeepSpeech, stejně jako to popisuju v~kapitole~\ref{kap:asr}. Sadu jsem
-rozdělil na trénovací (train), ladicí (dev) a testovací (test) v~poměru 18:1:1.
+rozdělil na trénovací (train), ladicí (dev) a testovací (test)\footnote{Toto
+označení je v~souladu s~konvencí pro systém DeepSpeech, ale ve skutečnosti jde
+po řadě o množiny train, heldout a dtest, jak zmiňuji v~sekci~\ref{sec:asr:rozdeleni-dat}.} v~poměru 18:1:1.
 Hyperparametry jsem nastavil následovně: learning rate 0,0001, dropout rate 0,2,
-zbytek ponechán defaultně. Ke konvergenci došlo po 12 epochách. Výsledná WER
-byla 8,40\% s~použitím pentagramového jazykového modelu natrénovaného na
-stenografických přepisech.
+zbytek ponechán defaultně. Ke konvergenci došlo po 12 epochách.
+S~použitím pentagramového jazykového modelu natrénovaného na
+stenografických přepisech byla výsledná WER 8,40\% před expanzí číslic a 7,89\% po expanzi.
 
 Ze zdrojů zmíněných v~úvodu této kapitoly se bez větší námahy se ziskem v~řádu
 aspoň desítek hodin daly použít 1) Otázky Václava Moravce a 2) Vystadial. Krom

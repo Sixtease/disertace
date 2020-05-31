@@ -9,10 +9,10 @@ této konsistentnosti představují jeho akustické vlastnosti.
 
 Akustická kvalita nahrávek je největší slabinou korpusu. Kvalita není
 konzistentně špatná, je velmi kolísavá. Na kvalitu záznamu má vliv jeho stáří,
-použité médium, rychlost záznamu, způsob skladování, zda se jedná o
-originál\footnote{kopírování magnetofonových pásek je ztrátový proces}, použitý
+použité médium, rychlost záznamu, způsob skladování, použitý
 magnetofon, mikrofon, pozice mikrofonu, akustické vlastnosti prostředí jako
-ozvěna, hluk na pozadí, ale také momentální dispozice mluvčího.
+ozvěna, hluk na pozadí, momentální dispozice mluvčího a také to, zda se jedná o
+původní nahrávku nebo její kopii\footnote{Kopírování magnetofonových pásek je ztrátový proces.}.
 
 Obrázky~\ref{fig:spectr-ok} až~\ref{fig:spectr-fasttalk} ukazují spektrogramy
 nahrávek různých kvalit. Vždy se jedná přibližně o třísekundový úsek a součástí
@@ -21,7 +21,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-dobry-90-02A.png}
 \caption{
-    kvalitní záznam bez zjevných defektů\\
+    Kvalitní záznam bez zjevných defektů.\\
     \texttt{http://radio.makon.cz/zaznam/90-02A\#ts=673.14}
 }
 \label{fig:spectr-ok}
@@ -30,7 +30,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-echo-90-24A.png}
 \caption{
-    výrazné echo\\
+    Výrazné echo.\\
     \texttt{http://radio.makon.cz/zaznam/90-24A-24.4.90\#ts=664.33}
 }
 \label{fig:spectr-echo}
@@ -39,7 +39,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-noise-92-04A.png}
 \caption{
-    širokopásmový šum\\
+    Širokopásmový šum.\\
     \texttt{http://radio.makon.cz/zaznam/92-04A\#ts=691.37}
 }
 \label{fig:spectr-noise}
@@ -48,7 +48,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-narrow-92-03B.png}
 \caption{
-    úzkopásmový šum\\
+    Úzkopásmový šum.\\
     \texttt{http://radio.makon.cz/zaznam/92-03B\#ts=664.43}
 }
 \label{fig:spectr-narrow}
@@ -57,7 +57,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-nohighs-88-04A.png}
 \caption{
-    absence vysokých frekvencí\\
+    Absence vysokých frekvencí.\\
     \texttt{http://radio.makon.cz/zaznam/88-04A\#ts=678.94}
 }
 \label{fig:spectr-nohi}
@@ -66,7 +66,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 %\begin{figure}[htpb]
 %\includegraphics[scale=0.89]{rc/spectrum-overdrive-91-20A.png}
 %\caption{
-%    přebuzení
+%    Přebuzení.
 %    \texttt{http://radio.makon.cz/zaznam/91-20A\#ts=600.00}
 %}
 %\label{fig:spectr-overdrive}
@@ -75,7 +75,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-accel-90-18A.png}
 \caption{
-    zrychlený záznam způsobený zpomalením převíjení pásky při nahrávání\\
+    Zrychlený záznam způsobený zpomalením převíjení pásky při nahrávání.\\
     \texttt{http://radio.makon.cz/zaznam/90-18A-XX-zrychlene\#ts=2473.56}
 }
 \label{fig:spectr-accel}
@@ -84,7 +84,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-2cms-ktplzneid01a.png}
 \caption{
-    silně degradovaná nahrávka pořízená rychlostí 2,38 cm/s\\
+    Silně degradovaná nahrávka pořízená rychlostí 2,38 cm/s.\\
     \texttt{http://radio.makon.cz/zaznam/kotouc-plzen-neident01-a\#ts=660}
 }
 \label{fig:spectr-2cms}
@@ -93,7 +93,7 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-pomala-mluva-76-04A.png}
 \caption{
-    pomalá mluva\\
+    Pomalá mluva.\\
     \texttt{http://radio.makon.cz/zaznam/76-04A-Kaly-7-IEOUA\#ts=13.79}
 }
 \label{fig:spectr-slowtalk}
@@ -102,16 +102,16 @@ popisku je odkaz pro přehrání odpovídajícího zvuku.
 \begin{figure}[htpb]
 \includegraphics[scale=0.89]{rc/spectrum-rychla-mluva-89-11B.png}
 \caption{
-    rychlá mluva\\
+    Rychlá mluva.\\
     \texttt{http://radio.makon.cz/zaznam/89-11B\#ts=203.17}
 }
 \label{fig:spectr-fasttalk}
 \end{figure}
 
-Systematicky můžeme rušivý signál rozdělit takto:
+Systematicky můžeme újmu na kvalitě rozdělit takto:
 \begin{enumerate}
 \item{
-    aditivní šum, jevící se jako hučení až syčení a obzvlášť patrný v~tichých
+    aditivní šum, jevící se jako hučení až syčení, obzvlášť patrný v~tichých
     pasážích,
 }
 \item{
@@ -133,17 +133,19 @@ Systematicky můžeme rušivý signál rozdělit takto:
     kolísání rychlosti.
 }
 \end{enumerate}
-Ty nastávají při záznamu na magnetofonový pásek. Při přehrávání dochází
-k~dalším.
+K~těmto újmám na kvalitě dochází při záznamu na magnetofonový pásek. Při
+přehrávání nastávají další.
 
 \section{Metrika}
 \label{sec:akustika:metrika}
 
 Předpokladem pro práci s~akustickými vlastnostmi dat je porovnávání na jejich
-základě. Je tedy nutné mít metriku, která by odrážela akustickou podobnost
-jednotlivých souborů. K~tomu využívám algoritmu založeného na koeficientech
-MFCC, jak to navrhují Mandel a Ellis\cite{mandel2005song}. Využívám
-k~tomu programu Musly od Dominka Schnitzera\cite{schnitzer2011using}.
+základě. Je nutné mít metriku, která by odrážela akustickou podobnost
+jednotlivých souborů. K~tomu využívám algoritmu založeného na melfrekvenčních
+kepstrálních koeficientech
+(MFCC), jak to navrhují Mandel a Ellis\cite{mandel2005song} v~implementaci
+programu Musly od Dominka Schnitzera\cite{schnitzer2011using}. Pro tuto metriku
+používám v~textu pojmu {\em akustická vzdálenost}.
 
 V~rámci nahrávek dochází často ke změnám akustických vlastností. To je dáno
 hlavně tím, že se nahrávání uprostřed pásky přerušilo a obnovilo se v~jiných
@@ -151,13 +153,13 @@ podmínkách. Není proto žádoucí porovnávat celé nahrávky. Ideální by b
 detekovat akustické zlomy v~nahrávkách a korpus přerozdělit ne podle hranic
 nahrávek, ale podle těchto zlomů.
 
-Pro jednoduchost jsem nahrávky rozdělil do menších úseků a udělal matici
-akustické vzdálenosti na nich. Pokusil jsem se využít hotových úseků rozdělených
+Pro jednoduchost jsem nahrávky rozdělil do menších úseků a matici
+akustické vzdálenosti jsem udělal na nich. Pokusil jsem se využít hotových úseků rozdělených
 v~bodech ticha, viz sekci~\ref{sec:segmenty}. Výsledná matice o rozměrech
 80~000 × 80~000 však trpěla defekty při čtení a zápisu, proto jsem velikost
 úseků pro tento účel zvětšil na 10 minut a tím dosáhl počtu 8146 úseků.
 
-Pro orientaci uvedu některé údaje z~matice podobnosti. 
+Pro orientaci uvedu některé údaje z~matice akustické vzdálenosti. 
 Medián vzdálenosti je 55,8.
 Maximální vzdálenost je $3,40\cdot{}10^{38}$, ovšem ta nastává v~okrajových
 případech, bez zjevného důvodu patrného lidskému uchu. Bez této astronomické
@@ -167,12 +169,14 @@ duplicitním úsekům.
 
 Abychom tato čísla mohli interpretovat, porovnejme je se vzdálenostmi jiných
 zvuků, které si snad čtenář dokáže představit.
+Provedl jsem pro zajímavost porovnání 1) řeči tří mluvčích ze záznamu jednání
+Poslanecké sněmovny, 2) řeči a ruchu na pozadí z~filmu a 3) řeči a populární hudby.
 
-Ku příkladu tři různí mluvčí jednoho záznamu jednání poslanecké sněmovny
-parlamentu České republiky mají vzdálenost v rozmezí 6,5 a 9,5. Dva různé úseky
+Tři různí mluvčí jednoho záznamu jednání Poslanecké sněmovny
+Parlamentu České republiky mají vzdálenost v rozmezí 6,5 až 9,5. Dva různé úseky
 téhož mluvčího mají vzdálenost 1,4. Tyto záznamy z PSP ČR jsou i pro lidské ucho
-velmi podobné a na rozdílu ve vzdálenosti mezi různými mluvčími a v~rámci
-mluvčího je vidět, že algoritmus funguje dobře.
+velmi podobné a na rozdílu ve vzdálenosti mezi různými mluvčími oproti
+vzdálenosti v~rámci jednoho mluvčího je vidět, že algoritmus funguje dobře.
 
 Jako druhý příklad vezměme typickou, úsměvně známou ukázku mluveného slova
 s~hlukem na pozadí, a sice úryvek ,,to je dost, žes nás taky jednou vyvez, žes
@@ -182,8 +186,8 @@ samotného malotraktoru 48,2 a Hrušínský od téhož 23,7.
 
 Srovnejme ještě mluvenou řeč s~populární hudbou. Uvedu dva extrémní příklady, na
 které jsem narazil:
-Skladba Billie Jean od Michalea Jacksona má od poslance Sklenáka vzdálenost
-23,1, zatímco refrén skladby Shadow Sun od metalové skupiny Moonspell od
+Skladba Billie Jean od Michalea Jacksona má od řeči poslance Sklenáka vzdálenost
+23,1, zatímco refrén skladby Shadow Sun od metalové skupiny Moonspell od řeči
 poslance Okamury 519.
 
 Je tedy patrno, že akustická variabilita korpusu Karla Makoně je i podle tohoto
@@ -194,13 +198,13 @@ měřítka obrovská.
 Kompenzovat akustické nedostatky znamená měnit akustické kvality dat tak, aby
 lépe odpovídaly nějakému kritériu. To může být subjektivní: aby se zvuk určitému
 posluchači lépe poslouchal. Může být také objektivní, strojově vyhodnotitelné,
-což pak umožní nasazení strojových metod.
+což pak umožní nasazení strojových metod. Jako vhodné objektivní kritérium lze
+zvolit akustickou vzdálenost k~záznamům kýžených kvalit.
 
 V~korpusu Karla Makoně se nevyskytuje asi žádná nahrávka ve vysoké kvalitě
 srovnatelné s~materiálem pořízeným ve studiových podmínkách. Velká část
-nahrávek, obzvlášť kazety z~let 1984 a dál, jsou veskrze srozumitelné a bez
-zásadních defektů. Z~celého korpusu jsem vybral množinu 431 souboru v~uspokojivé
-kvalitě.
+nahrávek je však veskrze srozumitelná a bez zásadních defektů. Z~celého korpusu jsem
+vybral množinu 431 souboru v~uspokojivé kvalitě.
 
 Tato referenční množina je mnohem konzistentnější co do akustické metriky než
 celý korpus, ale v~porovnání s~ilustračními příklady mimo korpus stále řádově
@@ -237,7 +241,7 @@ nahrávku v~těchto krocích:
 \item{aplikovat redukci šumu na základě získaného profilu.}
 \end{enumerate}
 
-O body 2 a 3 se postará sox. Co do získání vhodného vzorku šumu, použil jsem
+O body 2 a 3 se postará sox. Co se týče získání vhodného vzorku šumu, použil jsem
 následující metodu:
 \begin{enumerate}
 \item{
@@ -264,7 +268,7 @@ následující metodu:
 
 Subjektivní vyhodnocení potvrzuje očekávaný výsledek, že relativně kvalitní
 záznamy, které trpí pouze trochou aditivního šumu, se po redukci lépe
-poslouchají. Záznamům trpící jinými defekty a celkově nižší kvalitou je někdy po
+poslouchají. Záznamům trpícím jinými defekty a celkově nižší kvalitou je někdy po
 operaci hůře rozumět.
 
 Pro kvantitativní vyhodnocení jsem natrénoval systém rozpoznávání řeči, který
@@ -273,7 +277,7 @@ slovech vzrostla skoro na sto procent, což znamená, že systém zcela přestal
 fungovat. Přesnou příčinu neznám, ovšem vzhledem k~nízkým očekáváním, které jsem
 od metody měl, nepovažuji za účelné se po ní pídit.
 V~tabulce~\ref{tab:results-denoise} uvádím chybovost modelu natrénovaného na
-původních datech a datech po redukci, testované ho opět na původních datech a
+původních datech a datech po redukci, testovaného opět na původních datech a
 datech po redukci šumu.
 
 \begin{table}[htpb]
@@ -304,11 +308,11 @@ totéž pro účely rozpoznávání řeči. Nejblíže mému problému je Pascua
 s~projektem SEGAN\cite{pascual2017segan}, kde se GAN používá pro odstranění
 šumu.
 
-CycleGAN je stvořena pro použití na dvou sadách dat, z~nichž každá reprezentuje
+CycleGAN je vytvořena pro použití na dvou sadách dat, z~nichž každá reprezentuje
 určitou doménu, mezi nimiž lze najít mapovací funkci. V~případě korpusu Karla
-Makoně je jedna jasná doména akusticky relativně dobrých nahrávek a celý zbytek,
+Makoně je jedna jasná doména akusticky relativně dobrých nahrávek a potom celý zbytek,
 který ovšem konzistentní doménu netvoří. Poškozené nahrávky trpí různými
-kombinacemi neduhů v~růnzné míře. Nelze proto CycleGAN přímo aplikovat na
+kombinacemi neduhů v~různé míře. Nelze proto CycleGAN přímo aplikovat na
 ,,zdravé`` a ,,poškozené`` nahrávky. Jak by taky bylo lze nalézt funkci mapující
 nahrávku bez neduhů na poškozenou, když není jasné, jaké poškození by měla
 vykazovat? Tento směr sice není kýžený, ale pro natrénování dané architektury
@@ -320,11 +324,11 @@ využitím výše zmíněného shlukování, které poskytuje potřebné konzist
 domény poškozených nahrávek.
 
 Experiment jsem provedl na dvou shlucích: 1) na přebuzených nahrávkách a 2) na
-nahrávkách pořízených nízkou rychlostí 2,38cm/s. Oba shluky jsem vybral tak, aby
+nahrávkách pořízených nízkou rychlostí 2,38 cm/s. Oba shluky jsem vybral tak, aby
 měly maximální interní vzdálenost 25. Pro trénování jsem použil metodu
 navrhovanou dvojicí Kaneko a Tameoka\cite{kaneko2017parallel}, jak ji
 implementoval Lei Mao\footnote{github.com/leimao/Voice\_Converter\_CycleGAN}.
-Tréning běžel po 200 epoch.
+Trénink běžel po 200 epoch.
 
 \subsection{Vyhodnocení}
 \label{sec:akustika:vyhodnoceni}
@@ -333,8 +337,8 @@ Tabulka~\ref{tab:ganeval} uvádí WER při automatickém přepisu na tom kterém
 shluku původně a po transferu. Toto porovnání bylo provedeno pomocí modelu
 natrénovaného pouze na promluvách Karla Makoně. Robustnější model popsaný
 v~sekci~\ref{sec:deepspeech} má chybovost na nízkorychlostních nahrávkách
-42,1\% %0.421338
-a na nahrávkách přebuzených 34,8\%. %0.348183
+42,1\% %0.421338    , bez číslic 43,4\%
+a na nahrávkách přebuzených 34,8\%. %0.348183, bez číslic 36,6\%
 
 \begin{table}[htpb]
 \begin{center}
@@ -346,8 +350,8 @@ přebuzené        & 45,0\%  & 44,1\% \\
 nízkorychlostní  & 68,5\%  & 93,9\% \\
 \hline
 \end{tabular}
-\caption{chybovost WER u dvou skupin poškozených nahrávek před a po doménovém
-transferu}\label{tab:ganeval}
+\caption{Word error rate u dvou skupin poškozených nahrávek před doménovým
+transferem a po něm.}\label{tab:ganeval}
 \end{center}
 \end{table}
 
@@ -368,14 +372,14 @@ v~ticho.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.4]{rc/gan-plzen.eps}
-\caption{průběh signálu (nahoře) a spektrogram (dole) nahrávky pořízené
-rychlostí 2,38cm/s před doménovým transferem (vlevo) a po něm (vpravo)}
+\caption{Průběh signálu (nahoře) a spektrogram (dole) nahrávky pořízené
+rychlostí 2,38 cm/s před doménovým transferem (vlevo) a po něm (vpravo).}
 \label{fig:gan:plzen}
 \end{figure}
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.4]{rc/gan-overdrive.eps}
-\caption{průběh signálu (nahoře) a spektrogram (dole) přebuzené nahrávky
-před doménovým transferem (vlevo) a po něm (vpravo)}
+\caption{Průběh signálu (nahoře) a spektrogram (dole) přebuzené nahrávky
+před doménovým transferem (vlevo) a po něm (vpravo).}
 \label{fig:gan:overdrive}
 \end{figure}
