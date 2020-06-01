@@ -48,9 +48,9 @@ sítích.
 
 Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
 starší systém \textit{HTK}\footnote{HMM ToolKit; HMM = Hidden Markov Model.}\cite{young2002htk} a
-modernější \textit{Kaldi}\cite{povey2011kaldi}. HTK pomyslný konkurz nakonec vyhrál díky zkušenostem
-mého konzultanta Mgr. Nina Peterka, Ph.D. s~tímto systémem, z~nichž jsem mohl
-čerpat.
+modernější \textit{Kaldi}\cite{povey2011kaldi}. HTK pomyslný konkurz nakonec
+vyhrál díky tomu, že můj konzultant Mgr. Nino Peterek, Ph.D. má s~tímto systémem
+bohaté zkušenosti, z~nichž jsem mohl čerpat.
 
 Akustický model jsem trénoval výhradně z~vlastních dat.
 % Obětoval jsem tedy
@@ -63,7 +63,7 @@ Book}. V~hrubých rysech probíhá takto:
 
 \begin{enumerate}
 
-\item{Vytvoření počátečních modelů}
+\item{Vytvoření počátečních modelů.}
 
 Modeluje se skrytými markovovskými řetězci. Všechny fonémy se inicializují jako
 shodné. Každý foném je reprezentován pěti stavy (vstupním, výstupním a třemi
@@ -82,7 +82,7 @@ a kepstrální normalizací (\texttt{MFCC\_0\_D\_A\_Z} v~notaci HTK).
 
 Následují dvě iterace tréninku Baum-Welchovým algoritmem\cite{welch2003hidden}.
 
-\item{Přidání modelu pro krátkou pauzu}
+\item{Přidání modelu pro krátkou pauzu.}
 
 Z~modelu pro ticho se odvodí model pro krátkou pauzu tak, že se povolí přechod
 rovnou z~druhého do~čtvrtého stavu a zpět, aby byl model robustnější a mohl
@@ -90,7 +90,7 @@ modelovat pauzu mezi slovy, která je nezřídka nulová.
 
 Trénuje se opět dvěma iteracemi BW-algoritmu.
 
-\item{Nucené zarovnání a odvržení zmetkových vzorků}
+\item{Nucené zarovnání a odvržení zmetkových vzorků.}
 
 Pomocí Viterbiho algoritmu\cite{forney1973viterbi} se provede tzv.
 \textit{forced alignment}, tzn. nucené zarovnání na~úrovni fonémů. Jinými slovy
@@ -99,7 +99,7 @@ kterou když klesne \textit{likelihood} daného přepisu na~základě odpovídaj
 nahrávky, tato se z~trénovacích dat odstraní jako pravěpodobně vadná. Následují
 další dvě iterace BW-algoritmu.
 
-\item{Přepočítání variance}
+\item{Přepočítání variance.}
 
 Variance modelů byla určena podle původní trénovací sady. Nyní jsme z~ní
 vyřadili některé vzorky, proto proběhne její přepočtení, opět následované dvěma
@@ -122,9 +122,9 @@ mají sdílet varianci a které mají mít vlastní, je třeba rozhodnout opatrn
 Pro určení, které modely je vhodné sloučit, používám rozhodovací stromy.
 Na~základě předem definovaných kritérií se u~každého emitujícího stavu každé
 skupiny trifonémů provede rozdělení na~dva shluky, což umožní zvýšení
-\textit{log likelihood} dat. Vybere se kritérium, které ji zvýší nejvíce a
-postup se opakuje, dokud zvýšení neklesne pod~danou hranici. Takto získané
-shluky se pak sloučí do jednoho logického trifonému.
+\textit{log likelihood} dat. Vybere se kritérium, které log likelihood
+zvýší nejvíce a postup se opakuje, dokud zvýšení neklesne pod~danou hranici.
+Takto získané shluky se pak sloučí do jednoho logického trifonému.
 
 \item{Štěpení mixtur}
 
@@ -137,7 +137,7 @@ váhu, jejichž celkový součet musí být roven jedné.
 Štěpí se vnitřní stavové modely jednotlivých fonémů. Optimální počet
 mixtur je tedy potřeba zjistit pro trojnásobek počtu použitých trifonémů. To
 jsou řádově tisíce až desítky tisíc. V~okamžiku psaní tohoto textu používám 8444
-reálných trifonémů, 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
+reálných trifonémů; 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
 tisíc distribucí, u~nichž je potřeba určit optimální počet mixtur.
 
 Aby byl úkol aspoň aproximací dosažitelný, je třeba hledat efektivněji než
@@ -146,20 +146,20 @@ na sobě více méně nezávislé: Nalezneme-li optimální počet mixtur pro je
 z~nich, nemělo by to ovlivnit optimální počet mixtur u~jiného.
 
 Rozštěpení u~jednoho modelu proběhne tak, že se mixtura s~největší vahou
-rozštěpí na dvě totožné, jen jedna dostane malinko větší váhu než druhá, aby se
+rozštěpí na dvě totožné s~tím, že jedna dostane malinko větší váhu než druhá, aby se
 při trénování mohly rozejít. To se provede u~všech vnitřích stavů všech
 logických fonémů, t.j. u~všech markovovských modelů. Provedou se čtyři trénovací
 iterace a úspěšnost se vyhodnotí na~sadě heldout.
 
 Pokud u~některé mixtury klesne její váha pod~daný práh, vymaže se, čímž se
-zamezí zbytečnému nárůstu parametrů a není proto potřeba zkoušet štěpit
+zamezí zbytečnému nárůstu parametrů, a není proto potřeba zkoušet štěpit
 jednotlivé modely samostatně. Arci, štěpením modelů jednoho po druhém jsem nikdy nedosáhl lepšího
 výsledku, než štěpením všech modelů najednou.
 
 Závislost úspěšnosti na~počtu mixtur není monotónní, proto ve~štěpení pokračuji,
 i když někdy úspěšnost klesne. Konkrétně zastavím štěpení, pokud úspěšnost
 klesne o~více než 30\% oproti nejvyšší dosažené nebo pokud klesne více než
-třikrát za~sebou, ale nikdy když je mixtur méně než 16.
+třikrát za~sebou, ne však když je mixtur méně než 16.
 
 %Pokud je foném gaußiánem modelován dobře, rozdělení na dvě mixtury
 %nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
@@ -208,7 +208,7 @@ Používám základní fonémy českého jazyka\cite{palkova1992fonetika}
 reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních fonémů
 používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
 jakož ani neřečové události.
-V~tabulce~\ref{tab:phones} jsou fonémy uvedeny.
+V~tabulce~\ref{tab:phones} jsou použité fonémy uvedeny.
 
 \begin{table}[htpb]
 \fontspec{DoulosSIL}
@@ -285,10 +285,10 @@ algoritmem spatřena. Při trénování samotném se pak mnohdy používá vyhra
 tzv.~\textit{heldout} dat\footnote{Často zaměňovaných s~vývojovou testovací sadou
 označovanou běžně jako \textit{dev} / \textit{dtest}.} pro průběžné měření úspěšnosti. V~případě trénování
 akustického modelu s~použitím HTK je tomu nejinak. Heldout data jsou používána
-pro zjištění optimálního počtu mixtur modelů jednotlivých fonémů, a testovací
+pro zjištění optimálního počtu mixtur modelů jednotlivých fonémů a testovací
 pro závěrečné vyhodnocení.
 
-Anotovaná data mi přibývala velice pozvolna a začínal jsem s~několika minutami,
+Anotovaná data mi přibývala velice pozvolna. Začínal jsem s~několika minutami,
 ovšem přírůstky byly časté. Nemohl jsem si tedy dovolit udělat od~začátku pevnou
 testovací sadu, kterou bych používal po~celou dobu provádění experimentů. Místo
 toho jsem s~každou novou dávkou anotovaných dat celou sadu rozdělil podle vět
@@ -301,7 +301,7 @@ Až když jsem měl několik desítek hodin anotovaných dat, vyhradil jsem si f
 testovací sadu. Běžně se testovací sada vybere jako náhodná podmnožina vzorků
 z~trénovací sady tak, aby měla kýženou velikost. V~mém případě vzorků zvíci
 hodinových nahrávek jsem sadu určil manuálně jako úsek druhé až jedenácté minuty
-(tedy deset minut minutu po~začátku) v~pěti nahrávkách,
+(tedy deset minut, vždy jednu minutu po~začátku) v~pěti nahrávkách,
 \begin{enumerate}
 \item{jedné kazety z~roku 1976,}
 \item{jedné z~roku 1982,}
@@ -320,11 +320,11 @@ vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten 
 Pro slučování modelů jednotlivých trifonémů, jak zmiňuje
 bod~\ref{item:htktrain:triphones} seznamu kroků trénování pomocí~HTK, je
 zapotřebí rozhodovacích stromů. Pro jejich tvorbu je potřeba ručně vytvořit
-otázky, na základě nichž bude algoritmus dělit fonémy do shluků. K~tvorbě
+otázky, na jejichž základě bude algoritmus dělit fonémy do shluků. K~tvorbě
 otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
-některé lingvistikou definované kategorie budou tvořit konzistentní shluky
-z~pohledu trénovacích dat. Pro tvorbu otázek jsem vycházel z~předlohy pro
-angličtinu, jak je v HTK Book a z~kategorizace českých hlásek na Wikipedii
+některé lingvistikou definované kategorie budou z~pohledu trénovacích dat tvořit
+konzistentní shluky. Pro tvorbu otázek jsem vycházel z~předlohy pro
+angličtinu, jak je uvedeno v~HTK Book, a z~kategorizace českých hlásek na Wikipedii
 (\texttt{https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
 % TODO otázky do apendixu
 
@@ -336,15 +336,15 @@ akustických podmínek v~rámci trénovacích a testovacích dat, viz Viikki a L
 1998\cite{viikki1998cepstral}. Princip této techniky spočívá v~tom, že se ode
 všech melfrekvenčních kepstrálních koeficientů odečte jejich průměr z~akusticky
 konzistentního úseku. Já toto poněkud hrubiánsky činím na celých nahrávkách,
-které nejsou vždy akusticky konzistentní, ale často ano, a nalezení akusticky
+které nejsou vždy akusticky konzistentní. Často však ano a nalezení akusticky
 podobných množin je jedním z~mých plánů pro budoucí práci.\footnote{Tato úloha
 je již vyřešena a popsána v~sekci~\ref{sec:akustika:metrika} a následující.}
 
 Nabízí se však otázka, zda má smysl odečítat průměr z~celé nahrávky, nebo by to
 mělo být jen z~řečových událostí, tedy s~vynechaným tichem (šumem, hluky atd.)
 Tato idea, přišedší ke mně od dr. Davida Klusáčka, mne zaujala natolik, že jsem se
-ji pokusil ověřit. Vytvořil jsem proto jednak metadata s~časovými pozicemi všech
-izolovaných řečových událostí na základě zarovnaného automatického přepisu, a jednak sadu skriptů
+ji pokusil ověřit. Vytvořil jsem proto metadata s~časovými pozicemi všech
+izolovaných řečových událostí na základě zarovnaného automatického přepisu a sadu skriptů
 pro manipulaci se soubory MFCC.
 
 Ke každému souboru MFCC jsem vytvořil kopii, ze které
@@ -359,13 +359,13 @@ a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
 \section{Aktivní učení}
 
 Aktivní učení spočívá ve vhodném výběru trénovacích dat, viz např. Cohn
-1996\cite{cohn1996active}. V~mém případě trénovací sada postupně roste a je tedy
-nabíledni techniky aktivního učení využít tak, aby se získávala co nejvhodnější
+1996\cite{cohn1996active}. V~mém případě trénovací sada postupně roste a nabízí
+se tedy využít techniky aktivního učení tak, aby se získávala co nejvhodnější
 trénovací data.
 
 Podnikl jsem experiment, ve kterém jsem ve webovém rozhraní ke sběru trénovacích
 dat (viz kapitolu~\ref{kap:webove-rozhrani}) slova s~nízkou {\em confidence
-measure (c.m.)} (pod 0,3) červeně podtrhl přerušovanou čarou, jejíž sytost spojitě rostla
+measure (c.m.)} (pod 0,3) podtrhl červenou přerušovanou čarou, jejíž sytost spojitě rostla
 s~klesající c.m. Instruoval jsem pak uživatele aplikace, aby přednostně
 přepisovali věty, které jsou opticky co nejčervenější. Bohužel přirozené puzení
 uživatelů přepisovat nahrávku kompletně a lineárně od začátku způsobilo, že
@@ -398,24 +398,25 @@ se zvýšila citelně.
 V~průběhu psaní této disertace se rozšířilo používání hlubokých neuronových sítí
 snad ve všech oblastech strojového učení, viz např. LeCun
 2015\cite{lecun2015deep}, Hinton 2012\cite{hinton2012deep}. Toto neminulo ani
-rozpoznávání řeči, konceptuelně již dávno před tím, viz Morgan 1995\cite{morgan1995neural}. Gaußovské mixtury
+rozpoznávání řeči, konceptuelně již dávno před tím, viz Morgan
+1995\cite{morgan1995neural}. Gaußovské mixtury
 přestaly být state of the art a systémy založené na hlubokých neuronových sítích
-(DNN) skýtají mnohem větší úspěšnosti díky tomu, že lépe modelují fenomén fonémů
-a umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy
+(DNN) skýtají mnohem větší úspěšnosti díky tomu, že lépe modelují fenomén
+fonémů. Umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy
 přeskočit vrstvu výslovnosti.
 
 Nezisková organizace Mozilla vydala vlastní svobodný nástroj pro rozpoznávání
 řeči DeepSpeech\cite{hannun2014deep} založený na
 TensorFlow\cite{abadi2016tensorflow}.
 
-Akustický model jsem na něm natrénoval dvojí: Jednak čistě na manuálních přepisech
-Makoňových nahrávek (v~době psaní 100 hodin) a jednak na agregované sadě popsané
+Akustický model jsem na něm natrénoval dvojí: 1) čistě na manuálních přepisech
+Makoňových nahrávek (v~době psaní 100 hodin), 2) na agregované sadě popsané
 v~sekci~\ref{sec:csasr:results}.
 
 Model natrénovaný jen na Makoňových nahrávkách zkonvergoval po osmi epochách a
 dosáhl word error rate 19,2\% na testovací sadě. Druhý model jsem vytvořil tak,
-že jsem trénoval nejdříve na agregované trénovací sadě s~použitím Makoňovy
-heldout sady pro validaci. Tato část zkonvergovala po 15 epochách a dosáhla WER
+že jsem nejprve trénoval na agregované trénovací sadě s~použitím Makoňovy
+sady heldout pro validaci. Tato část zkonvergovala po 15 epochách a dosáhla WER
 16,6\%. Následně jsem pokračoval v~tréninku na Makoňových nahrávkách. Tato část
 zkonvergovala po dvou epochách a konečné skóre bylo 13,0\% WER.
 
@@ -433,8 +434,8 @@ mnohem později. Jedná se hlavně o nahrávky pořizované při nízké rychlos
 převíjení pásky, zmiňované jednak v~sekci~\ref{sec:akustika:kompenzace} a jednak
 v~sekcích~\ref{sec:data:rec} a \ref{sec:data:digitisation}.
 
-Na kraťoučkém minutovém úseku jedné z~nejpoškozenějších nahrávek, který jsem
-přepsal, má ryze makoňovský model WER 94,1\%, zatímco robustní model má WER
+Na minutovém úseku jedné z~nejpoškozenějších nahrávek, který jsem
+přepsal, má první model WER 94,1\%, zatímco robustní model má WER
 75,8\%. Porovnání na větším, asi pětiminutovém úseku je uvedeno
 v~sekci~\ref{sec:akustika:vyhodnoceni}.
 
@@ -446,8 +447,8 @@ v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhr
 \label{sec:jazykovy-model}
 
 Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
-v~přirozeném jazyce.\cite{ponte1998language} V~kontextu rozpoznávání řeči je tandemovým
-partnerem akustického modelu.\cite{jelinek1990self} Teprve kombinace akustického
+v~přirozeném jazyce\cite{ponte1998language}. V~kontextu rozpoznávání řeči je tandemovým
+partnerem akustického modelu\cite{jelinek1990self}. Teprve kombinace akustického
 a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
 nejpravděpodobnější.
 
@@ -466,33 +467,34 @@ Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 
 Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
 modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
-nahrávek, také je jich nejméně: přesně 715 285 slov v~okamžiku psaní tohoto
-textu. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
+nahrávek, kterých je nejméně. V~okamžiku psaní tohoto textu je to přesně 715 285
+slov. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
 představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
 
 Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy ve
 výše uvedeném pořadí. Aplikuji vyhlazování technikou
-Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro tréning
+Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro trénink
 jazykových modelů KenLM\cite{heafield2011kenlm}.
 
-K~manuálním přepisům je třeba podotknout, že u nich dochází k~jednomu
+Je třeba podotknout, že u manuálních přepisů dochází k~jednomu
 nežádoucímu jevu. Přepisy se pořizují tak, aby byly maximálně věrné tomu, co je
 vyřčeno. Proto se doslova... vlastně do hlásky přepisují i přebrepty a zadrhnutí.
 Je otázkou, zda takové jevy chceme mít v~jazykovém modelu. Aniž bych se na ni
 pokoušel poskytnout definitivní odpověď, můj přístup, jak se s~tímto vypořádat,
-je, že instruuji uživatele, aby každé slovo, po kterém následuje přerušení toku
-mluvy, doplnili třemi tečkami. Například ve větě {\em ,,To je ta relativnost
+je, instruovat uživatele těmito pokyny: 1) Každé slovo, po kterém následuje přerušení toku
+mluvy doplnit třemi tečkami, 
+2) pokud se mluvčí zadrhne uprostřed slova nebo vysloví něco, co není slovem,
+připojit k~tomuto útvaru pomlčku\footnote{Standardní postup, se kterým jsem se
+seznámil až později, je místo pomlčky použít symbol \texttt{+}.}. Například ve větě {\em ,,To je ta relativnost
 dobrého a zlého, tak kdybychom... to je tam jinak postaveno.``} patří tři tečky
-za slovo {\em kdybychom}. Pokud se mluvčí zadrhne uprostřed slova nebo vysloví
-něco, co není slovem, pokyn zní připojit k~takovému útvaru pomlčku. Příkladem
-budiž věta {\em ,,To je první š- špatný pohled, chybný pohled na rodiče a na
-předcházející generaci.``}. Zde patří pomlčka za vyslovené {\em š}, za kterým
+za slovo {\em kdybychom}. Ve větě {\em ,,To je první š- špatný pohled, chybný pohled na rodiče a na
+předcházející generaci.``} patří pomlčka za vyslovené {\em š}, za kterým
 teprve následuje vyslovené slovo {\em špatný}.
 
-Toto značení umožňuje při stavbě jazykového modelu větu ukončit při setkání
-s~takovým slovem nebo takové slovo přeskočit.
+Při stavbě jazykového modelu toto značení umožní, aby se věta při setkání
+s~takovým slovem ukončila nebo aby se takové slovo přeskočilo.
 
 \section{Úspěšnost}
 \label{sec:evaluace}
@@ -500,17 +502,17 @@ s~takovým slovem nebo takové slovo přeskočit.
 Poslední naměřená word error rate markovovského akustického modelu s~výše zmíněným
 jazykovým modelem je 46,3\%.
 
-Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada, jsem testovací sadu
-určil fixně taktéž až v~průběhu projektu. Výrazně v~ní chybí přepisy těch
+Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada, určil jsem testovací sadu
+až v~průběhu projektu. Chybí v~ní přepisy těch
 nejméně srozumitelných nahrávek, které byly digitalizovány až po provedení
 většiny experimentů, a navíc k~nim pořizovat ruční přepisy je velice nesnadné.
 
 Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate. Je
 s~podivem, že model dotrénovaný na Makoňových nahrávkách má na obecné testovací
-množině větší úspěšnost (v~tabulce tučně) než výchozí model trénovaný na všech datech, jehož
-úspěšnost je uvedená v~tabulce~\ref{tab:csasr:results}. Dalo by se čekat, že
+množině větší úspěšnost (v~tabulce tučně) než výchozí model trénovaný na všech datech
+(viz tabulku~\ref{tab:csasr:results}). Dalo by se čekat, že
 když se po konvergenci na obecné trénovací množině aplikují ještě
-další trénovací epochy na jiných specifických datech, měl by výkon stoupnout na
+další trénovací epochy na jiných specifických datech, měla by úspěšnost stoupnout na
 oněch specifických datech a poklesnout na datech obecných. Příčinu tohoto jevu
 jsem dosud neměl příležitost prozkoumat.
 

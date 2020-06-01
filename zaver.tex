@@ -1,28 +1,33 @@
 \chapter{Závěr}
 \label{kap:zaver}
 
-Tématem disertační práce je ,,iterativní zdokonalování přepisu zvukových
-nahrávek s využitím zpětné vazby posluchačů.`` Hlavním předmětem snažení
-v~souladu s~tím bylo vytvoření systému, pomocí kterého se pro existující soubor
-záznamů díky laické komunitě a komputačnělingvistickým metodám opatří co
-nejdokonalejší přepis.
+Tématem disertační práce je iterativní zdokonalování přepisu zvukových
+nahrávek s využitím zpětné vazby posluchačů. Hlavním předmětem snažení
+tedy bylo vytvoření systému, pomocí kterého se pro existující soubor
+záznamů opatří co nejdokonalejší přepis pomocí komputačnělingvistických metod a
+zapojení laické komunity.
 
-Práce zasahuje do několika odvětví. Jednak jde o představení nového korpusu,
-Mluveného korpusu Karla Makoně, a tím spadá do korpusové lingvistiky. Jednak jde
-o pořízení přepisu automatickými metodami a tím spadá do oblasti rozpoznávání
-řeči. Jednak jde o vývoj nového typu aplikace, a tím spadá do oblasti
-softwarového inženýrství. V~neposlední řadě jde o představení samotného obsahu
-korpusu a tím spadá někam mezi teologii, religionistiku a možná filozofii.
-
-Především jde z~mé strany o snahu o zachování a zpřístupnění odkazu Karla Makoně
-a poukázání na jeho kvality coby českého klenotu světového duchovního poselství.
+Práce zasahuje do několika odvětví.
+Za prvé jde o digitalizaci a uchování fondu nahrávek a tím spadá do
+archivnictví.
+Za druhé jde o představení nového korpusu a tím spadá do korpusové lingvistiky.
+Za třetí jde o pořízení přepisu automatickými metodami a tím spadá do oblasti
+rozpoznávání řeči.
+Za čtvrté jde o vývoj nového typu aplikace a tím spadá do oblasti
+softwarového inženýrství.
+Krom toho se dotýká obsahu
+mluveného korpusu Karla Makoně, čímž se tento projekt dotýká i některých
+odvětví věd humanitních. Z~hlediska obsahu textů se jedná o filosofii, teologii
+a religionistiku. Z~hlediska téměř zapomenutého odkazu ing. Karla Makoně jde i o
+téma české historie.
 
 \section{Výsledky disertační práce}
+\label{sec:zaver:vysledky}
 
 Hlavními přínosy této disertační práce jsou
 
 \begin{enumerate}
-\item{pořízení kompletního přepisu mluveného korpusu Karla Makoně,}
+\item{pořízení kompletního přepisu mluveného korpusu,}
 \item{vyvinutí webového rozhraní, které umožňuje
     \begin{itemize}
     \item{synchronní konzumaci mluveného projevu a jeho přepisu,}
@@ -32,15 +37,26 @@ Hlavními přínosy této disertační práce jsou
     }
     \end{itemize}
 }
-\item{umožnění fulltextového vyhledávání v~korpusu Karla Makoně,}
-\item{částečné zmapování obsahu korpusu Karla Makoně,}
+\item{umožnění fulltextového vyhledávání v~korpusu,}
+\item{částečné zmapování obsahu korpusu,}
 \item{
     pořízení tisícihodinového trénovacího korpusu pro automatický přepis
     češtiny,
 }
 \item{
     vyvinutí obecného systému automatického přepisu češtiny s~kompetitivní
-    úspěšností.
+    úspěšností,
+}
+\item{
+    negativní výsledky několika experimentů, najmě
+    \begin{itemize}
+    \item{kepstrální normalizace na izolovaných řečových událostech,}
+    \item{použití standardní CycleGAN pro snížení chybovosti rozpoznávání řeči,}
+    \item{
+        získávání specifických trénovacích dat pro aktivní učení od
+        dobrovolných anotátorů.
+    }
+    \end{itemize}
 }
 \end{enumerate}
 
@@ -66,51 +82,61 @@ Relevantní repoziráře:
 
 \section{Budoucí práce}
 
-Budoucí práce vidím nyní více, než jsem jí viděl na začátku projektu.
+Během práce na tomto projektu se postupně odhalila další možná témata, která určitě stojí za povšimnutí.
+Při řešením úkolů, které si tato práce kladla za cíl, se ukázaly nové možnosti
+vylepšení celého přístupu. Budoucí témata jsem již zmínil již výše, tak jak mě
+napadala během práce. Zde jsou shrnuty v bodech:
 
-Krom v~textu práce zmíněných bodů:
 \begin{itemize}
 \item{nahradit nucené zarovnávání pomocí HTK a monofonémových modelů
 dokonalejším systémem,}
 \item{automatizovat indexaci manuálních oprav do vyhledávače,}
 \item{integrovat vysvětlivky, aby se dále redukovala potřeba zaškolení,}
-\item{umožnit editaci bez nutnosti předchozího označování,}
+\item{umožnit editaci bez nutnosti předchozího označování.}
 \end{itemize}
-se chci zaměřit na dvě oblasti:
 
-Za prvé bych rád zařadil integraci tematických anotací do
-webové aplikace. Jednak je stávajících dat tohoto druhu k~dispozici již takové
-množství, že může být k~užitku lidem, kteří hledají pasáže týkající se toho či
-onoho tématu, a jednak je vhodné využívat zapojení uživatelů i jiným způsobem
-než pro sběr manuálních přepisů, tím spíše, že s~rostoucím množstvím jejich
-přínos pro akustické a jazykové modelování klesá.
+Kromě toho bych rád zařadil integraci tematických anotací do webové aplikace.
+Stávající data tohoto druhu jsou k~dispozici ve velkém množství, proto mohou být
+k~užitku lidem, kteří hledají pasáže týkající se konkrétního tématu. Zároveň je
+možné využít zapojení uživatelů i jiným způsobem než pro sběr manuálních
+přepisů, a to tím spíše, že s~rostoucím množstvím jejich přínos pro akustické a
+jazykové modelování klesá.
 
-Za druhé bych rád pokračoval v~akustickém čištění poškozených záznamů, aby bylo
-nahrávkám lépe rozumět, aby vzrostla přesnost jejich přepisu a aby se daly
-pohodlně poslouchat třeba v~autě.
+
+Pochopitelně bych také rád pokračoval v~akustickém čištění poškozených záznamů,
+aby vzrostla přesnost jejich přepisu i srozumitelnost lidskému uchu.
+
+Jistě bych uvítal, kdyby se mnou vyvinutá technologie mohla použít i na jiné
+sady nahrávek. Jsem přesvědčen, že by se přepis mluveného korpusu a jeho další
+aplikace daly využít například v historii či jiných humanitních vědách. Jakékoli
+velké soubory audio nahrávek s~komunitou příznivců by tak mohly být přepsány a
+dále podrobněji zpracovávány metodami, které jsem v této práci rozvinul.
+
 %\cite{zur2009noise}\cite{VARGA1993247}
-
-Konečně pokud by se našla jiná sada nahrávek s~jinou komunitou, která by
-vyvinutou technologii využila, rád bych ji nasadil, aby se užitek rozšířil i
-mimo příznivce Karla Makoně.
 
 \section{Poděkování}
 
 {\em (bez zvláštního pořadí)}\\
-Děkuji svému školiteli doc. Vladislavu Kuboňovi za vřelou záštitu a svobodu při
-práci.\\
-Děkuji dr. Nino Peterkovi za průpravu v~akustickém modelování.\\
-Děkuji dr. Davidu Klusáčkovi za mnoho rad a pomoc při akustických úpravách.\\
-Děkuji dr. Ondřeji Bojarovi za nápady a konzultace.\\
-Děkuji doc. Markétě Lopatkové za podporu k~cestám na konference.\\
-Děkuji vážené paní Libušce Brdičkové, která mě nesčetněkrát zachránila a bez níž
-bych byl ztracen.\\
-Děkuji doc. Zdeňkovi Žabokrtskému za upřímnou zpětnou vazbu a významnou pomoc.\\
-Děkuji Petru Kazdovi z~Konicy Minolty, že mi umožnil skloubit práci na disertaci
-s~prací pro chléb vezdejší.\\
-Děkuji Alence Valentové, že mi představila dílo Karla Makoně.\\
-Děkuji MUDr. Vítu Elgrovi za desítky let pořizování nahrávek, péči o ně a jejich
-poskytnutí.\\
-Děkuji ing. Milanu Tulachovi za spolupráci, testování a používání aplikace.\\
-Děkuji všem příznivcům Karla Makoně za spolupráci a zpětnou vazbu.\\
-Děkuji Karlu Makoňovi za moudrost, o kterou se s~námi dělí.
+
+Děkuji
+svému školiteli doc. RNDr. Vladislavu Kuboňovi, Ph.D. za vřelou záštitu a svobodu při práci,
+doc. RNDr. Markétě Lopatkové, Ph.D. za pomoc a podporu při účasti na konferencích,
+Mgr. Nino Peterkovi, Ph.D. za průpravu v~akustickém modelování, 
+Mgr. Davidu Klusáčkovi, Ph.D. za mnoho rad a pomoc při akustických úpravách,
+doc. RNDr. Ondřeji Bojarovi, Ph.D.
+a RNDr. Zdeňku Morávkovi za nápady a konzultace,
+doc. Ing. Zdeňkovi Žabokrtskému, Ph.D. za významnou pomoc i upřímnou zpětnou vazbu
+a vážené paní Libušce Brdičkové za její neúnavnou ochotu a vstřícnost.
+
+Děkuji
+váženému MUDr. Vítu Elgrovi,
+Ing. Milanu Tulachovi,
+Mgr. Lence Vinklerové,
+Alence Valentové,
+a dalším za zprostředkování díla Karla Makoně, za zapůjčení nahrávek,
+spolupráci, testování a používání aplikace i za zpětnou vazbu.
+
+Děkuji
+Mgr. Petru Kazdovi z~Konicy Minolty, že mi umožnil skloubit zaměstnání s~prací na disertaci
+
+Děkuji, že mi bylo umožněno se tomuto projektu věnovat.

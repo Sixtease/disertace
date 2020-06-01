@@ -6,24 +6,25 @@
 Mým dílčím cílem je co nejlepší ortografický\footnote{Na pravopis jako takový se důraz
 neklade. Ortografickým přepisem myslím standardní zápis.} a fonetický přepis
 tisícihodinového korpusu jednoho mluvčího rozděleného do přibližně hodinových
-celků. Existuje skupina lidí, kterou nahrávky zajímají. Tito lidé představují na
-jednu stranu potenciál, který mohu využít pro svůj účel, a na druhou stranu
-moji, abych tak řekl, cílovou skupinu, tedy ty, jimž bude produkt sloužit.
+celků. Lidé, kteří se o tyto nahrávky zajímají a chtějí je studovat, představují
+potenciál, který mohu využít ke své práci, a zároveň cílovou skupinu, jimž bude
+produkt sloužit.
 
 Webová aplikace by tedy měla skloubit tyto dva účely:
 \begin{enumerate}
-\item{sloužit uživatelům, aby mohli  materiál co nejlépe konzumovat,}
-\item{ponouknat uživatele, aby dali co nejkvalitnější příspěvek.}
+\item{Sloužit uživatelům, aby mohli  materiál co nejlépe konzumovat.}
+\item{Navést uživatele, aby vydali co nejkvalitnější příspěvek.}
 \end{enumerate}
 
-Pokud je mi známo, není žádného projektu se srovnatelným východiskem. Můžeme
+Neznám žádný projekt se srovnatelným východiskem. Můžeme
 však porovnávat jednotlivé aspekty, vyskytující se v~jiných aplikacích.
 
 \subsection{Programy pro přepis}
 \label{ssec:diff:trans}
 
-Nejpodobnější a přitom rozšířený typ aplikace je pro přepis mluveného slova
-člověkem. Porovnejme tyto dva úkoly a zpytujme hlavní rozdíly. K~porovnání
+Nástroje určené pro manuální přepis zvukového záznamu do textu představují
+typ aplikace, který je mému případu podobný a zároveň rozšířený.
+Porovnejme tyto dva úkoly a zpytujme hlavní rozdíly. K~porovnání
 vezměme
 \begin{enumerate}
 \item{
@@ -41,7 +42,7 @@ vezměme
 \end{enumerate}
 
 Každé číslo v~seznamu níže označuje program, pro který platí ten který výrok. Ku
-příkladu z~nich jen Transcriber umožňuje anotaci mluvčích, proto u druhé položky
+příkladu jen Transcriber umožňuje anotaci mluvčích, proto u druhé položky
 stojí pouze číslo (1).
 
 
@@ -81,26 +82,26 @@ stojí pouze číslo (1).
     } &
       zarovnává na úrovni slov, interně na úrovni fonémů; \\
 
-  točí se kolem uživatele: každý může přepisovat jakákoliv data si zvolí; &
+  točí se kolem uživatele: každý může přepisovat libovolná data; &
     (1,2,3) &
       točí se kolem dat: sbírka nahrávek je středobodem aplikace a přepisovat
       lze pouze ji; \\
 
-  předpokládá, že přepisovat je uživatelův záměr; &
+  předpokládají, že přepisovat je uživatelův záměr; &
     (1,2,3) &
-      předpokládá, že uživatel chce poslouchat, popř. vyhledávat nebo číst
-      s~poslechem, a k~přepisu ho nutno přimět; \\
+      předpokládá, že uživatel chce poslouchat, vyhledávat nebo číst
+      s~poslechem, a k~přepisu ho nutno motivovat; \\
 
   nesdílejí data mezi uživateli; &
     (1,2)\footnote{Transcribe podporuje kolaborativní přepis} &
-      musí počítat s~kolizemi. \\
+      musí počítat s~kolizemi, kdy více uživatelů upravuje týž úsek. \\
 \end{tabularx}
 
 \vspace{5mm}
 
 Navzdory těmto odlišnostem se v~přepisovacím softwaru skrývá mnoho poučného.
 Snadnost provádění běžných úkonů, jako pozastavení a obnovení přehrávání či
-posun jsou pro uživatelský prožitek {\em (UX)} stěžejní a tím i pro množství a kvalitu
+posun, jsou stěžejní pro uživatelský prožitek {\em (UX)} a tím i pro množství a kvalitu
 příspěvků. I způsob synchronního zobrazení textu se zvukem má velký dopad a
 v~potenciálních přístupech je značná svoboda pro variaci.
 
@@ -120,10 +121,10 @@ bych se mohl nechat poučit. Zatím k~tomu ale nebyl důvod, protože pokud vžd
 použiji nejnovější verzi každého segmentu, výsledek zůstane konzistentní, i když
 segment od uživatele A padne do širšího přepisu od uživatele B.
 
-V přepisu, jak se zobrazuje návštěvníkům, nově odeslaný segment přepisu vždy
-přepíše stávající verzi, ale všechny příspěvky udržuji v~databázi, takže každý
-lze zvrátit {\em (undo)}, také lze shlukovat příspěvky podle jejich autora atd.,
-ale zatím něčeho takového nebylo zapotřebí.
+Nově odeslaný segment přepisu vždy přepíše stávající verzi, ale každý lze
+zvrátit zpět {\em (undo)}, neboť všechny příspěvky udržuji v~databázi. Lze také
+shlukovat příspěvky podle autora či jinak, ale zatím něčeho takového nebylo
+zapotřebí.
 
 \subsection{Korpusy}
 \label{ssec:setting-corpora}
@@ -132,13 +133,13 @@ Tento projekt není prvním, který zahrnuje komunitní péči o korpus. Za zmí
 stojí Manually annotated sub-corpus\cite{ide2010manually}, kde se anotace různého
 druhu střádají od dobrovolníků. Dále Wikicorpus\cite{reese2010wikicorpus},
 korpus článků z~Wikipedie s~určitou úrovní lingvistické anotace. Můj projekt
-může s~těmito v~budoucnu dosáhnout značné podobnosti, až se hlavní bod zájmu
+by s nimi mohl v~budoucnu dosáhnout značné podobnosti, až se hlavní bod zájmu
 stočí od samotného přepisu k~anotaci.
 
 Je zde také CzEng\cite{bojar2008czeng}, česko-anglický paralelní korpus, kde
 velká část překladů pochází od dobrovolníků. Podobnost ve východisku je zde
 pozoruhodná, neboť v~obou projektech se z~původního materiálu dojde k~derivátu
-pomocí počítačového zpracování a chyby v~něm se pak komunitně opravují.
+pomocí počítačového zpracování, přičemž chyby se pak komunitně opravují.
 V~případě CzEngu jde o strojový překlad, v~mém o strojový přepis. Nicméně
 specifika projektů přinášejí odlišné problémy a diktují odlišné přístupy.
 
@@ -209,11 +210,11 @@ Tato původní verze posloužila k~přepsání asi 600 tisíc slov a běžela as
 než bylo nutné ji nahradit.
 
 Pro kompletní přepis aplikace se postupně objevilo několik důvodů. Hlavním
-z~nich bylo, že původní aplikace mohla jen těžko sloužit pro širokou veřejnost
-jako prostředek k~popularizaci nahrávek. Dalším důvodem bylo, že některé kýžené
-funkce nebylo možné zprovoznit bez zásadních změn v~provedení. Především šlo
-o~ekvalizér, čili frekvenční korekci při poslechu. Akutním důvodem pak byl fakt,
-že všechny významné prohlížeče opouštěly podporu Flashe.
+z~nich bylo, že původní aplikace mohla jen těžko sloužit pro širokou veřejnost.
+Dalším důvodem bylo, že některé kýžené funkce nebylo možné zprovoznit bez
+zásadních změn v~provedení. Především šlo o~ekvalizér, čili frekvenční korekci
+při poslechu. Akutním důvodem pak byl fakt, že všechny významné prohlížeče
+opouštěly podporu Flashe.
 
 \subsection{Základní rysy druhé verze}
 
@@ -222,14 +223,14 @@ Audio API\cite{adenot2013web} jako platformu pro nakládání se~zvukem a Twitte
 pro vzhled prvků. Zdrojový kód píšu v~ECMAScript~6 a o~kompilaci se stará
 webpack.
 
-Aplikace sestává z~několika {\em pohledů\footnote{Pohled ve smyslu ,,view``
-z~architekturního přístupu ,,model - view - controller``. Podobně jako autoři
-frameworku Django, pojmem pohled - view míním jednu stránku definovanou cestou
+Aplikace sestává z~několika {\em pohledů\footnote{Pohled ve smyslu {\em view}
+z~architekturního přístupu {\em model - view - controller}. Podobně jako autoři
+frameworku Django, pojmem pohled {\em (view)} míním jednu stránku definovanou cestou
 v~URL i s~její funkcionalitou.}}:
 \begin{enumerate}
-\item{úvodní stránky se seznamem nahrávek, kde každý záznam odkazuje na detailní
+\item{úvodní stránka se seznamem nahrávek, kde každý záznam odkazuje na detailní
 pohled,}
-\item{detail nahrávky, kde je možné přehrávání, zobrazuje se přepis a tento se dá
+\item{detail nahrávky, kde je možné přehrávání a zobrazuje se přepis, který se dá
 editovat,}
 \item{výsledky vyhledávání, kde každý záznam obsahuje úryvek odpovídající
 vyhledávanému dotazu a odkazuje na příslušnou pasáž nahrávky v~detailním
@@ -256,7 +257,7 @@ Obrázek~\ref{fig:scn2lab} ukazuje rozhraní při editaci segmentu.
 \label{fig:scn1lab}
 \end{figure}
 
-Vysvětliky k~obrázku~\ref{fig:scn1lab}:
+\textbf{Vysvětliky k~obrázku~\ref{fig:scn1lab}:}
 \begin{enumerate}
 \item{
     Záhlaví a v~něm
@@ -264,14 +265,14 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
     \item{jméno aplikace odkazující na úvodní stránku,}
     \item{odkaz na informace o projektu,}
     \item{vyhledávací políčko,}
-    \item{vstupní pole pro uživatelovu přezdívku;}
+    \item{vstupní pole pro uživatelovu přezdívku.}
     \end{itemize}
 }
-\item{Identifkátor nahrávky;}
-\item{Automaticky přepsané segmenty v~šedi;}
-\item{Manuálně přepsané segmenty v~černi;}
-\item{Právě přehrávané slovo zvýrazněné žlutým pozadím;}
-\item{Označené slovo zvýrazněné modří st. regent na pozadí;}
+\item{Identifkátor nahrávky.}
+\item{Automaticky přepsané segmenty v~šedi.}
+\item{Manuálně přepsané segmenty v~černi.}
+\item{Právě přehrávané slovo zvýrazněné žlutým pozadím.}
+\item{Označené slovo zvýrazněné odstínem modři ,,st. regent`` na pozadí.}
 \item{
     Informace o označeném slově:
     \begin{itemize}
@@ -286,7 +287,7 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
         podsekci~\ref{ssec:respelling}),
     }
     \item{
-        pozice: čas v~sekundách od začátku nahrávky do začátku slova;
+        pozice: čas v~sekundách od začátku nahrávky do začátku slova.
     }
     \end{itemize}
 }
@@ -294,20 +295,20 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
     Ukládání:
     \begin{itemize}
     \item{přímý odkaz k~celé nahrávce ve formátu mp3,}
-    \item{označení celého přepisu pro snadné vložení {\em (copy-paste)};}
+    \item{označení celého přepisu pro snadné vložení {\em (copy-paste)}.}
     \end{itemize}
 }
-\item{Grafický ekvalizér pro kompenzaci úzkopásmového šumu;}
+\item{Grafický ekvalizér pro kompenzaci úzkopásmového šumu.}
 \item{
     Ovládací prvky přehrávání:
     \begin{itemize}
     \item{tlačítko pro pozastavení / pokračování,}
     \item{současná pozice,}
     \item{posuvník {\em (scrollbar)} přehrávání,}
-    \item{celková délka nahrávky;}
+    \item{celková délka nahrávky.}
     \end{itemize}
 }
-\item{aktuální pozice reflektovaná v~URL;}
+\item{aktuální pozice reflektovaná v~URL.}
 \end{enumerate}
 
 \begin{figure}[htpb]
@@ -316,7 +317,7 @@ Vysvětliky k~obrázku~\ref{fig:scn1lab}:
 \label{fig:scn2lab}
 \end{figure}
 
-Vysvětlivky k~obrázku~\ref{fig:scn2lab}:
+\textbf{Vysvětlivky k~obrázku~\ref{fig:scn2lab}:}
 \begin{enumerate}
 \item{
     Označení textového úseku myší definuje segment k~editaci tak, že označené
@@ -325,11 +326,11 @@ Vysvětlivky k~obrázku~\ref{fig:scn2lab}:
 \item{
     Editační okénko a v~něm:
     \begin{itemize}
-    \item{textové pole {\em (textarea)} předvyplněná stávajícím přepisem,}
+    \item{textové pole {\em (textarea)} předvyplněné stávajícím přepisem,}
     \item{tlačítko pro přehrání odpovídajícího segmentu,}
     \item{tlačítko pro uložení,}
     \item{
-        tlačítko pro stažení segmentu, kteréžto inicializuje operaci uložení
+        tlačítko pro stažení segmentu, které inicializuje operaci uložení
         souboru pro úsek audia odpovídající označenému textu. Syntéza uloženého
         souboru se odehrává v~prohlížeči.
     }
@@ -342,10 +343,11 @@ přehrání / pozastavení a \texttt{ctrl+enter} pro uložení korekce.
 
 \subsection{Zobrazení přepisu}
 
-Mnohý program pro přepisování ukazuje transkript jako vertikální seznam vyřčení,
+Mnohý program pro přepisování ukazuje transkript jako vertikální seznam
+vyřčených frází,
 viz obrázek~\ref{fig:transcriber} pro příklad z~Transcriberu. To připisuji faktu,
 že atomickými prvky přepisu jsou uživatelem definované fráze a jejich hranice
-jsou spolehlivé, respektive není na programu, aby je definoval nebo
+jsou spolehlivé. Není na programu, aby je definoval nebo
 zpochybňoval. V~mém případě jsou atomickými prvky slova. Ano, jsou zde i věty,
 ale segmentace na věty automatickým přepisovačem je velice nespolehlivá, takže
 je žádoucí, aby označení a přepsání segmentu, který přesahuje přes hranice věty,
@@ -365,28 +367,28 @@ Toto je jeden z~důvodů, proč zobrazuji přepis v~podstatě jako jeden zalomen
 Na zobrazení přepisu byly kladeny tyto požadavky:
 \begin{enumerate}
 \item{
-    Právě přehrávané slovo aby bylo zvýrazněno;
+    Právě přehrávané slovo aby bylo zvýrazněno.
     \label{feats:item:curword}
 }
 \item{
     Manuálně přepsané segmenty aby byly jasně odlišené od automaticky
-    přepsaných;
+    přepsaných.
     \label{feats:item:manualdistinct}
 }
 \item{
     Označení neprázdné množiny znaků (krom mezery) myší aby spustilo editační
     mód pro označený text doplněný na celá slova;
-    při úspěšném uložení změny aby se tato vmísila do zobrazeného textu;
+    při úspěšném uložení změny aby se tato vmísila do zobrazeného textu.
     \label{feats:item:selectable}
 }
 \item{
     Kliknutí na slovo aby o~něm vyvolalo zobrazení kontextových informací
     (toto zvu {\em ,,vybrané slovo``}, neb pojem {\em ,,označené slovo``} je již
-    obsazen);
+    obsazen).
     \label{feats:item:clickable}
 }
 \item{
-    Celý přepis aby byl viditelný najednou pro možnost vyhledávání;
+    Celý přepis aby byl viditelný najednou pro možnost vyhledávání.
     \label{feats:item:showall}
 }
 \item{
@@ -401,16 +403,16 @@ responzivita se těžko slučuje s~ostatními body. Proč?
 Body~\ref{feats:item:curword} až~\ref{feats:item:clickable} volají po tom, aby
 každé slovo bylo obaleno ve vlastním elementu.
 Bod~\ref{feats:item:showall} a medián počtu slov v~nahrávce zvíci šesti tisíc
-dává dohromady šest tisíc elementů \texttt{<span>} jen pro statické zobrazení
+dávají dohromady šest tisíc elementů \texttt{<span>} jen pro statické zobrazení
 textu.
 
 Může se zdát, že to není takový problém, ale ovlivňuje to responzivitu a
 paměťovou náročnost stránky.
 
-V~původní, první verzi webové aplikace, jsem toto vyřešil obětováním
-bodu~\ref{feats:item:showall}: zobrazovaly se jen tři řádky textu, přičemž právě
+V~původní verzi webové aplikace jsem toto vyřešil obětováním
+bodu~\ref{feats:item:showall}. Zobrazovaly se jen tři řádky textu, přičemž právě
 přehrávané slovo se vždy drželo v~tom prostředním. Ukazuje to
-obrázek~\ref{fig:prototyp} jen s~tím, že právě přehrávané slovo je v~prvním
+obrázek~\ref{fig:prototyp}, jen s~tím rozdílem, že právě přehrávané slovo je v~prvním
 řádku, poněvadž se přehrává začátek nahrávky. Díky pokroku ve webových
 standardech a jejich podpoře ze strany prohlížečů je nyní možné řešení.
 
@@ -423,7 +425,7 @@ přepsané segmenty.\footnote{Medián počtu shluků je 1 (většina nahrávek n
 žádné ručně přepsané slovo), maximum je 1109. Medián pouze z~nahrávek, které
 obsahují ruční korekce, je 8.}
 Z~toho plyne, že obalení každého souvislého shluku manuálně či automaticky
-přepsaných slov do zvláštního HTML elementu nepředstavuje problém, což řeší
+přepsaných slov do zvláštního HTML elementu nepředstavuje problém. Tím se řeší
 bod~\ref{feats:item:manualdistinct}.
 
 Bod~\ref{feats:item:selectable} lze implementovat s~použitím metody objektového
@@ -450,17 +452,19 @@ eventuální chyby nejsou kritické a zmizí při dalším přehrávání.
 Efektivitu repozicování obdélníku podporuje i fakt, že se dají dopředu spočítat
 souřadnice všech slov najednou a pak je přepočítat jen ve dvou případech:
 1) při zřídkavé události změny velikosti okna a
-2) když se opravený segment vkládá do zobrazeného přepisu, ve kterémžto případě
-je nutno souřadnice přepočítávat pouze pro slova, která jsou v~dokumentu za
-vloženým segmentem.\footnote{Dalo by se optimalizovat dále a zastavit přepočet
+2) když se opravený segment vkládá do zobrazeného přepisu a je tedy
+nutno souřadnice přepočítávat pouze pro slova, která jsou v~dokumentu za
+vloženým segmentem.
+
+Dalo by se optimalizovat dále a zastavit přepočet
 v~momentě, kdy se nějakému slovu nezmění horizontální souřadnice. Pak by stačilo
 připočíst rozdíl ve vertikální souřadnici všem následujícím slovům. Jinými
-slovy, pokud jeden řádek zůstane stejný, pak i všechny pod ním.}
+slovy, pokud jeden řádek zůstane stejný, pak i všechny pod ním.
 
 \subsection{Vizuální odlišení manuálního a automatického přepisu}
 
 Jak je vidět na obrázku~\ref{fig:scn1lab}, vykresluje se automatický přepis
-v~šedé a manuální v~černé. Proč jsem zvolil rozlišení barvou a ne standardním
+v~šedé barvě a manuální v~černé. Proč jsem zvolil rozlišení barvou a ne standardním
 versus tučným písmem? Za prvé, standardní písmo je optimalizované pro čtení.
 Tučné písmo je na to, aby bodově zvýrazňovalo úseky. Když se použije na dlouhé
 pasáže, působí těžkopádně. Automatický přepis obsahuje mnoho chyb, takže nedává
@@ -473,7 +477,7 @@ výpočetní kapacitu a napomáhá responzivitě. Může se to zdát jako okrajo
 případ, ale domnívám se, že identifikace správně automaticky přepsaných slov je
 legitimní způsob přispívání, tak proč ho neoptimalizovat?
 
-Přes to přese všechno automaticky přepsané úseky balím do elementů
+Automaticky přepsané úseky balím i tak do elementů
 \texttt{<span>} a manuálně přepsané do elementů \texttt{<b>}, protože potom se
 rozlišení zachová při zkopírování textu z~webové stránky do textového editoru
 podporujícího formátování.
@@ -528,7 +532,7 @@ uživatel tak má volbu bez nutnosti práce programátora webové aplikace. Kame
 Existuje ještě standard \textit{IndexedDB API}, který má uspokojivou
 podporu a uložení gigabytu dat je s~ním možné, byť ne zaručené. S~využitím
 abstrahující knihovny \textit{Dexie} jsem proto skrz tento standard ukládání
-implementoval. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce
+implementoval. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce,
 se tím přináší velká úspora času a přenesených dat. Nicméně s~rozdělením
 nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 
@@ -536,7 +540,7 @@ nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 \label{sec:segmenty}
 
 Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
-skrze Web Audio API v~dohlednu, a k tomu jak odrazující dopad má nutnost
+skrze Web Audio API v~dohlednu, a jak odrazující dopad má nutnost
 stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
 než změnit způsob, jakým jsou nahrávky uloženy. Toto je popsáno v~článku Krůza 2019/1\cite{kruza2019restructuring}
 
@@ -545,7 +549,7 @@ Nahrávky jsou uloženy v~několika instancích pro různé účely:
 \begin{enumerate}
 \item{na backendovém serveru ve formátu MFCC pro nucené zarovnávání,}
 \item{v~repozitáři LINDAT ve formátu FLAC za účelem archivace a bádání,}
-\item{na CDN ve formátu mp3 za účelem přímého stažení uživatelem,}
+\item{na {\em CDN}\footnote{content delivery network} ve formátu mp3 za účelem přímého stažení uživatelem,}
 \item{taktéž na CDN ve formátech OGG/Vorbis a mp3 pro webové rozhraní.}
 \end{enumerate}
 
@@ -572,8 +576,9 @@ mnoho času. Na druhou stranu s každým předělem vnášíme do přehrávání
 extra HTTP request s~nezanedbatelnou režií.
 
 Jako vhodný kompromis se jeví segmenty o délce 30 - 120 sekund. Velikost
-dvouminutového segmentu je v~komprimovaném formátu při mono/24KHz kolem 0,6MB a
-na Intel Core2 o 2,5GHz se dekóduje asi 1,6 sekundy.
+dvouminutového segmentu je v~komprimovaném jednokanálovém formátu při vzorkovací
+frekvenci 24kHz kolem 0,6MB a na Intel Core2 o 2,5GHz se dekóduje asi 1,6
+sekundy.
 
 \subsection{Metody hledání bodů předělu}
 
@@ -596,20 +601,21 @@ k~většině nahrávek mám automatický nebo i manuální přepis.
 
 Tam, kde pořízení přepisu nebo jeho automatické zarovnání selhalo, lze použít
 detekci ticha prostou akustickou analýzou. Tato metoda je velice náchylná
-k~chybám v~případě nahrávek s~malým poměrem signálu k~šumu, kterých se v~korpusu
-Karla Makoně vyskytuje neutěšeně mnoho.
+k~chybám v~případě nahrávek s~malým poměrem signálu k~šumu, a těch je v~korpusu
+Karla Makoně mnoho.
 
 Kde nepomůže ani metoda detekce ticha, což se pozná podle toho, že detekované
 pauzy jsou příliš daleko od sebe nebo naopak zabírají valnou část nahrávky,
 nezbývá, než určit body předělu ve fixních intervalech, nehledě na to, že jich
-většina padne doprostřed slova.
+mnoho padne doprostřed slova.
 
 Pokusy dvě metody vyloučily: Manuální hledání bylo příliš neefektivní. Kromě mne
 se dalších asi pět dobrovolných anotátorů o~tento úkol pokusilo a došla jim
-trpělivost po nule až deseti minutách označkovaného materiálu. Detekci pomocí
-zarovnaného přepisu šlo použít i na některé nahrávky, u nichž přepis selhal tím
-způsobem, že se rozdělily na menší části, přepsaly se ony -- zpravidla
-s~katastrofální úspěšností. Tento přepis opět v~některých případech selhal, ale
+trpělivost po nule až deseti minutách označkovaného materiálu. I na některé
+nahrávky, u nichž přepis selhal, šlo detekci pomocí
+zarovnaného přepisu použít.
+Rozdělily se na menší části, tyto se přepsaly, zpravidla
+s~malou úspěšností. Tento přepis opět v~některých případech selhal, ale
 většina takové nahrávky byla nějakým přepisem pokryta. A jakkoliv nekvalitní
 takový přepis byl, právě dlouhé mezery mezi slovy se nalezly s~uspokojivou
 přesností. Krátké úseky, na nichž selhalo rozpoznávání řeči, byly pak příliš
@@ -641,25 +647,25 @@ celkem & 82467 \\
 
 \subsection{Výběr bodů předělu}
 
-V~naivní metodě určování bodů předělu pomocí fixního intervalu jsem zvolil délku
-šedesáti sekund. Že to je délka přijatelná, se diskutuje výše a s~další
-optimalizací tohoto parametru jsem neztrácel čas.
+V~metodě určování bodů předělu pomocí fixního intervalu jsem zvolil délku
+šedesáti sekund. Výše rozvádím, že to je délka přijatelná, a další
+optimalizací tohoto parametru jsem se nezabýval.
 
 Zajímavější je situace u~hledání pomocí zarovnaného přepisu. Zde se jedná
 o~programátorský úkol, kde na vstupu máme posloupnost slov vyskytujících se
 v~přepisu nahrávky, z~nichž každé s~sebou krom své formy a výslovnosti nese
 informaci, kde začíná, a pokud obsahuje na konci ticho, pak kde začíná
-pseudofoném ticha a jak je dlouhý.  Redukovat tedy vstup můžeme na posloupnost
+pseudofoném ticha a jak je dlouhý. Vstup tedy můžeme redukovat na posloupnost
 párů čísel, kde první vždy udává počátek ticha a druhé jeho konec. Na výstupu
 očekáváme posloupnost časových pozic, které rozdělují nahrávku na úseky o~délce
 nejméně 30 sekund, nejvýše 120 sekund, a které jsou uprostřed co nejdelších
-segmentů ticha.
+tich.
 
 Povšimněme si, že úloha nemá řešení, pokud je nahrávka kratší třiceti sekund. To
-ovšem jednak v~mluveném korpusu Karla Makoně nenastává a jednak by to nevadilo,
-protože takovou nahrávku bychom jednoduše nechali v~jednom souboru.
+ovšem v~mluveném korpusu Karla Makoně nenastává a ani v~opačném případě by to nevadilo,
+protože takovou nahrávku bychom nechali v~jednom souboru.
 
-Druhým případem, kdy úloha nemá řešení, je, když mezi dvěma sousedními pauzami
+Úloha nemá řešení i v~případě, kdy mezi dvěma sousedními tichy
 je rozestup větší než 120 sekund. Takový případ nastává, když je samotné
 detekované ticho velmi dlouhé. Tyto případy jsem řešil manuální úpravou.
 
@@ -668,21 +674,22 @@ Nalezneme ideální rozdělení nahrávky, která obsahuje jen první slovo, a p
 přidáváme slova, načež na základě dosavadního řešení a nového slova řešení
 rozšiřujeme.
 
-Je ale i jednodušší varianta: Začneme s~množinou všech pauz a iterujeme přes ně
-od nejkratší po nejdelší. Pauzu z~množiny odebereme, pokud sloučením sousedních
-segmentů nevznikne segment delší než 60 sekund. Přes vybrané pauzy znova
-iterujeme a pauzu odebereme, jestliže jeden z~jejích sousedů má méně než 30
+Je ale i jednodušší varianta: Začneme s~množinou všech tich a iterujeme přes ně
+od nejkratší po nejdelší. Ticho z~množiny odebereme, pokud sloučením sousedních
+segmentů nevznikne segment delší než 60 sekund. Přes vybraná ticha znova
+iterujeme a ticho odebereme, jestliže jeden z~jeho sousedů má méně než 30
 sekund.
 
-Zbylá množina pauz splňuje počáteční podmínky, pokud to je vzhledem ke vstupním
-datům možné. Algoritmus je nejen jednoduchý na naprogramování, ale má také milou
+Zbylá množina tich splňuje počáteční podmínky, pokud to je vzhledem ke vstupním
+datům možné. Algoritmus je jednoduchý na naprogramování a má milou
 lineární složitost.
 
 \subsection{Pojmenování souborů}
 
 Jsou-li vybrány body předělu, mohou se nahrávky podle nich rozdělit a výsledné
 segmenty uložit na disk. Zde vyvstává otázka, jak rozdělit soubory do adresářů a
-jak je pojmenovat. Že způsob uložení souborů hraje roli, dokládá i Reppen\cite{reppen2010building}. Zvolil jsem tento formát:
+jak je pojmenovat. Způsob uložení souborů hraje svou roli, jak dokládá i
+Reppen\cite{reppen2010building}. Zvolil jsem tento formát:
 
 \texttt{{\em{}ID}/{\em{}format}/{\em{}ID}--from-{\em{}ZACATEK}--to-{\em{}KONEC}.{\em{}PRIPONA}}
 
@@ -691,25 +698,26 @@ tedy například
 \texttt{88-04A/ogg/88-04A--from-1155.27--to-1211.53.ogg}.
 
 Důvody jsou tyto: Není praktické z~důvodu omezení mnoha souborových systémů mít
-příliš mnoho souborů v~jednom adresáři. Proto rozdělení do adresářů podle
+příliš mnoho souborů v~jednom adresáři. Používám proto rozdělení do adresářů podle
 identifikátorů nahrávek. Že formát je právě podadresář identifikátoru a ne třeba
-nadadresář, je arbitrární, obojí by bylo možné, nebo i mít soubory všech formátů
-v~jednom adresáři a jen je odlišovat příponou.
+nadadresář, je arbitrární. Obojí by bylo možné, stejně jako mít soubory všech formátů
+v~jednom adresáři a odlišovat je jen příponou.
 
 Zopakovat identifikátor nahrávky i v~názvu souboru jsem se rozhodl proto, aby
 případný zatoulaný soubor mohl být snáze identifikován. Díky tomu, že se do
-názvu souboru uvede začátek i konec úseku v~rámci nahrávky, se zajistí, že název
+názvu souboru uvede začátek i konec úseku v~rámci nahrávky, je zajištěno, že název
 souboru přesně popisuje jeho obsah. Oproti tomu např. lineární číslování by při
 změně bodů předělu vedlo k~tomu, že jeden název souboru by byl totožný pro různé
 úseky v~různých verzích korpusu. To by mohlo vést k~problémům s~cachováním.
-Identifikátory pomocí kontrolních součtů nebo jinak postavených na základě
-binárního obsahu souboru by vedlo k~nutnosti změnit identifikátory při každé
+Odvozování identifikátorů na základě binárního obsahu souboru, např. pomocí
+kontrolních součtů, by vedlo k~nutnosti změnit identifikátory při každé
 změně komprese apod., ačkoliv slyšitelný rozdíl by třeba nebyl žádný.
 
-Nyní, pokud by došlo ke změně bodů předělu, by se nové i staré úseky musely
-uchovávat v~jednom adresáři a, až by všechny instance starých úseků byly
-vyhlazeny z~paměti cache všech klientů, by se staré mohly smazat. Jedinou
-nevýhodou je, že by se musely nové přebrat od starých, ale to není problém.
+Pokud by při současném řešení došlo ke změně bodů předělu, by se nové i staré úseky musely
+uchovávat v~jednom adresáři, a až by všechny reference na staré úseky byly
+vyhlazeny z~paměti cache všech klientů, mohly by se staré smazat. Jedinou
+nevýhodou je, že staré a nové úseky by byly pomíchané v~jednom adresáři, a proto
+by se musely při mazání explicitně vyjmenovat.
 
 \subsection{Překryv úseků}
 
@@ -730,7 +738,7 @@ Aplikace {\em znamená} použití. Použitelnost je tedy klíčovým faktorem pr
 
 Přepis, který pořizuji, je na hranici toho, co se dá nazvat lingvistickou
 anotací dat. V~naší požehnané části světa, kde podíl analfabetů je zanedbatelný,
-je přepis mluveného slova stěží odbornou prací. Na druhou stranu zajistit, aby
+můžeme přepis mluveného slova stěží nazvat odbornou prací. Na druhou stranu zajistit, aby
 přepis přesně odpovídal mluvenému projevu
 \begin{itemize}
 \item{jakožto vyjádření vyřčených slov a jejich významu,}
@@ -743,8 +751,8 @@ Lingvistická anotace dat obecně vyžaduje zaškolené pracovníky. Podíváme-
 např. na Pražský závislostní korpus, můžeme si povšimnout, že od anotátorů
 vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005complex}.
 
-Crowdsourcing, přístup založený na komunitní spolupráci nebo zapojování
-dobrovolníků nabývá, na popularitě při získávání hodnot, které by jinak byly
+{\em Crowdsourcing}, přístup založený na komunitní spolupráci nebo zapojování
+dobrovolníků, nabývá na popularitě při získávání hodnot, které by jinak byly
 neúnosně drahé, viz podsekci~\ref{ssec:setting-corpora}. Nicméně např.
 Maekawa\cite{maekawa2000spontaneous} popisuje tvorbu
 mluveného korpusu spontánní japonštiny s~využitím placených anotátorů.
@@ -755,7 +763,7 @@ zřejmé, že čím méně expertízy na straně anotátorů, tím silnější k
 zapotřebí.
 
 Běžnou metodou kontroly kvality je mezianotátorská shoda. To má obrovskou
-nevýhodu, že každá část dat musí být anotována aspoň dvakrát, což snižuje
+nevýhodu v~tom, že každá část dat musí být anotována aspoň dvakrát, což snižuje
 výtěžnost nejméně o 50\%.
 
 Ještě jeden důvod hovoří proti jejímu použití v~případě tohoto projektu. Webová
@@ -818,7 +826,7 @@ integraci do přepisu mohou slovu nastavit kýženou pravopisnou formu. Toto je
 jeden z~mála případů, kdy se od uživatele chce něco nekonvenčního.
 
 Když je pravopisně chybný, fonetický zápis poslán, pak pokud projde fází
-nuceného zarovnání, se integruje do zobrazeného přepisu. Datová reprezentace
+nuceného zarovnání, integruje se do zobrazeného přepisu. Datová reprezentace
 každého slova sestává z~těchto prvků:
 \begin{enumerate}
 \item{Výskyt:
@@ -844,8 +852,8 @@ každého slova sestává z~těchto prvků:
     přepsaných.
 }
 \item{Confidence measure:
-    míra jistoty, se kterou bylo slovo predikováno; pouze u automaticky
-    přepsaných slov.
+    míra jistoty, se kterou bylo slovo predikováno (týká se pouze automaticky
+    přepsaných slov).
 }
 \item{Ticho:
     začátek a délka ticha, pokud se za slovem vyskytuje.
@@ -975,7 +983,7 @@ je 3,12\%. Manuálně jsem prošel 20 náhodně vybraných odmítnutých pokusů
 přišel jsem k~těmto číslům:
 \begin{itemize}
 \item{
-    V~\textbf{11} případech se jednalo o falešné negativum, kde přepis byl
+    V~\textbf{11} případech se jednalo o falešná negativa, u nichž přepis byl
     správný a měl být přijat,
 }
 \item{
@@ -992,9 +1000,9 @@ přišel jsem k~těmto číslům:
 }
 \end{itemize}
 
-Ve 25\% tohoto minimalistického vzorku tedy zarovnávač splnil svoje validační
+Ve 25\% tohoto malého vzorku tedy zarovnávač splnil svoje validační
 poslání, předšed tomu, aby se do trénovacích dat dostal chybný vzorek. V~55\%
-případů selhal a byl jen otravnou překážkou v~práci a ve zbývajících 20\%
+případů selhal a byl jen překážkou v~práci a ve zbývajících 20\%
 případů sice odmítl validní přepis, ale zabránil tomu, aby se do trénovacích dat
 dostal defektní vzorek, na což se dá dívat v~pozitivním světle.
 
@@ -1050,9 +1058,9 @@ uchována pravopisně nesprávná forma. To připisuji tomu, že uživatelé, kt
 si této problematiky vědomi, většinou celý proces dokončí a formu upraví.
 
 Na druhou stranu téměř třetina případů vykazuje ponechání chybné fonetické
-reprezentace. To představuje závažný problém alespoň z~dvou úhlů pohledu: Jednak
-se tím dokazuje, že nucené zarovnání selhává při zachycení zcela odlišné
-výslovnosti, a jednak se touto cestou dostávají do trénovacích dat špatné
+reprezentace. To představuje závažný problém alespoň z~dvou úhlů pohledu:
+Dokazuje se tím, že nucené zarovnání selhává při zachycení zcela odlišné
+výslovnosti, a zároveň se touto cestou dostávají do trénovacích dat špatné
 vzorky.
 
 Jednou z~patrných příčin je, že dynamický slovník rozpoznává pouze exaktně
@@ -1064,9 +1072,9 @@ Krom toho jistě budou hrát roli neinformovanost a roztržitost uživatelů, co
 jim dá mít těžko za zlé, vzhledem k~tomu, jak náročná činnost na soustředění se
 od nich chce.
 
-Naproti tomu případ nesprávné ortografické formy nepředstavuje tak závažný
-problém. Může to sice ztížit vyhledávání, ale to se dá provést na výslovnosti, a
-to už nyní manuálně, a lze to i automatizovat.
+Případ nesprávné ortografické formy oproti tomu nepředstavuje tak závažný
+problém. Může sice ztížit vyhledávání, ale to lze provést na výslovnosti,
+už nyní manuálně, a v~případě potřeby automatizovat.
 
 Čtvrtá kombinace fonetického zápisu a špatné výslovnosti se pochopitelně
 nevyskytuje.
@@ -1227,7 +1235,8 @@ Poslední věcí v~databázi je fonetický slovník. Ten slouží ke sběru fone
 reprezentací slov s~nestandardní výslovností, jejichž výslovnost a psanou formu
 poskytují uživatelé.
 
-Přepisy se ukládají trojitě. Primárně na serveru v~souborech ve formátu JSONP.
+Přepisy se ukládají trojitě. Primárně na serveru v~souborech ve formátu {\em
+JSONP}\footnote{JSON with padding -- JSON obalený do JavaScriptové funkce.}.
 Tyto se při každé změně zálohují na externí cloudové úložiště. Do třetice se
 denně a na požádání exportují do HTML, které je přístupné z~CDN.
 CDN slouží též k~servírování samotných nahrávek.
@@ -1235,11 +1244,11 @@ CDN slouží též k~servírování samotných nahrávek.
 
 \section{Budoucí práce}
 
-Webovou aplikaci je potřeba dále zdokonalovat s~ohledem na UX. Jednak bych rád
-dále snížil potřebu zaškolení uživatele zpřehledňováním ovládacích prvků a
-integrací vhodného systému nápovědy. Jednak bych rád odstranil nutnost označovat
+Webovou aplikaci je potřeba dále zdokonalovat s~ohledem na UX. Rád bych
+snížil potřebu zaškolení uživatele zpřehledňováním ovládacích prvků a
+integrací vhodného systému nápovědy. Dále chci odstranit nutnost označovat
 úsek, aby ho člověk mohl opravit.
-Metody zvýšení použitelnosti webu lze načerpat např. v~knize Jana Řezáče Web
+Metody zvýšení použitelnosti webu lze čerpat např. z~knihy Jana Řezáče Web
 ostrý jako břitva\cite{rezac2016web}.
 
 Nucené zarovnání je nyní založeno na programu \texttt{HVite} ze sady HTK a

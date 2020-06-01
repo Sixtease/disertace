@@ -2,12 +2,12 @@
 \label{kap:svolocz}
 
 Trénovacích dat pro rozpoznávání řeči není nikdy dost. V~době psaní tohoto textu
-je manuálně přepsaných asi 100 hodin z~Mluveného korpusu Karla Makoně. To je pro
-natrénování modelu pro jednoho mluvčího použitelné množství. Zda by více trénovacích dat od jiných mluvčích mohlo pomoci, je však
-otevřená otázka.
+je manuálně přepsaných asi 100 hodin z~mluveného korpusu Karla Makoně. To je pro
+natrénování modelu pro jednoho mluvčího použitelné množství. Zda by více
+trénovacích dat od jiných mluvčích mohlo pomoci, je však otevřená otázka.
 
-Veřejně k~dispozici je několik zdrojů trénovacích dat pro účely trénování
-rozpoznávače češtiny, jichž jsem si vědom:
+Veřejně je k~dispozici několik zdrojů dat pro účely trénování
+rozpoznávače češtiny:
 \begin{itemize}
 \item{
     Vystadial\cite{vystadialarticle} se 77 hodinami záznamů internetových
@@ -43,7 +43,7 @@ korpus pro trénování rozpoznávání řeči.
 
 \section{Příprava dat}
 
-Ruční přepisy jednání poslanecké sněmovny jsou, pokud je mi známo, k~dispozici
+Pokud je mi známo, jsou ruční přepisy jednání Poslanecké sněmovny k~dispozici
 pouze ve formátu čitelném pro člověka. Přepisy nejsou ve zdrojovém kódu webové
 stránky nijak oddělené a jsou promíchané s~metainformacemi. Je tedy nutné
 extrakci pojmout jako aproximační úkol. Používám velice jednoduchý algoritmus,
@@ -57,7 +57,7 @@ v~tom, že se z~přepisu vynechávají odkazy na jiné schůze. Ty jsou totiž
 formátované jinak než ostatní části, jak je vidět např. v~přepisu schůze z 12.
 února 2020 od
 10:10\footnote{https://www.psp.cz/eknih/2017ps/stenprot/040schuz/s040372.htm}.
-Opravení obého je otázkou napsání chytřejšího scraperu a pro účely vybudování
+Oprava obého je otázkou napsání chytřejšího scraperu a pro účely vybudování
 korpusu pro tréning rozpoznávání řeči je obé bezvýznamné: Označení mluvčích
 z~principu, vynechání odkazů pro jejich řídkost.
 
@@ -66,7 +66,7 @@ z~principu, vynechání odkazů pro jejich řídkost.
 
 Jedna z~překážek použití stenografických přepisu pro trénování rozpoznávačů řeči
 je velmi volné párování neboli zarovnání přepisů ke zvuku. Každý zvukový záznam
-má 14 minut a překrývá se se sousedními čtyři minuty na každé straně.
+má 14 minut a se sousedními se na každé straně překrývá vždy čtyři minuty.
 Přepisy jsou rozdělené na úseky odpovídající těmto záznamům. Zarovnání je tedy
 do desetiminutových bloků s~dvouminutovým přesahem na každé straně. Na
 obrázku~\ref{fig:svolocz:overlap} je vyobrazeno schéma tohoto apriorního
@@ -103,8 +103,8 @@ vygenerované slovo spolehlivost párování se slovem manuálně zapsaným jako
 kde $e(w)$ je počet editačních operací nad slovem $w$ a $l(w)$ je délka slova
 $w$ v~písmenech.
 
-Obrázek~\ref{fig:svolocz:align} proces zarovnání manuálních přepisů se zvukovým
-záznamem zachycuje.
+Obrázek~\ref{fig:svolocz:align} zachycuje proces zarovnání manuálních přepisů se
+zvukovým záznamem.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.4]{rc/svolocz-align.eps}
@@ -120,11 +120,11 @@ rozdělena. Za prvé je žádoucí, aby byly trénovací vzorky podobně dlouhé
 jako testovací vzorky\cite{nagorski2003search}.
 V~případě automatického přepisu korpusu Karla Makoně lze
 nastavit délku vstupních úseků libovolně. V~obecném případě nelze předvídat.
-Za druhé je pro tréning výhodné, aby jednotlivé vzorky měly podobnou délku kvůli
+Za druhé je pro trénink výhodné, aby jednotlivé vzorky měly podobnou délku kvůli
 efektivnímu využití operační paměti grafické procesní jednotky. Stačí jeden
 dlouhý vzorek a dávka {\em (batch)} způsobí vyčerpání paměti. Naopak mnoho
 kraťoučkých vzorků způsobí, že se paměť při dávce zaplní jen málo a plýtvá se
-časem. Za třetí, chci-li, aby byla trénovací sada dala použitelná i pro ostatní,
+časem. Za třetí, chci-li, aby byla trénovací sada použitelná i pro ostatní,
 je dobré, aby se délkou vzorků příliš neodlišovala od ostatních datových sad.
 
 Nad to je ale důležité, aby přepis dokonale odpovídal obsahu. A protože
@@ -144,10 +144,10 @@ V~podsekci~\ref{subsec:svolocz:zarovnavani} jsem popsal, že máme párování
 jednotlivých slov v~automatickém a manuálním přepisu s~určitou mírou
 spolehlivosti a že automatický přepis je spárován se zvukovým záznamem. Zbývá
 tedy vybrat úseky, které můžeme považovat za spolehlivě přepsané, a zbytek
-zahodit.
+vyřadit.
 
 Nahrávky se překrývají tak, že z~každého čtrnáctiminutového souboru je jen deset
-minut pokryto odpovídajícím přepisem, takže zahodit musíme minimálně 40\% úseků.
+minut pokryto odpovídajícím přepisem, takže vyřadit musíme minimálně 40\% úseků.
 Dospěl jsem k~následujícím kritériím:
 
 \begin{enumerate}
@@ -173,6 +173,8 @@ písmene odpovídající jednomu slovu v~automatickém přepisu. V~takovém př�
 mohou všechna slova mít stoprocentní spolehlivost, jen jedno hluboce pod nulou.
 Takový úsek by pak byl při použití mediánu přijat, zatímco průměr výrazně negativní
 hodnotu započte a úsek správně odmítne.
+
+% TODO příklad odmítnutí pomocí průměru
 
 \subsection{Shrnutí extrakce trénovacích dat}
 
