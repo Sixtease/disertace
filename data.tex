@@ -394,7 +394,8 @@ počítadla, a to použitím hardwarového počítadla či přesnější interpo
 pomocí většího množství bodů, anebo využitím predikce začátku
 tématu v~několikaminutovém okolí pomocí komputačnělingvistických metod.
 
-\subsection{Pokusy o automatickou identifikaci témat}
+\subsection{Identifikace témat textovým vyhledáváním}
+\label{ssec:data:topicsearch}
 
 Provedl jsem dva ,,baselinové`` pokusy o automatickou identifikaci témat
 v~mluveném korpusu, které jsou popsány v~článku Krůza 2019/2\cite{kruza2019spoken}
@@ -414,8 +415,8 @@ Pohádku jsem vybral jakožto opakující se téma, které není vázané na poj
 entitu, ačkoliv by bývalo šlo použít jméno Honza, které se u Makoně vyskytuje
 obvykle právě ve spojitosti s~pohádkou.
 
-V~přepisu korpusu, kde je přibližně 100 hodin
-přepsáno ručně a zbytek více než tisíce hodin automaticky, jsem vyhledal kmeny
+V~přepisu %, kde je přibližně 100 hodin přepsáno ručně a zbytek více než tisíce hodin automaticky,
+získaném pomocí neuronových sítí trénovaných na manuálním přepisu Makoňova korpusu jsem vyhledal kmeny
 výše zmíněných slov. Výsledek hledání shrnuje tabulka~\ref{tab:topicsearch}.
 U výsledků jsem manuálně zkontroloval, je-li tématem skutečně hledaný výraz.
 Pokud bylo výsledků hledání více než 20, zkontroloval jsem toto u prvních
@@ -441,15 +442,22 @@ pohádka & \texttt{pohádk.*} & 216 & 671 & 55 & 18/20   \\
 \multicolumn{5}{|l|}{průměrná precision} & 81,25\%\\
 \hline
 \end{tabular}
-\caption{Výsledky textového vyhledávání v~přepisu. Precision počítána pouze
+\caption{Výsledky textového vyhledávání v~přepisu na konci roku 2018. Precision počítána pouze
 z~automatických přepisů.}\label{tab:topicsearch}
 \end{center}
 \end{table}
 
-Precision převyšující 80\% se zdá být slibnou a poukazuje na fakt, že současná
+% *: h: 718097, a: 8069250
+% lazar: h: 14, a: 127  - 3 17 + PLZEŇ!!! ; jeden dobrý přepis, ne téma
+% mithra: h: 0, a: 0
+% satan: h: 155, a: 1814    - 3 17 +    Plzeň!
+% tereza: h: 156, a: 2062   - 1 19 +    Tereza ~ které za
+% pohádka: h: 58, a: 1014   - 0 20 +    Plzeň!
+
+Precision převyšující 80\% poukazuje na fakt, že
 kvalita přepisu umožňuje v~korpusu rozumně vyhledávat. Všechny výsledky však
 byly velice dobře srozumitelné. Ani jeden nebyl v~některém z~akusticky
-defektních souborů, což vede k~domněnce, že tyto ještě nejsou ani zdaleka
+defektních souborů, což vede k~domněnce, že tyto ještě nebyly ani zdaleka
 uspokojivě přepsané pro účely textového vyhledávání.
 
 Celkem 7,6\% slov v~korpusu bylo v~době tohoto experimentu manuálně přepsáno. Sloupec ,,očekávaný počet
@@ -460,6 +468,65 @@ na dotazu. Může to být způsobeno tím, že některé z~nich jsou pro rozpozn
 obtížnější na přepis, nebo také tím, že určité téma se vyskytuje v~oblasti,
 která je disproporčně buď z~velké nebo naopak z~malé části přepsána. Je téměř
 jisté, že aspoň pro některé z~vyhledaných témat je recall velice nízký.
+
+Po pořízení přepisu robustnějším modelem natrénovaným na datech popsaných
+v~kapitole~\ref{kap:svolocz} jsem znovu spočetl výsledky vyhledávání.
+Tabulka~\ref{tab:topicsearch2020} udává tytéž hodnoty jako tabulka~\ref{tab:topicsearch} pro současný přepis.
+
+Kvalitnější přepis se odrazil především ve vyrovnání skutečného a očekávaného
+počtu výskytů v~automatickém přepisu, z~čehož lze usoudit, že recall se výrazně
+zvýšil. Tři pozitivní výsledky byly dokonce z~kotoučů pořízených nízkou
+rychlostí 2,38 cm/s, které patří k~těm nejméně srozumitelným.
+
+Jeden falešný
+výsledek hesla {\em ,,lazar``} spočíval v~použití tohoto slova pro označení
+nemocného člověka, tedy v~přeneseném významu. Zde se tedy odrazila omezenost
+této metody pro hledání tématu, nikoliv nedokonalost přepisu. Při zkoumání
+výsledků vyhledávání hesla {\em ,,tereza``} v~podobě regulárního výrazu
+\texttt{terez.*} jsem dospěl ke kurióznímu zjištění: Když nalezený výskyt byl
+formou slova {\em ,,Terezie``}, výsledek byl vždy správný, nenarazil jsem na žádnou
+výjimku. Ovšem byl-li výsledek {\em ,,Tereza`` }, šlo ve více než polovině případů o
+chybně přepsaná slova {\em ,,které za``}. Forma {\em ,,Terezie``} je v~přepisu
+pětadvacetkrát častější, takže na výsledku tohoto experimentu se tato chyba
+odrazila jen nepatrně.
+
+Díky tomu, že mithraismus se vyskutuje v~ručních indexech k~nahrávkám, lze se
+přesvědčit, v~čem tkví nulový výskyt tohoto hesla v~přepisech. Automatický
+přepis zde skutečně selhává, vole slova jako {\em ,,mistrů``} místo {\em
+,,Mithrův``} nebo {\em ,,my trasu``} místo {\em ,,mithraismus``}. Pokusil jsem
+se několik frází obsahujících nějaké slovo odvozené od jména ,,Mithra``
+rozpoznat bez použití jazykového modelu. Např. pro frázi {\em ,,se v~jejich
+kultu mithraistickém znázorňovala``} se bez jazykového modelu dojde k~predikci
+{\em ,,te jejích kultu mitra jistickém znázorňovala``}.
+
+Zdá se proto, že by bylo užitečné mít k~dispozici pro vyhledávání i přepis
+získaný bez použití jazykového modelu. Toto je předmětem budoucí práce.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|l|r|r|r|r|}
+\hline
+téma &
+dotaz &
+\makecell{výsledků\\ v~automat.\\ přepisu} &
+\makecell{očekávaný\\ počet výsl.\\ v~aut. přep.} &
+\makecell{výsledků\\ v~manuálním\\ přepisu} &
+precision \\
+\hline
+Lazar & \texttt{lazar.*} & 113 & 157 & 14 & 17/20   \\
+Mithra & \texttt{mith?ra.*} & 0 & 0 & 0 & n/a   \\
+Satan & \texttt{satan.*} & 1659 & 1742 & 155 & 17/20   \\
+Sv. Tereza & \texttt{terez.*} & 1906 & 1753 & 156 & 19/20   \\
+pohádka & \texttt{pohádk.*} & 956 & 652 & 58 & 18/20   \\
+\hline
+\multicolumn{5}{|l|}{průměrná precision} & 91,25\%\\
+\hline
+\end{tabular}
+\caption{Výsledky textového vyhledávání v~přepisu k~červnu 2020.}\label{tab:topicsearch2020}
+\end{center}
+\end{table}
+
+\subsection{Korelace témat mezi nahrávkami a knihami}
 
 Druhý pokus o návrh metody zmapování témat s~využitím digitální analýzy se zakládal na
 domněnce, že v~době, kdy Makoň o určitém tématu psal knihu, o něm bude
@@ -487,7 +554,7 @@ které jsem u nahrávky narazil, je z~roku 1970. Je možné, že některé nahr�
 jsou staršího data, ale nic nenasvědčuje tomu, že by jich bylo mnoho a byly
 výrazně starší. Vzhledem k~tomu, že Karel Makoň začal evangelizovat už
 v~koncentračním táboře na konci roku 1939 a přestal až v~roce 1992, je
-pravděpodobné, že záznam je k~méně než polovině jeho slov.
+pravděpodobné, že záznam je k~méně než polovině slov, která vyřkl.
 
 Přednášky v~úzkém kruhu přátel se konaly na různých místech Československa,
 později ČR.
@@ -504,7 +571,7 @@ také existují, ale jsou spíše raritou a často jsou hůře zachované a ne t
 systematicky označené.
 
 Část nahrávek (30\% celkové délky) je nahraných na kotouče, zbytek na kazety. Ve
-většině případů má každý kotouč a každá nahrávka identifikátor. Některé kusy
+většině případů má každý kotouč a každá kazeta identifikátor. Některé kusy
 jsou bez identifikátoru, některé dvojice mají totožný identifikátor a různý
 obsah.
 
