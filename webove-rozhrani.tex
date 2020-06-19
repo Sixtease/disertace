@@ -122,7 +122,7 @@ použiji nejnovější verzi každého segmentu, výsledek zůstane konzistentn�
 segment od uživatele A padne do širšího přepisu od uživatele B.
 
 Nově odeslaný segment přepisu vždy přepíše stávající verzi, ale každý lze
-zvrátit zpět {\em (undo)}, neboť všechny příspěvky udržuji v~databázi. Lze také
+vrátit zpět {\em (undo)}, neboť všechny příspěvky udržuji v~databázi. Lze také
 shlukovat příspěvky podle autora či jinak, ale zatím něčeho takového nebylo
 zapotřebí.
 
@@ -145,13 +145,13 @@ specifika projektů přinášejí odlišné problémy a diktují odlišné pří
 
 Marge 2009\cite{5494979} zkoumá použití platformy Mechanical Turk k~získání
 přepisů mluveného slova. Mihalcea 2004\cite{mihalcea2004building} prezentuje
-webové rozhraní pro desambiguaci významu slov {\em (word-sense disambiguation)} a
+webové rozhraní pro dezambiguaci významu slov {\em (word-sense disambiguation)} a
 zaměřuje se především na ošetření neshod mezi anotátory.
 
 \section{Popis webové aplikace}
 
-Webová aplikace, sloužící k~přehrávání a sběru přepisů, existuje ve dvou
-verzích. První, prototyp, byl implementován hned za začátku projektu v~roce
+Webová aplikace sloužící k~přehrávání a sběru přepisů existuje ve dvou
+verzích. Prototyp byl implementován hned za začátku projektu v~roce
 2012 a popisuje ho článek Krůza, Peterek 2012\cite{kruuza2012making}. Druhá,
 modernější verze začala vznikat na konci roku 2016 a poprvé byla nasazena na
 konci září 2017. Tu popisuje článek Krůza, Kuboň
@@ -814,11 +814,22 @@ se rozšiřuje s~používáním aplikace.
 
 Manuál k~aplikaci vyzývá uživatele, aby text přepisovali podle standardního
 českého pravopisu, ale při zachování maximální věrnosti vyřčených slov, tedy aby
-nekorigovali \fontspec{DoulosSIL} /ɲaːk/ \normalfont na {\em nějak}, nýbrž
+nekorigovali
+\textipa{/\textltailn{}a:k/}
+%\fontspec{DoulosSIL} /ɲaːk/ \normalfont
+na {\em nějak}, nýbrž
 přepsali doslova jako {\em ňák}. Fonetický slovník obsahuje časté výslovnostní
-varianty, např. počáteční \fontspec{DoulosSIL} /v/ \normalfont ve slovech
-začínajících na \fontspec{DoulosSIL} /o/\normalfont, tedy \fontspec{DoulosSIL}
-/vopit͡si  voblʊdnoʊ̯ /   \normalfont mohou přepsat jako {\em opici obludnou}.
+varianty, např. počáteční
+%\fontspec{DoulosSIL} /v/ \normalfont
+\textipa{/v/}
+ve slovech
+začínajících na
+%\fontspec{DoulosSIL} /o/\normalfont,
+\textipa{/o/},
+tedy
+%\fontspec{DoulosSIL} /vopit͡si  voblʊdnoʊ̯ /   \normalfont 
+\textipa{/vopi\t{ts}i voblUdn\t*{oU}/}
+mohou přepsat jako {\em opici obludnou}.
 
 V~případě slov s~nestandardní výslovností, tedy primárně cizích slov, se od
 uživatelů žádá, aby slovo přepsali foneticky. Teprve po úspěšném zarovnání a
@@ -933,34 +944,34 @@ produkuje algoritmus, pokud na vstup dostane příslušnou výslovnost ve formá
 PACal.
 
 \begin{table}[htpb]
-\fontspec{DoulosSIL}
+%\fontspec{DoulosSIL}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
-slovo & výslovnost v~IPA & výsl. v~PACal & fonetický zápis \\
+slovo   & výslovnost v~IPA               & výsl. v~PACal  & fonetický zápis \\
 \hline
-nic & ɲit͡s  & nj i c & ňic \\
-kdo & gdo & g d o & gdo \\
-disk & disk & d i s k & dysk \\
-dřít & dr̝iːt & d rzh ii t & dřít \\
-třít & tr̝̊iːt & t rsh ii t & tř'ít \\
-auto & aʊ̯to & aw t o & auto \\
-nauka & nauka & n a u k a & na'uka \\
-džbán & d͡ʒbaːn  & dzh b aa n & džbán \\
-odžít & odʒiːt & o d zh ii t & od'žít \\
-odznak & od͡znak  & o dz n a k & odznak \\
-podzemí & podzɛmiː & p o d z e m ii & pod'zemí \\
-noc & not͡s  & n o c & noc \\
-tento & tɛnto & t e n t o & tento \\
-hangár & ɦaŋgaːr & h a ng g aa r & han'gár \\
-samba & samba & s a m b a & samba \\
-tonfa & toɱfa & t o mg f a & tom'fa \\
+nic     & \textipa{\textltailn{}I\t{ts}} & nj i c         & ňic \\
+kdo     & \textipa{gdo}                  & g d o          & gdo \\
+disk    & \textipa{dIsk}                 & d i s k        & dysk \\
+dřít    & \textipa{d\|'ri:t}             & d rzh ii t     & dřít \\
+třít    & \textipa{t\|'{\r*{r}}i:t}      & t rsh ii t     & tř'ít \\
+auto    & \textipa{\t*{aU}to}            & aw t o         & auto \\
+nauka   & \textipa{naUka}                & n a u k a      & na'uka \\
+džbán   & \textipa{\t{dZ}ba:n}           & dzh b aa n     & džbán \\
+odžít   & \textipa{odZi:t}               & o d zh ii t    & od'žít \\
+odznak  & \textipa{o\t{dz}nak}           & o dz n a k     & odznak \\
+podzemí & \textipa{podzEmi:}             & p o d z e m ii & pod'zemí \\
+noc     & \textipa{no\t{ts}}             & n o c          & noc \\
+tento   & \textipa{tEnto}                & t e n t o      & tento \\
+hangár  & \textipa{HaNga:r}              & h a ng g aa r  & han'gár \\
+samba   & \textipa{samba}                & s a m b a      & samba \\
+tonfa   & \textipa{toMfa}                & t o mg f a     & tom'fa \\
 \hline
 \end{tabular}
 \caption{Příklady algoritmicky získaného fonetického zápisu.}\label{tab:priklady-fonetiky}
 \end{center}
 \end{table}
-\normalfont
+%\normalfont
 
 Použití apostrofu pro rozlišení víceznačností a zvláštností není stoprocentně
 intuitivní a představuje další bod, kde je zapotřebí uživatele zaškolit, aby
@@ -1014,19 +1025,19 @@ správnou výslovnost a konečně možný fonetický zápis. Ke každému údaji
 kolikrát se objevil v~manuálně přepsaných datech.
 
 \begin{table*}[htpb]
-\fontspec{DoulosSIL}
+%\fontspec{DoulosSIL}
 \begin{center}
 \begin{tabular}{|l r|l r|l r|l r|}
 \hline
-psaná forma                     & \#
-    & \makecell{chybná\\ výslovnost} & \#
-        & \makecell{správná\\ počeštělá\\ výslovnost}  & \#
-            & fonetický zápis               & \# \\
+psaná forma  & \# & \makecell{chybná\\ výslovnost}
+                                             & \# & \makecell{správná\\ počeštělá\\ výslovnost}
+                                                                               & \# & fonetický zápis
+                                                                                                   & \# \\
 \hline
-Moody & 2 & moʔodi & 0 & muːdi & 4 & múdy, můdy & 2 \\
-Descartes & 2 & dɛst͡sartɛs  & 0 & dɛkaːrt & 4 & dekárt & 2   \\
-Weinfurter & 30 & vɛinfʊrtɛr & 13 & vajnfʊrtr & 19 & vajnfurtr & 2 \\
-Michelangelo & 6 & mixɛlaŋgɛlo & 2 & mikɛlaŋd͡ʒɛlo  & 4 & mikelandželo & 0 \\
+Moody        &  2 & \textipa{moPodI}         &  0 & \textipa{mu:dI}            &  4 & múdy, můdy   & 2 \\
+Descartes    &  2 & \textipa{dEs\t{ts}artEs} &  0 & \textipa{dEka:rt}          &  4 & dekárt       & 2 \\
+Weinfurter   & 30 & \textipa{vEInfUrtEr}     & 13 & \textipa{vajnfUrtr}        & 19 & vajnfurtr    & 2 \\
+Michelangelo &  6 & \textipa{mIxElaNgElo}    &  2 & \textipa{mIkElaN\t{dZ}Elo} &  4 & mikelandželo & 0 \\
 \hline
 \end{tabular}
 \caption{Příklady nestandardní výslovnosti v~manuálních přepisech.}
@@ -1049,7 +1060,7 @@ ortograficky chybně & 6 & 0 \\
 tabulky~\ref{tab:eval-pronunc}.}
 \label{tab:pronunc-rate}
 \end{center}
-\normalfont
+%\normalfont
 \end{table*}
 
 Z~tabulky~\ref{tab:pronunc-rate} je patrno, že většina případů je správně jak

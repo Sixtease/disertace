@@ -211,48 +211,48 @@ jakož ani neřečové události.
 V~tabulce~\ref{tab:phones} jsou použité fonémy uvedeny.
 
 \begin{table}[htpb]
-\fontspec{DoulosSIL}
+%\fontspec{DoulosSIL}
 \begin{center}
 \begin{tabular}{|l|l|l||l|l|l|}
 \hline
-IPA & PACal & grafém & IPA & PACal & grafém \\
+IPA                        & PACal & grafém & IPA & PACal & grafém \\
 \hline
-a  & a   & a      &     ɱ  & mg  & tra\underline{m}vaj \\
-aː & aa  & á      &     n  & n   & \underline{n}e \\
-aʊ̯ & aw  & au     &     ŋ  & ng  & ta\underline{n}k \\
-b  & b   & b      &     ɲ  & nj  & \v{n} \\
-t͡s & c   & c      &     o  & o   & o \\
-t͡ʃ & ch  & č      &     oː & oo  & ó \\
-d  & d   & d      &     oʊ̯ & ow  & ou \\
-ɟ  & dj  & \v{d}  &     p  & p   & p \\
-d͡z & dz  & dz     &     r  & r   & r \\
-d͡ʒ & dzh & dž     &     r̝̊  & rsh & t\underline{\v{r}}i \\
-ɛ  & e   & e      &     r̝  & rzh & \underline{\v{r}}íz \\
-ɛː & ee  & é      &     s  & s   & s \\
-eʊ̯ & ew  & eu     &     ʃ  & sh  & š \\
-f  & f   & f      &     t  & t   & t \\
-g  & g   & g      &     c  & tj  & \v{t} \\
-ɦ  & h   & h      &     ʊ  & u   & u \\
-i  & i   & i      &     uː & uu  & ú, \r{u} \\
-iː & ii  & í      &     v  & v   & v \\
-j  & j   & j      &     x  & x   & ch \\
-k  & k   & k      &     z  & z   & z \\
-l  & l   & l      &     ʒ  & zh  & ž \\
-m  & m   & \underline{m}ák
-                  &        & sil & \\
-   &     &        &        & sp  & \\
+\textipa{a}                & a   & a      & \textipa{M}           & mg  & tra\underline{m}vaj \\
+\textipa{a:}               & aa  & á      & \textipa{n}           & n   & \underline{n}e \\
+\textipa{\t*{aU}}          & aw  & au     & \textipa{N}           & ng  & ta\underline{n}k \\
+\textipa{b}                & b   & b      & \textipa{\textltailn} & nj  & \v{n} \\
+\textipa{\t{ts}}           & c   & c      & \textipa{o}           & o   & o \\
+\textipa{\t{tS}}           & ch  & č      & \textipa{o:}          & oo  & ó \\
+\textipa{d}                & d   & d      & \textipa{\t*{oU}}     & ow  & ou \\
+\textipa{\textbardotlessj} & dj  & \v{d}  & \textipa{p}           & p   & p \\
+\textipa{\t{dz}}           & dz  & dz     & \textipa{r}           & r   & r \\
+\textipa{\t{dZ}}           & dzh & dž     & \textipa{\|'{\r*{r}}} & rsh & t\underline{\v{r}}i \\
+\textipa{E}                & e   & e      & \textipa{\|'r}        & rzh & \underline{\v{r}}íz \\
+\textipa{E:}               & ee  & é      & \textipa{s}           & s   & s \\
+\textipa{\t*{eU}}          & ew  & eu     & \textipa{S}           & sh  & š \\
+\textipa{f}                & f   & f      & \textipa{t}           & t   & t \\
+\textipa{g}                & g   & g      & \textipa{c}           & tj  & \v{t} \\
+\textipa{H}                & h   & h      & \textipa{U}           & u   & u \\
+\textipa{I}                & i   & i      & \textipa{u:}          & uu  & ú, \r{u} \\
+\textipa{i:}               & ii  & í      & \textipa{v}           & v   & v \\
+\textipa{j}                & j   & j      & \textipa{x}           & x   & ch \\
+\textipa{k}                & k   & k      & \textipa{z}           & z   & z \\
+\textipa{l}                & l   & l      & \textipa{Z}           & zh  & ž \\
+\textipa{m}                & m   & \underline{m}ák
+                                          &        & sil & \\
+                           &     &        &        & sp  & \\
 \hline
 \end{tabular}
 \caption{Použité fonémy: IPA, PACal a nejčastější odpovídající
 grafém.}\label{tab:phones}
 \end{center}
 \end{table}
-\normalfont
+%\normalfont
 
 V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fonémy
 častějšími podobnými. V~tabulce~\ref{tab:phonesed} jsou záměny vyčísleny.
 \begin{table}[htpb]
-\fontspec{DoulosSIL}
+%\fontspec{DoulosSIL}
 \begin{center}
 \begin{tabular}{|r|l|l||l|l|}
 \hline
@@ -262,19 +262,19 @@ V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fo
 \hline
 & IPA & PACal & IPA & PACal \\
 \hline
-    & ɱ  & mg & m & m \\
-    & aʊ̯ & aw & a ʊ & a u \\
-    & oː & oo & o & o \\
-\** & d͡z & dz & t͡s & c \\
-    & d͡ʒ & dzh & t͡ʃ & ch \\
-\** & eʊ̯ & ew & ɛ ʊ & e u \\
+    & \textipa{M}       & mg & \textipa{m} & m \\
+    & \textipa{\t*{aU}} & aw & \textipa{a U} & a u \\
+    & \textipa{o:} & oo & \textipa{o} & o \\
+\** & \textipa{\t{dz}}  & dz & \textipa{\t{ts}} & c \\
+    & \textipa{\t{dz}}  & dzh & \textipa{\t{tS}} & ch \\
+\** & \textipa{\t*{eU}} & ew & \textipa{E U} & e u \\
 \hline
 \end{tabular}
 \caption{Použité záměny fonémů; hvězdičkou jsou vyznačeny záměny použité ještě
 v~době psaní textu.}\label{tab:phonesed}
 \end{center}
 \end{table}
-\normalfont
+%\normalfont
 
 \section{Rozdělení dat}
 \label{sec:asr:rozdeleni-dat}
@@ -473,8 +473,8 @@ představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné 
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
 
-Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy ve
-výše uvedeném pořadí. Aplikuji vyhlazování technikou
+Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy
+v~pořadí z~číslovaného seznamu výše. Aplikuji vyhlazování technikou
 Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro trénink
 jazykových modelů KenLM\cite{heafield2011kenlm}.
 
