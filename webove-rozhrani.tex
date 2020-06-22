@@ -143,8 +143,8 @@ pomocí počítačového zpracování, přičemž chyby se pak komunitně opravu
 V~případě CzEngu jde o strojový překlad, v~mém o strojový přepis. Nicméně
 specifika projektů přinášejí odlišné problémy a diktují odlišné přístupy.
 
-Marge 2009\cite{5494979} zkoumá použití platformy Mechanical Turk k~získání
-přepisů mluveného slova. Mihalcea 2004\cite{mihalcea2004building} prezentuje
+Marge (2009)\cite{5494979} zkoumá použití platformy Mechanical Turk k~získání
+přepisů mluveného slova. Mihalcea (2004)\cite{mihalcea2004building} prezentuje
 webové rozhraní pro dezambiguaci významu slov {\em (word-sense disambiguation)} a
 zaměřuje se především na ošetření neshod mezi anotátory.
 
@@ -152,10 +152,10 @@ zaměřuje se především na ošetření neshod mezi anotátory.
 
 Webová aplikace sloužící k~přehrávání a sběru přepisů existuje ve dvou
 verzích. Prototyp byl implementován hned za začátku projektu v~roce
-2012 a popisuje ho článek Krůza, Peterek 2012\cite{kruuza2012making}. Druhá,
+2012 a popisuje ho článek Krůza, Peterek (2012)\cite{kruuza2012making}. Druhá,
 modernější verze začala vznikat na konci roku 2016 a poprvé byla nasazena na
 konci září 2017. Tu popisuje článek Krůza, Kuboň
-2018\cite{biblio:KrKuSecondGenerationWeb2018}.
+(2018)\cite{biblio:KrKuSecondGenerationWeb2018}.
 
 \subsection{Prototyp}
 
@@ -542,7 +542,7 @@ nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 Vzhledem k~tomu, že ani v~roce 2019 není kurzorový přístup ke zvukovým datům
 skrze Web Audio API v~dohlednu, a jak odrazující dopad má nutnost
 stahovat a dekódovat celou nahrávku aspoň při jejím prvním načtení, nezbylo mi,
-než změnit způsob, jakým jsou nahrávky uloženy. Toto je popsáno v~článku Krůza 2019/1\cite{kruza2019restructuring}
+než změnit způsob, jakým jsou nahrávky uloženy. %Toto je popsáno v~článku Krůza 2019/1\cite{kruza2019restructuring}
 
 Nahrávky jsou uloženy v~několika instancích pro různé účely:
 
@@ -689,7 +689,7 @@ lineární složitost.
 Jsou-li vybrány body předělu, mohou se nahrávky podle nich rozdělit a výsledné
 segmenty uložit na disk. Zde vyvstává otázka, jak rozdělit soubory do adresářů a
 jak je pojmenovat. Způsob uložení souborů hraje svou roli, jak dokládá i
-Reppen\cite{reppen2010building}. Zvolil jsem tento formát:
+Reppen (2010)\cite{reppen2010building}. Zvolil jsem tento formát:
 
 \texttt{{\em{}ID}/{\em{}format}/{\em{}ID}--from-{\em{}ZACATEK}--to-{\em{}KONEC}.{\em{}PRIPONA}}
 
@@ -754,7 +754,7 @@ vzešla taková úroveň expertízy, že se stali spoluautory\cite{hajivc2005com
 {\em Crowdsourcing}, přístup založený na komunitní spolupráci nebo zapojování
 dobrovolníků, nabývá na popularitě při získávání hodnot, které by jinak byly
 neúnosně drahé, viz podsekci~\ref{ssec:setting-corpora}. Nicméně např.
-Maekawa\cite{maekawa2000spontaneous} popisuje tvorbu
+Maekawa (2000)\cite{maekawa2000spontaneous} popisuje tvorbu
 mluveného korpusu spontánní japonštiny s~využitím placených anotátorů.
 
 Ve většině případů je kvalita pro anotaci dat velmi důležitá, proto je aspoň
@@ -906,7 +906,7 @@ směru, aby se uživateli mohla dát možnost zkontrolovat, zda slovo, které
 přepsal, se uložilo se správnou výslovností.
 
 Za tímto účelem jsem vytvořil javascriptový modul pro převod mezi seznamem
-fonémů a českým fonetickým zápisem. Popsán je v~článku Krůza 2018\cite{biblio:KrPhoneticTranscription2018}.
+fonémů a českým fonetickým zápisem. Popsán je v~článku Krůza (2018)\cite{biblio:KrPhoneticTranscription2018}.
 
 Algoritmus je jednoduchý. Ve většině případů jeden foném odpovídá jednoznačně
 jednomu písmenu ve fonetickém přepisu. Výjimky jsou tyto:

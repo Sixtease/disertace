@@ -15,8 +15,8 @@ Koncept celého projektu se zakládá na~přítomnosti počátečního přepisu 
 následném zdokonalování. Pro získání počátečního přepisu bylo nutné sestavit
 systém pro automatický přepis, z~historických důvodů častěji označovaný jako
 rozpoznávání řeči. Rozpoznávání češtiny se věnovali mnozí přede mnou,
-například Ircing et al. 2001\cite{ircing2001large}, Psutka et al.
-2005\cite{psutka2005automatic}, či Byrne et al. 1999\cite{byrne1999large}.
+například Ircing et al. (2001)\cite{ircing2001large}, Psutka et al.
+(2005)\cite{psutka2005automatic}, či Byrne et al. (1999)\cite{byrne1999large}.
 V následujících odstavcích popíšu tvorbu rozpoznávače řeči pro korpus Karla
 Makoně.
 
@@ -202,8 +202,6 @@ sekci~\ref{ssec:porizeni-fonetickeho-prepisu}.
 
 \subsection{Fonémy}
 
-% TODO cite
-
 Používám základní fonémy českého jazyka\cite{palkova1992fonetika}
 reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních fonémů
 používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
@@ -333,7 +331,7 @@ angličtinu, jak je uvedeno v~HTK Book, a z~kategorizace českých hlásek na Wi
 
 Kepstrální normalizace je standardní technikou pro kompenzaci různorodých
 akustických podmínek v~rámci trénovacích a testovacích dat, viz Viikki a Laurila
-1998\cite{viikki1998cepstral}. Princip této techniky spočívá v~tom, že se ode
+(1998)\cite{viikki1998cepstral}. Princip této techniky spočívá v~tom, že se ode
 všech melfrekvenčních kepstrálních koeficientů odečte jejich průměr z~akusticky
 konzistentního úseku. Já toto poněkud hrubiánsky činím na celých nahrávkách,
 které nejsou vždy akusticky konzistentní. Často však ano a nalezení akusticky
@@ -359,7 +357,7 @@ a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
 \section{Aktivní učení}
 
 Aktivní učení spočívá ve vhodném výběru trénovacích dat, viz např. Cohn
-1996\cite{cohn1996active}. V~mém případě trénovací sada postupně roste a nabízí
+(1996)\cite{cohn1996active}. V~mém případě trénovací sada postupně roste a nabízí
 se tedy využít techniky aktivního učení tak, aby se získávala co nejvhodnější
 trénovací data.
 
@@ -397,9 +395,9 @@ se zvýšila citelně.
 
 V~průběhu psaní této disertace se rozšířilo používání hlubokých neuronových sítí
 snad ve všech oblastech strojového učení, viz např. LeCun
-2015\cite{lecun2015deep}, Hinton 2012\cite{hinton2012deep}. Toto neminulo ani
+(2015)\cite{lecun2015deep}, Hinton (2012)\cite{hinton2012deep}. Toto neminulo ani
 rozpoznávání řeči, konceptuelně již dávno před tím, viz Morgan
-1995\cite{morgan1995neural}. Gaußovské mixtury
+(1995)\cite{morgan1995neural}. Gaußovské mixtury
 přestaly být state of the art a systémy založené na hlubokých neuronových sítích
 (DNN) skýtají mnohem větší úspěšnosti díky tomu, že lépe modelují fenomén
 fonémů. Umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy

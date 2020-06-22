@@ -219,12 +219,12 @@ vzdálenost mezi dvěma prvky, aby jednotlivé clustery byly co nejkompaktnějš
 \label{sec:akustika:kompenzace}
 
 Akustické nedostatky ztěžují rozpoznávání řeči a jsou tak už dlouho předmětem
-bádání. Ku příkladu Gillespie a Atlas\cite{gillespie2002diversity} ukazují
+bádání. Ku příkladu Gillespie a Atlas (2002)\cite{gillespie2002diversity} ukazují
 zdrcující vliv dozvuku (angl. {\em reverberation}) na rozpoznávání řeči pomocí
 markovovských modelů a zkoumají možnosti kompenzace. Jošioka et
-al.\cite{reverbmagazine} předkládají souhrn technik pro kompenzaci dozvuku, Ko
-et al.\cite{reverbaugment} digitálně simulují dozvuk v~trénovacích datech.
-Seltzer et al.\cite{dnnnoiserobust} se věnují tematice šumu v~rozpoznávání řeči
+al. (2012)\cite{reverbmagazine} předkládají souhrn technik pro kompenzaci dozvuku, Ko
+et al. (2017)\cite{reverbaugment} digitálně simulují dozvuk v~trénovacích datech.
+Seltzer et al. (2013)\cite{dnnnoiserobust} se věnují tematice šumu v~rozpoznávání řeči
 založeném na hlubokých neuronových sítích.
 
 \subsection{Spektrální odečet šumu}
@@ -297,14 +297,14 @@ a po ní.}\label{tab:results-denoise}
 
 \subsection{Neurální doménový transfer}
 
-Revoluční článek\cite{cyclegan}, v~němž Žú et al. představují CycleGAN, čili
+Revoluční článek\cite{cyclegan}, v~němž Žú et al. (2017) představují CycleGAN, čili
 cyklicky konzistentní generativní oponentní síť, dal lidstvu do rukou mocný
 nástroj a zábavnou hračku, která našla využití pro odstraňování mlhy
 z~fotografií\cite{Engin_2018_CVPR_Workshops}, udělování cizích grimas
 tvářím\cite{jin2017faceoff}, v~biomedicíně\cite{yang2018biogan} a také pro
-zpracování mluvené řeči: Kaneko a Temeoka\cite{kaneko2017parallel} předkládají
-doménový transfer hlasu a Hoseini-Asl et al.\cite{hosseini2018malevoicegan} činí
-totéž pro účely rozpoznávání řeči. Nejblíže mému problému je Pascual et al.
+zpracování mluvené řeči: Kaneko a Temeoka (2017)\cite{kaneko2017parallel} předkládají
+doménový transfer hlasu a Hoseini-Asl et al. (2018)\cite{hosseini2018malevoicegan} činí
+totéž pro účely rozpoznávání řeči. Nejblíže mému problému je Pascual et al. (2017)
 s~projektem SEGAN\cite{pascual2017segan}, kde se GAN používá pro odstranění
 šumu.
 
@@ -326,7 +326,7 @@ domény poškozených nahrávek.
 Experiment jsem provedl na dvou shlucích: 1) na přebuzených nahrávkách a 2) na
 nahrávkách pořízených nízkou rychlostí 2,38 cm/s. Oba shluky jsem vybral tak, aby
 měly maximální interní vzdálenost 25. Pro trénování jsem použil metodu
-navrhovanou dvojicí Kaneko a Tameoka\cite{kaneko2017parallel}, jak ji
+navrhovanou dvojicí Kaneko a Tameoka (2017)\cite{kaneko2017parallel}, jak ji
 implementoval Lei Mao\footnote{github.com/leimao/Voice\_Converter\_CycleGAN}.
 Trénink běžel po 200 epoch.
 
