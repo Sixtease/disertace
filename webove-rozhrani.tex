@@ -602,7 +602,9 @@ k~většině nahrávek mám automatický nebo i manuální přepis.
 Tam, kde pořízení přepisu nebo jeho automatické zarovnání selhalo, lze použít
 detekci ticha prostou akustickou analýzou. Tato metoda je velice náchylná
 k~chybám v~případě nahrávek s~malým poměrem signálu k~šumu, a těch je v~korpusu
-Karla Makoně mnoho.
+Karla Makoně mnoho\footnote{Později jsem se dozvěděl o existenci WebRTC-VAD,
+který funguje relativně spolehlivě a plánuju ho použít jako fallback pro
+nepřepsané nahrávky.}.
 
 Kde nepomůže ani metoda detekce ticha, což se pozná podle toho, že detekované
 pauzy jsou příliš daleko od sebe nebo naopak zabírají valnou část nahrávky,
@@ -665,7 +667,7 @@ Povšimněme si, že úloha nemá řešení, pokud je nahrávka kratší třicet
 ovšem v~mluveném korpusu Karla Makoně nenastává a ani v~opačném případě by to nevadilo,
 protože takovou nahrávku bychom nechali v~jednom souboru.
 
-Úloha nemá řešení i v~případě, kdy mezi dvěma sousedními tichy
+Úloha nemá řešení ani v~případě, kdy mezi dvěma sousedními tichy
 je rozestup větší než 120 sekund. Takový případ nastává, když je samotné
 detekované ticho velmi dlouhé. Tyto případy jsem řešil manuální úpravou.
 
@@ -675,7 +677,7 @@ přidáváme slova, načež na základě dosavadního řešení a nového slova 
 rozšiřujeme.
 
 Je ale i jednodušší varianta: Začneme s~množinou všech tich a iterujeme přes ně
-od nejkratší po nejdelší. Ticho z~množiny odebereme, pokud sloučením sousedních
+od nejkratšího po nejdelší. Ticho z~množiny odebereme, pokud sloučením sousedních
 segmentů nevznikne segment delší než 60 sekund. Přes vybraná ticha znova
 iterujeme a ticho odebereme, jestliže jeden z~jeho sousedů má méně než 30
 sekund.
@@ -1271,4 +1273,4 @@ různé skupiny nahrávek nebo použitím jiného programu.
 Nabízí se julius. Ten sice neoplývá funkcionalitou nuceného zarovnání s~daným
 textem, ovšem dokáže provést nucené zarovnání s~textem, který predikuje. Pomocí
 vhodně zvolené restriktivní gramatiky by se tak nuceného zarovnání dalo
-dosáhnout. Práh pro odmítnutí by se pak mohl nastavit pomocí confidence measure.
+dosáhnout. Není však jasné, jak by se měla detekovat validita příspěvku.
