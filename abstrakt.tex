@@ -1,12 +1,62 @@
-\noindent Název práce: Iterativní zdokonalování přepisu zvukových nahrávek s využitím zpětné vazby posluchačů\\
-Autor: Mgr. Jan Oldřich Krůza\\
-Katedra (ústav): Ústav formální a aplikované lingvistiky\\
-Vedoucí diplomové práce: Doc. RNDr. Vladislav Kuboň, Ph.D.\\
-E-mail vedoucího: Vladislav.Kubon@mff.cuni.cz\\
-Konzultant: Mgr. Nino Peterek, Ph.D.\\
-E-mail konzultanta: Nino.Peterek@mff.cuni.cz\\
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
 
-\noindent Abstrakt: Tato disertační práce se zabývá zpřístupněním zvukových
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{15mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+
+%% Pokud tiskneme oboustranně:
+% \documentclass[12pt,a4paper,twoside,openright]{report}
+% \setlength\textwidth{145mm}
+% \setlength\textheight{247mm}
+% \setlength\oddsidemargin{14.2mm}
+% \setlength\evensidemargin{0mm}
+% \setlength\topmargin{0mm}
+% \setlength\headsep{0mm}
+% \setlength\headheight{0mm}
+% \let\openright=\cleardoublepage
+
+%% Vytváříme PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
+\usepackage[czech]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+\hypersetup{unicode}
+\hypersetup{breaklinks=true}
+
+%% Definice různých užitečných maker (viz popis uvnitř souboru)
+
+\begin{document}
+
+\chapter*{Iterativní zdokonalování přepisu zvukových nahrávek s~využitím zpětné vazby posluchačů}
+
+\section*{Abstrakt}
+
+\thispagestyle{empty}
+
+Tato disertační práce se zabývá zpřístupněním zvukových
 záznamů jednoho mluvčího úzké i široké veřejnosti.
 
 Motivací práce byla existence chátrajících nahrávek hovorů českého filozofa
@@ -31,52 +81,4 @@ systémů, detaily návrhu a řešení, mechanismus pro kompenzaci vysokých ná
 přepisu a nízkých nároků na odbornost přispěvatelů a vyhodnocení funkčnosti
 po osmi letech provozu.
 
-% Výsledkem práce je především samotný mluvený korpus Karla Makoně,
-% implementovaný systém pro komunitní přepis, 98 manuálně
-% přepsaných hodin a automatické rozpoznání akusticky obtížného materiálu
-% s~word error rate 38,48\%.
-
-\vspace{10mm}
-
-\noindent
-Title: Iterative Improving of Transcribed Speech Recordings Exploiting Listener's Feedback\\
-Author: Mgr. Jan Oldřich Krůza\\
-Department: Institute of Formal and Applied Linguistics\\
-Supervisor: Doc. RNDr. Vladislav Kuboň, Ph.D.\\
-Supervisor's e-mail address: Vladislav.Kubon@mff.cuni.cz\\
-Consultant: Mgr. Nino Peterek, Ph.D.\\
-Consultant's e-mail address: Nino.Peterek@mff.cuni.cz\\
-
-\noindent Abstract:  This Ph.D. thesis deals with making a corpus of audio
-recordings of a single speaker accessible to wide public and interested community.
-
-The work has been motivated by the existence of a set of perishing recordings
-of the Czech philosopher Karel Makoň on magnetophone tapes. The aim is to conserve
-the material for future generations and making it accessible using
-digital technologies, in particular publishing the recordings online
-and enabling the users to search through them.
-
-The thesis introduces the creation of a system for transcribing a large set of
-speech recordings employing a lay community. The solution designed is based on
-obtaining a baseline low-quality transcription by means of automated speech
-recognition and developing an application that allows for collecting corrections
-of the automatic transcription in a fashion that makes it usable as training
-data for further improvement of said transcription.
-
-The spoken corpus itself is described. The
-author and his works, topics covered in the talks, the process of recording
-and digitization as well as the gained transcription are introduced.
-Next, the development of a system for automated transcription of
-the corpus, from collecting data, to acoustic and language modeling, various experiments
-undertaken and evaluation are presented. Then, the web application for gathering
-manual transcript corrections is described.
-Differences to other settings, design and implementation details, a way to
-compensate high demand for transcription quality and low demand for worker
-expertise, as well as an evaluation of the system's performance after eight
-years of operation are covered.
-
-% The results comprise mainly the spoken corpus of Karel Makoň itself,
-% the implemented system for community-driven transcription,
-% 98 manually transcribed hours
-% and automatically transcribed acoustically difficult material with word error
-% rate of 38.48\%.
+\end{document}
