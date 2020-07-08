@@ -54,41 +54,14 @@ webové platformy, čímž skýtá měřítko pro budoucí modernější řešen
 Vedlejším produktem, který však představuje jeden z~nejvýznamnějších výsledků
 práce, je trénovací sada pro rozpoznávání češtiny nezávisle na mluvčím,
 konkrétně nový tisícihodinový korpus svobodně k~dispozici všem badatelům.
-% TODO: srovnání s úspěšností ostatních systémů
+V~porovnání s~ostatními dostupnými korpusy představuje materiál pro trénink
+nejrobustnějšího akustického modelu, viz tabulku~\ref{tab:csasr:results}.
 
-\begin{enumerate}
-\item{pořízení kompletního přepisu mluveného korpusu,}
-\item{vyvinutí webového rozhraní, které umožňuje
-    \begin{itemize}
-    \item{synchronní konzumaci mluveného projevu a jeho přepisu,}
-    \item{
-        sběr oprav přepisu od laických uživatelů použitelný jako trénovací data
-        pro strojové učení,
-    }
-    \end{itemize}
-}
-\item{umožnění fulltextového vyhledávání v~korpusu,}
-\item{částečné zmapování obsahu korpusu,}
-\item{
-    pořízení tisícihodinového trénovacího korpusu pro automatický přepis
-    češtiny,
-}
-\item{
-    vyvinutí obecného systému automatického přepisu češtiny s~kompetitivní
-    úspěšností,
-}
-\item{
-    negativní výsledky několika experimentů, najmě
-    \begin{itemize}
-    \item{kepstrální normalizace na izolovaných řečových událostech,}
-    \item{použití standardní CycleGAN pro snížení chybovosti rozpoznávání řeči,}
-    \item{
-        získávání specifických trénovacích dat pro aktivní učení od
-        dobrovolných anotátorů.
-    }
-    \end{itemize}
-}
-\end{enumerate}
+Dalšími výsledky jsou umožnění fulltextového vyhledávání v~mluveném korpusu,
+částečné zmapování jeho obsahu a několik výsledků negativních: kepstrální
+normalizace na izolovaných řečových událostech, použití standardní CycleGAN pro
+snížení chybovosti rozpoznávání řeči a získávání specifických trénovacích dat
+pro aktivní učení od dobrovolných anotátorů.
 
 Korpus je k~dispozici v~repozitáři Lindat:\\
 \texttt{https://lindat.mff.cuni.cz/repository/xmlui/handle/11372/LRT-1455}.\\
