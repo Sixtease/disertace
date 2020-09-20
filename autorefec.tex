@@ -1,0 +1,385 @@
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
+
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{15mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+\let\openright=\clearpage
+
+%% Pokud tiskneme oboustranně:
+% \documentclass[12pt,a4paper,twoside,openright]{report}
+% \setlength\textwidth{145mm}
+% \setlength\textheight{247mm}
+% \setlength\oddsidemargin{14.2mm}
+% \setlength\evensidemargin{0mm}
+% \setlength\topmargin{0mm}
+% \setlength\headsep{0mm}
+% \setlength\headheight{0mm}
+% \let\openright=\cleardoublepage
+
+%% Vytváříme PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
+\usepackage[czech]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+\usepackage{amsmath}        % rozšíření pro sazbu matematiky
+\usepackage{amsfonts}       % matematické fonty
+\usepackage{amsthm}         % sazba vět, definic apod.
+\usepackage{bbding}         % balíček s nejrůznějšími symboly
+			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+\usepackage{bm}             % tučné symboly (příkaz \bm)
+\usepackage{graphicx}       % vkládání obrázků
+\usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
+\usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
+\usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
+			    % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+\usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
+                            % obrázků a tabulek do obsahu
+\usepackage{icomma}         % inteligetní čárka v matematickém módu
+\usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
+\usepackage{booktabs}       % lepší vodorovné linky v tabulkách
+\usepackage{paralist}       % lepší enumerate a itemize
+\usepackage{xcolor}         % barevná sazba
+
+\usepackage{rotating}
+%\usepackage{fontspec}
+\usepackage{tipa}
+\usepackage{enumitem}
+\usepackage{makecell}
+\usepackage{alltt}
+\usepackage{refcount}
+\usepackage{tabularx}
+\usepackage{caption}
+
+
+%%% Údaje o práci
+
+% Název práce v jazyce práce (přesně podle zadání)
+\def\NazevPrace{Iterativní zdokonalování přepisu zvukových nahrávek s~využitím zpětné vazby posluchačů}
+
+% Název práce v angličtině
+\def\NazevPraceEN{Iterative Improving of Transcribed Speech Recordings Exploiting Listener's Feedback}
+
+% Jméno autora
+\def\AutorPrace{Mgr. Jan Oldřich Krůza}
+
+% Rok odevzdání
+\def\RokOdevzdani{2020}
+
+% Název katedry nebo ústavu, kde byla práce oficiálně zadána
+% (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
+\def\Katedra{Ústav formální a aplikované lingvistiky}
+\def\KatedraEN{Institute of Formal and Applied Linguistics}
+
+% Jedná se o katedru (department) nebo o ústav (institute)?
+\def\TypPracoviste{Ústav}
+\def\TypPracovisteEN{Institute}
+
+% Vedoucí práce: Jméno a příjmení s~tituly
+\def\Vedouci{Doc. RNDr. Vladislav Kuboň, Ph.D.}
+
+% Pracoviště vedoucího (opět dle Organizační struktury MFF)
+\def\KatedraVedouciho{
+  Ústav formální a aplikované lingvistiky\\
+  Matematicko-fyzikální fakulta
+  Univerzita Karlova
+  Malostranské náměstí 25
+  11800 Praha 1
+}
+\def\KatedraVedoucihoEN{Institute of Formal and Applied Linguistics}
+
+% Studijní program a obor
+\def\StudijniProgram{informatika}
+\def\StudijniObor{matematická lingvistika}
+
+% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
+% zapůjčil software, literaturu apod.)
+\def\Podekovani{%
+Děkuji
+svému školiteli doc. RNDr. Vladislavu Kuboňovi, Ph.D. za vřelou záštitu a svobodu při práci,
+doc. RNDr. Markétě Lopatkové, Ph.D. za pomoc a podporu při účasti na konferencích,
+Mgr. Nino Peterkovi, Ph.D. za průpravu v~akustickém modelování,
+Mgr. Davidu Klusáčkovi, Ph.D. za mnoho rad a pomoc při akustických úpravách,
+doc. RNDr. Ondřeji Bojarovi, Ph.D.
+a RNDr. Zdeňku Morávkovi, Ph.D. za nápady a konzultace,
+doc. Ing. Zdeňkovi Žabokrtskému, Ph.D. za významnou pomoc i upřímnou zpětnou vazbu
+a vážené paní Libušce Brdičkové za její neúnavnou ochotu a vstřícnost.
+
+Děkuji
+váženému MUDr. Vítu Elgrovi,
+Ing. Milanu Tulachovi,
+Mgr. Lence Vinklerové,
+Alence Valentové,
+a dalším za zprostředkování díla Karla Makoně, za zapůjčení nahrávek,
+spolupráci, testování a používání aplikace i za zpětnou vazbu.
+
+Děkuji
+Mgr. Petru Kazdovi z~Konicy Minolty, že mi umožnil skloubit zaměstnání s~prací na disertaci
+
+Děkuji, že mi bylo umožněno se tomuto projektu věnovat.
+}
+
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+\def\Abstrakt{%
+Tato disertační práce se zabývá zpřístupněním zvukových
+záznamů jednoho mluvčího úzké i široké veřejnosti.
+
+Motivací práce byla existence chátrajících nahrávek hovorů českého filozofa
+ing. Karla Makoně na kazetách a kotoučích. Cílem je zachování materiálu pro
+budoucí generace a zpřístupnění nahrávek pomocí digitálních technologií,
+především přístupnosti nahrávek na internetu a možnosti vyhledávání v~nich.
+
+Práce představuje tvorbu systému pro přepis velké sady zvukových záznamů
+se zapojením laické komunity. Navržené řešení spočívá ve vytvoření základního
+přepisu nízké kvality pomocí automatického rozpoznávání řeči a vyvinutí
+aplikace, která umožní od členů komunity i nahodilých zájemců získávat opravy
+automatického přepisu, použitelné jako trénovací data pro další zlepšování.
+
+Popíše se samotný mluvený korpus. Představí se autor a
+jeho dílo,
+témata v~nahrávkách, nahrávání samotné, digitalizace a získané přepisy.
+Dále se rozvede tvorba systému pro automatický
+přepis korpusu od sběru dat, přes akustické a jazykové modelování, různé
+provedené experimenty až k~vyhodnocení úspěšnosti. V~neposlední řadě se popíše
+webová aplikace pro sběr manuálních přepisů. Zmíní se odlišnosti od ostatních
+systémů, detaily návrhu a řešení, mechanismus pro kompenzaci vysokých nároků na kvalitu
+přepisu a nízkých nároků na odbornost přispěvatelů a vyhodnocení funkčnosti
+po osmi letech provozu.
+}
+\def\AbstraktEN{%
+This Ph.D. thesis deals with making a corpus of audio
+recordings of a single speaker accessible to wide public and interested community.
+
+The work has been motivated by the existence of a set of perishing recordings
+of the Czech philosopher Karel Makoň on magnetophone tapes. The aim is to conserve
+the material for future generations and making it accessible using
+digital technologies, in particular publishing the recordings online
+and enabling the users to search through them.
+
+The thesis introduces the creation of a system for transcribing a large set of
+speech recordings employing a lay community. The solution designed is based on
+obtaining a baseline low-quality transcription by means of automated speech
+recognition and developing an application that allows for collecting corrections
+of the automatic transcription in a fashion that makes it usable as training
+data for further improvement of said transcription.
+
+The spoken corpus itself is described. The
+author and his works, topics covered in the talks, the process of recording
+and digitization as well as the gained transcription are introduced.
+Next, the development of a system for automated transcription of
+the corpus, from collecting data, to acoustic and language modeling, various experiments
+undertaken and evaluation are presented. Then, the web application for gathering
+manual transcript corrections is described.
+Differences to other settings, design and implementation details, a way to
+compensate high demand for transcription quality and low demand for worker
+expertise, as well as an evaluation of the system's performance after eight
+years of operation are covered.
+}
+
+% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
+\def\KlicovaSlova{%
+{přepis zvukových nahrávek} {uživatelská interakce} {komunitní spolupráce}
+}
+\def\KlicovaSlovaEN{%
+{speech transcription} {user inetraction} {community cooperation}
+}
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+\hypersetup{unicode}
+\hypersetup{breaklinks=true}
+
+%% Definice různých užitečných maker (viz popis uvnitř souboru)
+\include{makra}
+
+%% Titulní strana a různé povinné informační strany
+\begin{document}
+%%% Titulní strana práce a další povinné informační strany
+
+%%% Titulní strana práce
+
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+
+\begin{center}
+
+\centerline{\mbox{\includegraphics[width=166mm]{../img/logo-cs.pdf}}}
+
+\vspace{-8mm}
+\vfill
+
+{\bf\Large AUTOREFERÁT DISERTAČNÍ PRÁCE}
+
+\vfill
+
+{\LARGE\AutorPrace}
+
+\vspace{15mm}
+
+{\LARGE\bfseries\NazevPrace}
+
+\vfill
+
+\Katedra
+
+\vfill
+
+{
+\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
+Vedoucí disertační práce:&\Vedouci \cr
+\noalign{\vspace{2mm}}
+Studijní program:&\StudijniProgram \cr
+\noalign{\vspace{2mm}}
+Studijní obor:&\StudijniObor \cr
+}}}}
+
+\vfill
+
+% Zde doplňte rok
+Praha \RokOdevzdani
+
+\end{center}
+
+\newpage
+
+%%% Povinná informační strana disertační práce
+
+\openright
+
+\vbox to 0.5\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+Disertační práce byla vypracována na základě výsledků získaných během
+doktorského studia na Matematicko-fyzikální fakultě Univerzity Karlovy v~letech
+2011 -- 2020.
+
+Doktorand:
+\AutorPrace
+
+Školitel:
+\Vedouci, \KatedraVedouciho
+
+Školicí pracoviště:
+\KatedraVedouciho
+
+Oponenti:
+Prof. Ing. Luděk Müller, Ph.D.\\
+Fakulta aplikovaných věd ZČU, Katedra kybernetiky\\
+Technická 8, 30614 Plzeň
+
+Doc. Ing. Petr Pollák, CSc.\\
+ČVUT FEL K13131,\\
+Technická 2, 16627 Praha 6
+
+Obhajoba disertační práce se koná dne 30. září 2020 v 11:00 před komisí pro
+obhajoby disertačních prací v oboru P4I3 - Matematická lingvistika na
+Matematicko-fyzikální fakultě UK, Malostranské náměstí 25, v~místnosti S510.
+
+S~disertační prací je možno se seznámit na studijním oddělení
+Matematicko-fyzikální fakulty UK, Ke Karlovu 3, Praha 2.
+
+Autoreferát byl rozeslán dne 21. září 2020.
+
+\vss}\nobreak\vbox to 0.49\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+\vss}
+
+\newpage
+
+%%% Povinná informační strana disertační práce
+
+
+
+\openright
+\pagestyle{plain}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+%%% Strana s automaticky generovaným obsahem disertační práce
+
+\tableofcontents
+
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+
+\chapter{Úvod}
+
+V~situacích, kde jsou k~dispozici záznamy mluveného slova, je často žádoucí
+jejich přepis, protože zpracování digitálního textu je mnohem snazší než
+zpracování digitálního audia. Manuální přepisy jsou nákladné a žádný systém
+automatického přepisu není dokonalý, takže manuální revize výstupu rozpoznávání
+řeči jsou běžným postupem.
+
+V~mém případě, kde je k~dispozici sbírka nahrávek bez katalogizace a komunita
+laických dobrovolníků, vyvstává potřeba systému, který by využil moderní
+technologie rozpoznávání řeči a který by pečlivě zapojil cennou mozkovou
+kapacitu zúčastněných osob.
+
+Na začátku jsem měl k~dispozici analogové audio, ne digitální: Archiv nahrávek českého filozofa
+Karla Makoně na kazetách a kotoučích. Mým cílem, který tuto práci motivoval, je
+tento archiv zdigitalizovat, zpřístupnit a umožnit jeho další zpracování.
+
+
+%\include{uvod}
+\include{data}
+\include{akustika}
+\include{svolocz}
+\include{akusticky-model}
+\include{webove-rozhrani}
+\include{vyhledavani}
+\include{zaver}
+
+%%% Seznam použité literatury
+\include{literatura}
+
+%%% Obrázky v disertační práci
+%%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
+\listoffigures
+
+%%% Tabulky v disertační práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
+\listoftables
+
+%%% Použité zkratky v disertační práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam zkratek na začátek práce.
+%\chapwithtoc{Seznam použitých zkratek}
+
+%%% Součástí doktorských prací musí být seznam vlastních publikací
+\input{publikace.tex}
+
+%%% Přílohy k disertační práci, existují-li. Každá příloha musí být alespoň jednou
+%%% odkazována z vlastního textu práce. Přílohy se číslují.
+%%%
+%%% Do tištěné verze se spíše hodí přílohy, které lze číst a prohlížet (dodatečné
+%%% tabulky a grafy, různé textové doplňky, ukázky výstupů z počítačových programů,
+%%% apod.). Do elektronické verze se hodí přílohy, které budou spíše používány
+%%% v elektronické podobě než čteny (zdrojové kódy programů, datové soubory,
+%%% interaktivní grafy apod.). Elektronické přílohy se nahrávají do SISu a lze
+%%% je také do práce vložit na CD/DVD. Povolené formáty souborů specifikuje
+%%% opatření rektora č. 72/2017.
+%\appendix
+%\chapter{Přílohy}
+
+%\section{První příloha}
+
+\openright
+\end{document}
