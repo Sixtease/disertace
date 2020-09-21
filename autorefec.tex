@@ -97,9 +97,9 @@
 % Pracoviště vedoucího (opět dle Organizační struktury MFF)
 \def\KatedraVedouciho{
   Ústav formální a aplikované lingvistiky\\
-  Matematicko-fyzikální fakulta
-  Univerzita Karlova
-  Malostranské náměstí 25
+  Matematicko-fyzikální fakulta\\
+  Univerzita Karlova\\
+  Malostranské náměstí 25\\
   11800 Praha 1
 }
 \def\KatedraVedoucihoEN{Institute of Formal and Applied Linguistics}
@@ -110,30 +110,6 @@
 
 % Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
 % zapůjčil software, literaturu apod.)
-\def\Podekovani{%
-Děkuji
-svému školiteli doc. RNDr. Vladislavu Kuboňovi, Ph.D. za vřelou záštitu a svobodu při práci,
-doc. RNDr. Markétě Lopatkové, Ph.D. za pomoc a podporu při účasti na konferencích,
-Mgr. Nino Peterkovi, Ph.D. za průpravu v~akustickém modelování,
-Mgr. Davidu Klusáčkovi, Ph.D. za mnoho rad a pomoc při akustických úpravách,
-doc. RNDr. Ondřeji Bojarovi, Ph.D.
-a RNDr. Zdeňku Morávkovi, Ph.D. za nápady a konzultace,
-doc. Ing. Zdeňkovi Žabokrtskému, Ph.D. za významnou pomoc i upřímnou zpětnou vazbu
-a vážené paní Libušce Brdičkové za její neúnavnou ochotu a vstřícnost.
-
-Děkuji
-váženému MUDr. Vítu Elgrovi,
-Ing. Milanu Tulachovi,
-Mgr. Lence Vinklerové,
-Alence Valentové,
-a dalším za zprostředkování díla Karla Makoně, za zapůjčení nahrávek,
-spolupráci, testování a používání aplikace i za zpětnou vazbu.
-
-Děkuji
-Mgr. Petru Kazdovi z~Konicy Minolty, že mi umožnil skloubit zaměstnání s~prací na disertaci
-
-Děkuji, že mi bylo umožněno se tomuto projektu věnovat.
-}
 
 % Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
 \def\Abstrakt{%
@@ -225,6 +201,104 @@ years of operation are covered.
 \vspace{-8mm}
 \vfill
 
+{\bf\Large ABSTRACT OF DOCTORAL THESIS}
+
+\vfill
+
+{\LARGE\AutorPrace}
+
+\vspace{15mm}
+
+{\LARGE\bfseries\NazevPraceEN}
+
+\vfill
+
+\KatedraEN
+
+\vfill
+
+{
+\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
+Supervisor:&\Vedouci \cr
+\noalign{\vspace{2mm}}
+Study programme:&Computer science \cr
+\noalign{\vspace{2mm}}
+Branch:& Computational linguistics\cr
+}}}}
+
+\vfill
+
+% Zde doplňte rok
+Praha \RokOdevzdani
+
+\end{center}
+
+\newpage
+
+%%% Povinná informační strana disertační práce
+
+\openright
+
+\vbox to 0.5\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+The results of this thesis were achieved in the pediod of a doctoral study at
+the Faculty of Mathematics and Physics, Charles University in years
+2011 -- 2020.
+
+\vspace{2cm}
+
+{
+\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
+Student:&
+\AutorPrace
+\cr \noalign{\vspace{7mm}}
+Supervisor:&
+\Vedouci, \KatedraVedoucihoEN
+\cr \noalign{\vspace{7mm}}
+Department:&
+\KatedraVedoucihoEN
+\cr \noalign{\vspace{7mm}}
+Opponents:&
+Prof. Ing. Luděk Müller, Ph.D.\\
+Fakulta aplikovaných věd ZČU, Katedra kybernetiky\\
+Technická 8, 30614 Plzeň
+\cr \noalign{\vspace{7mm}}
+&Doc. Ing. Petr Pollák, CSc.\\
+ČVUT FEL K13131,\\
+Technická 2, 16627 Praha 6
+\cr
+}}}}
+
+The thesis defense will take place on September 30th 2020 at 11:00 a.m. in front of a
+committee for thesis defenses in the branch P4I3 Computational linguistics
+at the Faculty of Mathematics and Physics, Charles University in
+Prague, Malostranské náměstí 25, in the room S510.
+
+The thesis can be viewed at the Study Department of Doctoral Studies of the Faculty of
+Mathematics and Physics, Charles University in Prague, Ke Karlovu 3, Prague 2.
+
+This abstract has been distributed on September 23rd 2020.
+
+\vss}\nobreak\vbox to 0.49\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+\vss}
+
+%%% Titulní strana práce
+
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+
+\begin{center}
+
+\centerline{\mbox{\includegraphics[width=166mm]{../img/logo-cs.pdf}}}
+
+\vspace{-8mm}
+\vfill
+
 {\bf\Large AUTOREFERÁT DISERTAČNÍ PRÁCE}
 
 \vfill
@@ -271,23 +345,31 @@ Disertační práce byla vypracována na základě výsledků získaných během
 doktorského studia na Matematicko-fyzikální fakultě Univerzity Karlovy v~letech
 2011 -- 2020.
 
-Doktorand:
+
+{
+\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
+Doktorand:&
 \AutorPrace
-
-Školitel:
+\cr \noalign{\vspace{7mm}}
+Školitel:&
 \Vedouci, \KatedraVedouciho
-
-Školicí pracoviště:
+\cr \noalign{\vspace{7mm}}
+Školicí pracoviště:&
 \KatedraVedouciho
-
-Oponenti:
+\cr \noalign{\vspace{7mm}}
+Oponenti:&
 Prof. Ing. Luděk Müller, Ph.D.\\
 Fakulta aplikovaných věd ZČU, Katedra kybernetiky\\
 Technická 8, 30614 Plzeň
-
-Doc. Ing. Petr Pollák, CSc.\\
+\cr \noalign{\vspace{7mm}}
+&Doc. Ing. Petr Pollák, CSc.\\
 ČVUT FEL K13131,\\
 Technická 2, 16627 Praha 6
+\cr
+}}}}
+
+
+
 
 Obhajoba disertační práce se koná dne 30. září 2020 v 11:00 před komisí pro
 obhajoby disertačních prací v oboru P4I3 - Matematická lingvistika na
@@ -296,7 +378,7 @@ Matematicko-fyzikální fakultě UK, Malostranské náměstí 25, v~místnosti S
 S~disertační prací je možno se seznámit na studijním oddělení
 Matematicko-fyzikální fakulty UK, Ke Karlovu 3, Praha 2.
 
-Autoreferát byl rozeslán dne 21. září 2020.
+Autoreferát byl rozeslán dne 23. září 2020.
 
 \vss}\nobreak\vbox to 0.49\vsize{
 \setlength\parindent{0mm}
