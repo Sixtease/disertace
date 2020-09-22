@@ -358,16 +358,9 @@ and to gain maximum benefit out of it, that motivated this work.
 The spoken corpus of Karel Mako\v{n} is a collection of talks given in a circle
 of friends in the course of late 60's or early 70's till 1992. The recordings
 have been kept on magnetophone tapes until their digitization that took place
-between 2010 and 2012. The corpus is
-about 1000 hours in total length, of which about 108 have been transcribed
-manually.
+between 2010 and 2012. The corpus is about 1000 hours in total length.
 
-The digitized corpus is largely unstructured. The only metadata we have are
-years and sequential numbers in case of the cassettes. For some reels, there are
-handmade indexes listing the topics covered and the corresponding time positions on the
-counter of the device. These are typed on paper and have been photographed. The
-indexes, however, cover only 76 of the 1096 total files.
-
+The digitized corpus is largely unstructured. 
 This is a similar setting to the Malach\cite{psutka2005automatic} project. Malach was
 approached by doing automatic speech recognition and building a search engine on
 the ASR output. Our setting differs from that of Malach significantly, as we
@@ -380,10 +373,9 @@ of Mako\v{n}'s talks.
 \section{Architecture of the system}
 
 Obviously, there are two basic ways to do speech-to-text transcription:
-\begin{itemize}
-\item{manually,}
-\item{automatically.}
-\end{itemize}
+manually or
+automatically.
+
 Manual transcription usually delivers very high quality, but it is unbearably
 time-consuming. Automatic transcription can be quite fast, but the amount of
 errors leaves much to be desired. Hence, I propose a system
@@ -391,29 +383,24 @@ to draw on the power of both to converge to a good transcript without employing
 paid annotators.
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.6]{rc/arch-en.eps}
+\includegraphics[scale=0.41]{rc/arch-en.eps}
 \caption{Schema of the system architecture}
 \label{fig:arch}
 \end{figure}
 
 Figure~\ref{fig:arch} outlines the system architecture:
-\begin{enumerate}
-\item{An initial transcript is obtained by means of an automatic speech recognition
+{An initial transcript is obtained by means of an automatic speech recognition
 system.\label{enum:arch:init}}
-\item{The resulting transcript is transformed into a JavaScript data
-structure suitable for synchronous displaying on the web
-interface.\label{enum:arch:htk2sub}}
-\item{Visitors use the web interface to listen to the recordings,
+{Visitors use the web interface to listen to the recordings,
 at the same time seeing the synchronized transcript.}
-\item{When encountering an error in the transcript, the visitor selects the
+{When encountering an error in the transcript, the visitor selects the
 erroneous text and edits it, entering the correct transcript.}
-\item{The corrected subtitle is immediately saved, so that it is shown on
-subsequent requests of that passage.}
-\item{The corrected subtitle is added to the training data of the ASR system.}
-\item{The ASR model is re-trained with the new training data.}
-\item{The re-trained ASR model is applied and the bulk of the transcription that
+{The corrected subtitle is immediately saved, so that it is shown on
+subsequent requests of that passage, and
+is added to the training data of the ASR system.}
+{The ASR model is re-trained with the new training data.}
+{The re-trained ASR model is applied and the bulk of the transcription that
 has not yet been human-corrected, is re-generated.}
-\end{enumerate}
 
 This architecture has been realized and running from 2012 until now. It has so
 far yielded 108 hours of manual transcripts.
@@ -1001,8 +988,7 @@ Legend to Figure~\ref{fig:scn1lab}:
 \item{
     Tools for storing:
     {direct links to the audio files,}
-    {selecting the whole transcription for easy pasting,}
-    {storing the decoded recording in the browser's IndexedDB;}
+    {selecting the whole transcript for easy pasting,}
 }
 \item{Graphical equalizer for compensating narrow-band noise;}
 \item{Audio playback controls;}
