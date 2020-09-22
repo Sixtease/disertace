@@ -108,74 +108,6 @@
 \def\StudijniProgram{informatika}
 \def\StudijniObor{matematická lingvistika}
 
-% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
-% zapůjčil software, literaturu apod.)
-
-% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
-\def\Abstrakt{%
-Tato disertační práce se zabývá zpřístupněním zvukových
-záznamů jednoho mluvčího úzké i široké veřejnosti.
-
-Motivací práce byla existence chátrajících nahrávek hovorů českého filozofa
-ing. Karla Makoně na kazetách a kotoučích. Cílem je zachování materiálu pro
-budoucí generace a zpřístupnění nahrávek pomocí digitálních technologií,
-především přístupnosti nahrávek na internetu a možnosti vyhledávání v~nich.
-
-Práce představuje tvorbu systému pro přepis velké sady zvukových záznamů
-se zapojením laické komunity. Navržené řešení spočívá ve vytvoření základního
-přepisu nízké kvality pomocí automatického rozpoznávání řeči a vyvinutí
-aplikace, která umožní od členů komunity i nahodilých zájemců získávat opravy
-automatického přepisu, použitelné jako trénovací data pro další zlepšování.
-
-Popíše se samotný mluvený korpus. Představí se autor a
-jeho dílo,
-témata v~nahrávkách, nahrávání samotné, digitalizace a získané přepisy.
-Dále se rozvede tvorba systému pro automatický
-přepis korpusu od sběru dat, přes akustické a jazykové modelování, různé
-provedené experimenty až k~vyhodnocení úspěšnosti. V~neposlední řadě se popíše
-webová aplikace pro sběr manuálních přepisů. Zmíní se odlišnosti od ostatních
-systémů, detaily návrhu a řešení, mechanismus pro kompenzaci vysokých nároků na kvalitu
-přepisu a nízkých nároků na odbornost přispěvatelů a vyhodnocení funkčnosti
-po osmi letech provozu.
-}
-\def\AbstraktEN{%
-This Ph.D. thesis deals with making a corpus of audio
-recordings of a single speaker accessible to wide public and interested community.
-
-The work has been motivated by the existence of a set of perishing recordings
-of the Czech philosopher Karel Makoň on magnetophone tapes. The aim is to conserve
-the material for future generations and making it accessible using
-digital technologies, in particular publishing the recordings online
-and enabling the users to search through them.
-
-The thesis introduces the creation of a system for transcribing a large set of
-speech recordings employing a lay community. The solution designed is based on
-obtaining a baseline low-quality transcription by means of automated speech
-recognition and developing an application that allows for collecting corrections
-of the automatic transcription in a fashion that makes it usable as training
-data for further improvement of said transcription.
-
-The spoken corpus itself is described. The
-author and his works, topics covered in the talks, the process of recording
-and digitization as well as the gained transcript are introduced.
-Next, the development of a system for automated transcription of
-the corpus, from collecting data, to acoustic and language modeling, various experiments
-undertaken and evaluation are presented. Then, the web application for gathering
-manual transcript corrections is described.
-Differences to other settings, design and implementation details, a way to
-compensate high demand for transcription quality and low demand for worker
-expertise, as well as an evaluation of the system's performance after eight
-years of operation are covered.
-}
-
-% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
-\def\KlicovaSlova{%
-{přepis zvukových nahrávek} {uživatelská interakce} {komunitní spolupráce}
-}
-\def\KlicovaSlovaEN{%
-{speech transcription} {user inetraction} {community cooperation}
-}
-
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
 %% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
 %% Většinu nastavítek přednastaví balíček pdfx.
@@ -196,7 +128,7 @@ years of operation are covered.
 
 \begin{center}
 
-\centerline{\mbox{\includegraphics[width=166mm]{../img/logo-cs.pdf}}}
+\centerline{\mbox{\includegraphics[width=166mm]{../img/logo-en.pdf}}}
 
 \vspace{-8mm}
 \vfill
@@ -424,7 +356,7 @@ and to gain maximum benefit out of it, that motivated this work.
 \section{Overview}
 
 The spoken corpus of Karel Mako\v{n} is a collection of talks given in a circle
-of friends in the course of late 60's or early 70's till 1991. The recordings
+of friends in the course of late 60's or early 70's till 1992. The recordings
 have been kept on magnetophone tapes until their digitization that took place
 between 2010 and 2012. The corpus is
 about 1000 hours in total length, of which about 108 have been transcribed
@@ -436,13 +368,13 @@ handmade indexes listing the topics covered and the corresponding time positions
 counter of the device. These are typed on paper and have been photographed. The
 indexes, however, cover only 76 of the 1096 total files.
 
-This is a similar setting to the Malach\cite{malach} project. Malach was
+This is a similar setting to the Malach\cite{psutka2005automatic} project. Malach was
 approached by doing automatic speech recognition and building a search engine on
 the ASR output. Our setting differs from that of Malach significantly, as we
 merely have to deal with material by one single speaker, and we just have to handle about one thousand hours
 in comparison with Malach's stunning one hundred sixteen thousand hours. This
 plus the fact that there is an active community around the legacy of Karel
-Mako\v{n} motivates us to attempt a full, high-quality, verbatim transcription
+Mako\v{n} motivates me to attempt a full, high-quality, verbatim transcription
 of Mako\v{n}'s talks.
 
 \section{Architecture of the system}
@@ -514,7 +446,7 @@ very few non-speech events on most of the recordings. Also, most of them
 have been taken by a single person who used the available state-of-the-art
 amateur recording technology and methods. This person was also very systematic
 in labeling and archiving the recordings. As a result, the majority of the base
-for digitization was a set of reel-to-reel tapes labeled with ordinal indexes
+for digitization was a set of reel-to-reel tapes labeled with ordinal indices
 and a set of cassettes labeled by year and ordinal index. The reel-to-reel tapes
 have been recorded in a generous speed of 9cm/second, which granted them a very
 good shield against the inevitable aging.
@@ -558,7 +490,7 @@ I have chosen the following example topics:\\
 I chose fairy-tale (Czech: \emph{poh\'{a}dka}) as a recurring topic with a
 unifying word, for an example of a non-named-entity.
 
-The search for stems of these words in the transcription
+The search for stems of these words in the transcript
 yielded results summed up in Table~\ref{tab:topicsearch}. For terms where there
 were more than 20 hits, I have checked the first 20 but each from a different
 file.
@@ -592,10 +524,10 @@ automatic part}\label{tab:topicsearch}
 \end{center}
 \end{table}
 
-The precision of over 80\% ints that the
+The precision of over 80\% hints that the
 quality of transcription at the time of this experiment (2018) allows for reasonable searching through the corpus.
 However, the hits were all clearly audible. I met none in an acoustically defect
-file, which leads to the hypothesis that those are not yet searchable to a
+file, which leads to the hypothesis that those were not yet searchable to a
 distantly satisfying level.
 
 7.6\% of the total words in the corpus were manually transcribed at the time
@@ -612,7 +544,7 @@ assume that the book he was just working on influenced the topic of his talks.
 For one, he translated the book \emph{El Castillo Interior}, English \emph{The
 Interior Castle} by St. Teresa of Ávila in 1988. For most recordings, the year
 of their acquisition is known.  Figure~\ref{fig:teresa-year} shows how many hits
-for the name of the Saint are present in the transcription by recording year.
+for the name of the Saint are present in the transcript by recording year.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.6]{rc/teresa-by-year.eps}
@@ -625,6 +557,7 @@ The peak around the year 1988 supports the speculation that topics in the talks
 correlate with those of books written at the same time.
 
 \chapter{Acoustic Properties}
+\label{chap:acoustics}
 
 Automatic speech recognition is generally approached by means of machine
 learning: a statistical model is inferred based on some training data. Its
@@ -646,7 +579,8 @@ Wang\cite{dnnnoiserobust} deal with noise in DNN-based ASR.
 There are in principle two ways to deal with the negative effect of acoustic
 deficiencies in speech recognition: 1) to adapt the model, which includes
 training on augmented data, and 2) to adapt the input data. This chapter
-presents experiments in the latter approach.
+presents experiments in the latter approach. See
+section~\ref{sec:svolocz:svolocz} for an experiment with model adaptation.
 
 \section{ASR Performance}
 
@@ -662,7 +596,7 @@ overdrive, and 68\% on recordings taken on a magnetophone tape with a slow
 recording speed of 2 centimeters per second after some 30 years of living-room
 storage.
 
-We are conducting an experiment to make the input data similar to the training
+I am conducting an experiment to make the input data similar to the training
 data instead of the more usual other way around because 1) it is not easy to
 make the volunteer annotators transcribe acoustically flawed data, 2) not only
 speech recognition would benefit from successful denoising, the listening
@@ -702,52 +636,19 @@ interferences is a difficult task.
 
 \section{Denoising}
 
-We conducted a baseline experiment employing the standard denoising based on
-spectral subtraction. We assumed that each recording in the
-corpus suffers from a consistent kind of noise. This does not hold for all the
-recordings but we dismissed this fact for the sake of simplicity. We used sox
-fox the denoising routine. The process for each recording is as follows:
-\begin{enumerate}
-\item{Identify and isolate a sample of pure stationary noise,}
-\item{extract the noise profile,}
-\item{apply noise reduction based on the noise profile.}
-\end{enumerate}
-
-Items 2 and 3 are taken care of by sox. As for extracting fitting silences, we
-used the following method:
-\begin{enumerate}
-\item{
-    Identify and extract all precicted silences using an
-    existing aligned automatic transcript.
-}
-\item{
-    Select 100 silences around the 25th percentile ordered by length.
-    This secures silences that are neither too short nor too long. Long silences
-    tend to contain non-stationary noises, that's why we avoid using them.
-}
-\item{
-    Create a distance matrix on the silences using
-    musly\cite{schnitzer2011using}.
-}
-\item{
-    Select 10 silences with the lowest median on the distance matrix. These
-    silences are most like other silences, thus being least likely to contain
-    non-speech events.
-}
-\item{
-    Finally, catenate and output the selected silences.
-}
-\end{enumerate}
+I conducted a baseline experiment employing the standard denoising based on
+spectral subtraction. For each recording, a set of passages most likely
+representing silence are extracted, a noise profile is calculated out of them,
+and then subtracted from the spectrum.
 
 Subjective evaluation confirms the expectable outcome that relatively
 high-quality recordings that only suffer from some additive noise get
 easier to listen to. Recordings suffering from other defects and overall lower
 audio quality sometimes get rather harder to understand.
 
-We have also trained a speech recognition system on the denoised data. The
+I have also trained a speech recognition system on the denoised data. The
 performance has sunken to word error rate of 0.94, which basically means the
-transcription doesn't work at all. Probably with some parameter tweaking this
-could be remedied but it doesn't seem to be a promising path. Curiously enough, the
+transcription doesn't work at all. Curiously enough, the
 original model trained on non-denoised data performs much better on the denoised
 test data with word error rate of 0.70. Table~\ref{tab:results-denoise} sums
 these up.
@@ -770,14 +671,8 @@ denoised testing data & 0.698 & 0.941 \\
 
 The revolutionary article of Zhu et al.\cite{cyclegan} presenting
 cycle-consistent generative adversarial networks gave mankind a mighty tool and
-a hilarious toy that was used for de-hazing
-photographs\cite{Engin_2018_CVPR_Workshops}, giving people other's facial
-expressions\cite{jin2017faceoff}, in biomedicine\cite{yang2018biogan} and also
-in speech processing: Kaneko and Tameoka\cite{kaneko2017parallel} present
-speech domain transfer and Hosseini-Asl et al.\cite{hosseini2018malevoicegan} do
-the same for the purpose of speech recognition.
-
-
+a hilarious toy that was used for a variety of tasks reducible to
+domain transfer.
 Most closely related to the work presented in this article is probably
 SEGAN\cite{pascual2017segan}: CycleGAN employed to enhance speech.
 
@@ -795,22 +690,14 @@ point of future work, we have explored the simpler way of clustering the data.
 \section{Clustering}
 
 In order to perform clustering on any dataset, a metric on the data is needed.
-We have used that proposed by Mandel \& Ellis\cite{mandel2005song}, which
+I have used that proposed by Mandel \& Ellis\cite{mandel2005song}, which
 is based on mel-frequency cepstra. A distance matrix has been created using
-musly and the clusters on top of that using
+musly\cite{schnitzer2011using} and the clusters on top of that using
 hierarchical clustering\cite{johnson1967hierarchical}.
 
 A manual... or rather aureal check on the clusters confirms that files falling
 into a cluster are indeed acoustically similar. So we arrived at a cluster of
 overdriven recordings, a cluster of heavily hummed ones etc.
-
-For curiosity, we looked at the distances of the files among each other and
-compared it to that between other familiar sounds. For instance, two adjacent
-segments of the same speaker from a meeting of the Czech parliament has a
-distance of 1.4. Different speakers have a distance of 6.5. One of these
-segments compared to a black metal song chorus has the distance of 519. On the
-other hand, the median distance among the Spoken corpus of Karel Makoň, where
-there is a single speaker, amounts to 55.9.
 
 The experiment presented below is conducted on three clusters:
 \begin{enumerate}
@@ -823,13 +710,13 @@ clusters have a maximum internal distance of 25.
 
 \section{Results}
 
-We have used the voice transfer method as proposed by Kaneko \&
+I have used the voice transfer method as proposed by Kaneko \&
 Kameoka\cite{kaneko2017parallel} and implemented by
-Mao\footnote{github.com/leimao/Voice\_Converter\_CycleGAN}. We have trained
+Mao\footnote{github.com/leimao/Voice\_Converter\_CycleGAN}. I have trained
 transfer 1) between the clean and the overdriven cluster and 2) between the
 clean and the low-speed cluster.
 
-After 200 epochs, we have performed speech recognition on the transferred data.
+After 200 epochs, I have performed speech recognition on the transferred data.
 The result is summed up in Table~\ref{tab:results}.
 
 \begin{table}[htpb]
@@ -861,6 +748,14 @@ Notice how parts of the signal are completely missing in the converted low-speed
 sample. It seems that when the signal is too hard to separate from the noise,
 the convertor prefers to generate silence.
 
+I conclude that adapting the acoustically damaged data to be more likely to the
+clean, in order to boost speech recognition performance, requires a much more
+advanced engineering than conducted in these experiments. Enhancing the
+listening experience seems significantly more reachable and can help us get
+transcripts of the more problematic recordings. This would expand the training
+data set to include examples of these problematic parts, probably decreasing the
+word error rate. Confirming this remains a point of future work, though.
+
 \begin{figure*}[tpb]
 \centering
 \includegraphics[width=0.9\hsize]{rc/plzen.eps}
@@ -889,37 +784,51 @@ I have built the first system using HTK and have later switched over to
 DeepSpeech, a system based on deep neural networks inspired by the 2014 Baidu
 article\cite{hannun2014deep}.
 
+In accordance with the architecture design, I have been using the ever-growing
+set of manual transcripts for training the acoustic model. The seed transcript
+has been taken by a model trained on some 15 minutes of material that I
+transcribed myself.
 
-Training data for speech recognition is always a demanded commodity, especially
-if it is free. There are for sure already some free Czech corpora fit for speech
-recognition training:
-\begin{itemize}
-\item{
-    Vystadial\cite{vystadialarticle} with its 77 hours of VoIP
-    calls\cite{vystadialdata}, 
-}
-\item{
-    The Prague Database of Spoken Czech\cite{pdtscarticle} with its 122 hours
-    of richly annotated spontaneous dialogues\cite{pdtscdata},
-}
-\item{
-    The Czech Senior COMPANION Expressive Speech Corpus with its 5 hours
-    of professionally spoken utterances by a single speaker\cite{companiondata},
-}
-\item{
-    Otázky Václava Moravce: 35 hours of transcribed recordings of the
-    Czech TV talk show\cite{ovmdata},
-}
-\item{
-    STAZKA, a set of speech recording from vehicles with its 35 hours of
-    background noise and utterances\cite{stazkadata},
-}
-\item{
-    Spoken Corpus of Karel Makoň\cite{kruuza2012making} with its 100 hours of
-    manually transcribed spontaneous speech by a single speaker\cite{makondata},
-}
-\item{and possibly others that I am not aware of.}
-\end{itemize}
+Since there was not enough data to use as a gold standard for evaluation, I have
+always separated some 10\% of then-available manual transcripts as a test set
+(and another 10\% as development test set). For this reason, scores of the
+individual models are not comparable. Only later during the development, I have
+defined a standard evaluation set for testing purposes, which comprises of five
+times ten minutes from various recordings across the corpus.
+
+The best score reached by a HTK-based model on this set is 46.3\%, whereas the
+best score reached by a DeepSpeech-based model is 19.2\%. These numbers
+represent a kind of expectable performance level given the technology and data
+used. There were many errors damaging the performance that had to be identified
+and overcome. There were also many attempts to push the performance up above
+this expected level, like tweaking the cepstral normalization, boosting or the
+above-described acoustic pre-processing.
+
+Finally, one obvious way of enhancing the performance led over widening the
+training dataset. In chapter~\ref{chap:acoustics}, I stated there were two ways
+to approach training and testing data inconsistency. There, I presented
+experiments addressing adaptation of the training data. This experiment of
+broadening the training data set realizes in fact the other branch.
+
+\section{Extended Training Data}
+\label{sec:svolocz:svolocz}
+
+There are some free Czech corpora fit for speech recognition training, like
+Vystadial\cite{vystadialarticle} with its 77 hours of VoIP calls
+and Otázky Václava Moravce: 35 hours of transcribed recordings of the
+Czech TV talk show\cite{ovmdata}.
+
+There are also some that are not publicly, freely available but that can be used
+anyway: Charles University
+Corpus of Financial News (CUCFN, 65 hours)\cite{byrne1999large} and the Balanced
+corpus of informal spoken Czech (Oral2013, 293 hours)\cite{oral2013} usable for
+research purposes, and the spoken Bible (100 hours) available with no license
+terms from \url{poslouchamebibli.cz}.
+
+These provide some 500 hours of training data, which is five times as much as
+available from the in-house transcripts. However, Oral2013 is a rather peculiar
+set, as its acoustic quality and speech intelligibility are quite low. But there
+is one more source of training data that remains to be untapped.
 
 The Czech parliament meeting recordings represent a publicly available dataset
 of high-quality audio recordings of contemporary Czech in consistent low-noise
@@ -945,23 +854,10 @@ Since the source data is publicly available and in the public domain, I merely
 provide the scripts for downloading and building the corpus. The algorithms and
 parameters used are described in this section.
 
-\subsection{Scraping}
-
 Regrettably, the data are to my best knowledge only available in human-readable
 form. The transcript is not clearly distinguished in the markup and is
-interlaced with metainformation. My method of isolating the transcript is quite
-crude but it covers the vast majority of cases. The criterion is to extract the
-subtree of all nodes with HTML attribute \texttt{[align=justify]}, except HTML
-elements \texttt{<b>}, which contain speaker identification.
-
-The known shortcomings of this method are that 1) it discards the speaker
-annotations, although it is valuable metainformation and 2) it skips some short
-passages, e.g. references to other meetings, as can be seen in the meeting
-from Feb. 12th 2020 10:10 -
-10:20\footnote{https://www.psp.cz/eknih/2017ps/stenprot/040schuz/s040372.htm}.
-Both can be corrected by devising a smarter scraper and neither has any
-significance for speech recognition: speaker annotation fundamentally and
-neglecting the links for their infrequency.
+interlaced with metainformation. The scraper therefore uses heuristics based on
+the markup and may omit parts of the transcript or include non-transcript.
 
 \subsection{Alignment}
 
@@ -981,7 +877,6 @@ recording in the upper left covers audio positions 01:34 - 11:24. The one in the
 lower right from 01:24 to 12:00.}
 \label{fig:overlap}
 \end{figure*}
-
 
 Systems for aligning long audio segments to their transcripts already exist,
 like that of Moreno et al.\cite{moreno1998recursive} or
@@ -1015,165 +910,34 @@ precise alignment from a GMM-based system. 2) The training doesn't require so
 much computational resources and data. 3) It isn't crucial to have maximum possible
 accuracy in this stage.
 
-\subsection{Audio Segmentation}
-
-To create a usable dataset for training a speech-to-text system, it is not
-necessary to perfectly align the whole transcript. On the contrary, it is
-desirable to align what is reliably precise and discard the rest.
-
-The criteria for good training samples are:
-\begin{enumerate}
-\item{100\% precise transcript,}
-\item{roughly sentence-level length,}
-\item{consistent length.}
-\end{enumerate}
-
-To ensure precise transcript, it is good to have the samples padded by some
-silence, since the alignment obtained from the initial ASR may be a bit
-imprecise. We thus want to split at pauses, the longer the better, up to a
-certain limit (about 1 second). The need to split at longer
-pauses goes against the need to split at consistent, none-too-great lengths.
-
-So the problem is to select an optimal set of silences so that the longest ones
-are used and so that they split the recording into chunks of length in a given
-range. This looks like a problem for dynamic programming but a simpler approach
-is also possible: Start with a set of all silences predicted by the forced
-alignment.  Iterate over the silences shortest-first and remove each if it
-doesn't break the constraints.
-
-I have experimentally set the length boundaries to 12 - 30 seconds. The maximum
-length could be decreased at the cost of available pauses to choose from, which
-would lead to more frequent splits in the middle of a word.
-
 \subsection{Training Samples Selection}
 
+The aligned 14 minute long recordings are then split to segments fit for use as
+training data for an acoustic model.
 With the audio segmented and corresponding manual transcripts extracted, the
 last step remaining is selecting which segments to include in the traning data.
 Indeed, since the recordings have a 2-minute padding on each side for 10 middle
-minutes, we must discard at the very least 40\% of the segments. I use the
-following criteria for including a segment in the data:
+minutes, we must discard at the very least 29\%\footnote{Erroneously stated in
+the thesis as 40\%, pointed out by the opponent.} of the segments. I use
+criteria based on word reliability for including a segment in the data.
 
-\begin{enumerate}
-\item{The first and last token have reliability at least 70\%,}
-\item{The mean reliability of all tokens is at least 70\%,}
-\item{The number of words is no less than five.}
-\end{enumerate}
-
-Minimum reliability of border tokens is considered to minimize the danger of
-shifted alignment boundaries. Mean reliability is considered because it is OK
-for some words to have very low reliability: there are enough errors in the
-prediction, that's why we use the manual transcript after all. But if too many
-tokens have too low reliability, then it is a sign of a suspicious segment. The
-number of words has a minimum because with only a few words, the probability of
-misalignment with good score is much greater than when there are enough words.
-
-Why use mean reliability and not median? The way the reliability is computed
-considers the number of edit operations on one line in the automatic transcript.
-In the case where there are many insertions, the reliability of one line can go
-arbitrarily deep sub zero. So it can happen that there are several inserted
-words in a (mis)aligned chunk that only affect the reliability score of a single
-word. The mean taps these while the median doesn't.
-
-\subsection{Data Extraction Summary}
-
-All the constants and criteria are to be considered a baseline solution. They
-all could be tweaked much more rigorously and solved much more soundly. However,
-this simple solution readily yields a high-quality training dataset of 1058
+The solution readily yields a high-quality training dataset of 1144
 hours. Of the total 539,057 segments, 142,530 (26\%) have been accepted to the
-training dataset. Of the total 396,527 discarded segments, 350,258 (88\%) were
-discarded because of the criterion of unreliable start or end. It should be
-noted however, that the start / end reliability criterion is applied first, so
-it catches segments that would be discarded for other reasons also.
-
-Reducing the minimum reliability of the boundary words from 70\% to 50\% increases
-the number of accepted chunks by 17\%. It adds 5\% segments
-of the total number to the dataset. But if we consider that 40\% of the total
-number of segments must be discarded because of audio padding, the gain is
-acually 9\%. It is an option to increase the training data volume at the cost
-of matching precision.
-
-\section{Numerals and Abbreviations}
-
-There are many numeral expressions in the transcripts. They amount to 489,880
-out of 25,010,269 tokens in the complete stenographic transcript, which is
-almost two percent. In the training dataset, 24\% of the samples contain one or
-more numerals.
-
-Originally, I have included the digits into the alphabet for speech recognition,
-thus attempting to train the system to transcribe numeral expressions directly
-into digits. The speech recognition system described in the following section
-would however transcribe numeral expressions as empty strings.
-
-There are four ways to deal with the problem:
-\begin{enumerate}
-\item{ignore it,}
-\item{remove digits from the training data,}
-\item{manually expand digits to words,}
-\item{automatically expand digits to words.}
-\end{enumerate}
-
-The first option needs no elaboration. The second one, removing samples with
-digits, is an easy and viable option but it is a waste of a quarter of the
-dataset and of the vast majority of samples with numerals in them. Manual
-expansion would surely be ideal but very costly. It remains to attempt the
-fourth variant of automated expansion.
-
-For automated expansion of digits into words, we can use the available initial
-transcript and the algorithm for alignment with the stenographic transcript.
-
-The expansion is done in two steps:
-\begin{enumerate}
-\item{generation of verbal variants,}
-\item{selection of the most likely variant.}
-\end{enumerate}
-
-I have used the Perl module \texttt{Lingua::CS::Num2Word} as a base for the
-expansion. I modified the module in the following way: 1) I added support for
-the order of billions, which is very common in the corpus. 2) A number is no
-longer expanded into a single phrase but instead into all possible phrases
-expressing the given number. 3) I added support for genitive and accusative
-cases, decimal numerals, ordinals, dates and times.
-
-All tokens in the stenographs that include digits are expanded into their
-verbalization variants before further processing. Upon alignment, the variant
-with least edit distance from the initial transcript is selected.
-
-Common abbreviations and symbols are expanded together with the digits. For
-example, the very common character \textit{``§'' (paragraph)} is expanded into
-the forms \textit{paragraf, paragrafu, paragrafů, paragrafem,
-paragrafech} that represent common inflections of the word. Some common
-abbreviations that undergo inflection include \textit{``čl.'' (article)},
-\textit{``odst.'' (also paragraph)} and \textit{``tzv.'' (co-called)}.
-
-After incorporating the expansion into the pipeline, the similarity of the
-stenographic transcript and the initial one raised, which also raised the number
-of accepted segments from 26\% to 35\%. The amount of training data grew by 86
-hours to 1144.
+training dataset.
 
 \section{ASR Based on the Dataset}
 
-I have trained a standard DeepSpeech\cite{hannun2014deep} model on the 1058
-hours with training :
+I have trained a standard DeepSpeech model with training :
 development : test ratio of 18 : 1 : 1; batch size 50; learning rate 0.0001; dropout
-rate 0.2. The training took 12 epochs to reach optimal dev fit and the final
-word error rate on testing data from the corpus itself is 8.40\% before digit
-expansion and 7.89\% afterwards.
+rate 0.2. I trained a model for every individual source and finally one on the
+concatenation.
 
 The language model used was a pentagram model with pruned singleton trigrams,
 tetragrams and pentagrams. The bulk of scraped transcriptions, including those
 with no downloadable corresponding audio, was used as training data for the
 language model.
 
-I have also tried training a speech recognition system with other datasets and
-the combination of them all. Of the datasets listed in
-section~\ref{sec:intro}, only Vystadial, Otázky Václava Moravce (ovm) and the
-corpus of Karel Makoň (makon) proved useful without much effort.
-
-Apart from them, I used the publicly not available corpora of Charles University
-Corpus of Financial News (CUCFN, 65 hours)\cite{byrne1999large}, the Balanced
-corpus of informal spoken Czech (Oral2013, 293 hours)\cite{oral2013} and the
-spoken Bible (100 hours) available with no license terms from
-\url{poslouchamebibli.cz}. Table~\ref{tab:csasr:results} shows the speech recognition
+Table~\ref{tab:csasr:results} shows the speech recognition
 results for each corpus on test data from itself and on a common test set from
 all the corpora.
 
@@ -1187,29 +951,36 @@ source    & WER on self & WER on all \\
 \hline
 bible     & 9.20\%  & 94.7\% \\
 cucfn     & 31.6\%  & 72.8\% \\
-makon     & 30.4\%  & 77.3\% \\
+makoň     & 30.4\%  & 77.3\% \\
 oral2013  & 78.4\%  & 60.7\% \\
 ovm       & 21.6\%  & 72.9\% \\
-parliament w/digits
-          & 8.74\%  & 39.7\% \\
-\textbf{parliament expanded}
+\textbf{parliament}
           & 7.89\%  & \textbf{36.0\%} \\
 vystadial & 51.0\%  & 74.0\% \\
 \hline
-all w/digits & 28.4\% & 28.4\% \\
-all expanded & 26.0\% & 26.0\% \\
+all       & 26.0\% & 26.0\% \\
 \hline
 \end{tabular}
 \label{tab:csasr:results}
 \end{table}
 
-All speech recognition systems were trained with the same hyperparameters as
-described above.
+The 30\% word error rate for model trained on Makoň and tested on Makoň is reached when using the
+generic language model. When using a language model trained solely on Makoň
+data, the word error rate drops to 19\% reported above.
+
+\subsection{Results on Makoň Corpus}
+
+The final best performance on the Makoň test set was attained by training on the
+concatenated set using heldout Makoň data for validation, followed by two
+training iterations on the Makoň training set. This yielded the final best performace of 13.0\% word error rate.
+
+The training dataset expansion has significantly brought down the word error
+rate for acoustically defect parts. The reduction was from 45\% to 35\% on the
+overdriven cluster and from 69\% to 42\% on the low-tape-speed cluster.
 
 \chapter{Web Interface}
 
-The spoken corpus is about 1000 hours of a single
-speaker. Our aim is to have a transcription as good as possible for the purpose
+My aim is to have a transcription as good as possible for the purpose
 of searching and further, higher-level processing of the data. There is a pool
 of people interested in the talks, who on one hand are the force we can try to
 employ and on the other hand are the consumers of our effort, our target group
@@ -1219,146 +990,22 @@ The web application should therefore combine the two purposes: 1. serve its user
 with making the content available in a manner as good as possible and 2. animate
 the user to give as much and as high-quality contribution as possible.
 
-To our best knowledge, there is no other project with a comparable setting.
-However, we can compare single aspects found in other applications.
-
-\subsection{Transcription Apps}
-\label{ssec:diff:trans}
-
-The best widespread match to our task is that of creating an application for
-transcribing speech recordings. Let us compare the two tasks, pointing out the
-main points of difference. For reference, we take (1)
-Transcriber\footnote{trans.sourceforge.net}, a classical open-source program
-written in TCL, (2) oTranscribe\footnote{otranscribe.com}, a free modern
-web-based transcription tool and (3) Transcribe\footnote{transcribe.wreally.com}
-a commercial web-based transcription tool.
-
-The numbers in the bullet list below denote the programs our statement applies
-to. For example, of the three only Transcriber allows speaker annotation, hence
-there is only the number (1) standing at the second list item.
-
-\noindent
-\begin{tabularx}{\textwidth}{
-    @{\hspace{1.5em}}% Space for left bullet
-    >{{\hsize=0.9\hsize}\leavevmode\llap{\textbullet~}\raggedright}% Left bullet + formatting of column
-    X% Left column specification
-    @{\hspace{0.2em}}
-    >{\hsize=0.2\hsize}
-    X
-    @{\quad\hspace{1.5em}}% Space between columns + right bullet space
-    >{\leavevmode\llap{\textbullet~}\raggedright\arraybackslash}% Right bullet + formatting of column
-    X% Right column specification
-    @{}% No column space on right
-  }
-  \em{transcription applications}: & & \em{our application}: \\
-  are optimized for the case where there is no transcription available and it
-  must be acquired from scratch; &
-    (1,2,3) &
-      always assumes a prior transcription is available; \\
-
-  allow annotation of speakers; &
-    (1) &
-      assumes all utterances come from the same speaker; \\
-
-  need no quality control: the user is free to enter whatever transcription she
-  pleases and the ultimate measure is her satisfaction; &
-    (1,2,3) &
-      needs the transcription to be accurate because it is used as training data
-      for the acoustic model; \\
-
-  use alignment on the level of phrases, if any; &
-    (1)\footnote{
-        Transcriber explicitly aligns the text with speech, while the
-        other two merely support addition of timestamps into the transcription.
-    } &
-      uses alignment on the level of words; \\
-
-  are user-centric: the user transcribes whatever acoustic data they choose; &
-    (1,2,3) &
-      is data-centric: the whole application with all its tools and persons
-      revolves around the data set; \\
-
-  assumes the user wants to transcribe; &
-    (1,2,3) &
-      assume the user wants to listen and possibly read along and we want to
-      animate her to submit transcriptions; \\
-
-  has no shared data between users; &
-    (1,2)\footnote{Transcribe supports team co-operation.} &
-      must count with collisions. \\
-\end{tabularx}
-
-\vspace{5mm}
-
-Despite of these differences, we can still learn a lot from transcription
-software. The ease of performing common tasks, like pausing, resuming and
-rewinding is crucial for the user experience and in effect for the amount of
-submissions that we receive. Also, the way the text is displayed synchronously
-to the audio played has a big impact and the approaches have a lot of space for
-variation.
-
-\subsection{Wiki}
-
-Where our application diverts from transcription software, it mostly resembles a
-wiki: a community platform that serves its users including the contributors but
-where the quality of the contributions is essential, while the contributor's
-satisfaction alone is of less importance.
-
-One major point of difference to a wiki is that wiki is creative, whereas our
-task is mechanical. The user has basically no room for their own invention:
-providing a different than correct transcription is seen as an error.
-
-Popular wikis have good measures for edit conflicts, which is where we could
-learn some lessons. However, so far there was no need to do that because
-\begin{enumerate}
-\item{if we always simply take the most recent version
-of a segment, the result stays consistent even if a piece from user A comes into
-a larger transcription of user B;}
-\item{our user base is so far limited to a small community who have no problem
-coordinating with each other. We plan to expand to broader public soon though.}
-\end{enumerate}
-
-With regard to the transription as presented to the user, a submitted segment of
-transcription always overwrites the present version but we keep all the
-submissions in a database, so undo operations, clustering submissions by their
-author etc. are possible but we had little need for this so far.
-
-\subsection{Corpora}
-
-Our project is not the first involving community-driven care of a corpus. We
-can mention the Manually annotated sub-corpus\cite{ide2010manually}, where
-annotations of various kinds are gathered from volunteers, or the
-Wikicorpus\cite{reese2010wikicorpus}, a corpus of Wikipedia articles with some
-linguistic annotation. Our project may reach profound similarities with these in
-the future, when we no longer focus on the transcription itself but rather on
-annotation.
-
-There is also CzEng\cite{bojar2008czeng}, the Czech-English Parallel
-Corpus, where a large part of the translation is provided by volunteers. The
-similarity in setting is considerable as both projects involve a
-machine-produced erroneous derivative of the original material (in our case
-audio transcriptions, in the case of CzEng Czech translations of English texts),
-and a community of volunteers correct these. But the specifics of the projects
-bring different challenges and dictate different approaches.
-
-Marge (2009)\cite{5494979} investigates using The Mechanical Turk to obtain
-audio transcriptions. Mihalcea (2004)\cite{mihalcea2004building} offers a web
-interface for word-sense disambiguation and focuses mostly on annotator conflict
-resolution.
+To my best knowledge, there is no other project with a comparable setting.
 
 \section{Description of the Web Application}
 
 \subsection{Usage}
 
-We have no special assumption of the user beyond basic computer usage skills and
-understanding the audio. We assume no prior training. There is a manual for
+I have no special assumption of the user beyond basic computer usage skills and
+understanding the audio. I assume no prior training. There is a manual for
 clearing common points of confusion. The main message in it is that anything
 that is to be transcribed, should be transcribed with respect to
 phonetic precision, even if it results in nonsensical character strings.
 
 Anything except words spoken by the one speaker of interest is to be left
-untranscribed, including noise or speech by other persons\footnote{In our data,
-other speakers represent a negligible fraction but we may later add support for
+untranscribed, including noise or speech by other persons\footnote{In the K.M.
+corpus,
+other speakers represent a negligible fraction but I may later add support for
 speaker annotation.}. Incomprehensible words are to be left uncorrected
 (the ASR output kept) if the phones are unclear. If the phones uttered are clear
 but it is not clear what word was meant, the word may be transcribed
@@ -1377,9 +1024,8 @@ corresponding positions in the recordings,}
 \item{static pages with general information, contact etc.}
 \end{enumerate}
 
-We shall only discuss the detail view as the others are not relevant to this
+I shall only discuss the detail view as the others are not relevant to this
 paper. Figure~\ref{fig:scn1lab} shows the interface during playback.
-Figure~\ref{fig:scn2lab} shows the interface while a segment is being edited.
 The interface in the figures is conveniently shown in English, although in
 reality it is in Czech.
 
@@ -1393,88 +1039,33 @@ Legend to Figure~\ref{fig:scn1lab}:
 \begin{enumerate}
 \item{
     Header with
-    \begin{itemize}
-    \item{app name linking to start page,}
-    \item{about link,}
-    \item{search field and}
-    \item{username input field;}
-    \end{itemize}
+    {app name linking to start page,}
+    {about link,}
+    {search field and}
+    {username input field;}
 }
 \item{Identifier of the recording;}
 \item{Automatically transcribed segments in grey;}
 \item{Manually transcribed segments in black;}
 \item{Currently played-back word highlighted by yellow background;}
 \item{Marked word highlighted in regent st. blue;}
-\item{
-    Marked word info:
-    \begin{itemize}
-    \item{
-        occurrence: the word with contextual capitalization and
-        punctuation as it appeared in the text (currently being edited as the
-        selected initial letter reveals),
-    }
-    \item{form: normalized word form as it appears in the word list,}
-    \item{pronunciation: Czech phonetic transcription of the word,}
-    \item{
-        position: time of the beginning of the word in seconds from the
-        start of the recording;
-    }
-    \end{itemize}
-}
+\item{Marked word info;}
 \item{
     Tools for storing:
-    \begin{itemize}
-    \item{direct links to the audio files,}
-    \item{selecting the whole transcription for easy pasting,}
-    \item{storing the decoded recording in the browser's IndexedDB;}
-    \end{itemize}
+    {direct links to the audio files,}
+    {selecting the whole transcription for easy pasting,}
+    {storing the decoded recording in the browser's IndexedDB;}
 }
 \item{Graphical equalizer for compensating narrow-band noise;}
-\item{
-    Audio playback controls:
-    \begin{itemize}
-    \item{play/pause button,}
-    \item{current playback position,}
-    \item{playback scrollbar,}
-    \item{total recording length;}
-    \end{itemize}
-}
+\item{Audio playback controls;}
 \item{Current position reflected in URL fragment.}
 \end{enumerate}
-
-\begin{figure}[htpb]
-\includegraphics[scale=0.6]{rc/radio-makon-en-2-lab.png}
-\caption{Interface in the state of editing a segment}
-\label{fig:scn2lab}
-\end{figure}
-
-Legend to Figure~\ref{fig:scn2lab}:
-\begin{enumerate}
-\item{
-    Selecting a text range with the mouse defines the segment the user is about
-    to transcribe;
-}
-\item{
-    The edit tool with
-    \begin{itemize}
-    \item{text area prefilled with the current transcription,}
-    \item{playback button that plays the corresponding segment,}
-    \item{save button and}
-    \item{download-segment button, which initiates a file-save action for the
-    audio segment corresponding the the selected text. The synthesis of the
-    downloaded file takes place in the browser.}
-    \end{itemize}
-}
-\end{enumerate}
-
-The commonest tasks have keyboard shortcuts: \texttt{ctrl+space} for
-play/pause and \texttt{ctrl+enter} for submitting a correction.
 
 \subsection{Displaying the Transcription}
 
 Many transcription programs show the transcription as a vertical list of
 utterances, see Figure~\ref{fig:transcriber1} for an example of
-Transcriber. We attribute this to the fact that the atomic elements of
+Transcriber. I attribute this to the fact that the atomic elements of
 the transcription are the user-entered utterances and their boundaries are
 reliable. In our case, the atomic elements are words. There are sentences, sure,
 but the segmentation to sentences by the ASR is very unreliable, so we want it
@@ -1489,302 +1080,62 @@ to be natural to transcribe a segment overlapping sentence boundaries.
 This is one of the reasons why we display the transcription basically as a
 single wrapped line.
 
-\subsubsection{Performance Challenge}
+\chapter{Conclusion}
 
-The transcription display was designed to have these features:
-\begin{enumerate}
-\item{
-    Currently played-back word should be highlighted;
-    \label{feats:item:curword}
-}
-\item{
-    Manually transcribed segments should be clearly distinct from automatically
-    transcribed ones;
-    \label{feats:item:manualdistinct}
-}
-\item{
-    Selecting one or more words with the mouse should trigger transcription mode
-    for the selected text;
-    upon a successful save, this should be merged into the display;
-    \label{feats:item:selectable}
-}
-\item{
-    Clicking a word should bring up its context info (we call this the
-    {\em marked word} as the term {\em selected word} is already taken);
-    \label{feats:item:clickable}
-}
-\item{
-    The whole transcription should be shown at once for easy searching;
-    \label{feats:item:showall}
-}
-\item{
-    The page should be responsive.\label{feats:item:speed}
-}
-\end{enumerate}
+The main focus of this work has been developing a new method for enriching a
+spoken corpus by a transcript layer. The method presented requires no paid
+annotators and reckons with difficult material for which there is no solid
+automated speech recognition available. As far as I know, all previous works
+either employ paid annotators or use speech recognition as it is a-priori
+available.
 
-These requirements are harder to combine than it may seem. Notably
-responsiveness is hard to combine with all of the other ones. Why is that so?
+Not only a simple transcript is yielded but also another layer of phonetic
+transcript, aligned with the source audio.
 
-Points~\ref{feats:item:curword} through \ref{feats:item:clickable}
-call for every word to be wrapped in its own element.
-Point~\ref{feats:item:showall} and the median count of words in a transcript of
-about 6000 yield 6000 \texttt{<span>} elements just to show the text. 
+The method has been employed on the spoken corpus of Karel Makoň and proven
+viable. The result is a complete coverage of the corpus with automatically
+acquired transcript with an estimated word error rate of 13\%, which is on par
+with the state of the art, considering the age, quality and spontaneity of the
+recorded speech.
 
-Although this may not seem like a big deal, it does affect the responsiveness
-and memory footprint of the page.
+More importantly, the viability of the method has been proved by the fact that
+108 hours of material have been successfully transcribed by lay, elderly users.
 
-In the original version, we solved this by sacrificing point~5:
-only 3 lines of text are shown with the current word kept on the middle line as
-shown on Figure~\ref{fig:makonfm}.\footnote{The current word is on the top line
-on the screenshot because it is at the beginning of the recording.} Thanks to
-the development in the web standards and their support from popular browsers, a
-solution is possible.
+Not only has the method been developed, proven and described for benefit of
+others who find themselves in a similar setting, but also software tools have
+been created that can be freely re-used in a more or less similar setting.
 
-\begin{figure}[htpb]
-\includegraphics[scale=0.7]{rc/makonfm-en-1.png}
-\caption{Original web interface from 2012}
-\label{fig:makonfm}
-\end{figure}
+As a
+prominent point stands the web application allowing for work with a large set of
+speech recordings, which enables browsing the material, listening with
+synchronous display of the transcript, corrections of the transcript from the
+user and several other advanced features, packed in a modern installation-free
+web page.
+It can be used in a variety of settings, wherever one of its distinct features
+are required.
 
-\subsubsection{Solution}
+The toolchain for catalogizing the raw recordings into the web application,
+turning the manual transcripts into training data, acquiring a speech
+recognition system and running it on untranscribed data is split so
+that data-dependent and data-independent parts are separated, allowing easy use
+on new data. This has been done several times, on data described in this thesis,
+like the Czech parliament meetings, as well as on data outside of this work.
 
-We can use the fortunate fact that manually transcribed words and automatically
-transcribed ones tend to form larger chunks. The average number of words per
-submitted segment is 7.9. Furthermore, the absolute majority of such segments
-are adjacent to other manually transcribed chunks.\footnote{
-The median number of chunks is 1 (most recordings have no manually corrected
-segments), maximum is 1109. Median only counting touched recordings is 8.}
-Hence, wrapping each chunk of consecutive manually or automatically transcribed
-words in an HTML element is no problem, which solves
-point~2.
+Another software tool released in the course of this work is a tool for
+turning the stenographed Czech parliament meetings into a training dataset for
+speech recognition, bringing to the community a new corpus one order larger than other publicly
+available datasets.
 
-Point~\ref{feats:item:selectable} can be implemented using
-\texttt{document.selection} and the \texttt{Range} objects, which let us find
-out the innermost HTML element and text offset of the start and end of the
-textual selection. Since we know the length of each word, this allows us to map
-the selection to the corresponding words in the transcription.
+Other smaller but useful tools include expansion of numbers written as digits to
+all possible Czech spellings, a library for parsing MFCC headers in Perl, a
+script for denoising long sound files, including automatic extraction of
+fitting silences, and others.
 
-Points~\ref{feats:item:curword} and~\ref{feats:item:clickable} can be
-implemented in two ways: We could either wrap the current and marked word in a
-dedicated element or we could draw a highlighting rectangle beneath the word.
-
-Wrapping the word would definetely be more robust and less error-prone but the
-constant changes in the DOM during playback with possible frequent reflows speak
-against it. Finding the exact position of each word and drawing a rectangle
-precisely beneath it (beneath on the z-axis; over it in the x-y sense), avoiding
-positioning issues and keeping the rectangle position synced even after scrolling
-/ window resizing is definitely a challenge but we chose this way nonetheless.
-The performance gain for the majority of the usage time outweighs the possible
-errors in the corner cases, more so since the eventual errors are not critical
-and mostly remedied by further playback.
-
-The efficiency of repositioning a rectangle is supported by the fact that we can
-calculate the coordinates of all rendered words once and only recalculate them
-in two cases: 1) In the rare event of screen resize and 2) when a corrected
-segment is merged into the transcription, in which case we only need to
-recalculate for the words further in the document.\footnote{We could even stop
-the recalculation as soon as we find that the new horizontal coordinate of a
-word is left untouched, and add the difference in the vertical coordinate to all
-subsequent words, i.e. when a line stays the same, so do all below it.}
-
-\subsubsection{Manual / Automatic Distinction}
-
-As shown on Figure~\ref{fig:scn1lab}, we draw automatic transcription in grey
-and manual one in black. Why did we choose this instead of normal / boldface?
-Firstly, the normal font is optimal for reading. Boldface is meant to highlight
-spots in text. It becomes bulky when applied on long continuous passages. The
-automatic transcription contains many errors, so there is no sense in optimizing
-it for best reading experience.
-
-There is also another practical reason. When the two font variants only differ
-in color, and a segment of automatic transcription is left intact and submitted
-as correct transcription, its merge-down into the displayed text causes no
-reflow, which saves us computations and raises responsiveness. It may seem like
-a rare use case but we believe that identifying correctly recognized words is a
-legitimate way of contribution, so why not optimize for it?
-
-Still, the underlying HTML tags are \texttt{<span>} and \texttt{<b>} because
-that way the distinction persists when copy-pasting the text from the web page
-to a rich text editor.
-
-\subsection{Ergonomy}
-
-It is clear that the ease of use is crucial in our case where the user is
-supposed to perform a requiring, tedious task with repeated steps, especially
-since it is our interest more than hers that she performs them. We compared our
-setting with that of transcription apps in section~\ref{ssec:diff:trans},
-pointing out lessons to learn. Let us now look at some specific points and their
-actual (lack of) implementation.
-
-\subsubsection{Keyboard Shortcuts}
-
-One of the most profound measures in ergonomy are keyboard shortcuts. The most
-common task is pausing and resuming playback. Both oTranscribe and Transcribe
-use the \texttt{esc} key for that, and Transcriber uses the \texttt{tab} key.
-We chose \texttt{ctrl+space} combination. We argue that \texttt{esc} is not the
-best of options for desktops because the distance the fingers have to travel
-from the alphanumeric keys causes a noticeable delay. This can lead to missing a
-pause between words. The \texttt{tab} key as chosen by Transcriber is a splendid
-choice from the ergonomy point of view and there is no reason not to use it in a
-dedicated user interface. However, in the browser, where the \texttt{tab} key
-has as native use, re-binding it could lead to confusion and irritation. The
-space bar is probably the easiest-to-find key in all situations and dedicating
-\texttt{ctrl} to all application-specific commands as opposed to single keys
-lends a sense of consistency, we believe.
-
-This is mere personal experience though, as we had no resources so far to
-perform serious research to support these statements.
-
-The only other keyboard shortcut we support is \texttt{ctrl+enter} for
-submitting the correction. We chose this to stay consistent using the
-\texttt{ctrl} key and because this shortcut is familiar to users of many instant
-messengers, like the Facebook chat or the once popular official ICQ client.
-Also, requiring a key combination prevents accidental submission, which is
-desirable as we only want double-checked, guaranteed-precise ones. In
-comparison, Transcriber uses the bare \texttt{enter} key to separate utterances.
-oTranscribe and Transcribe allow free formatting with no explicit alignment, so
-using the enter key to split utterances by lines is the user's choice.
-
-\subsubsection{Missing Features}
-
-One of the features that Transcribe, the only commercial tool in our reference
-list, offers is setting up keyboard shortcuts for common words. We have not
-implemented this because ideally, common words should be covered by speech
-recognition. However, it could be sensible to implement it anyway. The reason is
-that a word can be very rare globally and thus poorly recognized by ASR but very
-common in a specific passage. This particularly regards named entities.
-
-Another point in our ergonomy to-do list is lifting the need to select a segment
-prior to correcting it. If the transcription was simply editable, it could
-increase the ease of use rapidly. We would have to automate the selection of
-segment to send for forced alignment but we could probably do a better job than
-the user in the end.
-
-\subsection{Mechanics of Submitting a Corrected Segment}
-
-As stated above, when the user selects at least one character with the mouse,
-the application enters the state of correcting the selected transcription padded
-to whole words. In this mode, the transcription to correct is shown in a
-text area and the global playback controls are replaced by those that only allow
-playback of audio corresponding to the selected transcription.
-
-Once the user believes that the content of the text area corresponds precisely
-to the words uttered, she hits the {\em save} button or the \texttt{ctrl+enter}
-keyboard shortcut. This starts an asynchronous HTTP request to the back-end,
-where parametrized (MFCC) versions of the recordings are stored, along with the
-new transcription and the time positions of the beginning and end of the
-segment.
-
-The server then cuts off the corresponding segment from the parametrized
-recording, runs forced alignment on it with the provided transcription with a
-threshold to reject bad matches. If the forced alignment fails, an error
-response is sent back and the transcription is not merged into the original. In
-the case of a success, the correction is merged on one hand on the server side
-and pushed to a CDN, on the other hand it is merged into the transcription word
-array in the JavaScript application. This redundancy warrants that we do not
-have to reload the whole transcription every time a segment is corrected.
-
-React ensures the updating of the chunks, and the coordinates of the words
-further in the document are recalculated for word-highlighting purposes.
-
-Apart from this, the version of the transcription to the recording is updated.
-This is because the transcription files have a long cache time because normally,
-they do not change at all. At the page load, the versions of all transcriptions
-are loaded and used as cache busters. This enables us to use an external CDN and
-cache effectively.
-
-\subsection{Implementation Details}
-
-\subsubsection{Audio Engine}
-
-The adoption of Web Audio API\cite{adenot2013web} allowed for big improvements
-in comparison with the original implementation. There are four major differences
-between using the HTML \texttt{<audio>} tag and the Web Audio API.
-
-\begin{itemize}
-\item{It is now possible to precisely replay the selected audio span.}
-\item{
-    We could implement a graphical equalizer. Some recordings suffer from loud
-    noise in the low frequency spectrum. A systematic approach to acoustic
-    normalising of the material is a point of future work. Until that, the
-    equalizer is a huge relief for the users.
-}
-\item{
-    Thanks to the \texttt{OfflineAudioContext}, it is possible to store the
-    recording in the browser's storage and avoid downloading or decoding it
-    again after reload. We use \texttt{IndexedDB} as the storage method because
-    \texttt{localStorage} has too low quota of about 10MB and the
-    \texttt{FileSystem API} is not yet widely enough supported.
-}
-\item{
-    We have also implemented saving the audio corresponding to the selected text
-    segment as a sound file.
-}
-\end{itemize}
-
-\subsubsection{App State Management}
-
-We use React as the view library and Redux\cite{abramov2015redux} for state
-management. The good thing about Redux is that it makes it easy to keep minimal
-state as the single source of truth and everything that can be computed is
-computed, while avoiding needless calculations. This is of course nothing new --
-basically it is what we know from database design as the normal
-representation\cite{codd1970relational}. It is the first time this approach
-reached the web front-end in such degree of popularity though.
-
-Also in our case, this approach makes the program more predictable, less
-error-prone and, as the modern programming jargon lovingly expresses, {\em
-easier to reason about}. But some of our features make this a bit complicated.
-
-Among the states the app can enter is simple playback, inspecting a word and
-transcribing a segment. The only relevant things we actually keep in the
-Redux store are:
-
-\begin{enumerate}
-\item{
-    The array of transcription words, each of which bears the flag whether it is
-    automatically or manually transcribed. This defines the manual - automatic
-    chunks of words that in turn define the HTML elements wrapping them.
-}
-\item{
-    The beginning and end of the selection in terms of chunk number and
-    character offset in the chunk, which is basically what we get from the DOM
-    upon a \texttt{mouseup} event.
-}
-\end{enumerate}
-
-Whether a word is marked or a segment is being edited is determined solely by
-the boundaries of the selected words. If there is a selection and the beginning
-and end are identical, it means a word was simply clicked and its detail is
-shown (it is {\em marked}). If the boundaries span at least one character, then
-all words that intersect this span are {\em selected} for correction.
-
-Simple as it sounds, a slight problem arises when a correction is accepted and
-the corrected subtitles are merged into the view. In the time after the
-correction is accepted and reflected in the redux state, but before the new
-chunks are rendered in the document, selection changes cannot be reliably mapped
-to logical chunks. Simple null defaults solve this problem.
-
-\section{Future Work}
-
-We plan to focus on optimizing the app for wider audience. Experience confirms
-that Mako\v{n}'s talks are of interest to some people, and our aim is to
-remove as many obstacles as possible from potentially interested people reaching
-the material. The benefit from technical point of view would be clear: A web app
-for listening to recordings and correcting their transcription is nice but one
-that is really easy to use and inviting to people to submit corrections is nicer.
-
-One of the aspects we want to explore is enabling people to naturally share
-catching segments of talks on social networks.
-
-Another point of near-future endeavor is higher-level work with the contents. By
-this we mean that we would like to use both automatic processing methods and the
-users to do semantic analysis of the talks: What topic is covered where? What
-topics are covered at all? Which talks relate to which written works?, and
-similar questions.
-
-We shall also deploy the technology on a different data set once we find a good
-fit.
+Finally, the available spoken corpus of Karel Makoň itself is an achievement of
+this work. It is a unique resource that conserves the teachings of a Czech
+spiritual capacity, that can now be studied and used as material by theologians,
+historians, seekers, and also computational linguists and parties involved in
+natual language and/or signal processing.
 
 \bibliographystyle{unsrt}       %% [číslo]
 \renewcommand{\bibname}{References}
@@ -1803,7 +1154,58 @@ fit.
 %\chapwithtoc{Seznam použitých zkratek}
 
 %%% Součástí doktorských prací musí být seznam vlastních publikací
-\input{publikace.tex}
+\chapter*{List of Publications}
+\addcontentsline{toc}{chapter}{List of Publications}
+
+\begin{enumerate}
+\item{
+    Oldřich Krůza and Nino Peterek.
+    Making Community and ASR Join Forces in Web Environment.
+    In \textit{International Conference on Text, Speech and Dialogue},
+    pages 415--421.
+    Springer, 2012.
+}
+\item{
+    Oldřich Krůza and Vladislav Kuboň.
+    Second-Generation Web Interface to Correcting ASR Output.
+    In Kohei Arai, Rahul Bhatia and Supriya Kapoor, editors,
+    \textit{Proceedings of the Future Technologies Conference (FTC) 2018},
+    number 1, pages 749--762, Cham, Switzerland, 2018.
+    Science and Information Organization, Springer-Verlag.
+}
+\item{
+    Oldřich Krůza.
+    Phonetic Transcription by Untrained Annotators.
+    In Stanislav Krajči, editor,
+    \textit{Proceedings of the 18th conference ITAT 2018:
+    Slovenskočeský NLP workshop (SloNLP 2018)},
+    volume 2203 of \textit{CEUR Workshop Proceedings},
+    pages 35--40,
+    Košice, Slovakia, 2018.
+    Šafárik University, Košice,
+    CreateSpace Indepedent Publishing Platform.
+}
+\item{
+   Jan Oldřich Krůza.
+   Spoken Corpus of Karel Makoň.  
+   In \textit{Book of Abstracts XI International Conference on Corpus Linguistics},
+   pages 189--190.
+   ADEIT - Fundación Universidad-Empresa de la Universitat de València, 2019.\\
+   \texttt{https://adeit-estaticos.econgres.es/19\_CILC/book\_abstracts.pdf}
+}
+\item{
+  Jan Oldřich Krůza.
+  Czech parliament meeting recordings as ASR training data.
+  In \textit{Proceedings of the 2020 Federated Conference on Computer Science
+  and Information Systems (FedCSIS)}.
+  Pending.
+}
+%\item{
+%    Jan Oldřich Krůza.
+%    Restructuring Spoken Corpus for Streaming Emulation.
+%    In \textit
+%}
+\end{enumerate}
 
 %%% Přílohy k disertační práci, existují-li. Každá příloha musí být alespoň jednou
 %%% odkazována z vlastního textu práce. Přílohy se číslují.
