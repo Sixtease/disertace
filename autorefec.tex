@@ -441,16 +441,6 @@ with the conflict was by staying out of wide popularity. Hence, most of the
 talks have been given during regular meetings in various places of
 Czechoslovakia and later the Czech Republic, in a narrow circle of friends.
 
-One of the fortunate consequences of the seclusion of the talks is that there are
-very few non-speech events on most of the recordings. Also, most of them
-have been taken by a single person who used the available state-of-the-art
-amateur recording technology and methods. This person was also very systematic
-in labeling and archiving the recordings. As a result, the majority of the base
-for digitization was a set of reel-to-reel tapes labeled with ordinal indices
-and a set of cassettes labeled by year and ordinal index. The reel-to-reel tapes
-have been recorded in a generous speed of 9cm/second, which granted them a very
-good shield against the inevitable aging.
-
 \section{Topics}
 
 In general, the whole corpus has a consistent thematic domain of Christian mystic. On a
@@ -497,26 +487,23 @@ file.
 
 \begin{table}[htpb]
 \begin{center}
-\begin{tabular}{|l|l|r|r|r|r|}
+\begin{tabular}{|l|l|r|r|r|}
 \hline
 Term &
 Query &
 \makecell{hits in\\automatic\\
 transcript} &
-\makecell{expected hits\\
-in automatic\\
-transcription} &
 \makecell{hits in\\manual\\
 transcript} &
 Precision \\
 \hline
-Lazarus & \texttt{lazar.*} & 16 & 171 & 14 & 8/10   \\
-Mithra & \texttt{mith?ra.*} & 0 & 0 & 0 & n/a   \\
-Satan & \texttt{satan.*} & 308 & 1575 & 129 & 16/20   \\
-St. Teresa & \texttt{terez.*} & 882 & 1111 & 91 & 15/20   \\
-fairy-tale & \texttt{pohádk.*} & 216 & 671 & 55 & 18/20   \\
+Lazarus & \texttt{lazar.*} & 16  & 14 & 8/10   \\
+Mithra & \texttt{mith?ra.*} & 0  & 0 & n/a   \\
+Satan & \texttt{satan.*} & 308  & 129 & 16/20   \\
+St. Teresa & \texttt{terez.*} & 882  & 91 & 15/20   \\
+fairy-tale & \texttt{pohádk.*} & 216  & 55 & 18/20   \\
 \hline
-\multicolumn{5}{|l|}{average precision} & 81.25\%\\
+\multicolumn{4}{|l|}{average precision} & 81.25\%\\
 \hline
 \end{tabular}
 \caption{Text search hits in the transcription; precision only calculated from
@@ -529,13 +516,6 @@ quality of transcription at the time of this experiment (2018) allows for reason
 However, the hits were all clearly audible. I met none in an acoustically defect
 file, which leads to the hypothesis that those were not yet searchable to a
 distantly satisfying level.
-
-7.6\% of the total words in the corpus were manually transcribed at the time
-this experiment was conducted. The column
-``expected hits'' interpolates how many occurrences should appear given equal
-frequency. Oddly enough, the ratio of the expected and actual hits varies a lot
-among the search terms. It is almost certain that at least for some of them, the
-recall is very low.
 
 \subsubsection{Correspondence between Talks and Books}
 
@@ -601,38 +581,6 @@ data instead of the more usual other way around because 1) it is not easy to
 make the volunteer annotators transcribe acoustically flawed data, 2) not only
 speech recognition would benefit from successful denoising, the listening
 experience would improve too, and 3) the model could stay leaner.
-
-What acoustic defects are actually present? Since the corpus was digitized from
-magnetophone tapes of spontaneous talks of a single speaker recorded in various
-amateur conditions and with consumer devices, we can broadly distinguish these
-types of quality degradation:
-\begin{enumerate}
-\item{additive noise -- hum or hiss,}
-\item{
-    stationary interference like screeching added by low-quality magnetophone
-    parts or the erasing head signal,
-}
-\item{non-stationary interference like background speech or door slams,}
-\item{
-    room echo or ill-equalized microphone boosting or cutting certain
-    frequencies,
-}
-\item{non-linear distortion of the magnetophone}
-\item{speed fluctuations.}
-\end{enumerate}
-
-The individual interference types affect each other and can occur several times
-in several stages. For instance, the echo is essentially convolution with a certain vector of
-amplitude values, known as the impulse response. It might even not be
-constant if there are moving objects in the room or if the speaker or
-microphone is moving. This convolution is followed by a non-linear
-distortion in the microphone and its preamplifier and convolved again with
-another impulse response, this time representing a frequency and phase
-response of recorder's amplifiers. Finally it is non-linearly distorted in
-the process of making a magnetic recording on the tape. Another batch of
-distortions comes during the playback. On top of that, in every step a certain
-amount of additive noise is introduced. Clearly, modeling, let alone reverting these
-interferences is a difficult task.
 
 \section{Denoising}
 
