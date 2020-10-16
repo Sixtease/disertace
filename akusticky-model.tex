@@ -11,8 +11,89 @@
 %   - globální
 %   - na monofonémech vs. trifonémech
 
+
+
 Koncept celého projektu se zakládá na~přítomnosti počátečního přepisu a jeho
-následném zdokonalování. Pro získání počátečního přepisu bylo nutné sestavit
+následném zdokonalování.
+Je tedy nutné opatřit způsob, jak korpus strojově převést do textové podoby. Tím
+se dostáváme do oblasti z~historických důvodů zvané \textit{automatické
+rozpoznávání řeči}, anglicky \textit{automated speech recognition}, zkracované
+jako \textit{ASR}, ačkoliv z povahy věci by přesnějším výrazem byl
+\textit{automatický přepis}.
+
+Automatický přepis lze chápat jako úlohu transformace signálu nebo jako
+rozpoznávání vzorců v~datech. Algoritmus takových úloh je obvykle velice
+složitý, neboť variabilita vstupních dat je značná a také zadání je inherentně
+vágní: mnohdy je i pro člověka obtížné rozeznat, jakou hlásku nebo jaké slovo
+určitý zvuk představuje.
+
+Řešení problému, jak systému předat potřebnou znalost mapování vstupních dat na
+kýžený výstup, se řeší kombinací dvou přístupů: přímým zakomponováním lidské
+expertizy a strojovým učením z~dat. Pojem strojové učení vznikl už v~roce
+1959\cite{samuel1959some} a obor se od té doby rozvíjí a získává na popularitě.
+Už legenda strojového zpracování přirozeného jazyka kladenský rodák Bedřich
+Jelínek, lépe známý pod svým poangličtěným jménem Frederick Jelinek, proslul
+svým výrokem, že kdykoliv vyhodí lingvistu, zvýší se mu úspěšnost systému.
+
+Není mi známo, že by existoval nějaký systém rozpoznávání řeči založený čistě na
+pravidlech. Na druhou stranu systémy založené čistě na informaci z~trénovacích
+dat existují, ovšem objevují se až v~posledních letech při rozmachu hlubokých
+neuronových sítí.
+
+Ve strojovém učení pracujeme s~pojmy \textit{trénovací data} a \textit{testovací
+data}. V~obou případech se jedná o správně spárovaná vstupní a výstupní data.
+V~případě ASR tedy jde o páry záznamů mluveného slova a odpovídajících přepisů.
+Trénovací data jsou ta, která mám systém k~dispozici, aby z~nich odvodil znalost
+potřebnou pro danou úlohu, tedy v~našem případě pro převod zvuku do textu.
+Testovací data jsou potom ta, na nichž se vyhodnocuje úspěšnost systému.
+
+Toto vychází z~předpokladu, že v~trénovacích datech je zobecnitelná informace,
+která platí i o testovacích datech. Také se vychází z~předpokladu, že testovací
+data jsou od trénovacích striktně oddělena, neboť jedině tak lze na základě
+výsledku testování vyvozovat relevanci i pro další, neznámá data.
+
+V~mém případě je úloha specifická tím, že se nesnažím vyvinout systém na
+univerzální predikci neznámých dat: Jedná se mi o přepis daného korpusu, který
+mám celý k dispozici. Karel Makoň je po smrti, takže dalších nahrávek se od něho
+nenadějeme. Testovací sada oddělená od trénovací je však podstatná pro
+vyhodnocení, ze kterého se dá soudit o výkonu na částech korpusu, pro který
+chybí ruční přepis.
+
+Výhoda strojového učení oproti ručním pravidlům je zřejmá: v~datech je informace
+uložena objektivně, pravdivě. Oproti tomu v~ručně psaných pravidlech je zanesen
+lidský faktor, který s~sebou nese předpojatost, omylnost a nepřesnost. Strojový
+čas je navíc mnohdy dostupnější než lidský.
+
+Nevýhodou strojového učení je, že je k~němu zapotřebí trénovacích dat, a to čím
+více, tím lépe, aneb ,,there is no data like more data`` (Robert Mercer, 1985). Je
+známo, že neuronová síť i hloubky 1 je s~dostatečným počtem neuronů schopna
+modelovat jakoukoliv spojitou funkci s~omezeným definičním oborem (Csáji
+2001)\cite{csaji2001approximation}. Kdybychom tedy měli neomezeně mnoho
+kvalitních trénovacích dat a výpočetní kapacity, nebylo by důvodu aplikovat
+lidskou expertizu.
+
+Jelikož jsou však zdroje omezené, kombinují systémy typicky oba zdroje
+expertizy: lidskou odbornost a strojové učení, přičemž historicky
+s~dokonalejšími počítači a větším množstvím dat v~systémech ubývá jednoho a
+přibývá druhého.
+
+\section{Technologie rozpoznávání řeči}
+
+\section{Markovovské modely}
+
+Až do druhé dekády druhého milénia byly nejlepší dostupnou technologií pro
+rozpoznávání řeči skryté markovovské modely s~gaußovskými směsmi (GMM-HMM).
+Architektura takového systému vypadá následovně:
+
+\begin{enumerate}
+\item{Diskrétní jednotkou vstupních dat je úsek přibližně o délce jedné věty.}
+\item{Vstupní datum\footnote{Datum ve smyslu jednotného čísla od slova data,
+z~latinského participia slova \textit{dare}, dát.} je zakódováno do posloupnosti
+reálněčíselných vektorů, z~nichž každý odpovídá setině sekundy signálu.}
+\item{}
+\end{enumerate}
+
+Pro získání počátečního přepisu bylo nutné sestavit
 systém pro automatický přepis, z~historických důvodů častěji označovaný jako
 rozpoznávání řeči. Rozpoznávání češtiny se věnovali mnozí přede mnou,
 například Ircing et al. (2001)\cite{ircing2001large}, Psutka et al.
