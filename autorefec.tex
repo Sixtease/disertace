@@ -203,15 +203,15 @@ Technická 2, 16627 Praha 6
 \cr
 }}}}
 
-The thesis defense will take place on September 30th 2020 at 11:00 a.m. in front of a
-committee for thesis defenses in the branch P4I3 Computational linguistics
+The thesis defence will take place on September 30th 2020 at 11:00 a.m. in front of a
+committee for thesis defences in the branch P4I3 Computational linguistics
 at the Faculty of Mathematics and Physics, Charles University in
 Prague, Malostranské náměstí 25, in the room S510.
 
 The thesis can be viewed at the Study Department of Doctoral Studies of the Faculty of
 Mathematics and Physics, Charles University in Prague, Ke Karlovu 3, Prague 2.
 
-This abstract has been distributed on September 23rd 2020.
+This abstract has been distributed on September 24th 2020.
 
 \vss}\nobreak\vbox to 0.49\vsize{
 \setlength\parindent{0mm}
@@ -310,7 +310,7 @@ Matematicko-fyzikální fakultě UK, Malostranské náměstí 25, v~místnosti S
 S~disertační prací je možno se seznámit na studijním oddělení
 Matematicko-fyzikální fakulty UK, Ke Karlovu 3, Praha 2.
 
-Autoreferát byl rozeslán dne 23. září 2020.
+Autoreferát byl rozeslán dne 24. září 2020.
 
 \vss}\nobreak\vbox to 0.49\vsize{
 \setlength\parindent{0mm}
@@ -363,8 +363,8 @@ between 2010 and 2012. The corpus is about 1000 hours in total length.
 The digitized corpus is largely unstructured. 
 This is a similar setting to the Malach\cite{psutka2005automatic} project. Malach was
 approached by doing automatic speech recognition and building a search engine on
-the ASR output. Our setting differs from that of Malach significantly, as we
-merely have to deal with material by one single speaker, and we just have to handle about one thousand hours
+the ASR output. My setting differs from that of Malach significantly, as I
+merely have to deal with material by one single speaker, and I just have to handle about one thousand hours
 in comparison with Malach's stunning one hundred sixteen thousand hours. This
 plus the fact that there is an active community around the legacy of Karel
 Mako\v{n} motivates me to attempt a full, high-quality, verbatim transcription
@@ -526,6 +526,10 @@ correlate with those of books written at the same time.
 \chapter{Acoustic Properties}
 \label{chap:acoustics}
 
+Many recordings in the corpus suffer from
+acoustic inconsistencies in terms of varying
+overall quality, reverberation, noise, overdrive and other phenomena.
+
 Automatic speech recognition is generally approached by means of machine
 learning: a statistical model is inferred based on some training data. Its
 application is based on the assumption that whatever was learned about the training
@@ -550,10 +554,6 @@ presents experiments in the latter approach. See
 section~\ref{sec:svolocz:svolocz} for an experiment with model adaptation.
 
 \section{ASR Performance}
-
-We are looking into the problem of acoustic inconsistencies in terms of varying
-overall quality, reverberation, noise, overdrive and other phenomena in a
-dataset that is to be automatically transcribed and listened to by humans.
 
 Te heterogenous acoustic quality of the corpus affects both the speech recognition
 performance and the listening experience. Let's look at speech recognition results
@@ -620,7 +620,7 @@ recordings are very unlike each other, they don't form a consistent domain.
 There are two ways of dealing with this situation: 1) adapt CycleGAN so that it
 can deal with a ``compact'' and a ``scattered'' domain or 2) cluster the
 data and apply CycleGAN on the individual clusters. While adapting CycleGAN may be a
-point of future work, we have explored the simpler way of clustering the data.
+point of future work, I have explored the simpler way of clustering the data.
 
 \section{Clustering}
 
@@ -631,7 +631,7 @@ musly\cite{schnitzer2011using} and the clusters on top of that using
 hierarchical clustering\cite{johnson1967hierarchical}.
 
 A manual... or rather aureal check on the clusters confirms that files falling
-into a cluster are indeed acoustically similar. So we arrived at a cluster of
+into a cluster are indeed acoustically similar. So I arrived at a cluster of
 overdriven recordings, a cluster of heavily hummed ones etc.
 
 The experiment presented below is conducted on three clusters:
@@ -743,7 +743,7 @@ Finally, one obvious way of enhancing the performance led over widening the
 training dataset. In chapter~\ref{chap:acoustics}, I stated there were two ways
 to approach training and testing data inconsistency. There, I presented
 experiments addressing adaptation of the training data. This experiment of
-broadening the training data set realizes in fact the other branch.
+broadening the training data set realizes in fact adaptation of the model.
 
 \section{Extended Training Data}
 \label{sec:svolocz:svolocz}
@@ -765,7 +765,7 @@ available from the in-house transcripts. However, Oral2013 is a rather peculiar
 set, as its acoustic quality and speech intelligibility are quite low. But there
 is one more source of training data that remains to be untapped.
 
-The Czech parliament meeting recordings represent a publicly available dataset
+The stenographed Czech parliament meeting recordings represent a publicly available dataset
 of high-quality audio recordings of contemporary Czech in consistent low-noise
 audio quality worth almost 4000 hours of downloadable material, about 2800 hours
 after subtraction of the overlaps. Extracting
@@ -786,8 +786,8 @@ excelling in size.
 \section{Data Preparation}
 
 Since the source data is publicly available and in the public domain, I merely
-provide the scripts for downloading and building the corpus. The algorithms and
-parameters used are described in this section.
+provide scripts for downloading and building the corpus. The algorithms
+used are outlined in this section.
 
 Regrettably, the data are to my best knowledge only available in human-readable
 form. The transcript is not clearly distinguished in the markup and is
@@ -915,7 +915,7 @@ overdriven cluster and from 69\% to 42\% on the low-tape-speed cluster.
 
 \chapter{Web Interface}
 
-My aim is to have a transcription as good as possible for the purpose
+My aim is to have a transcript as good as possible for the purpose
 of searching and further, higher-level processing of the data. There is a pool
 of people interested in the talks, who on one hand are the force we can try to
 employ and on the other hand are the consumers of our effort, our target group
@@ -988,21 +988,21 @@ Legend to Figure~\ref{fig:scn1lab}:
 \item{
     Tools for storing:
     {direct links to the audio files,}
-    {selecting the whole transcript for easy pasting,}
+    {selecting the whole transcript for easy pasting;}
 }
 \item{Graphical equalizer for compensating narrow-band noise;}
 \item{Audio playback controls;}
 \item{Current position reflected in URL fragment.}
 \end{enumerate}
 
-\subsection{Displaying the Transcription}
+\subsection{Displaying the Transcript}
 
-Many transcription programs show the transcription as a vertical list of
+Many transcription programs show the transcript as a vertical list of
 utterances, see Figure~\ref{fig:transcriber1} for an example of
-Transcriber. I attribute this to the fact that the atomic elements of
-the transcription are the user-entered utterances and their boundaries are
-reliable. In our case, the atomic elements are words. There are sentences, sure,
-but the segmentation to sentences by the ASR is very unreliable, so we want it
+Transcriber, a classic transcription programme for Linux. I attribute this to the fact that the atomic elements of
+the transcript are the user-entered utterances and their boundaries are
+reliable. In my case, the atomic elements are words. There are sentences, sure,
+but the segmentation to sentences by the ASR is very unreliable, so I want it
 to be natural to transcribe a segment overlapping sentence boundaries.
 
 \begin{figure}[htpb]
@@ -1011,7 +1011,7 @@ to be natural to transcribe a segment overlapping sentence boundaries.
 \label{fig:transcriber1}
 \end{figure}
 
-This is one of the reasons why we display the transcription basically as a
+This is one of the reasons why I display the transcript basically as a
 single wrapped line.
 
 \chapter{Conclusion}
@@ -1023,7 +1023,7 @@ automated speech recognition available. As far as I know, all previous works
 either employ paid annotators or use speech recognition as it is a-priori
 available.
 
-Not only a simple transcript is yielded but also another layer of phonetic
+Output is not only a simple transcript but also another layer of phonetic
 transcript, aligned with the source audio.
 
 The method has been employed on the spoken corpus of Karel Makoň and proven
@@ -1055,7 +1055,7 @@ that data-dependent and data-independent parts are separated, allowing easy use
 on new data. This has been done several times, on data described in this thesis,
 like the Czech parliament meetings, as well as on data outside of this work.
 
-Another software tool released in the course of this work is a tool for
+Another piece of software released in the course of this work is a tool for
 turning the stenographed Czech parliament meetings into a training dataset for
 speech recognition, bringing to the community a new corpus one order larger than other publicly
 available datasets.
@@ -1093,39 +1093,67 @@ natual language and/or signal processing.
 
 \begin{enumerate}
 \item{
-    Oldřich Krůza and Nino Peterek.
-    Making Community and ASR Join Forces in Web Environment.
-    In \textit{International Conference on Text, Speech and Dialogue},
-    pages 415--421.
-    Springer, 2012.
+  {Magda \v{S}}ev{\v{c}}{\'i}kov{\'a} and Zden{\v{e}}k {\v{Z}}abokrtsk{\'y} and Old{\v{r}}ich Kr{\r{u}}za.
+  Named Entities in Czech: Annotating Data and Developing NE Tagger.
+  In \textit{International Conference on Text, Speech and Dialogue},
+  pages 188--195,
+  Springer, 2007.
 }
 \item{
-    Oldřich Krůza and Vladislav Kuboň.
-    Second-Generation Web Interface to Correcting ASR Output.
-    In Kohei Arai, Rahul Bhatia and Supriya Kapoor, editors,
-    \textit{Proceedings of the Future Technologies Conference (FTC) 2018},
-    number 1, pages 749--762, Cham, Switzerland, 2018.
-    Science and Information Organization, Springer-Verlag.
+  Magda {\v{S}}ev{\v{c}}{\'\i}kov{\'a} and Zden{\v{e}}k {\v{Z}}abokrtsk{\'y} and Old{\v{r}}ich Kr\r{u}za.
+  Zpracov{\'a}n{\'\i} pojmenovan{\'y}ch entit v {\v{c}}esk{\'y}ch textech.
+  In \textit{Technická zpráva ÚFAL/CKL TR-2007-36},
+  Universitas Carolina Pragensis, 2007.
 }
 \item{
-    Oldřich Krůza.
-    Phonetic Transcription by Untrained Annotators.
-    In Stanislav Krajči, editor,
-    \textit{Proceedings of the 18th conference ITAT 2018:
-    Slovenskočeský NLP workshop (SloNLP 2018)},
-    volume 2203 of \textit{CEUR Workshop Proceedings},
-    pages 35--40,
-    Košice, Slovakia, 2018.
-    Šafárik University, Košice,
-    CreateSpace Indepedent Publishing Platform.
+  Old{\v{r}}ich Kr\r{u}za and Vladislav Kubo{\v{n}}.
+  Automatic extraction of clause relationships from a treebank.
+  In \textit{International Conference on Intelligent Text Processing and Computational Linguistics},
+  pages 195--206,
+  Springer, 2009
 }
 \item{
-   Jan Oldřich Krůza.
-   Spoken Corpus of Karel Makoň.  
-   In \textit{Book of Abstracts XI International Conference on Corpus Linguistics},
-   pages 189--190.
-   ADEIT - Fundación Universidad-Empresa de la Universitat de València, 2019.\\
-   \texttt{https://adeit-estaticos.econgres.es/19\_CILC/book\_abstracts.pdf}
+  Oldřich Krůza and Nino Peterek.
+  Making Community and ASR Join Forces in Web Environment.
+  In \textit{International Conference on Text, Speech and Dialogue},
+  pages 415--421.
+  Springer, 2012.
+}
+\item{
+  Old{\v{r}}ich Kr{\r{u}}za and Vladislav Kubo{\v{n}}.
+  Automatic Recognition of Clauses.
+  In \textit{International Journal of Computational Linguistics and Applications},
+  volume 5,
+  pages 125--138,
+  New Delhi, India, 2014.
+}
+\item{
+  Oldřich Krůza and Vladislav Kuboň.
+  Second-Generation Web Interface to Correcting ASR Output.
+  In Kohei Arai, Rahul Bhatia and Supriya Kapoor, editors,
+  \textit{Proceedings of the Future Technologies Conference (FTC) 2018},
+  number 1, pages 749--762, Cham, Switzerland, 2018.
+  Science and Information Organization, Springer-Verlag.
+}
+\item{
+  Oldřich Krůza.
+  Phonetic Transcription by Untrained Annotators.
+  In Stanislav Krajči, editor,
+  \textit{Proceedings of the 18th conference ITAT 2018:
+  Slovenskočeský NLP workshop (SloNLP 2018)},
+  volume 2203 of \textit{CEUR Workshop Proceedings},
+  pages 35--40,
+  Košice, Slovakia, 2018.
+  Šafárik University, Košice,
+  CreateSpace Indepedent Publishing Platform.
+}
+\item{
+  Jan Oldřich Krůza.
+  Spoken Corpus of Karel Makoň.  
+  In \textit{Book of Abstracts XI International Conference on Corpus Linguistics},
+  pages 189--190.
+  ADEIT - Fundación Universidad-Empresa de la Universitat de València, 2019.\\
+  \texttt{https://adeit-estaticos.econgres.es/19\_CILC/book\_abstracts.pdf}
 }
 \item{
   Jan Oldřich Krůza.
