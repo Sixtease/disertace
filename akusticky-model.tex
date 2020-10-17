@@ -74,10 +74,19 @@ přibývá druhého.
 
 \section{Vybrané milníky v~rozpoznávání řeči}
 
-První experimenty v~sedmdesátých letech porovnávaly vstupní zvukový záznam
+Již v~roce 1952 vyvinuly Bell Laboratories analogové obvody, které dokázaly pro
+konkrétního mluvčího rozpoznat vyslovené číslice v~telefonním
+přenosu.\cite{davis1952automatic}
+Systémy v~sedmdesátých letech porovnávaly vstupní zvukový záznam
 s~množinou předloh a výstup určili podle nejpodobnější
-varianty\cite{huang2014historical}. V~tomto přístupu je veškerá expertiza ze
-strany člověka, a sice výběr množiny referenčních vzorků.
+varianty\cite{huang2014historical}.
+Porovnávání se šablonami má zásadní nevýhodu v~tom, že totéž slovo, ba tatáž
+hláska může být pokaždé vyslovena jinak rychle, jinými slovy v~řeči je velká
+časová variabilita. Ještě v~osmdesátých letech se tato technika namnoze
+používala a časová variabilita se kompenzovala roztažením či smrsknutím vzorků,
+aby si délkou odpovídaly. Tato metoda se anglicky nazývá \textit{dynamic time
+wrap} a vznikla v~roce 1971\cite{sakoe1971chiba}.
+V~těchto přístupech je veškerá expertiza ze strany člověka.
 
 Velkým průlomem bylo použití skrytých
 markovovských modelů (\textit{HMM}). Vychází se z~představy, že mluvčí předává
@@ -112,7 +121,7 @@ Parametry, které HMM definují, jsou vymezení stavů v~prostoru vstupních dat
 přechodové pravděpodobnosti mezi stavy. Musí se tedy určit množina modelů a
 prostor vstupních dat.
 
-\subsection{Prostor vstupních dat}
+%\subsection{Prostor vstupních dat}
 
 Zvukový signál je velmi prostý: je to spojitá funkce času do reálných čísel.
 Má-li se zaznamenat digitálně, volí se technika vzorkování \textit{(sampling)},
@@ -153,6 +162,89 @@ diskrétní Fourierova transformace, podle čehož se kepstrum nazývá inverzí
 začátku slova spektrum. Od těchto hodnot se na základě kontextu přidá první a
 druhá derivace, čímž získáváme devětatřicetirozměrný reálněčíselný vektor každou
 setinu sekundy.
+
+% over
+
+V~prostoru vstupních dat, jak bylo řečeno, se musí vymezit stavy jednotlivých
+markovovských modelů. Intuitivně si toto lze představit jako akustický popis
+toho, jak vypadá spektrum, když se říká ta která hláska. Vymezení se provádí
+pomocí pravděpodobnostní distribuce určené středem a variancí v~každé dimenzi.
+
+Modelují se obvykle hlásky, ačkoliv v~úvahu přicházejí i slabiky nebo
+v~některých jazycích s~kromobyčejně pravidelnou výslovností i přímo písmena.
+V~obvyklém případě jednoho markovovského modelu pro každou hlásku se modely
+definují jako pětistavové: vstupní stav, stav modelující počátek hlásky, stav
+modelující prostředek hlásky, stav modelující konec hlásky a koncový stav. Krom
+toho existuje model pro ticho, které zahrnujeme mezi hlásky, a model pro krátkou
+pauzu, který je zvláštní tím, že může mít nulovou délku.
+
+Přechodová matice se omezuje takto: Z~počátečního stavu se přejde vždy do
+druhého. Z~vnitřních stavů se přejde vždy buď do následujícího nebo se setrvá.
+Tak se nakonec vždy dá projít z~počátečního stavu do koncového.
+Vzhledem k~tomu, že ticho modeluje i neřečové události a často odpovídá dlouhým
+úsekům, povoluje se u něho, jakož i u krátké pauzy, přechod mezi druhým a
+čtvrtým stavem v~obou směrech. Model pro krátkou pauzu sdílí stavy s~modelem
+ticha, jen navíc umožňuje přechod z~počátečního stavu rovnou do koncového.
+
+Až na ticho a krátkou pauzu má tedy každá přechodová matice třikrát dvě
+pravděpodobnosti, které je potřeba natrénovat.
+Jestliže pak rozeznáváme u češtiny čtyřicet jednu hlásku plus ticho plus
+krátkou pauzu, bude tento jednoduchý akustický model mít
+\begin{equation}
+$41 \times (6 + 2 \times 39) + 2 \times 39 + 8 + 9 = 3539$
+\end{equation}
+volných parametrů.
+
+Protože modelujeme hlásky a na výstupu očekáváme písmena, je potřeba adaptace na
+obou stranách akustického modelu. Na straně vstupu jde o konverzi trénovacích
+dat z~dvojic {\em promluva - ortografický přepis} do dvojic {\em promluva -
+fonetický přepis}. Na straně výstupu jde o vytvoření výslovnostního slovníku,
+kde každému slovu je přiřazena množina potenciálních výslovností. S~tím také
+souvisí fakt, že ačkoliv jsme úlohu formulovali jako hledání ideální
+posloupnosti písmen, pracuje se obvykle se slovy jako elementárními jednotkami.
+To má několik důvodů: Za prvé je to právě kvůli výslovnostnímu slovníku: určit
+každému písmenu, jak se může vyslovovat, je nepraktické -- to se ozřejmí právě
+až na úrovni slov. Za druhé jazykové modelování je na slovech obvyklejší, což
+souvisí s~tím, že za třetí úspěšnost se měří na celých slovech.
+
+Jazykový model je nástroj pro odhadování pravděpodobnosti konkrétního textu.
+Praktický monopol zde mají tzv. n-gramové modely, kde se pravděpodobnost
+odhaduje přes počty výskytů konkrétních slov, dvojic slov, až n-tic slov v~daném
+korpusu. Až v~poslední době se objevují sofistikovanější přístupy s~využitím
+rekurentních neuronových sítí.
+
+Volné parametry akustického modelu se odhadují Baum-Welchovým iterativním
+algoritmem taktéž na základě trénovacích dat. Oba základní stavební kameny:
+akustický i jazykový model tedy svoji efektivitu získávají z~dat, takže značná
+část expertizy systému pochází z~nich, nikoliv již z~lidské ruky.
+
+Důležitým zdokonalením systému je rozšíření množiny markovovských modelů.
+Jednotlivé realizace hlásek se od sebe tak odlišují, že modelovat např. všechny
+výskyty hlásky ,,h`` jedním modelem je nedostačující. Zavádí se proto kontext:
+Místo jednoho modelu pro danou hlásku máme model pro hlásku v~kombinaci
+s~předchozí a následující hláskou. Je-li hlásek 42 (včetně ticha), pak nyní
+bude modelů $42^3 = 74088$. 42 je příliš málo, 74088 je příliš mnoho. Navíc se
+od sebe hlásky liší jen v~některých kontextech. Ještě navíc se jich většina
+vůbec nevyskytne v~trénovacích datech. Proto se po rozštěpení na tyto tzv.
+,,trifóny`` opět většina spojí do jednoho, tak že sdílí stavy, proto se jim říká
+\textit{tied-state triphones}. Přechodové matice sdílí tak jako tak, těch se
+štěpení netýká, aspoň v~obvyklé realizaci.
+
+Posledním nezbytným standardním rozšířením je rozštěpení pravděpodobnostních
+distribucí ve stavech. Jeden gaußián vždy nedostačuje, aby pokryl prostor
+v~melfrekvenčních koeficientech, kde se daná hláska realizuje. Místo jednoho
+gaußiánu proto uděláme několik a dáme jim váhy, jejichž součet bude jedna.
+Štěpení může probíhat libovolně dlouho, dokud nedojde k~přetrénování.
+
+Načrtnutá architektura je jakási startovní čára: nejjednodušší systém
+rozpoznávání řeči, který se dá zlepšit mnoha úpravami, nebo v~posledku zcela
+nahradit moderním přístupem založeným zcela na hlubokých neuronových sítích.
+V~následující sekci nastíním několik předchozích prací, které mohou sloužit jako
+inspirace pro automatický přepis mluveného korpusu Karla Makoně.
+
+\section{Předchozí práce v~rozpoznávání řeči}
+
+
 
 \section{Technologie rozpoznávání řeči}
 
@@ -640,7 +732,7 @@ vyřčeno. Proto se doslova... vlastně do hlásky přepisují i přebrepty a za
 Je otázkou, zda takové jevy chceme mít v~jazykovém modelu. Aniž bych se na ni
 pokoušel poskytnout definitivní odpověď, můj přístup, jak se s~tímto vypořádat,
 je, instruovat uživatele těmito pokyny: 1) Každé slovo, po kterém následuje přerušení toku
-mluvy doplnit třemi tečkami, 
+mluvy doplnit třemi tečkami,
 2) pokud se mluvčí zadrhne uprostřed slova nebo vysloví něco, co není slovem,
 připojit k~tomuto útvaru pomlčku\footnote{Standardní postup, se kterým jsem se
 seznámil až později, je místo pomlčky použít symbol \texttt{+}.}. Například ve větě {\em ,,To je ta relativnost
