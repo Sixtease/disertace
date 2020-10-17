@@ -35,11 +35,6 @@ Už legenda strojového zpracování přirozeného jazyka kladenský rodák Bed�
 Jelínek, lépe známý pod svým poangličtěným jménem Frederick Jelinek, proslul
 svým výrokem, že kdykoliv vyhodí lingvistu, zvýší se mu úspěšnost systému.
 
-Není mi známo, že by existoval nějaký systém rozpoznávání řeči založený čistě na
-pravidlech. Na druhou stranu systémy založené čistě na informaci z~trénovacích
-dat existují, ovšem objevují se až v~posledních letech při rozmachu hlubokých
-neuronových sítí.
-
 Ve strojovém učení pracujeme s~pojmy \textit{trénovací data} a \textit{testovací
 data}. V~obou případech se jedná o správně spárovaná vstupní a výstupní data.
 V~případě ASR tedy jde o páry záznamů mluveného slova a odpovídajících přepisů.
@@ -76,6 +71,88 @@ Jelikož jsou však zdroje omezené, kombinují systémy typicky oba zdroje
 expertizy: lidskou odbornost a strojové učení, přičemž historicky
 s~dokonalejšími počítači a větším množstvím dat v~systémech ubývá jednoho a
 přibývá druhého.
+
+\section{Vybrané milníky v~rozpoznávání řeči}
+
+První experimenty v~sedmdesátých letech porovnávaly vstupní zvukový záznam
+s~množinou předloh a výstup určili podle nejpodobnější
+varianty\cite{huang2014historical}. V~tomto přístupu je veškerá expertiza ze
+strany člověka, a sice výběr množiny referenčních vzorků.
+
+Velkým průlomem bylo použití skrytých
+markovovských modelů (\textit{HMM}). Vychází se z~představy, že mluvčí předává
+informaci (posloupnost písmen, či slov) zakódovanou v~kanálu akustického vlnění,
+a naším úkolem je původní informaci rozkódovat.
+
+Úlohu rozpoznávání řeči můžeme formalizovat takto: Na základě vstupní
+posloupnosti hodnot akustického vlnění $A$ hledáme takovou posloupnost písmen
+(\textit{characters}) $C$, aby pravděpodobnost $P(C|A)$ byla co největší, tedy:
+
+\begin{equation}
+argmax_{\vec{C}} P(C|A)
+\end{equation}
+
+Pravděpodobnost $P(C|A)$ ovšem dlouho nebylo jak odhadnout, proto se využilo
+Bayesova pravidla:
+
+\begin{equation}
+P(C|A) = \over{P(A|C)*P(C)}{P(A)}
+\end{equation}.
+
+Pravděpodobnost vstupních dat je ve vztahu k odhadovanému modelu konstantní a
+kladná, proto se jmenovatel zanedbává. Zbývá tedy odhadnout $P(A|C)$ a $P(C)$.
+Pro to první se vžilo název \textit{akustický model (AM)}, pro to druhé
+\textit{jazykový model (language model, LM)}.
+
+Akustický model je právě tím místem, které zastávají skryté markovovské modely.
+Jedná se o generativní modelování, tedy pro účely řešení úlohy předpokládáme, že
+vstupní akustická sekvence je generována markovovským procesem.
+
+Parametry, které HMM definují, jsou vymezení stavů v~prostoru vstupních dat a
+přechodové pravděpodobnosti mezi stavy. Musí se tedy určit množina modelů a
+prostor vstupních dat.
+
+\subsection{Prostor vstupních dat}
+
+Zvukový signál je velmi prostý: je to spojitá funkce času do reálných čísel.
+Má-li se zaznamenat digitálně, volí se technika vzorkování \textit{(sampling)},
+kdy se z~průběhu funkce v~čase, jehož spojitost či diskrétnost je otázkou mimo
+rámec této práce, vybere vzorek v~rozestupu definované periody. Čím větší
+vzorkovací frekvence, tím 1) větší věrnost při reprodukci, 2) vyšší tónovou
+frekvenci lze reprezentovat a 3) větší náročnost na uložení a zpracování.
+
+Vzorkovací frekvence se podle účelu záznamu pohybuje obvykle od 8~kHz pro
+datově úsporný přenos hlasu do 96~kHz pro studiové zpracování hudby. Pro účely
+rozpoznávání řeči se osvědčila vzorkovací frekvence 16~kHz jako minimum, ve
+kterém je obsažena prakticky veškerá relevantní informace.
+
+Jako vstupní data pro skryté markovovské modely nejsou prostá reálná
+čísla\footnote{pro počítačovou implementaci jsou reálná čísla díky svému
+nekonečnému desetinnému rozviji nereálná, pro se v~praxi pracuje s~tzv. čísly
+s~plovoucí desetinnou čárkou (\textit{floating-point numbers}).} v~řádu tisíců
+za sekundu praktická, pročež se signál nejdříve transformuje do jiné formy. Tato
+část systému se zove \textit{front-end} a implementuje se nejčastěji pomocí
+melfrekvenčních kepstrálních koeficientů \textit{(MFCC)} nebo řidčeji pomocí
+perceptuální lineární predikce \textit{(PLP)}. Účelem není jen transformace do
+praktičtějšího prostoru, ale též odstranění nerelevantní informace a normalizace
+té relevantní.
+
+Převod z~akustického vlnění do melfrekvenčních kepstrálních koeficientů
+transformuje proud jednoho reálného čísla šestnáctkrát za milisekundu do proudu
+reálněčíselného vektoru stokrát za sekundu. Běžně každý vektor kóduje časové
+okno o délce čtyřicetiny sekundy a okna jsou od sebe vzdálena setinu sekundy,
+takže se překrývají. Na každém časovém okně se provede diskrétní Fourierova
+transformace a rozdělí se do frekvenčních oken podle škály
+mel\cite{stevens1937scale} aplikováním trojúhelníkového filtru. Frekvenčních
+oken bývá 12 a opět se překrývají. Frekvenční okna se s~rostoucí frekvencí
+zvětšují tak, aby zůstávala konstantní v~jednotkách mel a aby tedy odpovídala
+lidskému vnímání spektra. Hodnoty se logaritmují, opět aby byly
+úměrnější lidskému vnímání hlasitosti. Jako třináctá hodnota se přidá buď
+základní frekvence nebo častěji akustická energie. Poté se provede inferzní
+diskrétní Fourierova transformace, podle čehož se kepstrum nazývá inverzí
+začátku slova spektrum. Od těchto hodnot se na základě kontextu přidá první a
+druhá derivace, čímž získáváme devětatřicetirozměrný reálněčíselný vektor každou
+setinu sekundy.
 
 \section{Technologie rozpoznávání řeči}
 
