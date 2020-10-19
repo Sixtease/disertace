@@ -117,6 +117,18 @@ Akustický model je právě tím místem, které zastávají skryté markovovsk�
 Jedná se o generativní modelování, tedy pro účely řešení úlohy předpokládáme, že
 vstupní akustická sekvence je generována markovovským procesem.
 
+Markovovský model realizuje akustický model jako sumu odhadnutých
+pravděpodobností přechodů stavy automatu při pozorování dané vstupní
+posloupnosti:
+
+\begin{equation}
+P(A|M) = \sum_X a_{x(0)x(1)} \prod_{t=1}^T b_{x(t)}(o_t)a_{x(t)x(t+1)}
+\end{equation}
+
+kde $x(0)$ je vstupní a $x(T + 1)$ výstupní stav modelu, $a_{xy}$ je přechodová
+pravděpodobnost z~$x$ do $y$, $b_{x}$ je emisní pravděpodobnost symbolu $x$ a
+$X$ je množina možných stavových posloupností.
+
 Parametry, které HMM definují, jsou vymezení stavů v~prostoru vstupních dat a
 přechodové pravděpodobnosti mezi stavy. Musí se tedy určit množina modelů a
 prostor vstupních dat.
@@ -236,6 +248,9 @@ v~melfrekvenčních koeficientech, kde se daná hláska realizuje. Místo jednoh
 gaußiánu proto uděláme několik a dáme jim váhy, jejichž součet bude jedna.
 Štěpení může probíhat libovolně dlouho, dokud nedojde k~přetrénování.
 
+Základním postupem dekódování je Viterbiho algoritmus, ale v~praxi se jen
+málokdy používá bez úpravy.
+
 Načrtnutá architektura je jakási startovní čára: nejjednodušší systém
 rozpoznávání řeči, který se dá zlepšit mnoha úpravami, nebo v~posledku zcela
 nahradit moderním přístupem založeným zcela na hlubokých neuronových sítích.
@@ -243,6 +258,27 @@ V~následující sekci nastíním několik předchozích prací, které mohou sl
 inspirace pro automatický přepis mluveného korpusu Karla Makoně.
 
 \section{Předchozí práce v~rozpoznávání řeči}
+
+\subsection{Ircing et al. 2001}
+
+V~roce 2001 publikovala skupina slovutných vědců v~čele s~Pavlem Ircingem práci
+o rozpoznávání češtiny pomocí HMM\cite{ircing2001large}. Akustický model trénují
+pomocí nástroje HTK na 22 hodinách materiálu. Parametrizují pomocí MFCC se dvěma
+úrovněmi derivace a s~využitím kepstrální normalizace na úrovni vět. Modelují
+trifóny a ke shlukování používají fonologicky motivované skupiny podobně jako to
+je běžné pro angličtinu. K~dekódování používají dekodér od AT\&T na bázi
+konečného převodníku\cite{mohri2002weighted}.
+
+Jazykový model používají autoři bigramový při velikosti slovníku 60 tisíc forem.
+Článek představuje inovativní pokus o překonání problému neznámých slov, tedy
+těch, které jsou v~testovacích datech, ale ne ve slovníku. Vytvářejí jazykový
+model založený nikoliv na celých slovech, nýbrž na kmenech a koncovkách. Tento
+přístup je intuitivně pro češtinu vhodný, ale u bigramového modelu se
+neosvědčil.
+
+Udávaná úspěšnost systému se celoslovním jazykovým modelem je 34,29\%.
+
+\subsection{Psutka et al. 2003}
 
 
 
