@@ -278,9 +278,35 @@ neosvědčil.
 
 Udávaná úspěšnost systému se celoslovním jazykovým modelem je 34,29\%.
 
-\subsection{Psutka et al. 2003}
+\subsection{Psutka et al. 2002 - 2005}
 
+V~roce 2003 publikovali Psutka et al. článek o automatickém přepisu svědectví
+pamětníků holocaustu\cite{psutka2003large}. Článek navazoval na práci
+z~předchozího roku\cite{psutka2002automatic}, kde se konstatuje velká obtížnost
+přepisu materiálu, který obsahuje množství emocionálního projevu, nespisovného
+jazyka a akustických nedostatků. V~článku z~roku 2003 se klade důraz na
+experimenty s~jazykovým modelem. Prezentovaným přínosem je využití dat z~velkého
+korpusu češtiny, který celkově dobře nereprezenetuje data, na kterých se provádí
+automatický přepis.
 
+Experiment spočívá ve výběru vhodných vět z~velkého korpusu do trénovacích dat
+pro jazykový model. K~dispozici je malý korpus (A) již přepsaných výpovědí, tedy
+dokonale reprezentativní data. Dále velký korpus (B) z~novin a literatury.
+Z~obou korpusů se natrénovaly jazykové modely MA a MB. Věta X z~korpusu B byla
+přidána do trénovacích dat, jestliže $P(X|B) < P(X|A)$. Jinými slovy, použily se
+věty, z velkého korpusu které se více podobaly datům z~malého než datům
+z~velkého. Tímto postupem se dosáhlo relativního umenšení chybovosti přes 4\%.
+
+Další navazující práce v~rámci projektu Malach\cite{psutka2005automatic} z~roku
+2005 se již nezabývá jen češtinou, ale i slovenštinou a ruštinou. Článek
+přináší rozbor metod pro zacházení s~různými výslovnostmi téhož slova. Autoři
+prezentují, že oproti udržování variant jako zvláštních položek ve slovníku je
+lepší mít každé takové slovo ve slovníku jenom jednou, ale s~různými
+výslovnostními variantami, takže se zbytečně nerozdrobuje jazykový model, ale
+neobětuje se akustická přesnost.
+
+Všechny systémy prezentované v~těchto článcích jsou založeny na sytému HTK a
+používají parametrizaci na základě perceptuální lineární predikce (PLP).
 
 \section{Technologie rozpoznávání řeči}
 
