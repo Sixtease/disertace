@@ -308,6 +308,40 @@ neobětuje se akustická přesnost.
 Všechny systémy prezentované v~těchto článcích jsou založeny na sytému HTK a
 používají parametrizaci na základě perceptuální lineární predikce (PLP).
 
+\subsection{Renals et al. 1994}
+
+Na rozdíl od článků popisujících tvorbu systémů rozpoznávání řeči pro praktické
+nasazení diskutovanýc výše, tento článek od pětice autorů z~roku
+1994\cite{renals1994connectionist} představuje nové postupy, které se musejí
+nejdříve etablovat a musejí nalézt dostatečnou podporu ze strany výpočetních
+kapacit a množství dostupných dat.
+
+Článek představuje několik významných posunů v~přístupu k~modelování mluvené
+řeči. Především jde o užití vícevrstevného perceptronu \textit{(multi-layer
+perceptron, MLP)} pro přímé odhadování aposteriorní pravděpodobnosti
+přepisovaného symbolu na základě vstupních dat. Prezentuje také využití
+rekurentní neuronové sítě, kterýžto přístup doznává nyní širokého užití. Dále
+pojednává o prediktivních MLP a diskriminativních HMM.
+
+MLP je posloupnost vstupní vrstvy, několika skrytých vrstev a výstupní vrstvy.
+Sousední vrstvy jsou propojeny váhovou maticí:
+\begin{equation}
+y_i^L = f(\sum_j w_{ij}^{L,L-1}y_j^{L-1})
+\end{equation}
+kde $y_i^L$ je výstup $i$-té jednotky ve vrstvě $L$,
+$w_{ij}^{L,L-1}$ je prvek váhové matice mezi vrstvami $L - 1$ a $L$
+a $f$ je aktivační funkce, v~případě tohoto článku sigmoid
+\begin{equation}
+f(x) = \over{1}{1 + e^{-x}}
+\end{equation}.
+
+Důležitým poselstvím je zde vystoupení ze zažitých teoretických předpokladů
+v~rozpoznávání řeči pomocí HMM: Autoři ukazují nevhodnost modelování fonémů
+generativním gaußovským procesem při použití rozkladu Bayesovým pravidlem.
+Na sadě DARPA o~velikosti přibližně 4000 vět představují systém rozpoznávání
+řeči s~využitím MLP jako technologie odhadu aposteriorní akustické
+pravděpodobnosti s~výsledkem 3,6\% WER.
+
 \section{Technologie rozpoznávání řeči}
 
 \section{Markovovské modely}
