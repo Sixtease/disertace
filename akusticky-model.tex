@@ -342,6 +342,76 @@ Na sadě DARPA o~velikosti přibližně 4000 vět představují systém rozpozn�
 řeči s~využitím MLP jako technologie odhadu aposteriorní akustické
 pravděpodobnosti s~výsledkem 3,6\% WER.
 
+\subsection{Graves & Jaitly 2014}
+
+Po nahrazení části procesu v~markovovské mašinerii neuronovými sítěmi následoval
+další, dnes s~odstupem času logicky vyhlíženící krok, a sice přechod k~systému
+postavenému kompletně na neuronové síti. Jde o další přesun expertizy z~člověka
+na strojové učení, umožněné lepší dostupností většího množství dat a výpočetní
+síly. Použité algoritmy se samozřejmě taktéž zdokonalovaly, ale v~základu byly
+mnohé známy již léta. Velkou výhodou navrhovaného systému je, že je tvořen jedním kompaktním
+modelem, který se trénuje najednou, za minimalizace chybové funkce odpovídající
+reálnému cíli: přesné transkripci.
+
+Jediný bod, kde autoři zasáhli do systému, který se jinak trénuje \textit{,,z~jednoho
+konce na druhý`` (end-to-end)}, je předzpracování signálu. Jde jim však předněji
+o demonstraci přístupu \textit{end-to-end} než o vytvoření praktické aplikace.
+Proto aby se zásah udržel zcela minimálním, operují na spektrogramech, ne na
+melfrekvenčních koeficientech. Spektrogramy generují, protože odvození
+relevantních akustických vlastností je náročná operace a razantně by zvýšila
+nároky na trénovací data, přičemž představený experiment je trénován na méně než
+stohodinové sadě.
+
+Prezentovaný systém eliminuje zejména použití markovovského procesu jako modelu
+temporálního průběhu řeči a nutnost explicitní fonetické vrstvy. Používá CTC
+\textit{(connectionist temporal classification)}\cite{graves2006connectionist} jako chybovou funkci. Pro
+modelování používá rekurentní neuronovou síť s~\textit{long short-term memory
+(LSTM)}\cite{hochreiter1997long}. Vzhledem k~významnosti této architekturní změny použité postupy stručně
+nastíním.
+
+Rekurentní neuronová síť (RNN) pro vstupní posloupnost $\bm{x} = (x_1, ..., x_T)$
+spočte skrytou posloupnost $\bm{h} = (h_1, ..., h_T)$ a výstupní posloupnost
+$\bm{y} = (y_1, ..., y_T)$ iterováním následujících rovnic pro $t$ od $1$ do $T$:
+
+\begin{equation}
+h_t = f(W_{ih}x_t + W_{hh}h_{t-1} + b_h)
+\end{equation}
+
+\begin{equation}
+y_t = W_{ho}h_t + b_0
+\end{equation}
+
+kde $W$ jsou matice vah (např. $W_{ih}$ je matice vah mezi vstupním a skrytým
+vektorem), $b$ je \textit{bias} (např. $b_h$, je bias skrytého vektoru) a $f$ je
+aktivační funkce skryté vrstvy. Jako aktivační funkci autoři používají
+
+\begin{equation}
+f_t = o_t tanh(c_t)
+\end{equation}
+kde
+\begin{equation}
+o_t = \sigma(W_{xo}x_t + W_{ho}h_{t-1} + W_{co}c_t + b_o)
+\end{equation}
+,
+\begin{equation}
+c_t = g_{t}c_{t-1} + i_t tanh(W_{xc}x_t + W_{hc}h_{t-1} + b_c)
+\end{equation}
+,
+\begin{equation}
+g_t = \sigma(W_{xg}x_t + W_{hg}h_{t-1} + W_{cg}c_{t-1} + b_g)
+\end{equation}
+,
+\begin{equation}
+i_t = \sigma(W_{xi}x_t + W_{hi}h_{t-1} + W_{ci}c_{t-1} + b_i)
+\end{equation}
+, $\sigma$ je logistický sigmoid, $i$ je vstupní brána LSTM $g$ je brána zapomnění
+\textit{forget gate}, $o$ je výstupní brána, $c$ jsou aktivační vektory buněk
+\textit{cell activation vectors}. $i$, $g$, $o$ i $c$ mají shodnou délku se
+skrytým vektorem $h$.
+
+Síť je rekurentní v~obou směrech, neboť tomu nic nebrání, když vstupem jsou celé
+věty. 
+
 \section{Technologie rozpoznávání řeči}
 
 \section{Markovovské modely}
