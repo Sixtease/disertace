@@ -346,7 +346,7 @@ pravděpodobnosti s~výsledkem 3,6\% WER.
 
 Po nahrazení části procesu v~markovovské mašinerii neuronovými sítěmi následoval
 další, dnes s~odstupem času logicky vyhlíženící krok, a sice přechod k~systému
-postavenému kompletně na neuronové síti. Jde o další přesun expertizy z~člověka
+postavenému kompletně na neuronové síti. V~tomto článku\cite{graves2014toward} de o další přesun expertizy z~člověka
 na strojové učení, umožněné lepší dostupností většího množství dat a výpočetní
 síly. Použité algoritmy se samozřejmě taktéž zdokonalovaly, ale v~základu byly
 mnohé známy již léta. Velkou výhodou navrhovaného systému je, že je tvořen jedním kompaktním
@@ -410,11 +410,53 @@ i_t = \sigma(W_{xi}x_t + W_{hi}h_{t-1} + W_{ci}c_{t-1} + b_i)
 skrytým vektorem $h$.
 
 Síť je rekurentní v~obou směrech, neboť tomu nic nebrání, když vstupem jsou celé
-věty. 
+věty. Prezentovaný systém proto využívá obousměrné LSTM. Ta definuje dopřednou
+skrytou vrstvu $\overrightarrow{h}$ jako
+\begin{equation}
+\overrightarrow{h}_t = f(W_{x\overrightarrow{h}}x_t + W_{\overrightarrow{h}\overrightarrow{h}}\overrightarrow{h}_{t-1} + b_{\overrightarrow{h}})
+\end{equation}
+, zpětnou skrytou vrstvu $\overleftarrow{h}$ jako
+\begin{equation}
+\overleftarrow{h}_t = f(W_{x\overleftarrow{h}}x_t + W_{\overleftarrow{h}\overleftarrow{h}}\overleftarrow{h}_{t-1} + b_{\overleftarrow{h}})
+\end{equation}
+a výstupy jako
+\begin{equation}
+y_t = W_{\overrightarrow{h}y}\overrightarrow{h}_t + W_{\overleftarrow{h}y}\overleftarrow{h}_t + b_o
+\end{equation}.
 
-\section{Technologie rozpoznávání řeči}
+Použitá neuronová síť používá více skrytých vrstev, aby se umožnilo hluboké
+trénování, takže pro N vrstev ($n = 1 .. N$) je vzorce třeba rozšířit:
+\begin{equation}
+h_t^n = f(W_{h^{n-1}h^n}h_t^{n-1} + W_{h^{n}h^{n}}h_{t-1}^n + b_h^n)
+\end{equation}
+kde $h^0 = x$.
+\begin{equation}
+y_t = W_{h^{N}y}h_t^N + b_o
+\end{equation}.
 
-\section{Markovovské modely}
+Chybová funkce CTC je upravena tak, aby upřednostňovala kandidáty s~nízkou WER a
+implementována pomocí metody Monte Carlo. Dekóduje se standardně pomocí
+paprskového prohledávání \textit{(beam search)}. Systém natrénovaný na
+jedenaosmdesátihodinové sadě z~Wall Street Journalu sice s~8,2\% WER nepřekonal
+baseline implementovaný pomocí DNN-HMM se~7,8\%, ale to při tak malé trénovací
+sadě není žádné překvapení, a i tak ukázal životaschopnost metody.
+
+\subsection{Deep Speech}
+
+Na výše popsaný článek navázali ve výzkumném centru Baidu a navrhli systém
+pojmenovaný DeepSpeech\cite{hannun2014deep}, který využívá tentýž přístup
+s~důrazem na praktickou použitelnost a optimalizaci pro trénink na velkých
+množstvích dat. Na rozdíl od Gravese 2014 používají jen jednu obousměrnou
+rekurentní vrstvu a další čtyři skryté dopředné. Jako aktivační funkci ve
+skrytých vrstvách používají místo sigmoidu shora omezené ReLu a na výstupu
+standardní softmax. U dopředných vrstev se aplikuje dropout. Rekurentní vrstva
+není LSTM z~důvodu optimalizace rychlosti.
+
+\subsection{Shrnutí}
+
+
+
+\section{ASR na korpusu Karla Makoně}
 
 Až do druhé dekády druhého milénia byly nejlepší dostupnou technologií pro
 rozpoznávání řeči skryté markovovské modely s~gaußovskými směsmi (GMM-HMM).
