@@ -38,7 +38,7 @@ svým výrokem, že kdykoliv vyhodí lingvistu, zvýší se mu úspěšnost syst
 Ve strojovém učení pracujeme s~pojmy \textit{trénovací data} a \textit{testovací
 data}. V~obou případech se jedná o správně spárovaná vstupní a výstupní data.
 V~případě ASR tedy jde o páry záznamů mluveného slova a odpovídajících přepisů.
-Trénovací data jsou ta, která mám systém k~dispozici, aby z~nich odvodil znalost
+Trénovací data jsou ta, která má systém k~dispozici, aby z~nich odvodil znalost
 potřebnou pro danou úlohu, tedy v~našem případě pro převod zvuku do textu.
 Testovací data jsou potom ta, na nichž se vyhodnocuje úspěšnost systému.
 
@@ -67,10 +67,9 @@ modelovat jakoukoliv spojitou funkci s~omezeným definičním oborem (Csáji
 kvalitních trénovacích dat a výpočetní kapacity, nebylo by důvodu aplikovat
 lidskou expertizu.
 
-Jelikož jsou však zdroje omezené, kombinují systémy typicky oba zdroje
-expertizy: lidskou odbornost a strojové učení, přičemž historicky
-s~dokonalejšími počítači a větším množstvím dat v~systémech ubývá jednoho a
-přibývá druhého.
+Jelikož jsou však zdroje omezené, tyjí systémy typicky z~obou zdrojů: z~lidské
+odbornosti a strojového učení, přičemž historicky s~dokonalejšími počítači a
+větším množstvím dat v~systémech ubývá jednoho a přibývá druhého.
 
 \section{Vybrané milníky v~rozpoznávání řeči}
 
@@ -85,8 +84,16 @@ hláska může být pokaždé vyslovena jinak rychle, jinými slovy v~řeči je 
 časová variabilita. Ještě v~osmdesátých letech se tato technika namnoze
 používala a časová variabilita se kompenzovala roztažením či smrsknutím vzorků,
 aby si délkou odpovídaly. Tato metoda se anglicky nazývá \textit{dynamic time
-wrap} a vznikla v~roce 1971\cite{sakoe1971chiba}.
-V~těchto přístupech je veškerá expertiza ze strany člověka.
+wrap} a vznikla v~roce 1971\cite{sakoe1971chiba}, viz obrázek~\ref{fig:dtw}.
+V~těchto přístupech pochází veškerá expertiza ze strany člověka.
+
+\begin{figure}[htpb]
+\includegraphics[scale=1]{rc/dtw.png}
+\caption{
+  Ilustrace rozpoznávání řeči pomocí šablon technikou dynamic time wrap.
+}
+\label{fig:dtw}
+\end{figure}
 
 Velkým průlomem bylo použití skrytých
 markovovských modelů (\textit{HMM}). Vychází se z~představy, že mluvčí předává
@@ -105,7 +112,7 @@ Pravděpodobnost $P(C|A)$ ovšem dlouho nebylo jak odhadnout, proto se využilo
 Bayesova pravidla:
 
 \begin{equation}
-P(C|A) = \over{P(A|C)*P(C)}{P(A)}
+P(C|A) = {{P(A|C) P(C)}\over{P(A)}}
 \end{equation}.
 
 Pravděpodobnost vstupních dat je ve vztahu k odhadovanému modelu konstantní a
@@ -115,7 +122,17 @@ Pro to první se vžilo název \textit{akustický model (AM)}, pro to druhé
 
 Akustický model je právě tím místem, které zastávají skryté markovovské modely.
 Jedná se o generativní modelování, tedy pro účely řešení úlohy předpokládáme, že
-vstupní akustická sekvence je generována markovovským procesem.
+vstupní akustická sekvence je generována markovovským procesem, viz
+obrázek~\ref{fig:hmm}.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.48]{rc/hmm.png}
+\caption{
+    Schéma použití markovovského řetězce jako generativního modelu
+    v~rozpoznávání řeči.
+}
+\label{fig:hmm}
+\end{figure}
 
 Markovovský model realizuje akustický model jako sumu odhadnutých
 pravděpodobností přechodů stavy automatu při pozorování dané vstupní
@@ -203,7 +220,7 @@ pravděpodobnosti, které je potřeba natrénovat.
 Jestliže pak rozeznáváme u češtiny čtyřicet jednu hlásku plus ticho plus
 krátkou pauzu, bude tento jednoduchý akustický model mít
 \begin{equation}
-$41 \times (6 + 2 \times 39) + 2 \times 39 + 8 + 9 = 3539$
+41 \times (6 + 2 \times 39) + 2 \times 39 + 8 + 9 = 3539
 \end{equation}
 volných parametrů.
 
@@ -332,7 +349,7 @@ kde $y_i^L$ je výstup $i$-té jednotky ve vrstvě $L$,
 $w_{ij}^{L,L-1}$ je prvek váhové matice mezi vrstvami $L - 1$ a $L$
 a $f$ je aktivační funkce, v~případě tohoto článku sigmoid
 \begin{equation}
-f(x) = \over{1}{1 + e^{-x}}
+f(x) = {{1}\over{1 + e^{-x}}}
 \end{equation}.
 
 Důležitým poselstvím je zde vystoupení ze zažitých teoretických předpokladů
@@ -342,16 +359,17 @@ Na sadě DARPA o~velikosti přibližně 4000 vět představují systém rozpozn�
 řeči s~využitím MLP jako technologie odhadu aposteriorní akustické
 pravděpodobnosti s~výsledkem 3,6\% WER.
 
-\subsection{Graves & Jaitly 2014}
+\subsection{Graves \& Jaitly 2014}
 
 Po nahrazení části procesu v~markovovské mašinerii neuronovými sítěmi následoval
 další, dnes s~odstupem času logicky vyhlíženící krok, a sice přechod k~systému
-postavenému kompletně na neuronové síti. V~tomto článku\cite{graves2014toward} de o další přesun expertizy z~člověka
-na strojové učení, umožněné lepší dostupností většího množství dat a výpočetní
-síly. Použité algoritmy se samozřejmě taktéž zdokonalovaly, ale v~základu byly
-mnohé známy již léta. Velkou výhodou navrhovaného systému je, že je tvořen jedním kompaktním
-modelem, který se trénuje najednou, za minimalizace chybové funkce odpovídající
-reálnému cíli: přesné transkripci.
+postavenému kompletně na neuronové síti. V~tomto článku\cite{graves2014towards}
+de o další přesun expertizy z~člověka na strojové učení, umožněné lepší
+dostupností většího množství dat a výpočetní síly. Použité algoritmy se
+samozřejmě taktéž zdokonalovaly, ale v~základu byly mnohé známy již léta. Velkou
+výhodou navrhovaného systému je, že je tvořen jedním kompaktním modelem, který
+se trénuje najednou, za minimalizace chybové funkce odpovídající reálnému cíli:
+přesné transkripci.
 
 Jediný bod, kde autoři zasáhli do systému, který se jinak trénuje \textit{,,z~jednoho
 konce na druhý`` (end-to-end)}, je předzpracování signálu. Jde jim však předněji
