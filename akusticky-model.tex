@@ -155,9 +155,19 @@ prostor vstupních dat.
 Zvukový signál je velmi prostý: je to spojitá funkce času do reálných čísel.
 Má-li se zaznamenat digitálně, volí se technika vzorkování \textit{(sampling)},
 kdy se z~průběhu funkce v~čase, jehož spojitost či diskrétnost je otázkou mimo
-rámec této práce, vybere vzorek v~rozestupu definované periody. Čím větší
+rámec této práce, vybere vzorek v~rozestupu definované periody, viz
+obrázek~\ref{fig:sampling}. Čím větší
 vzorkovací frekvence, tím 1) větší věrnost při reprodukci, 2) vyšší tónovou
 frekvenci lze reprezentovat a 3) větší náročnost na uložení a zpracování.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.38]{rc/Signal_Sampling.png}
+\caption{
+    Vzorkování signálu. $t$ je čas, $S(t)$ je průběh signálu, $T$ je vzorkovací
+    perioda, $S(i)$ je hodnota $i$-tého vzorku.
+}
+\label{fig:sampling}
+\end{figure}
 
 Vzorkovací frekvence se podle účelu záznamu pohybuje obvykle od 8~kHz pro
 datově úsporný přenos hlasu do 96~kHz pro studiové zpracování hudby. Pro účely
@@ -166,7 +176,7 @@ kterém je obsažena prakticky veškerá relevantní informace.
 
 Jako vstupní data pro skryté markovovské modely nejsou prostá reálná
 čísla\footnote{pro počítačovou implementaci jsou reálná čísla díky svému
-nekonečnému desetinnému rozviji nereálná, pro se v~praxi pracuje s~tzv. čísly
+nekonečnému desetinnému rozvoji nereálná, pro se v~praxi pracuje s~tzv. čísly
 s~plovoucí desetinnou čárkou (\textit{floating-point numbers}).} v~řádu tisíců
 za sekundu praktická, pročež se signál nejdříve transformuje do jiné formy. Tato
 část systému se zove \textit{front-end} a implementuje se nejčastěji pomocí
@@ -179,18 +189,53 @@ Převod z~akustického vlnění do melfrekvenčních kepstrálních koeficientů
 transformuje proud jednoho reálného čísla šestnáctkrát za milisekundu do proudu
 reálněčíselného vektoru stokrát za sekundu. Běžně každý vektor kóduje časové
 okno o délce čtyřicetiny sekundy a okna jsou od sebe vzdálena setinu sekundy,
-takže se překrývají. Na každém časovém okně se provede diskrétní Fourierova
-transformace a rozdělí se do frekvenčních oken podle škály
-mel\cite{stevens1937scale} aplikováním trojúhelníkového filtru. Frekvenčních
+takže se překrývají, viz obrázek~\ref{fig:mfcc-windowing}. Na každém časovém
+okně se provede diskrétní Fourierova transformace
+\begin{equation}
+X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-\frac {i 2\pi}{N}kn}
+\end{equation}
+a rozdělí se do frekvenčních
+oken podle škály
+mel\cite{stevens1937scale} aplikováním trojúhelníkového filtru
+\begin{equation}
+Y_{t,m} = \sum_{k=1}^N W_m(k) |X_{t,k}|^2
+\end{equation} kde $W_m$ je $m$-tý trojúhelníkový filtr a $k$ je index ve
+výsledném vektoru DFT, viz
+obrázek~\ref{fig:mfcc-mels}. Frekvenčních
 oken bývá 12 a opět se překrývají. Frekvenční okna se s~rostoucí frekvencí
 zvětšují tak, aby zůstávala konstantní v~jednotkách mel a aby tedy odpovídala
 lidskému vnímání spektra. Hodnoty se logaritmují, opět aby byly
 úměrnější lidskému vnímání hlasitosti. Jako třináctá hodnota se přidá buď
-základní frekvence nebo častěji akustická energie. Poté se provede inferzní
-diskrétní Fourierova transformace, podle čehož se kepstrum nazývá inverzí
-začátku slova spektrum. Od těchto hodnot se na základě kontextu přidá první a
-druhá derivace, čímž získáváme devětatřicetirozměrný reálněčíselný vektor každou
+základní frekvence nebo častěji akustická energie.
+\begin{equation}
+E = \sum_{t=t_1}^{t_2}x^2_t
+\end{equation}
+Poté se provede inverzní
+diskrétní Fourierova transformace. Od těchto hodnot se na základě kontextu přidá první a
+druhá derivace,
+\begin{equation}
+d(t) = {{c(t+1) - c(t-1)}\over{2}}
+\end{equation}
+čímž získáváme devětatřicetirozměrný reálněčíselný vektor každou
 setinu sekundy.
+
+\begin{figure}[htpb]
+\includegraphics[scale=1]{rc/mfcc-windowing.jpg}
+\caption{
+    Schéma překrývajících se oken při převodu z~vlnového průběhu do
+    melfrekvenčních kepstrálních koeficientů. $A$ je šířka okna, $B$ je rozestup
+    mezi okny.
+}
+\label{fig:mfcc-windowing}
+\end{figure}
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.58]{rc/mfcc-mels.png}
+\caption{
+    Schéma aplikace filtrů do pásem podle stupnice mel.
+}
+\label{fig:mfcc-mels}
+\end{figure}
 
 % over
 
@@ -232,7 +277,7 @@ kde každému slovu je přiřazena množina potenciálních výslovností. S~tí
 souvisí fakt, že ačkoliv jsme úlohu formulovali jako hledání ideální
 posloupnosti písmen, pracuje se obvykle se slovy jako elementárními jednotkami.
 To má několik důvodů: Za prvé je to právě kvůli výslovnostnímu slovníku: určit
-každému písmenu, jak se může vyslovovat, je nepraktické -- to se ozřejmí právě
+každému písmenu, jak se může vyslovovat, je nepraktické -- to se ozřejmí
 až na úrovni slov. Za druhé jazykové modelování je na slovech obvyklejší, což
 souvisí s~tím, že za třetí úspěšnost se měří na celých slovech.
 
