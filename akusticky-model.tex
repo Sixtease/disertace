@@ -95,62 +95,24 @@ V~těchto přístupech pochází veškerá expertiza ze strany člověka.
 \label{fig:dtw}
 \end{figure}
 
-Velkým průlomem bylo použití skrytých
-markovovských modelů (\textit{HMM}). Vychází se z~představy, že mluvčí předává
-informaci (posloupnost písmen, či slov) zakódovanou v~kanálu akustického vlnění,
-a naším úkolem je původní informaci rozkódovat.
+Velkým průlomem bylo použití skrytých markovovských modelů \textit{(Hidden
+Markov Models, HMM)}. Vychází se z~představy, že mluvčí předává informaci
+(posloupnost písmen, či slov) zakódovanou v~kanálu akustického vlnění, a naším
+úkolem je původní informaci rozkódovat. Markovovské modely ve spojení
+s~gaußovskými směsmi \textit{(Gaussian Mixture Models, GMM)} byly dominantní
+technologií rozpoznávání řeči až do průlomu hlubokých neuronových sítí.
 
-Úlohu rozpoznávání řeči můžeme formalizovat takto: Na základě vstupní
-posloupnosti hodnot akustického vlnění $A$ hledáme takovou posloupnost písmen
-(\textit{characters}) $C$, aby pravděpodobnost $P(C|A)$ byla co největší, tedy:
+Hluboké učení přineslo zatím poslední skokový posun kupředu. Hluboké neuronové
+sítě nejdříve vstupují jako součást schématu s~HMM, sloužíce pro odhad
+aposteriorní pravděpodobnosti přepisu na základě akustických dat a nahrazujíce
+složku GMM, čímž vznikají hybridní systémy DNN-HMM místo dosavadních GMM-HMM.
+Posléze se objevují systémy realizované pomocí jedné neuronové sítě, která řeší
+celou úlohu rozpoznávání.
 
-\begin{equation}
-argmax_{\vec{C}} P(C|A)
-\end{equation}
+\section{Kódování signálu}
 
-Pravděpodobnost $P(C|A)$ ovšem dlouho nebylo jak odhadnout, proto se využilo
-Bayesova pravidla:
-
-\begin{equation}
-P(C|A) = {{P(A|C) P(C)}\over{P(A)}}
-\end{equation}.
-
-Pravděpodobnost vstupních dat je ve vztahu k odhadovanému modelu konstantní a
-kladná, proto se jmenovatel zanedbává. Zbývá tedy odhadnout $P(A|C)$ a $P(C)$.
-Pro to první se vžilo název \textit{akustický model (AM)}, pro to druhé
-\textit{jazykový model (language model, LM)}.
-
-Akustický model je právě tím místem, které zastávají skryté markovovské modely.
-Jedná se o generativní modelování, tedy pro účely řešení úlohy předpokládáme, že
-vstupní akustická sekvence je generována markovovským procesem, viz
-obrázek~\ref{fig:hmm}.
-
-\begin{figure}[htpb]
-\includegraphics[scale=0.48]{rc/hmm.png}
-\caption{
-    Schéma použití markovovského řetězce jako generativního modelu
-    v~rozpoznávání řeči.
-}
-\label{fig:hmm}
-\end{figure}
-
-Markovovský model realizuje akustický model jako sumu odhadnutých
-pravděpodobností přechodů stavy automatu při pozorování dané vstupní
-posloupnosti:
-
-\begin{equation}
-P(A|M) = \sum_X a_{x(0)x(1)} \prod_{t=1}^T b_{x(t)}(o_t)a_{x(t)x(t+1)}
-\end{equation}
-
-kde $x(0)$ je vstupní a $x(T + 1)$ výstupní stav modelu, $a_{xy}$ je přechodová
-pravděpodobnost z~$x$ do $y$, $b_{x}$ je emisní pravděpodobnost symbolu $x$ a
-$X$ je množina možných stavových posloupností.
-
-Parametry, které HMM definují, jsou vymezení stavů v~prostoru vstupních dat a
-přechodové pravděpodobnosti mezi stavy. Musí se tedy určit množina modelů a
-prostor vstupních dat.
-
-%\subsection{Prostor vstupních dat}
+Jedním z~nejdůležitějších stavebních prvků v~systémech rozpoznávání řeči je
+předzpracování zvukové vlny do vhodnějšího formátu.
 
 Zvukový signál je velmi prostý: je to spojitá funkce času do reálných čísel.
 Má-li se zaznamenat digitálně, volí se technika vzorkování \textit{(sampling)},
@@ -237,6 +199,65 @@ setinu sekundy.
 \label{fig:mfcc-mels}
 \end{figure}
 
+\section{HMM}
+
+V~této sekci stručně představím architekturu systémů rozpoznávání řeči založenou
+na skrytých markovovských modelech, jak se běžně používala ještě na začátku
+tohoto tisíciletí.
+
+Úlohu automatického rozpoznávání řeči můžeme formalizovat takto: Na základě vstupní
+posloupnosti hodnot akustického vlnění $A$ hledáme takovou posloupnost slov
+\textit{(words)} $W$, aby pravděpodobnost $P(W|A)$ byla co největší, tedy:
+
+\begin{equation}
+argmax_{\vec{W}} P(W|A)
+\end{equation}
+
+Pravděpodobnost $P(W|A)$ ovšem dlouho nebylo jak odhadnout, proto se využilo
+Bayesova pravidla:
+
+\begin{equation}
+P(W|A) = {{P(A|W) P(W)}\over{P(A)}}
+\end{equation}.
+
+Pravděpodobnost vstupních dat je ve vztahu k odhadovanému modelu konstantní a
+kladná, proto se jmenovatel zanedbává. Zbývá tedy odhadnout $P(A|W)$ a $P(W)$.
+Pro to první se vžilo název \textit{akustický model (AM)}, pro to druhé
+\textit{jazykový model (language model, LM)}.
+
+Akustický model je právě tím místem, které zastávají skryté markovovské modely.
+Jedná se o generativní modelování, tedy pro účely řešení úlohy předpokládáme, že
+vstupní akustická sekvence je generována markovovským procesem, viz
+obrázek~\ref{fig:hmm}.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.48]{rc/hmm.png}
+\caption{
+    Schéma použití markovovského řetězce jako generativního modelu
+    v~rozpoznávání řeči.
+}
+\label{fig:hmm}
+\end{figure}
+
+Markovovský model realizuje akustický model jako sumu odhadnutých
+pravděpodobností přechodů stavy automatu při pozorování dané vstupní
+posloupnosti:
+
+\begin{equation}
+P(A|M) = \sum_X a_{x(0)x(1)} \prod_{t=1}^T b_{x(t)}(o_t)a_{x(t)x(t+1)}
+\end{equation}
+
+kde $x(0)$ je vstupní a $x(T + 1)$ výstupní stav modelu, $a_{xy}$ je přechodová
+pravděpodobnost z~$x$ do $y$, $b_{x}$ je emisní pravděpodobnost symbolu $x$ a
+$X$ je množina možných stavových posloupností.
+
+Parametry, které HMM definují, jsou vymezení stavů v~prostoru vstupních dat a
+přechodové pravděpodobnosti mezi stavy. Musí se tedy určit množina modelů a
+prostor vstupních dat.
+
+%\subsection{Prostor vstupních dat}
+
+
 % over
 
 V~prostoru vstupních dat, jak bylo řečeno, se musí vymezit stavy jednotlivých
@@ -273,13 +294,14 @@ Protože modelujeme hlásky a na výstupu očekáváme písmena, je potřeba ada
 obou stranách akustického modelu. Na straně vstupu jde o konverzi trénovacích
 dat z~dvojic {\em promluva - ortografický přepis} do dvojic {\em promluva -
 fonetický přepis}. Na straně výstupu jde o vytvoření výslovnostního slovníku,
-kde každému slovu je přiřazena množina potenciálních výslovností. S~tím také
-souvisí fakt, že ačkoliv jsme úlohu formulovali jako hledání ideální
-posloupnosti písmen, pracuje se obvykle se slovy jako elementárními jednotkami.
-To má několik důvodů: Za prvé je to právě kvůli výslovnostnímu slovníku: určit
-každému písmenu, jak se může vyslovovat, je nepraktické -- to se ozřejmí
-až na úrovni slov. Za druhé jazykové modelování je na slovech obvyklejší, což
-souvisí s~tím, že za třetí úspěšnost se měří na celých slovech.
+kde každému slovu je přiřazena množina potenciálních výslovností. %S~tím také
+%souvisí fakt, že ačkoliv jsme úlohu formulovali jako hledání ideální
+%posloupnosti písmen, pracuje se obvykle se slovy jako elementárními jednotkami.
+%To má několik důvodů: Za prvé je to právě kvůli výslovnostnímu slovníku: určit
+%každému písmenu, jak se může vyslovovat, je nepraktické -- to se ozřejmí
+%až na úrovni slov. Za druhé jazykové modelování je na slovech obvyklejší, což
+%souvisí s~tím, že za třetí úspěšnost se měří na celých slovech.
+
 
 Jazykový model je nástroj pro odhadování pravděpodobnosti konkrétního textu.
 Praktický monopol zde mají tzv. n-gramové modely, kde se pravděpodobnost
@@ -316,7 +338,7 @@ málokdy používá bez úpravy.
 Načrtnutá architektura je jakási startovní čára: nejjednodušší systém
 rozpoznávání řeči, který se dá zlepšit mnoha úpravami, nebo v~posledku zcela
 nahradit moderním přístupem založeným zcela na hlubokých neuronových sítích.
-V~následující sekci nastíním několik předchozích prací, které mohou sloužit jako
+V~následující sekci nastíním několik předchozích prací, které mi sloužily jako
 inspirace pro automatický přepis mluveného korpusu Karla Makoně.
 
 \section{Předchozí práce v~rozpoznávání řeči}
@@ -338,7 +360,7 @@ model založený nikoliv na celých slovech, nýbrž na kmenech a koncovkách. T
 přístup je intuitivně pro češtinu vhodný, ale u bigramového modelu se
 neosvědčil.
 
-Udávaná úspěšnost systému se celoslovním jazykovým modelem je 34,29\%.
+Udávaná úspěšnost systému s~celoslovním jazykovým modelem je 34,29\%.
 
 \subsection{Psutka et al. 2002 - 2005}
 
@@ -373,7 +395,7 @@ používají parametrizaci na základě perceptuální lineární predikce (PLP)
 \subsection{Renals et al. 1994}
 
 Na rozdíl od článků popisujících tvorbu systémů rozpoznávání řeči pro praktické
-nasazení diskutovanýc výše, tento článek od pětice autorů z~roku
+nasazení diskutovaných výše, tento článek od pětice autorů z~roku
 1994\cite{renals1994connectionist} představuje nové postupy, které se musejí
 nejdříve etablovat a musejí nalézt dostatečnou podporu ze strany výpočetních
 kapacit a množství dostupných dat.
@@ -385,16 +407,16 @@ přepisovaného symbolu na základě vstupních dat. Prezentuje také využití
 rekurentní neuronové sítě, kterýžto přístup doznává nyní širokého užití. Dále
 pojednává o prediktivních MLP a diskriminativních HMM.
 
-MLP je posloupnost vstupní vrstvy, několika skrytých vrstev a výstupní vrstvy.
+MLP je posloupnost vstupní vrstvy, několika skrytých vrstev a vrstvy výstupní.
 Sousední vrstvy jsou propojeny váhovou maticí:
 \begin{equation}
-y_i^L = f(\sum_j w_{ij}^{L,L-1}y_j^{L-1})
+y_i^L = f(\sum_j w_{ij}^{L,L-1}y_j^{L-1}),
 \end{equation}
 kde $y_i^L$ je výstup $i$-té jednotky ve vrstvě $L$,
 $w_{ij}^{L,L-1}$ je prvek váhové matice mezi vrstvami $L - 1$ a $L$
 a $f$ je aktivační funkce, v~případě tohoto článku sigmoid
 \begin{equation}
-f(x) = {{1}\over{1 + e^{-x}}}
+f(x) = {{1}\over{1 + e^{-x}}}.
 \end{equation}.
 
 Důležitým poselstvím je zde vystoupení ze zažitých teoretických předpokladů
@@ -409,7 +431,7 @@ pravděpodobnosti s~výsledkem 3,6\% WER.
 Po nahrazení části procesu v~markovovské mašinerii neuronovými sítěmi následoval
 další, dnes s~odstupem času logicky vyhlíženící krok, a sice přechod k~systému
 postavenému kompletně na neuronové síti. V~tomto článku\cite{graves2014towards}
-de o další přesun expertizy z~člověka na strojové učení, umožněné lepší
+jde o další přesun expertizy z~člověka na strojové učení, umožněné lepší
 dostupností většího množství dat a výpočetní síly. Použité algoritmy se
 samozřejmě taktéž zdokonalovaly, ale v~základu byly mnohé známy již léta. Velkou
 výhodou navrhovaného systému je, že je tvořen jedním kompaktním modelem, který
@@ -433,69 +455,88 @@ modelování používá rekurentní neuronovou síť s~\textit{long short-term m
 nastíním.
 
 Rekurentní neuronová síť (RNN) pro vstupní posloupnost $\bm{x} = (x_1, ..., x_T)$
-spočte skrytou posloupnost $\bm{h} = (h_1, ..., h_T)$ a výstupní posloupnost
+spočte skrytou posloupnost $\bm{h} = (h_1, ..., h_T)$, jakož i výstupní posloupnost
 $\bm{y} = (y_1, ..., y_T)$ iterováním následujících rovnic pro $t$ od $1$ do $T$:
-
 \begin{equation}
-h_t = f(W_{ih}x_t + W_{hh}h_{t-1} + b_h)
+h_t = f(W_{ih}x_t + W_{hh}h_{t-1} + b_h),
 \end{equation}
-
 \begin{equation}
-y_t = W_{ho}h_t + b_0
+y_t = W_{ho}h_t + b_0,
 \end{equation}
-
 kde $W$ jsou matice vah (např. $W_{ih}$ je matice vah mezi vstupním a skrytým
 vektorem), $b$ je \textit{bias} (např. $b_h$, je bias skrytého vektoru) a $f$ je
-aktivační funkce skryté vrstvy. Jako aktivační funkci autoři používají
+aktivační funkce skryté vrstvy, viz obrázek~\ref{fig:rnn}. Jako aktivační funkci autoři používají
+
+\begin{figure}[htpb]
+\includegraphics[scale=1]{rc/rnn1h.png}
+\caption{
+    Schéma rekurentní neuronové sítě. Vertikálně je znázorněn průběh času a
+    horizontálně jednotlivé vrstvy sítě.
+}
+\label{fig:rnn}
+\end{figure}
 
 \begin{equation}
 f_t = o_t tanh(c_t)
 \end{equation}
 kde
 \begin{equation}
-o_t = \sigma(W_{xo}x_t + W_{ho}h_{t-1} + W_{co}c_t + b_o)
+o_t = \sigma(W_{xo}x_t + W_{ho}h_{t-1} + W_{co}c_t + b_o),
 \end{equation}
-,
 \begin{equation}
-c_t = g_{t}c_{t-1} + i_t tanh(W_{xc}x_t + W_{hc}h_{t-1} + b_c)
+c_t = g_{t}c_{t-1} + i_t tanh(W_{xc}x_t + W_{hc}h_{t-1} + b_c),
 \end{equation}
-,
 \begin{equation}
-g_t = \sigma(W_{xg}x_t + W_{hg}h_{t-1} + W_{cg}c_{t-1} + b_g)
+g_t = \sigma(W_{xg}x_t + W_{hg}h_{t-1} + W_{cg}c_{t-1} + b_g),
 \end{equation}
-,
 \begin{equation}
-i_t = \sigma(W_{xi}x_t + W_{hi}h_{t-1} + W_{ci}c_{t-1} + b_i)
+i_t = \sigma(W_{xi}x_t + W_{hi}h_{t-1} + W_{ci}c_{t-1} + b_i),
 \end{equation}
-, $\sigma$ je logistický sigmoid, $i$ je vstupní brána LSTM $g$ je brána zapomnění
-\textit{forget gate}, $o$ je výstupní brána, $c$ jsou aktivační vektory buněk
+$\sigma$ je logistický sigmoid, $i$ je vstupní brána LSTM $g$ je brána zapomnění
+\textit{forget gate}, $o$ je výstupní brána, $c$ jsou aktivační vektory buňky
 \textit{cell activation vectors}. $i$, $g$, $o$ i $c$ mají shodnou délku se
-skrytým vektorem $h$.
+skrytým vektorem $h$. Na obrázku~\ref{fig:lstm} je vyobrazena buňka LSTM.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.7]{rc/lstm.png}
+\caption{
+    Schéma buňky LSTM.
+}
+\label{fig:lstm}
+\end{figure}
 
 Síť je rekurentní v~obou směrech, neboť tomu nic nebrání, když vstupem jsou celé
-věty. Prezentovaný systém proto využívá obousměrné LSTM. Ta definuje dopřednou
-skrytou vrstvu $\overrightarrow{h}$ jako
+věty. Prezentovaný systém proto využívá obousměrné LSTM, viz
+obrázek~\ref{fig:birnn}. Ta definuje dopřednou skrytou vrstvu $\overrightarrow{h}$ jako
 \begin{equation}
-\overrightarrow{h}_t = f(W_{x\overrightarrow{h}}x_t + W_{\overrightarrow{h}\overrightarrow{h}}\overrightarrow{h}_{t-1} + b_{\overrightarrow{h}})
+\overrightarrow{h}_t = f(W_{x\overrightarrow{h}}x_t + W_{\overrightarrow{h}\overrightarrow{h}}\overrightarrow{h}_{t-1} + b_{\overrightarrow{h}}),
 \end{equation}
-, zpětnou skrytou vrstvu $\overleftarrow{h}$ jako
+zpětnou skrytou vrstvu $\overleftarrow{h}$ jako
 \begin{equation}
 \overleftarrow{h}_t = f(W_{x\overleftarrow{h}}x_t + W_{\overleftarrow{h}\overleftarrow{h}}\overleftarrow{h}_{t-1} + b_{\overleftarrow{h}})
 \end{equation}
 a výstupy jako
 \begin{equation}
-y_t = W_{\overrightarrow{h}y}\overrightarrow{h}_t + W_{\overleftarrow{h}y}\overleftarrow{h}_t + b_o
-\end{equation}.
+y_t = W_{\overrightarrow{h}y}\overrightarrow{h}_t + W_{\overleftarrow{h}y}\overleftarrow{h}_t + b_o.
+\end{equation}
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.5]{rc/Bidirectional-recurrent-neural-network-50.png}
+\caption{
+    Schéma obousměrné rekurentní neuronové sítě
+}
+\label{fig:birnn}
+\end{figure}
 
 Použitá neuronová síť používá více skrytých vrstev, aby se umožnilo hluboké
 trénování, takže pro N vrstev ($n = 1 .. N$) je vzorce třeba rozšířit:
 \begin{equation}
-h_t^n = f(W_{h^{n-1}h^n}h_t^{n-1} + W_{h^{n}h^{n}}h_{t-1}^n + b_h^n)
+h_t^n = f(W_{h^{n-1}h^n}h_t^{n-1} + W_{h^{n}h^{n}}h_{t-1}^n + b_h^n),
 \end{equation}
 kde $h^0 = x$.
 \begin{equation}
-y_t = W_{h^{N}y}h_t^N + b_o
-\end{equation}.
+y_t = W_{h^{N}y}h_t^N + b_o.
+\end{equation}
 
 Chybová funkce CTC je upravena tak, aby upřednostňovala kandidáty s~nízkou WER a
 implementována pomocí metody Monte Carlo. Dekóduje se standardně pomocí
@@ -513,11 +554,16 @@ množstvích dat. Na rozdíl od Gravese 2014 používají jen jednu obousměrnou
 rekurentní vrstvu a další čtyři skryté dopředné. Jako aktivační funkci ve
 skrytých vrstvách používají místo sigmoidu shora omezené ReLu a na výstupu
 standardní softmax. U dopředných vrstev se aplikuje dropout. Rekurentní vrstva
-není LSTM z~důvodu optimalizace rychlosti.
+není LSTM z~důvodu optimalizace rychlosti. Obrázek~\ref{fig:deepspeech-arch}
+znázorňuje architekturu sítě.
 
-\subsection{Shrnutí}
-
-
+\begin{figure}[htpb]
+\includegraphics[scale=0.58]{rc/deepspeech-arch.png}
+\caption{
+    Architektura systému DeepSpeech.
+}
+\label{fig:deepspeech-arch}
+\end{figure}
 
 \section{ASR na korpusu Karla Makoně}
 
