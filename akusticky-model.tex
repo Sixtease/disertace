@@ -1,15 +1,15 @@
 \chapter{Automatický přepis}
 \label{kap:asr}
 
-% - množina fonémů
+% - množina hlásek
 % - vektorový formát
 % - HMM X CNN
 % - HTK X Kaldi X sphinx X Bourlard X TensorFlow
-% - Monofonémy X trifonémy
+% - Monofóny X trifóny
 % - mixtury
 %   - individuální
 %   - globální
-%   - na monofonémech vs. trifonémech
+%   - na monofónech vs. trifónech
 
 
 
@@ -420,7 +420,7 @@ f(x) = {{1}\over{1 + e^{-x}}}.
 \end{equation}.
 
 Důležitým poselstvím je zde vystoupení ze zažitých teoretických předpokladů
-v~rozpoznávání řeči pomocí HMM: Autoři ukazují nevhodnost modelování fonémů
+v~rozpoznávání řeči pomocí HMM: Autoři ukazují nevhodnost modelování hlásek
 generativním gaußovským procesem při použití rozkladu Bayesovým pravidlem.
 Na sadě DARPA o~velikosti přibližně 4000 vět představují systém rozpoznávání
 řeči s~využitím MLP jako technologie odhadu aposteriorní akustické
@@ -632,8 +632,8 @@ Book}. V~hrubých rysech probíhá takto:
 
 \item{Vytvoření počátečních modelů.}
 
-Modeluje se skrytými markovovskými řetězci. Všechny fonémy se inicializují jako
-shodné. Každý foném je reprezentován pěti stavy (vstupním, výstupním a třemi
+Modeluje se skrytými markovovskými řetězci. Všechny hlásky se inicializují jako
+shodné. Každá hláska je reprezentována pěti stavy (vstupním, výstupním a třemi
 vnitřními). Přechodové pravděpodobnosti se nastaví tak, aby byly možné jen
 kýžené přechody, to jest ze~vstupního do~druhého a z~každého z~vnitřních stavů
 do~sebe samého nebo do~následujícího. Konkrétní pravděpodobnosti nejsou
@@ -641,7 +641,7 @@ podstatné, ale použil jsem 60\% pro setrvání a 40\% pro postup ve~druhém a
 třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupního.
 Střed a variance jsou určeny identicky podle globálních hodnot.
 
-Kromě vlastních fonémů (viz níže sekci~\ref{sec:ac:fonetika}) přidám ještě foném
+Kromě vlastních hlásek (viz níže sekci~\ref{sec:ac:fonetika}) přidám ještě hlásku
 pro~ticho (\texttt{sil}).
 
 Pro kódování používám formát MFCC s~první a druhou derivací, nultým koeficientem
@@ -660,8 +660,8 @@ Trénuje se opět dvěma iteracemi BW-algoritmu.
 \item{Nucené zarovnání a odvržení zmetkových vzorků.}
 
 Pomocí Viterbiho algoritmu\cite{forney1973viterbi} se provede tzv.
-\textit{forced alignment}, tzn. nucené zarovnání na~úrovni fonémů. Jinými slovy
-určí se přesný čas, kde začíná a končí který foném. Při tom se určí hranice, pod
+\textit{forced alignment}, tzn. nucené zarovnání na~úrovni hlásek. Jinými slovy
+určí se přesný čas, kde začíná a končí která hláska. Při tom se určí hranice, pod
 kterou když klesne \textit{likelihood} daného přepisu na~základě odpovídající
 nahrávky, tato se z~trénovacích dat odstraní jako pravěpodobně vadná. Následují
 další dvě iterace BW-algoritmu.
@@ -672,39 +672,39 @@ Variance modelů byla určena podle původní trénovací sady. Nyní jsme z~ní
 vyřadili některé vzorky, proto proběhne její přepočtení, opět následované dvěma
 trénovacími iteracemi.
 
-\item{Přechod k~trifonémům}
+\item{Přechod k~trifónům}
 \label{item:htktrain:triphones}
 
 Z~nuceného zarovnání máme přepis obohacený o~konkrétní fonetické realizace. Z~té
-se nyní snadno vytvoří přepis trifonémový tak, že ke každému fonému přidáme
+se nyní snadno vytvoří přepis trifónový tak, že ke každé hlásce přidáme
 jeho levý a pravý kontext, pokud nejsou na~začátku nebo na~konci věty.
 
-Je-li fonémů 45, pak trifonémů je až $45^3 = 91125$. Ne všechny se v~trénovacích
-datech objeví. V~praxi jich mám kolem 14 tisíc. Pokud by každý trifoném měl
-vlastní separátní model, došlo by k~opačnému problému než v~případě monofonémů,
+Je-li hlásek 45, pak trifónů je až $45^3 = 91125$. Ne všechny se v~trénovacích
+datech objeví. V~praxi jich mám kolem 14 tisíc. Pokud by každý trifón měl
+vlastní separátní model, došlo by k~opačnému problému než v~případě monofónů,
 totiž že by celkový model měl příliš mnoho parametrů. Přechodové matice mohou
-všechny trifonémy odvozené od jednoho monofonému sdílet. Avšak které trifonémy
+všechny trifóny odvozené od jednoho monofónu sdílet. Avšak které trifóny
 mají sdílet varianci a které mají mít vlastní, je třeba rozhodnout opatrněji.
 
 Pro určení, které modely je vhodné sloučit, používám rozhodovací stromy.
 Na~základě předem definovaných kritérií se u~každého emitujícího stavu každé
-skupiny trifonémů provede rozdělení na~dva shluky, což umožní zvýšení
+skupiny trifónů provede rozdělení na~dva shluky, což umožní zvýšení
 \textit{log likelihood} dat. Vybere se kritérium, které log likelihood
 zvýší nejvíce a postup se opakuje, dokud zvýšení neklesne pod~danou hranici.
-Takto získané shluky se pak sloučí do jednoho logického trifonému.
+Takto získané shluky se pak sloučí do jednoho logického trifónu.
 
 \item{Štěpení mixtur}
 
 Posledním krokem ve~zvětšování komplexity modelu je štěpení tzv.~\textit{mixtur}
 (z~angl. \textit{mixtures}). Spočívá v~tom, že se přesněji modelují variantní
-realizace jednotlivých fonémů. Daný foném v~jednom stavu HMM pak není modelován jednou gaußovskou
+realizace jednotlivých hlásek. Daná hláska v~jednom stavu HMM pak není modelována jednou gaußovskou
 distribucí, nýbrž složením několika. Každá má svůj střed, svoji varianci a svoji
 váhu, jejichž celkový součet musí být roven jedné.
 
-Štěpí se vnitřní stavové modely jednotlivých fonémů. Optimální počet
-mixtur je tedy potřeba zjistit pro trojnásobek počtu použitých trifonémů. To
+Štěpí se vnitřní stavové modely jednotlivých hlásek. Optimální počet
+mixtur je tedy potřeba zjistit pro trojnásobek počtu použitých trifónů. To
 jsou řádově tisíce až desítky tisíc. V~okamžiku psaní tohoto textu používám 8444
-reálných trifonémů; 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
+reálných trifónů; 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
 tisíc distribucí, u~nichž je potřeba určit optimální počet mixtur.
 
 Aby byl úkol aspoň aproximací dosažitelný, je třeba hledat efektivněji než
@@ -715,7 +715,7 @@ z~nich, nemělo by to ovlivnit optimální počet mixtur u~jiného.
 Rozštěpení u~jednoho modelu proběhne tak, že se mixtura s~největší vahou
 rozštěpí na dvě totožné s~tím, že jedna dostane malinko větší váhu než druhá, aby se
 při trénování mohly rozejít. To se provede u~všech vnitřích stavů všech
-logických fonémů, t.j. u~všech markovovských modelů. Provedou se čtyři trénovací
+logických hlásek, t.j. u~všech markovovských modelů. Provedou se čtyři trénovací
 iterace a úspěšnost se vyhodnotí na~sadě heldout.
 
 Pokud u~některé mixtury klesne její váha pod~daný práh, vymaže se, čímž se
@@ -728,10 +728,10 @@ i když někdy úspěšnost klesne. Konkrétně zastavím štěpení, pokud úsp
 klesne o~více než 30\% oproti nejvyšší dosažené nebo pokud klesne více než
 třikrát za~sebou, ne však když je mixtur méně než 16.
 
-%Pokud je foném gaußiánem modelován dobře, rozdělení na dvě mixtury
+%Pokud je hláska gaußiánem modelována dobře, rozdělení na dvě mixtury
 %nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
 %k~přetrénování. Je proto potřeba nalézt optimální počet mixtur pro každý
-%jednotlivý trifoném.
+%jednotlivý trifón.
 
 \end{enumerate}
 
@@ -767,13 +767,13 @@ upravenou metodu od Psutky et al.\cite{psutka2004development} Pro podrobnější
 popis získávání fonetického přepisu viz
 sekci~\ref{ssec:porizeni-fonetickeho-prepisu}.
 
-\subsection{Fonémy}
+\subsection{Hlásky}
 
-Používám základní fonémy českého jazyka\cite{palkova1992fonetika}
-reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních fonémů
+Používám základní hlásky českého jazyka\cite{palkova1992fonetika}
+reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních hlásek
 používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
 jakož ani neřečové události.
-V~tabulce~\ref{tab:phones} jsou použité fonémy uvedeny.
+V~tabulce~\ref{tab:phones} jsou použité hlásky uvedeny.
 
 \begin{table}[htpb]
 %\fontspec{DoulosSIL}
@@ -808,13 +808,13 @@ IPA                        & PACal & grafém & IPA & PACal & grafém \\
                            &     &        &        & sp  & \\
 \hline
 \end{tabular}
-\caption{Použité fonémy: IPA, PACal a nejčastější odpovídající
+\caption{Použité hlásky: IPA, PACal a nejčastější odpovídající
 grafém.}\label{tab:phones}
 \end{center}
 \end{table}
 %\normalfont
 
-V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fonémy
+V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé hlásky
 častějšími podobnými. V~tabulce~\ref{tab:phonesed} jsou záměny vyčísleny.
 \begin{table}[htpb]
 %\fontspec{DoulosSIL}
@@ -835,7 +835,7 @@ V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé fo
 \** & \textipa{\t*{eU}} & ew & \textipa{E U} & e u \\
 \hline
 \end{tabular}
-\caption{Použité záměny fonémů; hvězdičkou jsou vyznačeny záměny použité ještě
+\caption{Použité záměny hlásek; hvězdičkou jsou vyznačeny záměny použité ještě
 v~době psaní textu.}\label{tab:phonesed}
 \end{center}
 \end{table}
@@ -850,7 +850,7 @@ algoritmem spatřena. Při trénování samotném se pak mnohdy používá vyhra
 tzv.~\textit{heldout} dat\footnote{Často zaměňovaných s~vývojovou testovací sadou
 označovanou běžně jako \textit{dev} / \textit{dtest}.} pro průběžné měření úspěšnosti. V~případě trénování
 akustického modelu s~použitím HTK je tomu nejinak. Heldout data jsou používána
-pro zjištění optimálního počtu mixtur modelů jednotlivých fonémů a testovací
+pro zjištění optimálního počtu mixtur modelů jednotlivých hlásek a testovací
 pro závěrečné vyhodnocení.
 
 Anotovaná data mi přibývala velice pozvolna. Začínal jsem s~několika minutami,
@@ -880,12 +880,12 @@ snížil na~polovic nejen abych neplýtval trénovacími daty, nýbrž také pro
 vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten je přímo
 úměrný velikosti sady heldout.
 
-\section{Spojování trifonémů}
+\section{Spojování trifónů}
 
-Pro slučování modelů jednotlivých trifonémů, jak zmiňuje
+Pro slučování modelů jednotlivých trifónů, jak zmiňuje
 bod~\ref{item:htktrain:triphones} seznamu kroků trénování pomocí~HTK, je
 zapotřebí rozhodovacích stromů. Pro jejich tvorbu je potřeba ručně vytvořit
-otázky, na jejichž základě bude algoritmus dělit fonémy do shluků. K~tvorbě
+otázky, na jejichž základě bude algoritmus dělit hlásky do shluků. K~tvorbě
 otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
 některé lingvistikou definované kategorie budou z~pohledu trénovacích dat tvořit
 konzistentní shluky. Pro tvorbu otázek jsem vycházel z~předlohy pro
@@ -913,7 +913,7 @@ izolovaných řečových událostí na základě zarovnaného automatického př
 pro manipulaci se soubory MFCC.
 
 Ke každému souboru MFCC jsem vytvořil kopii, ze které
-jsem vynechal všechny fonémy \texttt{sil} a \texttt{sp}. Průměry kepstrálních
+jsem vynechal všechny hlásky \texttt{sil} a \texttt{sp}. Průměry kepstrálních
 koeficientů jsem pak spočetl na těchto kopiích a odečetl je od hodnot
 v~originálech. Trénování i testování jsem pak prováděl na takto upravených
 souborech místo standardní normalizace, jak ji poskytuje systém HTK.
@@ -951,7 +951,7 @@ Skóre confidence measure se dá využít ještě jiným způsobem: lze vybrat v
 vynechat testovací data?}, kde automatický přepis uvádí vysokou míru
 c.m. a přidat tyto úseky do trénovací množiny. Tento experiment jsem provedl
 tak, že minimální délku úseku jsem stanovil na 1 sekundu, minimální počet
-obsažených fonémů na 10 a minimální c.m. na 0,6. Práh 0,6 jsem určil namátkovou
+obsažených hlásek na 10 a minimální c.m. na 0,6. Práh 0,6 jsem určil namátkovou
 kontrolou, která poukazovala na zanedbatelnou chybovost takových úseků. Celkem
 tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
 Chybovost rozpoznávání se statisticky významně nezměnila, za to doba trénování
@@ -967,7 +967,7 @@ rozpoznávání řeči, konceptuelně již dávno před tím, viz Morgan
 (1995)\cite{morgan1995neural}. Gaußovské mixtury
 přestaly být state of the art a systémy založené na hlubokých neuronových sítích
 (DNN) skýtají mnohem větší úspěšnosti díky tomu, že lépe modelují fenomén
-fonémů. Umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy
+hlásek. Umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy
 přeskočit vrstvu výslovnosti.
 
 Nezisková organizace Mozilla vydala vlastní svobodný nástroj pro rozpoznávání
@@ -1005,7 +1005,7 @@ přepsal, má první model WER 94,1\%, zatímco robustní model má WER
 v~sekci~\ref{sec:akustika:vyhodnoceni}.
 
 Bohužel vinou přímého mapování z~parametrizovaného audia na grafémy přicházíme o
-možnost zarovnání na úrovni fonémů, takže je nutno výstup nechat zarovnat
+možnost zarovnání na úrovni hlásek, takže je nutno výstup nechat zarovnat
 v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
 
 \section{Jazykový model}

@@ -80,7 +80,7 @@ stojí pouze číslo (1).
         Transcriber explicitně zarovnává text s mluveným slovem, oproti zbylým
         dvěma, které toliko umožňují přidání časových značek do přepisu.
     } &
-      zarovnává na úrovni slov, interně na úrovni fonémů; \\
+      zarovnává na úrovni slov, interně na úrovni hlásek; \\
 
   točí se kolem uživatele: každý může přepisovat libovolná data; &
     (1,2,3) &
@@ -595,7 +595,7 @@ manuální označování pauz. Pokoušel jsem se o~to sám a dosáhl jsem rychlo
 přibližně čtyřnásobku rychlosti přehrávání, tedy jeden zapsaný bod předělu za
 třicet sekund.
 
-Další velice spolehlivou metodou je hledání podle predikovaných pseudofonémů
+Další velice spolehlivou metodou je hledání podle predikovaných pseudofónů
 ticha v~zarovnaném přepisu. Tuto metodu jsem mohl namnoze použít, neboť
 k~většině nahrávek mám automatický nebo i manuální přepis.
 
@@ -657,7 +657,7 @@ Zajímavější je situace u~hledání pomocí zarovnaného přepisu. Zde se jed
 o~programátorský úkol, kde na vstupu máme posloupnost slov vyskytujících se
 v~přepisu nahrávky, z~nichž každé s~sebou krom své formy a výslovnosti nese
 informaci, kde začíná, a pokud obsahuje na konci ticho, pak kde začíná
-pseudofoném ticha a jak je dlouhý. Vstup tedy můžeme redukovat na posloupnost
+pseudofón ticha a jak je dlouhý. Vstup tedy můžeme redukovat na posloupnost
 párů čísel, kde první vždy udává počátek ticha a druhé jeho konec. Na výstupu
 očekáváme posloupnost časových pozic, které rozdělují nahrávku na úseky o~délce
 nejméně 30 sekund, nejvýše 120 sekund, a které jsou uprostřed co nejdelších
@@ -744,7 +744,7 @@ můžeme přepis mluveného slova stěží nazvat odbornou prací. Na druhou str
 přepis přesně odpovídal mluvenému projevu
 \begin{itemize}
 \item{jakožto vyjádření vyřčených slov a jejich významu,}
-\item{na fonetické úrovni foném na foném}
+\item{na fonetické úrovni písmeno na hlásku}
 \item{a na časové ose}
 \end{itemize}
 je za hranicemi toho, co se dá očekávat od nevyškoleného uživatele.
@@ -854,7 +854,7 @@ každého slova sestává z~těchto prvků:
     samy o sobě.)
 }
 \item{Výslovnost:
-    seznam fonémů.
+    seznam hlásek.
 }
 \item{Časová značka:
     vzdálenost počátku slova od počátku nahrávky v~sekundách s~přesností na dvě
@@ -890,7 +890,7 @@ výslovnost systém aplikuje automaticky.
 \subsection{Fonetický zápis}
 \label{ssec:respelling}
 
-Přese všechny výhody reprezentace fonémů podle systému PACal se nejedná o
+Přese všechny výhody reprezentace hlásek podle systému PACal se nejedná o
 pratktický zápis výslovnosti pro laické Čechy. Díky jednoduchému, povětšinou
 deterministickému mapování mezi fonémy a grafémy je fonetický zápis, nebo jak
 se tento mechanismus označuje anglicky, {\em pronunciation respelling},
@@ -1198,7 +1198,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
             \begin{itemize}
                 \item{\texttt{wordform} (řetězec): slovo malými písmeny bez interpunkce,}
                 \item{\texttt{occurrence} (řetězec): slovo, jak se vyskytuje v~textu,}
-                \item{\texttt{fonet} (řetězec): fonémy oddělené mezerou, zavržený
+                \item{\texttt{fonet} (řetězec): hlásky oddělené mezerou, zavržený
                 parametr, používá se endpoint \texttt{subsubmit},}
                 \item{\texttt{timestamp} (desetinné číslo): pozice začátku slova od
                 začátku nahrávky v~sekundách,}
@@ -1220,7 +1220,7 @@ nahrávky, provede na straně serveru nucené zarovnání přijatého přepisu
 s~odpovídajícím úsekem audia. Z~toho důvodu je nutné, aby na serveru byly
 nainstalované nástroje \texttt{HVite} a \texttt{HCopy} z~HTK, dále aby tam byla
 kompletní sada nahrávek ve formátu MFCC a akustický model. Bohužel se zdá, že
-nucené zarovnání funguje v~HTK pouze s~monofonémovým modelem, takže přesnost
+nucené zarovnání funguje v~HTK pouze s~monofónovým modelem, takže přesnost
 v~rozlišování přesných a chybných příspěvků není optimální.
 
 \subsection{Ukládání dat}
@@ -1265,7 +1265,7 @@ Metody zvýšení použitelnosti webu lze čerpat např. z~knihy Jana Řezáče 
 ostrý jako břitva\cite{rezac2016web}.
 
 Nucené zarovnání je nyní založeno na programu \texttt{HVite} ze sady HTK a
-využívá jednotného monofonémového akustického modelu pro všechna data. Je
+využívá jednotného monofónového akustického modelu pro všechna data. Je
 potřeba tento stav napravit, aby se zvýšila přesnost rozpoznání validního úseku
 od vadného. Dosáhne se toho buďto natrénováním různých akustických modelů pro
 různé skupiny nahrávek nebo použitím jiného programu.
