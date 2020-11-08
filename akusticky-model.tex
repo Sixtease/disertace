@@ -310,7 +310,7 @@ korpusu. Až v~poslední době se objevují sofistikovanější přístupy s~vyu
 rekurentních neuronových sítí.
 
 Volné parametry akustického modelu se odhadují Baum-Welchovým iterativním
-algoritmem taktéž na základě trénovacích dat. Oba základní stavební kameny:
+algoritmem\cite{welch2003hidden} taktéž na základě trénovacích dat. Oba základní stavební kameny:
 akustický i jazykový model tedy svoji efektivitu získávají z~dat, takže značná
 část expertizy systému pochází z~nich, nikoliv již z~lidské ruky.
 
@@ -611,43 +611,112 @@ Nejdříve popíšu výstavbu markovovského modelu a poté od
 sekce~\ref{sec:deepspeech} se budu věnovat modelu založenému na neuronových
 sítích.
 
-\section{Základní tvorba akustického modelu}
+\section{Přepis Makoňova korpusu pomocí HMM}
 
-Do~užšího výběru potenciálních platforem tvorby akustického modelu jsem zařadil
-starší systém \textit{HTK}\footnote{HMM ToolKit; HMM = Hidden Markov Model.}\cite{young2002htk} a
-modernější \textit{Kaldi}\cite{povey2011kaldi}. HTK pomyslný konkurz nakonec
-vyhrál díky tomu, že můj konzultant Mgr. Nino Peterek, Ph.D. má s~tímto systémem
-bohaté zkušenosti, z~nichž jsem mohl čerpat.
+V~průběhu jedenácti let této disertační práce vznikly dva systémy automatického
+přepisu mluveného korpusu Karla Makoně. První z~nich, založný na skrytých
+markovovských modelech, popíšu v~této sekci.
 
-Akustický model jsem trénoval výhradně z~vlastních dat.
-% Obětoval jsem tedy
-% potenciální přínos většího množství trénovacích dat a upřednostnil trénování
-% přímo na~konkrétního mluvčího.
-%TODO: od kdy se vyplatí dělat model na konkrétního mluvčího?
+Stěžejními nástroji pro tvorbu systému jsou 1) HTK pro akustický model, 2) SriLM
+pro jazykový model a 3) Julius pro dekódování.
 
-Tvorba akustického modelu probíhala podle návodu v~manuálu k~HTK, \textit{HTK
-Book}. V~hrubých rysech probíhá takto:
+\subsection{Modelované hlásky}
+\label{ssec:ac:fonetika}
+
+Modeluji základní hlásky českého jazyka\cite{palkova1992fonetika}
+reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních hlásek
+používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
+jakož ani neřečové události. Důvodem toho je, že vyznačování těchto jevů nelze
+očekávat od anotátorů, se kterými tato práce počítá.
+V~tabulce~\ref{tab:phones} jsou použité hlásky uvedeny.
+
+\begin{table}[htpb]
+%\fontspec{DoulosSIL}
+\begin{center}
+\begin{tabular}{|l|l|l||l|l|l|}
+\hline
+IPA                        & PACal & grafém & IPA & PACal & grafém \\
+\hline
+\textipa{a}                & a   & a      & \textipa{M}           & mg  & tra\underline{m}vaj \\
+\textipa{a:}               & aa  & á      & \textipa{n}           & n   & \underline{n}e \\
+\textipa{\t*{aU}}          & aw  & au     & \textipa{N}           & ng  & ta\underline{n}k \\
+\textipa{b}                & b   & b      & \textipa{\textltailn} & nj  & \v{n} \\
+\textipa{\t{ts}}           & c   & c      & \textipa{o}           & o   & o \\
+\textipa{\t{tS}}           & ch  & č      & \textipa{o:}          & oo  & ó \\
+\textipa{d}                & d   & d      & \textipa{\t*{oU}}     & ow  & ou \\
+\textipa{\textbardotlessj} & dj  & \v{d}  & \textipa{p}           & p   & p \\
+\textipa{\t{dz}}           & dz  & dz     & \textipa{r}           & r   & r \\
+\textipa{\t{dZ}}           & dzh & dž     & \textipa{\|'{\r*{r}}} & rsh & t\underline{\v{r}}i \\
+\textipa{E}                & e   & e      & \textipa{\|'r}        & rzh & \underline{\v{r}}íz \\
+\textipa{E:}               & ee  & é      & \textipa{s}           & s   & s \\
+\textipa{\t*{eU}}          & ew  & eu     & \textipa{S}           & sh  & š \\
+\textipa{f}                & f   & f      & \textipa{t}           & t   & t \\
+\textipa{g}                & g   & g      & \textipa{c}           & tj  & \v{t} \\
+\textipa{H}                & h   & h      & \textipa{U}           & u   & u \\
+\textipa{I}                & i   & i      & \textipa{u:}          & uu  & ú, \r{u} \\
+\textipa{i:}               & ii  & í      & \textipa{v}           & v   & v \\
+\textipa{j}                & j   & j      & \textipa{x}           & x   & ch \\
+\textipa{k}                & k   & k      & \textipa{z}           & z   & z \\
+\textipa{l}                & l   & l      & \textipa{Z}           & zh  & ž \\
+\textipa{m}                & m   & \underline{m}ák
+                                          &        & sil & \\
+                           &     &        &        & sp  & \\
+\hline
+\end{tabular}
+\caption{Použité hlásky: IPA, PACal a nejčastější odpovídající
+grafém.}\label{tab:phones}
+\end{center}
+\end{table}
+%\normalfont
+
+V~závislosti na~množství trénovacích dat jsem nahrazoval některé hlásky
+častějšími podobnými. V~tabulce~\ref{tab:phonesed} jsou záměny vyčísleny.
+\begin{table}[htpb]
+%\fontspec{DoulosSIL}
+\begin{center}
+\begin{tabular}{|r|l|l||l|l|}
+\hline
+&
+\multicolumn{2}{|c||}{před záměnou} &
+\multicolumn{2}{|c|}{po záměně} \\
+\hline
+& IPA & PACal & IPA & PACal \\
+\hline
+    & \textipa{M}       & mg & \textipa{m} & m \\
+    & \textipa{\t*{aU}} & aw & \textipa{a U} & a u \\
+    & \textipa{o:} & oo & \textipa{o} & o \\
+\** & \textipa{\t{dz}}  & dz & \textipa{\t{ts}} & c \\
+    & \textipa{\t{dz}}  & dzh & \textipa{\t{tS}} & ch \\
+\** & \textipa{\t*{eU}} & ew & \textipa{E U} & e u \\
+\hline
+\end{tabular}
+\caption{Použité záměny hlásek; hvězdičkou jsou vyznačeny záměny použité ještě
+v~době psaní textu.}\label{tab:phonesed}
+\end{center}
+\end{table}
+%\normalfont
+
+\subsection{Tvorba akustického modelu}
 
 \begin{enumerate}
 
 \item{Vytvoření počátečních modelů.}
 
-Modeluje se skrytými markovovskými řetězci. Všechny hlásky se inicializují jako
+Všechny hlásky se inicializují jako
 shodné. Každá hláska je reprezentována pěti stavy (vstupním, výstupním a třemi
 vnitřními). Přechodové pravděpodobnosti se nastaví tak, aby byly možné jen
 kýžené přechody, to jest ze~vstupního do~druhého a z~každého z~vnitřních stavů
-do~sebe samého nebo do~následujícího. Konkrétní pravděpodobnosti nejsou
-podstatné, ale použil jsem 60\% pro setrvání a 40\% pro postup ve~druhém a
+do~sebe samého nebo do~následujícího. Pravděpodobnosti
+se inicializují na 60\% pro setrvání a 40\% pro postup ve~druhém a
 třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupního.
 Střed a variance jsou určeny identicky podle globálních hodnot.
 
-Kromě vlastních hlásek (viz níže sekci~\ref{sec:ac:fonetika}) přidám ještě hlásku
-pro~ticho (\texttt{sil}).
-
-Pro kódování používám formát MFCC s~první a druhou derivací, nultým koeficientem
+V~této počáteční sadě je obsaženo ticho (\texttt{sil}), ale nikoliv krátká pauza
+(\texttt{sp}).
+Pro kódování používám formát MFCC s~první a druhou derivací, základní frekvencí
 a kepstrální normalizací (\texttt{MFCC\_0\_D\_A\_Z} v~notaci HTK).
 
-Následují dvě iterace tréninku Baum-Welchovým algoritmem\cite{welch2003hidden}.
+Následují dvě iterace tréninku Baum-Welchovým algoritmem.
 
 \item{Přidání modelu pro krátkou pauzu.}
 
@@ -754,92 +823,6 @@ před~patnáctisekundovou hranicí.
 
 V~případě, že pro daný záznam zatím žádný přepis neexistuje, rozdělí se naivně
 na~patnáctisekundové úseky.
-
-\section{Fonetika}
-\label{sec:ac:fonetika}
-
-\subsection{Fonetický přepis}
-
-Trénovací data pro akustické modelování pomocí HTK mají formu párů
-parametrizovaných zvukových souborů (v~mém případě MFCC) a textových souborů,
-obsahujících fonetický přepis. Ten se může získat různými způsoby. Používám
-upravenou metodu od Psutky et al.\cite{psutka2004development} Pro podrobnější
-popis získávání fonetického přepisu viz
-sekci~\ref{ssec:porizeni-fonetickeho-prepisu}.
-
-\subsection{Hlásky}
-
-Používám základní hlásky českého jazyka\cite{palkova1992fonetika}
-reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních hlásek
-používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
-jakož ani neřečové události.
-V~tabulce~\ref{tab:phones} jsou použité hlásky uvedeny.
-
-\begin{table}[htpb]
-%\fontspec{DoulosSIL}
-\begin{center}
-\begin{tabular}{|l|l|l||l|l|l|}
-\hline
-IPA                        & PACal & grafém & IPA & PACal & grafém \\
-\hline
-\textipa{a}                & a   & a      & \textipa{M}           & mg  & tra\underline{m}vaj \\
-\textipa{a:}               & aa  & á      & \textipa{n}           & n   & \underline{n}e \\
-\textipa{\t*{aU}}          & aw  & au     & \textipa{N}           & ng  & ta\underline{n}k \\
-\textipa{b}                & b   & b      & \textipa{\textltailn} & nj  & \v{n} \\
-\textipa{\t{ts}}           & c   & c      & \textipa{o}           & o   & o \\
-\textipa{\t{tS}}           & ch  & č      & \textipa{o:}          & oo  & ó \\
-\textipa{d}                & d   & d      & \textipa{\t*{oU}}     & ow  & ou \\
-\textipa{\textbardotlessj} & dj  & \v{d}  & \textipa{p}           & p   & p \\
-\textipa{\t{dz}}           & dz  & dz     & \textipa{r}           & r   & r \\
-\textipa{\t{dZ}}           & dzh & dž     & \textipa{\|'{\r*{r}}} & rsh & t\underline{\v{r}}i \\
-\textipa{E}                & e   & e      & \textipa{\|'r}        & rzh & \underline{\v{r}}íz \\
-\textipa{E:}               & ee  & é      & \textipa{s}           & s   & s \\
-\textipa{\t*{eU}}          & ew  & eu     & \textipa{S}           & sh  & š \\
-\textipa{f}                & f   & f      & \textipa{t}           & t   & t \\
-\textipa{g}                & g   & g      & \textipa{c}           & tj  & \v{t} \\
-\textipa{H}                & h   & h      & \textipa{U}           & u   & u \\
-\textipa{I}                & i   & i      & \textipa{u:}          & uu  & ú, \r{u} \\
-\textipa{i:}               & ii  & í      & \textipa{v}           & v   & v \\
-\textipa{j}                & j   & j      & \textipa{x}           & x   & ch \\
-\textipa{k}                & k   & k      & \textipa{z}           & z   & z \\
-\textipa{l}                & l   & l      & \textipa{Z}           & zh  & ž \\
-\textipa{m}                & m   & \underline{m}ák
-                                          &        & sil & \\
-                           &     &        &        & sp  & \\
-\hline
-\end{tabular}
-\caption{Použité hlásky: IPA, PACal a nejčastější odpovídající
-grafém.}\label{tab:phones}
-\end{center}
-\end{table}
-%\normalfont
-
-V~závislosti na~množství trénovacích dat bylo vhodné nahradit některé hlásky
-častějšími podobnými. V~tabulce~\ref{tab:phonesed} jsou záměny vyčísleny.
-\begin{table}[htpb]
-%\fontspec{DoulosSIL}
-\begin{center}
-\begin{tabular}{|r|l|l||l|l|}
-\hline
-&
-\multicolumn{2}{|c||}{před záměnou} &
-\multicolumn{2}{|c|}{po záměně} \\
-\hline
-& IPA & PACal & IPA & PACal \\
-\hline
-    & \textipa{M}       & mg & \textipa{m} & m \\
-    & \textipa{\t*{aU}} & aw & \textipa{a U} & a u \\
-    & \textipa{o:} & oo & \textipa{o} & o \\
-\** & \textipa{\t{dz}}  & dz & \textipa{\t{ts}} & c \\
-    & \textipa{\t{dz}}  & dzh & \textipa{\t{tS}} & ch \\
-\** & \textipa{\t*{eU}} & ew & \textipa{E U} & e u \\
-\hline
-\end{tabular}
-\caption{Použité záměny hlásek; hvězdičkou jsou vyznačeny záměny použité ještě
-v~době psaní textu.}\label{tab:phonesed}
-\end{center}
-\end{table}
-%\normalfont
 
 \section{Rozdělení dat}
 \label{sec:asr:rozdeleni-dat}
