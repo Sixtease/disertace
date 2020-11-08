@@ -712,7 +712,8 @@ třetím stavu a 70\% pro setrvání a 30\% pro postup ze~čtvrtého do~výstupn
 Střed a variance jsou určeny identicky podle globálních hodnot.
 
 V~této počáteční sadě je obsaženo ticho (\texttt{sil}), ale nikoliv krátká pauza
-(\texttt{sp}).
+(\texttt{sp}). To se týká nejen parametru udávající množinu hlásek, ale také
+trénovacího fonetického přepisu.
 Pro kódování používám formát MFCC s~první a druhou derivací, základní frekvencí
 a kepstrální normalizací (\texttt{MFCC\_0\_D\_A\_Z} v~notaci HTK).
 
@@ -720,11 +721,14 @@ Následují dvě iterace tréninku Baum-Welchovým algoritmem.
 
 \item{Přidání modelu pro krátkou pauzu.}
 
-Z~modelu pro ticho se odvodí model pro krátkou pauzu tak, že se povolí přechod
-rovnou z~druhého do~čtvrtého stavu a zpět, aby byl model robustnější a mohl
+Z~modelu pro ticho se odvodí model pro krátkou pauzu tak, že se povolí přechody
+z~druhého do~čtvrtého stavu a zpět s~pravděpodobností 0,2 a ze vstupního do
+koncového stavu s~pravděpodobností 0,3, aby byl model robustnější a mohl
 modelovat pauzu mezi slovy, která je nezřídka nulová.
 
-Trénuje se opět dvěma iteracemi BW-algoritmu.
+Stavy mezi modelem pro ticho a pro krátkou pauzu se sdílejí.
+Trénuje se opět dvěma iteracemi BW-algoritmu, od teď již s~modelem pro krátkou
+pauzu jak v~množině hlásek, tak ve fonetickém přepisu.
 
 \item{Nucené zarovnání a odvržení zmetkových vzorků.}
 
@@ -732,8 +736,9 @@ Pomocí Viterbiho algoritmu\cite{forney1973viterbi} se provede tzv.
 \textit{forced alignment}, tzn. nucené zarovnání na~úrovni hlásek. Jinými slovy
 určí se přesný čas, kde začíná a končí která hláska. Při tom se určí hranice, pod
 kterou když klesne \textit{likelihood} daného přepisu na~základě odpovídající
-nahrávky, tato se z~trénovacích dat odstraní jako pravěpodobně vadná. Následují
-další dvě iterace BW-algoritmu.
+nahrávky, tato se z~trénovacích dat odstraní jako pravěpodobně vadná. Pro
+zarovnání se použije Viterbiho algoritmus v~provedení programu HVite s~prahem
+pro odmítnutí věty 150. Následují další dvě iterace BW-algoritmu.
 
 \item{Přepočítání variance.}
 
@@ -753,7 +758,7 @@ datech objeví. V~praxi jich mám kolem 14 tisíc. Pokud by každý trifón měl
 vlastní separátní model, došlo by k~opačnému problému než v~případě monofónů,
 totiž že by celkový model měl příliš mnoho parametrů. Přechodové matice mohou
 všechny trifóny odvozené od jednoho monofónu sdílet. Avšak které trifóny
-mají sdílet varianci a které mají mít vlastní, je třeba rozhodnout opatrněji.
+mají sdílet střed a varianci stavů a které mají mít vlastní, je třeba rozhodnout opatrněji.
 
 Pro určení, které modely je vhodné sloučit, používám rozhodovací stromy.
 Na~základě předem definovaných kritérií se u~každého emitujícího stavu každé
@@ -762,45 +767,67 @@ skupiny trifónů provede rozdělení na~dva shluky, což umožní zvýšení
 zvýší nejvíce a postup se opakuje, dokud zvýšení neklesne pod~danou hranici.
 Takto získané shluky se pak sloučí do jednoho logického trifónu.
 
-\item{Štěpení mixtur}
+Pro tvorbu rozhodovacích stromů je potřeba ručně vytvořit
+otázky, na jejichž základě bude algoritmus dělit hlásky do shluků. K~tvorbě
+otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
+některé lingvistikou definované kategorie budou z~pohledu trénovacích dat tvořit
+konzistentní shluky. Pro tvorbu otázek jsem vycházel z~předlohy pro
+angličtinu, jak je uvedeno v~HTK Book, a z~kategorizace českých hlásek na Wikipedii
+(\texttt{https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
+Otázky použité v~rozhodovacím stromě viz v~digitální příloze.
+% TODO
 
-Posledním krokem ve~zvětšování komplexity modelu je štěpení tzv.~\textit{mixtur}
-(z~angl. \textit{mixtures}). Spočívá v~tom, že se přesněji modelují variantní
+\item{Přechod ke gaußovským směsem}
+
+Posledním krokem ve~zvětšování komplexity modelu je přechod z~modelování stavů
+prostými gaußovskými pravděpodobnostnímu distribucemi k jejich směsem
+(angl. \textit{mixtures}). Spočívá v~tom, že se přesněji modelují variantní
 realizace jednotlivých hlásek. Daná hláska v~jednom stavu HMM pak není modelována jednou gaußovskou
 distribucí, nýbrž složením několika. Každá má svůj střed, svoji varianci a svoji
 váhu, jejichž celkový součet musí být roven jedné.
 
 Štěpí se vnitřní stavové modely jednotlivých hlásek. Optimální počet
-mixtur je tedy potřeba zjistit pro trojnásobek počtu použitých trifónů. To
+složek směsi je tedy potřeba zjistit pro trojnásobek počtu použitých trifónů. To
 jsou řádově tisíce až desítky tisíc. V~okamžiku psaní tohoto textu používám 8444
-reálných trifónů; 13746, počítám-li i ty virtuální. To znamená přes dvacet pět
-tisíc distribucí, u~nichž je potřeba určit optimální počet mixtur.
+reálných trifónů; 13746, počítám-li i ty logické. To znamená přes dvacet pět
+tisíc distribucí, u~nichž je potřeba určit optimální počet složek.
 
 Aby byl úkol aspoň aproximací dosažitelný, je třeba hledat efektivněji než
 prohledáváním celého prostoru hrubou silou. První pomocí zde je, že modely jsou
-na sobě více méně nezávislé: Nalezneme-li optimální počet mixtur pro jeden
-z~nich, nemělo by to ovlivnit optimální počet mixtur u~jiného.
+na sobě více méně nezávislé: Nalezneme-li optimální počet složek pro jeden
+z~nich, nemělo by to ovlivnit optimální počet složek u~jiného.
 
-Rozštěpení u~jednoho modelu proběhne tak, že se mixtura s~největší vahou
+Rozštěpení v~jedné směsi proběhne tak, že se složka s~největší vahou
 rozštěpí na dvě totožné s~tím, že jedna dostane malinko větší váhu než druhá, aby se
 při trénování mohly rozejít. To se provede u~všech vnitřích stavů všech
-logických hlásek, t.j. u~všech markovovských modelů. Provedou se čtyři trénovací
+fyzických hlásek, t.j. u~všech markovovských modelů. Provedou se čtyři trénovací
 iterace a úspěšnost se vyhodnotí na~sadě heldout.
 
-Pokud u~některé mixtury klesne její váha pod~daný práh, vymaže se, čímž se
+Pokud u~některé složky klesne její váha pod~daný práh, vymaže se, čímž se
 zamezí zbytečnému nárůstu parametrů, a není proto potřeba zkoušet štěpit
 jednotlivé modely samostatně. Arci, štěpením modelů jednoho po druhém jsem nikdy nedosáhl lepšího
 výsledku, než štěpením všech modelů najednou.
 
-Závislost úspěšnosti na~počtu mixtur není monotónní, proto ve~štěpení pokračuji,
+Závislost úspěšnosti na~počtu složek není monotónní, proto ve~štěpení pokračuji,
 i když někdy úspěšnost klesne. Konkrétně zastavím štěpení, pokud úspěšnost
 klesne o~více než 30\% oproti nejvyšší dosažené nebo pokud klesne více než
-třikrát za~sebou, ne však když je mixtur méně než 16.
+třikrát za~sebou, ne však když je složek méně než 16.
 
 %Pokud je hláska gaußiánem modelována dobře, rozdělení na dvě mixtury
 %nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
 %k~přetrénování. Je proto potřeba nalézt optimální počet mixtur pro každý
 %jednotlivý trifón.
+
+\subsection{Dekódování}
+
+Pro dekódování, čili samotný přepis na základě akustického a jazykového modelu,
+používám nástroj Julius\cite{lee2001julius}. Julius pracuje na základě
+dvouprůchodového algoritmu. Při prvním průchodu se využívá paprskového
+prohledávání \textit{(beam search)} na slovníku s~vahami pro každé slovo zvlášť,
+takže průchod je velmi rychlý a málo paměťově náročný. Datové struktury jsou
+ponechány do druhého průchodu, který jde v~opačném směru a zapojuje n-gramový
+jazykový model. V~tomto průchodu se hledá $k$ nejlepších kandidátů
+v~\textit{trellis} (dosl. pergola; datová struktura) z~prvního průchodu.
 
 \end{enumerate}
 
@@ -862,19 +889,6 @@ Sadu heldout nyní vybírám jako každou čtyřicátou větu. Z~každé dvacát
 snížil na~polovic nejen abych neplýtval trénovacími daty, nýbrž také protože
 vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten je přímo
 úměrný velikosti sady heldout.
-
-\section{Spojování trifónů}
-
-Pro slučování modelů jednotlivých trifónů, jak zmiňuje
-bod~\ref{item:htktrain:triphones} seznamu kroků trénování pomocí~HTK, je
-zapotřebí rozhodovacích stromů. Pro jejich tvorbu je potřeba ručně vytvořit
-otázky, na jejichž základě bude algoritmus dělit hlásky do shluků. K~tvorbě
-otázek můžeme použít lingvisticky motivovanou kategorizaci v~naději, že aspoň
-některé lingvistikou definované kategorie budou z~pohledu trénovacích dat tvořit
-konzistentní shluky. Pro tvorbu otázek jsem vycházel z~předlohy pro
-angličtinu, jak je uvedeno v~HTK Book, a z~kategorizace českých hlásek na Wikipedii
-(\texttt{https://cs.wikipedia.org/wiki/Fonologie~češtiny}).
-% TODO otázky do apendixu
 
 \section{Experiment s kepstrální normalizací}
 \label{sec:mfcc-norm}
