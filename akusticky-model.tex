@@ -617,7 +617,7 @@ V~průběhu jedenácti let této disertační práce vznikly dva systémy automa
 přepisu mluveného korpusu Karla Makoně. První z~nich, založný na skrytých
 markovovských modelech, popíšu v~této sekci.
 
-Stěžejními nástroji pro tvorbu systému jsou 1) HTK pro akustický model, 2) SriLM
+Stěžejními nástroji pro tvorbu systému jsou 1) HTK pro akustický model, 2) KenLM
 pro jazykový model a 3) Julius pro dekódování.
 
 \subsection{Modelované hlásky}
@@ -813,6 +813,8 @@ i když někdy úspěšnost klesne. Konkrétně zastavím štěpení, pokud úsp
 klesne o~více než 30\% oproti nejvyšší dosažené nebo pokud klesne více než
 třikrát za~sebou, ne však když je složek méně než 16.
 
+\end{enumerate}
+
 %Pokud je hláska gaußiánem modelována dobře, rozdělení na dvě mixtury
 %nijak nepomůže. Navíc pokud rozdělíme dostribuci příliš, dojde snadno
 %k~přetrénování. Je proto potřeba nalézt optimální počet mixtur pro každý
@@ -829,7 +831,59 @@ ponechány do druhého průchodu, který jde v~opačném směru a zapojuje n-gra
 jazykový model. V~tomto průchodu se hledá $k$ nejlepších kandidátů
 v~\textit{trellis} (dosl. pergola; datová struktura) z~prvního průchodu.
 
+\subsection{Jazykový model}
+\label{sec:jazykovy-model}
+
+Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
+v~přirozeném jazyce\cite{ponte1998language}. V~kontextu rozpoznávání řeči je tandemovým
+partnerem akustického modelu\cite{jelinek1990self}. Teprve kombinace akustického
+a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
+nejpravděpodobnější.
+
+Výběr jazykového modelu je omezen nástrojem pro rozpoznávání. Lze zvolit pouze
+takový model, který nástroj dokáže využít. Všechny nástroje, které jsem použil,
+podporují N-gramové jazykové modely: HVite bigramový, Julius až trigramový a
+DeepSpeech libovolného řádu.
+
+Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
+\begin{enumerate}
+\item{Obecné české texty,}
+\item{Makoňovy spisy,}
+\item{manuální přepisy nahrávek,}
+\item{automatické přepisy.}
 \end{enumerate}
+
+Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
+modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
+nahrávek, kterých je nejméně. V~okamžiku psaní tohoto textu je to přesně 715 285
+slov. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
+představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
+texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
+jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
+
+Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy
+v~pořadí z~číslovaného seznamu výše. Aplikuji vyhlazování technikou
+Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro trénink
+jazykových modelů KenLM\cite{heafield2011kenlm}.
+
+Je třeba podotknout, že u manuálních přepisů dochází k~jednomu
+nežádoucímu jevu. Přepisy se pořizují tak, aby byly maximálně věrné tomu, co je
+vyřčeno. Proto se doslova... vlastně do hlásky přepisují i přebrepty a zadrhnutí.
+Je otázkou, zda takové jevy chceme mít v~jazykovém modelu. Aniž bych se na ni
+pokoušel poskytnout definitivní odpověď, můj přístup, jak se s~tímto vypořádat,
+je, instruovat uživatele těmito pokyny: 1) Každé slovo, po kterém následuje přerušení toku
+mluvy doplnit třemi tečkami,
+2) pokud se mluvčí zadrhne uprostřed slova nebo vysloví něco, co není slovem,
+připojit k~tomuto útvaru pomlčku\footnote{Standardní postup, se kterým jsem se
+seznámil až později, je místo pomlčky použít symbol \texttt{+}.}. Například ve větě {\em ,,To je ta relativnost
+dobrého a zlého, tak kdybychom... to je tam jinak postaveno.``} patří tři tečky
+za slovo {\em kdybychom}. Ve větě {\em ,,To je první š- špatný pohled, chybný pohled na rodiče a na
+předcházející generaci.``} patří pomlčka za vyslovené {\em š}, za kterým
+teprve následuje vyslovené slovo {\em špatný}.
+
+Při stavbě jazykového modelu toto značení umožní, aby se věta při setkání
+s~takovým slovem ukončila nebo aby se takové slovo přeskočilo.
+
 
 \section{Segmentace}
 
@@ -915,7 +969,8 @@ koeficientů jsem pak spočetl na těchto kopiích a odečetl je od hodnot
 v~originálech. Trénování i testování jsem pak prováděl na takto upravených
 souborech místo standardní normalizace, jak ji poskytuje systém HTK.
 
-Celkový přínos pro úspěšnost rozpoznávání byl nulový, ale aparát pro dekódování
+S~použitím takto normalizovaných nahrávek se chybovost na slovech snížila ze
+46,4\% na 45,9\%.  Aparát pro dekódování
 a manipulaci souborů MFCC považuji za vítaný vedlejší produkt.
 
 \section{Aktivní učení}
@@ -936,7 +991,7 @@ přepisů, kde se tato instrukce dodržuje, je zcela mizivé množství.
 Druhý experiment spočíval v~tom, že webová aplikace sama vybírala věty pro
 přepis na základě toho, kolik obsahovala slov s~nízkou c.m. Uživatelé pak byli
 instruováni, aby nahrávku jen poslouchali, a opravu vložili, až když se
-přehrávání samo přeruší. Tento pokus skončil ještě palčivějším neúspěchem, neboť
+přehrávání samo přeruší. Tento pokus skončil neúspěchem, neboť
 změna v~chování aplikace byla pro uživatele natolik nepříjemná, že jsem je
 raději navrátil do původního.
 
@@ -1004,59 +1059,6 @@ v~sekci~\ref{sec:akustika:vyhodnoceni}.
 Bohužel vinou přímého mapování z~parametrizovaného audia na grafémy přicházíme o
 možnost zarovnání na úrovni hlásek, takže je nutno výstup nechat zarovnat
 v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhraní.
-
-\section{Jazykový model}
-\label{sec:jazykovy-model}
-
-Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
-v~přirozeném jazyce\cite{ponte1998language}. V~kontextu rozpoznávání řeči je tandemovým
-partnerem akustického modelu\cite{jelinek1990self}. Teprve kombinace akustického
-a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
-nejpravděpodobnější.
-
-Výběr jazykového modelu je omezen nástrojem pro rozpoznávání. Lze zvolit pouze
-takový model, který nástroj dokáže využít. Všechny nástroje, které jsem použil,
-podporují N-gramové jazykové modely: HVite bigramový, Julius až trigramový a
-DeepSpeech libovolného řádu.
-
-Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
-\begin{enumerate}
-\item{Obecné české texty,}
-\item{Makoňovy spisy,}
-\item{manuální přepisy nahrávek,}
-\item{automatické přepisy.}
-\end{enumerate}
-
-Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
-modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
-nahrávek, kterých je nejméně. V~okamžiku psaní tohoto textu je to přesně 715 285
-slov. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
-představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
-texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
-jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
-
-Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy
-v~pořadí z~číslovaného seznamu výše. Aplikuji vyhlazování technikou
-Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro trénink
-jazykových modelů KenLM\cite{heafield2011kenlm}.
-
-Je třeba podotknout, že u manuálních přepisů dochází k~jednomu
-nežádoucímu jevu. Přepisy se pořizují tak, aby byly maximálně věrné tomu, co je
-vyřčeno. Proto se doslova... vlastně do hlásky přepisují i přebrepty a zadrhnutí.
-Je otázkou, zda takové jevy chceme mít v~jazykovém modelu. Aniž bych se na ni
-pokoušel poskytnout definitivní odpověď, můj přístup, jak se s~tímto vypořádat,
-je, instruovat uživatele těmito pokyny: 1) Každé slovo, po kterém následuje přerušení toku
-mluvy doplnit třemi tečkami,
-2) pokud se mluvčí zadrhne uprostřed slova nebo vysloví něco, co není slovem,
-připojit k~tomuto útvaru pomlčku\footnote{Standardní postup, se kterým jsem se
-seznámil až později, je místo pomlčky použít symbol \texttt{+}.}. Například ve větě {\em ,,To je ta relativnost
-dobrého a zlého, tak kdybychom... to je tam jinak postaveno.``} patří tři tečky
-za slovo {\em kdybychom}. Ve větě {\em ,,To je první š- špatný pohled, chybný pohled na rodiče a na
-předcházející generaci.``} patří pomlčka za vyslovené {\em š}, za kterým
-teprve následuje vyslovené slovo {\em špatný}.
-
-Při stavbě jazykového modelu toto značení umožní, aby se věta při setkání
-s~takovým slovem ukončila nebo aby se takové slovo přeskočilo.
 
 \section{Úspěšnost}
 \label{sec:evaluace}
