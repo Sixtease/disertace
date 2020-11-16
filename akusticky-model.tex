@@ -546,6 +546,7 @@ baseline implementovaný pomocí DNN-HMM se~7,8\%, ale to při tak malé trénov
 sadě není žádné překvapení, a i tak ukázal životaschopnost metody.
 
 \subsection{Deep Speech}
+\label{ssec:deepspeechpaper}
 
 Na výše popsaný článek navázali ve výzkumném centru Baidu a navrhli systém
 pojmenovaný DeepSpeech\cite{hannun2014deep}, který využívá tentýž přístup
@@ -607,8 +608,8 @@ začátku, kde je přepsaná množina malá, a 2) umožňují získat přesné z
 slov a hlásek na časové pozice ve zvukovém záznamu. Dosud neznám žádný nástroj,
 který by toto poskytoval bez použití HMM.
 
-Nejdříve popíšu výstavbu markovovského modelu a poté od
-sekce~\ref{sec:deepspeech} se budu věnovat modelu založenému na neuronových
+Nejdříve popíšu výstavbu markovovského modelu a poté
+v~sekci~\ref{sec:deepspeech} se budu věnovat modelu založenému na neuronových
 sítích.
 
 \section{Přepis Makoňova korpusu pomocí HMM}
@@ -1006,29 +1007,31 @@ tak, že minimální délku úseku jsem stanovil na 1 sekundu, minimální poče
 obsažených hlásek na 10 a minimální c.m. na 0,6. Práh 0,6 jsem určil namátkovou
 kontrolou, která poukazovala na zanedbatelnou chybovost takových úseků. Celkem
 tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
-Chybovost rozpoznávání se statisticky významně nezměnila, za to doba trénování
-se zvýšila citelně.
+Chybovost rozpoznávání se zvýšila ze 46,4\% na 49,4\% a doba trénování
+se zvýšila také.
 
-\section{Neuronové sítě}
+\section{Přepis Makoňova korpusu pomocí neuronových sítí}
 \label{sec:deepspeech}
 
-V~průběhu psaní této disertace se rozšířilo používání hlubokých neuronových sítí
+Po rozšíření hlubokých neuronových sítí došlo k~pokusu o přepis pomocí systému
+na nich založeného. 
+Hluboké neuronové sítě našly využití
 snad ve všech oblastech strojového učení, viz např. LeCun
 (2015)\cite{lecun2015deep}, Hinton (2012)\cite{hinton2012deep}. Toto neminulo ani
 rozpoznávání řeči, konceptuelně již dávno před tím, viz Morgan
-(1995)\cite{morgan1995neural}. Gaußovské mixtury
-přestaly být state of the art a systémy založené na hlubokých neuronových sítích
-(DNN) skýtají mnohem větší úspěšnosti díky tomu, že lépe modelují fenomén
-hlásek. Umožňují i přímo modelovat grafémy na základě parametrizovaného zvuku, tedy
-přeskočit vrstvu výslovnosti.
-
+(1995)\cite{morgan1995neural}.
 Nezisková organizace Mozilla vydala vlastní svobodný nástroj pro rozpoznávání
 řeči DeepSpeech\cite{hannun2014deep} založený na
-TensorFlow\cite{abadi2016tensorflow}.
+TensorFlow\cite{abadi2016tensorflow}, který implementuje práci popsanou
+v~podsekci~\ref{ssec:deepspeechpaper}.
+Na rozdíl od článku\cite{hannun2014deep} však implementuje rekurentní vrstvu
+pomocí LSTM upřednostňuje přesnost modelu před komputační efektivitou.
 
 Akustický model jsem na něm natrénoval dvojí: 1) čistě na manuálních přepisech
 Makoňových nahrávek (v~době psaní 100 hodin), 2) na agregované sadě popsané
-v~sekci~\ref{sec:csasr:results}.
+v~sekci~\ref{sec:csasr:results}. Používal jsem parametr \textit{automatic mixed
+precision} pro rychlejší trénink, \textit{batch size} 50, \textit{dropout} 0,2 a
+\textit{learning rate} $1^{-4}$.
 
 Model natrénovaný jen na Makoňových nahrávkách zkonvergoval po osmi epochách a
 dosáhl word error rate 19,2\% na testovací sadě. Druhý model jsem vytvořil tak,
@@ -1086,10 +1089,10 @@ jsem dosud neměl příležitost prozkoumat.
 \hline
 model & GMM & \makecell{ DNN trénovaný\\ na Makoňovi } & \makecell{ DNN trénovaný\\ na různých sadách } \\
 \hline
-\makecell{standardní testovací\\ množina (50min)} & 46,3\% & 19,2\% & 13,0\% \\ \hline
+\makecell{standardní testovací\\ množina (50min)} & 46,3\% & 19,2\% & \textbf{13,0\%} \\ \hline
 \makecell{5 minut\\ přebuzených záznamů} & & 45,0\% & 34,8\% \\ \hline
-\makecell{ 5 minut\\ záznamů pořízených\\ nízkou rychlostí } & & 68,5\% & 42,1\% \\ \hline
-\makecell{ 1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\ \hline
+\makecell{5 minut\\ záznamů pořízených\\ nízkou rychlostí } & & 68,5\% & 42,1\% \\ \hline
+\makecell{1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\ \hline
 \makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{22,2\%} \\ \hline %25,3 s číslicema
 \end{tabular}
 \caption{Chybovosti tří důležitých modelů na různých testovacích sadách.}\label{tab:asr-scores}
@@ -1102,3 +1105,22 @@ Uvádějí jako state of the art techniky GMM-HMM a DNN-HMM a word error rate pr
 jednotlivé recepty mezi 8,49 a 48,47 podle povahy dat. Úspěšnost na korpusu
 Karla Makoně v~tomto porovnání tedy nijak nepřekvapuje, obzvláště s~přihlédnutím
 k~velké akustické variabilitě materiálu.
+
+Na závěr kapitoly uvádím na obrázku~\ref{fig:asrhist} vývoj úspěšnosti
+automatického přepisu mluveného korpusu Karla Makoně od prvních experimentů po
+současnost. První sloupec odpovídá iniciálnímu přepisu modelem založeným na
+systému HTK natrénovaným na necelých čtyřech hodinách vlastních přepisů
+pořízených pomocí prototypu webové aplikace. Druhý, čtvrtý, pátý a devátý
+sloupec odpovídají milníkům v~nárůstcích přepsaného materiálu použitého jako
+trénovací data. Třetí sloupec značí odstranění triviální chyby použití nesprávné
+vzorkovací frekvence, tedy přechod ze 44100~Hz na 16~kHz. Šestý sloupec
+koresponduje s~experimentem kepstrální normalizace popsaným
+v~sekci~{sec:mfcc-norm}. Sedmý sloupec odpovídá pokusu
+
+\begin{figure}[htpb]
+\includegraphics[scale=1]{rc/asrhist.png}
+\caption{
+    Vývoj úspěšnosti přepisu.
+}
+\label{fig:deepspeech-arch}
+\end{figure}
