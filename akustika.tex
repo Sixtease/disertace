@@ -141,11 +141,15 @@ přehrávání nastávají další.
 
 Předpokladem pro práci s~akustickými vlastnostmi dat je porovnávání na jejich
 základě. Je nutné mít metriku, která by odrážela akustickou podobnost
-jednotlivých souborů. K~tomu využívám algoritmu založeného na melfrekvenčních
-kepstrálních koeficientech
-(MFCC), jak to navrhují Mandel a Ellis\cite{mandel2005song} v~implementaci
+jednotlivých souborů. K~tomu využívám algoritmu, který navrhují Mandel a Ellis\cite{mandel2005song} v~implementaci
 programu Musly od Dominka Schnitzera\cite{schnitzer2011using}. Pro tuto metriku
 používám v~textu pojmu {\em akustická vzdálenost}.
+
+Metrika se počítá následovně: Z~každého porovnávaného zvukového záznamu se pořídí
+dvacetidimenzionální melfrekvenční kepstrální koeficienty. K~nim se najde pomocí
+E-M algoritmu normální distribuce, která je generuje. Na těchto distribucích se
+pak spočte symetrizovaná Kullback-Leiblerova divergence, tedy
+$KL(a|b) + KL(b|a)$.
 
 V~rámci nahrávek dochází často ke změnám akustických vlastností. To je dáno
 hlavně tím, že se nahrávání uprostřed pásky přerušilo a obnovilo se v~jiných
