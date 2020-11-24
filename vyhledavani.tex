@@ -2,30 +2,9 @@
 \label{kap:vyhledavani}
 
 Možnost vyhledávat v~nahrávkách byl pro mne jeden z~hlavních cílů od začátku
-projektu. Se~získáním přepisů náhrávek, byť kolísavé kvality, bylo možné hledání
-implementovat.
-
-Vyhledávání lze delegovat na existující vyhledávače jako Google
-prostě tím, že se přepis vystaví na internetu. Není to však uspokojivé řešení,
-protože z~hlediska vyhledávačů jsou přepisy nahrávek nezajímavé, takže je
-vzhledem k~jejich rozsahu kompletně neindexují. Dá se to ověřit tím, že do
-Googlu vložíme dotaz
-\texttt{inurl:http://storage.positron.cz/makon/transkripce}, což je prostor na
-CDN shodou okolností taktéž od Googlu, kam se přepisy exportují ve formátu HTML.
-Dostaneme několik výsledků, každý směřující na některý z~přepisů. Vyhledávač
-tedy o nahrávkách ví a má je aspoň částečně indexované.
-
-Když však vložíme dotaz \texttt{Ta pětadvacátá si sedla, skrčila se a čekala, až
-ji uklovají.}, což je věta, vyskytující se v~nahrávce s~identifikátorem
-\texttt{85-05A}, žádný výsledek nedostaneme. To ilustruje, že nahrávky nejsou
-kompletně indexované, byť k~nim vyhledávač má přístup.
-
-Jak adresovat tento problém a přimět populární vyhledávače, aby přepisy
-důkladněji indexovaly, neřku-li umisťovaly je na první stránky výsledků, je mimo
-rozsah této disertační práce.
-
-U dat takového rozsahu je však dobré mít vlastní vyhledávač.
-Implementoval jsem jej pomocí produktu Elasticsearch.
+projektu. Se~získáním přepisů náhrávek, byť kolísavé kvality, bylo možné
+vyhledávání realizovat.
+Fulltextové vyhledávání jsem implementoval nástroje Elasticsearch.
 
 Elasticsearch je svobodný vyhledávač napsaný v~Javě, který umožňuje fulltextové
 vyhledávání v~dokumentech. Dokumenty se rozumí datové struktury, které se
@@ -57,3 +36,25 @@ z~webové aplikace. Důležitým bodem budoucí práce je automatizace indexová
 manuálních oprav, jak přicházejí. Dále pak zakomponování automatického přepisu
 pořízeného bez použití jazykového modelu, jak se diskutuje
 v~podsekci~\ref{ssec:data:topicsearch}.
+
+\section{Případová studie}
+
+Vyhledávání v~přepisech mluveného korpusu našlo využití v~kompilaci referátů o
+určitých tématech, kterým se Karel Makoň věnuje. V průběhu let 2018 až 2020
+vznikly alespoň čtyři takové, a to na témata
+\begin{itemize}
+\item{karma,}
+\item{převtělování,}
+\item{Otčenáš,}
+\item{relativní dobro a zlo.}
+\end{itemize}
+Každé téma bylo zpracováno do formy souboru krátkých úseků nahrávek, které se
+prezentovaly sekvenčním přehráním s~podporou přepisů jako zrakového vodítka.
+
+Autor referátu o tématu relativního dobra a zla dohledal poznámkový aparát
+k~tvorbě a rekonstruoval svůj postup, který zde popíšu jako příklad použití
+přepisů, z~něhož lze usoudit na efektivitu práce.
+
+Téma relativního dobra a zla bylo předem zamyšleno a bylo vybráno pro autorův
+zájem a nikoliv s~ohledem na to, jak snadné bude pro vyhledání. Dopředu byl dán
+časový rámec výsledku na cca. dvě hodiny zvukového záznamu.
