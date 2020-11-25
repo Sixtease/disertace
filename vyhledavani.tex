@@ -4,11 +4,11 @@
 Možnost vyhledávat v~nahrávkách byl pro mne jeden z~hlavních cílů od začátku
 projektu. Se~získáním přepisů náhrávek, byť kolísavé kvality, bylo možné
 vyhledávání realizovat.
-Fulltextové vyhledávání jsem implementoval nástroje Elasticsearch.
+Fulltextové vyhledávání jsem implementoval nástroje Elastic.
 
-Elasticsearch je svobodný vyhledávač napsaný v~Javě, který umožňuje fulltextové
+Elastic je svobodný vyhledávač napsaný v~Javě, který umožňuje fulltextové
 vyhledávání v~dokumentech. Dokumenty se rozumí datové struktury, které se
-vyhledávači poskytnou ve formátu JSON. Elasticsearch má mnoho funkcionalit,
+vyhledávači poskytnou ve formátu JSON. Elastic má mnoho funkcionalit,
 z~nichž pro mne je klíčové rozhraní na základě HTTP naplňující konvence REST,
 automatický stemming, zvýrazňování nalezených pasáží a možnost vyhledávat
 v~libovolných položkách dokumentu.
@@ -28,7 +28,7 @@ nebo kombinací obého}
 \end{itemize}
 
 Pro skloňování je použito pravidlového stemmingu, který je dodáván s~distribucí
-Elasticsearch a pro češtinu, obzvlášť tam, kde se vyskytuje mnoho
+Elastic a pro češtinu, obzvlášť tam, kde se vyskytuje mnoho
 nestandardních a archaických slov, funguje báječně.
 
 Momentálně je vyhledávač nainstalován na témž serveru jako API a je dostupný
@@ -58,3 +58,19 @@ přepisů, z~něhož lze usoudit na efektivitu práce.
 Téma relativního dobra a zla bylo předem zamyšleno a bylo vybráno pro autorův
 zájem a nikoliv s~ohledem na to, jak snadné bude pro vyhledání. Dopředu byl dán
 časový rámec výsledku na cca. dvě hodiny zvukového záznamu.
+
+Autorova metodika byla následovná: vyhledal frázi ,,relativní dobro a zlo`` a
+výsledky procházel ve výchozím relevančním řazení nástroje Elastic. Prošel
+prvních sto z~celkových 7379 výsledků. U každého posoudil, zda se jedná o
+pasáž, skutečně o tématu pojednávající, nebo jen o letmou zmínku či vůbec
+falešný zásah, popřípadě o duplicitní výskyt.
+
+Výběr vzorků probíhal ve dvou průchodech. V~prvním autor vybíral relevantní a
+relativně obsáhlejší zásahy, čímž se tvořila užší množina kandidátských úseků.
+V~druhém průchodu pak vybíral z~této užší množiny s~ohledem na ročník zdrojové
+nahrávky, aby byl v~kompilátu zastoupen průřez vývoje Makoňova myšlení,
+výjimečně podle návaznosti či pro závěrečnou část shrnující charakter výpovědi.
+
+Po prvním průchodu se do užšího výběru dostalo 25 nalezených úseků, tedy
+čtvrtina procházené množiny, a všechny byly z~prvních 53 zásahů. V~první stovce
+výsledků vyhledávání autor identifikoval 16 duplicit.
