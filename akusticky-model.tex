@@ -848,7 +848,8 @@ DeepSpeech libovolného řádu.
 
 Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 \begin{enumerate}
-\item{Obecné české texty,}
+\item{Obecné české texty\footnote{Obecnými českými texty nemyslím texty v
+{\em obecné češtině}, nýbrž obecné ve smyslu všech, které šlo opatřit.},}
 \item{Makoňovy spisy,}
 \item{manuální přepisy nahrávek,}
 \item{automatické přepisy.}
@@ -862,10 +863,94 @@ představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné 
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
 
-Manuálním testováním jsem dospěl k~vahám $1 : 2000 : 7999 : 0$ pro korpusy
-v~pořadí z~číslovaného seznamu výše. Aplikuji vyhlazování technikou
-Knesser-Ney\cite{chen1999empirical}, jak je zabudována do nástroje pro trénink
-jazykových modelů KenLM\cite{heafield2011kenlm}.
+Inspirován výše zmiňovaným článkem od Psutky et al. 2003\cite{psutka2003large},
+pokusil jsem se jejich přístup replikovat. Na základě předběžných pokusů jsem
+zjistil, že nejlepší výsledek dává jazykový model natrénovaný z~Makoňových spisů
+a manuálních přepisů, naopak přidání automatických přepisů nemá prakticky žádný
+efekt. Výchozím bodem pokusu tedy byl reprezentativní korpus z~Makoňových textů
+a korpus obecných českých textů. Cílem bylo vybrat z obecného korpusu ideální
+podmnožinu vět vzhledem k~úspěšnosti rozpoznávání. Pro tyto účely jsem
+natrénoval dva unigramové jazykové modely, jeden z~repezentativního (Makoňova)
+korpusu: $M$ a druhý z~obecného (WMT): $W$.
+
+První hledání proběhlo podle návodu ve zmiňovaném článku: Do trénovací sady
+se vybraly ty věty $s$ z~obecného korpusu, které byly pravděpodobnější podle
+modelu $M$ po aplikaci hledaného koeficientu $t$ než podle modelu $W$:
+\begin{equation}
+P(s|W) < t\cdot{}P(s|M)
+\end{equation}
+S~klesajícím $t$ a tím s~rostoucím počtem přidaných vět monotónně klesala
+úspěšnost. Pohled na vybrané věty odhalil problém: byly to namnoze takové, které
+byly velmi nepravděpodobné podle obecného modelu, takže špatně reprezentovaly
+češtinu.
+
+Druhé hledání proběhlo s~úpravou, že se použijí toliko věty, které nejsou
+podle~reprezentativním modelu příliš nepravděpodobné. Průměrná \textit{log
+likelihood} věty vážená počtem slov je v~reprezentativním modelu -3,51 a
+standardí odchylka je 0,52. Práh pro inkluzi věty jsem tedy nastavil na -4.
+Takto jsem došel ke zvýšení úspěšnosti o 2,7\%, z 0,112 na 0,109 WER.
+
+U třetího hledání jsem zcela ignoroval pravděpodobnost věty podle obecného
+modelu a rozřazoval pouze na základě pravděpodobnosti podle reprezentativního
+modelu. Touto metodou jsem dosáhl zvýšení úspěšnosti o 8,0\% z~0,112 na 0,103
+WER.
+
+Vývoj úspěšnosti podle kritéria přidání vět z~obecného korpusu do jazykového
+modelu shrnuje tabulka~\ref{tab:lm-plz-scores} a
+obrázek~\ref{fig:lm-plz-scores}.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l|r r r|r|}
+\hline
+kritérium & \multicolumn{3}{c|}{počet přidaných vět} & WER \\
+                        &       \# &  \%W       & $\div{}M$ & \\
+\hline
+Ø                       &        0 &  0,000\% &  0,00 & 11,2\% \\
+$l<0,65m$               &   715246 &  0,991\% &  2,09 & 11,5\% \\
+$l<0,8m$                &  2629381 &  3,644\% &  7,70 & 11,6\% \\
+$l<m$                   & 10263276 & 14,223\% & 30,05 & 11,7\% \\
+$l<0,65m$ \& $m>10^{-4}$&   217359 &  0,301\% &  0,64 & 11,2\% \\
+$l<0,8m$ \& $m>10^{-4}$ &  1466100 &  2,032\% &  4,29 & 11,0\% \\
+$l<m$ \& $m>10^{-4}$    &  6587540 &  9,129\% & 19,29 & 10,9\% \\
+$l<1,3m$ \& $m>10^{-4}$ & 14544308 & 20,156\% & 42,58 & 11,2\% \\
+$m>10^{-2}$             &     2380 &  0,003\% &  0,01 & 11,1\% \\
+$m>10^{-2,5}$           &    61654 &  0,085\% &  0,18 & 11,0\% \\
+$m>10^{-2,8}$           &   308102 &  0,427\% &  0,90 & 10,6\% \\
+$m>10^{-3}$             &   786947 &  1,091\% &  2,30 & 10,4\% \\
+$m>10^{-3,2}$           &  1790919 &  2,482\% &  5,24 & \textbf{10,3\%} \\
+$m>10^{-3,3}$           &  2598266 &  3,601\% &  7,61 & 10,3\% \\
+$m>10^{-3,51}$          &  5246049 &  7,270\% & 15,36 & 10,6\% \\
+$m>10^{-4,03}$          & 19282850 & 26,723\% & 56,45 & 11,2\% \\
+\hline
+\end{tabular}
+\caption{Úspěšnost rozpoznávání s~použitím různých částí obecného korpusu.
+Kritérium rozhoduje o zařazení věty do jazykového modelu. Proměnná $m$ je
+pravděpodobnost věty podle unigramového modelu z~Makoňových přepisů a spisů,
+vážená počtem slov. Proměnná $w$ je totéž podle modelu z~obecných českých textů.
+Počet přidaných vět je uveden v~celkovém počtu, v~procentech celkové velikosti
+obecného korpusu a v~násobcích velikosti reprezentativního korpusu.}\label{tab:lm-plz-scores}
+\end{center}
+\end{table}
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.9]{rc/lm-plz-scores.eps}
+\caption{
+  Hledání optimální podmnožiny obecného korpusu pro jazykové modelování. Na ose
+  X je počet přidaných vět, na ose Y WER. Žlutá čára s trojúhelníčky
+  reprezentuje první pokus (řádky 2-4 v~tabulce~\ref{tab:lm-plz-scores});
+  Červená čára s~čtverečky na hrotech druhý pokus (řádky 5-8); modrá čára
+  s~čtverečky na stranách třetí pokus (řádky 9-16).
+}
+\label{fig:lm-plz-scores}
+\end{figure}
+
+Výsledek považuji za zajímavý, neboť shledává jinou, dokonce jednodušší metodu
+v~tomto případě účinnější než navrhovanou autory.
+
+Jazykový model stavím pomocí nástroje KenLM\cite{heafield2011kenlm}. Aplikuji
+vyhlazování technikou Knesser-Ney\cite{chen1999empirical}, jak je v něm
+zabudována.
 
 Je třeba podotknout, že u manuálních přepisů dochází k~jednomu
 nežádoucímu jevu. Přepisy se pořizují tak, aby byly maximálně věrné tomu, co je
@@ -884,47 +969,6 @@ teprve následuje vyslovené slovo {\em špatný}.
 
 Při stavbě jazykového modelu toto značení umožní, aby se věta při setkání
 s~takovým slovem ukončila nebo aby se takové slovo přeskočilo.
-
-\subsection{Výběr subkorpusu}
-
-\begin{table}[htpb]
-\begin{center}
-\begin{tabular}{|l|r r|r|}
-\hline
-kritérium & \multicolumn{2}{l|}{počet přidaných vět} & WER \\
-\hline
-$m>10^{-1}$             &        0 &  (0,000\%) & 11,2\% \\
-$m>10^{-2}$             &     2380 &  (0,003\%) & 11,1\% \\
-$m>10^{-2,5}$           &    61654 &  (0,085\%) & 11,0\% \\
-$m>10^{-2,8}$           &   308102 &  (0,427\%) & 10,6\% \\
-$m>10^{-3}$             &   786947 &  (1,091\%) & 10,4\% \\
-$m>10^{-3,2}$           &  1790919 &  (2,482\%) & \textbf{10,3\%} \\
-$m>10^{-3,3}$           &  2598266 &  (3,601\%) & 10,3\% \\
-$m>10^{-3,51}$          &  5246049 &  (7,270\%) & 10,6\% \\
-$m>10^{-4,03}$          & 19282850 & (26,723\%) & 11,2\% \\
-$l<0,65m$ \& $m>10^{-4}$&   217359 &  (0,301\%) & 11,2\% \\
-$l<0,8m$ \& $m>10^{-4}$ &  1466100 &  (2,032\%) & 11,0\% \\
-$l<m$ \& $m>10^{-4}$    &  6587540 &  (9,129\%) & 10,9\% \\
-$l<1,3m$ \& $m>10^{-4}$ & 14544308 & (20,156\%) & 11,2\% \\
-$l<0,65m$               &   715246 &  (0,991\%) & 11,5\% \\
-$l<0,8m$                &  2629381 &  (3,644\%) & 11,6\% \\
-$l<m$                   & 10263276 & (14,223\%) & 11,7\% \\
-\hline
-\end{tabular}
-\caption{Úspěšnost rozpoznávání s~použitím různých částí obecného korpusu.
-Kritérium rozhoduje o zařazení věty do jazykového modelu. Proměnná $m$ je
-pravděpodobnost věty podle unigramového modelu z~Makoňových přepisů a spisů,
-vážená počtem slov. Proměnná $w$ je totéž podle modelu z~obecných českých textů.}\label{tab:lm-plz-scores}
-\end{center}
-\end{table}
-
-\begin{figure}[htpb]
-\includegraphics[scale=1]{rc/lm-plz-scores.eps}
-\caption{
-  Hledání optimální podmnožiny obecného korpusu pro jazykové modelování
-}
-\label{fig:lm-plz-scores}
-\end{figure}
 
 \section{Segmentace}
 
@@ -1107,14 +1151,17 @@ v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhr
 \label{sec:evaluace}
 
 Poslední naměřená word error rate markovovského akustického modelu s~výše zmíněným
-jazykovým modelem je 46,3\%.
+jazykovým modelem je 46,3\%. Nejnižší dosažená WER s~pentagramovým jazykovým
+modelem popsaným v~sekci~\ref{sec:jazykovy-model} je \textbf{10,3\%}.
 
 Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada, určil jsem testovací sadu
 až v~průběhu projektu. Chybí v~ní přepisy těch
 nejméně srozumitelných nahrávek, které byly digitalizovány až po provedení
 většiny experimentů, a navíc k~nim pořizovat ruční přepisy je velice nesnadné.
 
-Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate. Je
+Tabulka~\ref{tab:asr-scores} uvádí nejdůležitější milníky ve word error rate
+s~použitím trigramového jazykového modelu natrénovaného na Makoňových spisech a
+manuálních přepisech. Je
 s~podivem, že model dotrénovaný na Makoňových nahrávkách má na obecné testovací
 množině větší úspěšnost (v~tabulce tučně) než výchozí model trénovaný na všech datech
 (viz tabulku~\ref{tab:csasr:results}). Dalo by se čekat, že
