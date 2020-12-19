@@ -28,9 +28,7 @@ nebo kombinací obého}
 \end{itemize}
 
 Pro skloňování je použito pravidlového stemmingu, který je dodáván s~distribucí
-Elastic a pro češtinu, obzvlášť tam, kde se vyskytuje mnoho
-nestandardních a archaických slov, funguje báječně.
-
+Elastic.
 Momentálně je vyhledávač nainstalován na témž serveru jako API a je dostupný
 z~webové aplikace. Důležitým bodem budoucí práce je automatizace indexování
 manuálních oprav, jak přicházejí. Dále pak zakomponování automatického přepisu
@@ -89,7 +87,7 @@ téma &
 dotaz &
 \makecell{výsledků\\ v~automat.\\ přepisu} &
 \makecell{očekávaný\\ počet výsl.\\ v~aut. přep.} &
-\makecell{výsledků\\ v~manuálním\\ přepisu} &
+\makecell{výsledků\\ v~ručním\\ přepisu} &
 precision \\
 \hline
 Lazar & \texttt{lazar.*} & 113 & 157 & 14 & 11/20   \\
@@ -183,15 +181,19 @@ vznikly alespoň čtyři takové, a to na témata
 \item{relativní dobro a zlo.}
 \end{itemize}
 Každé téma bylo zpracováno do formy souboru krátkých úseků nahrávek, které se
-prezentovaly sekvenčním přehráním s~podporou přepisů jako zrakového vodítka.
+prezentovaly sekvenčním přehráním s~přepisy jako vizuálním vodítkem.
 
 Autor referátu o tématu relativního dobra a zla dohledal poznámkový aparát
 k~tvorbě a rekonstruoval svůj postup, který zde popíšu jako příklad použití
 přepisů, z~něhož lze usoudit na efektivitu práce.
 
-Téma relativního dobra a zla bylo předem zamyšleno a bylo vybráno pro autorův
+Téma relativního dobra a zla bylo předem zamýšleno a bylo vybráno pro autorův
 zájem a nikoliv s~ohledem na to, jak snadné bude pro vyhledání. Dopředu byl dán
-časový rámec výsledku na cca. dvě hodiny zvukového záznamu.
+časový rámec výsledku na cca. dvě hodiny zvukového záznamu. Kvalitativními kritérii bylo
+1) důsledné přidržení se tématu, 2) aby se téma zpracovalo z~různých úhlů
+pohledu, s~čímž korelují různé ročníky zahrnutých zdrojových nahrávek, 3) aby
+výsledná kompilace tvořila koherentní výpověď bez mnoha významově shodných
+vyjádření.
 
 Autorova metodika byla následovná: vyhledal frázi ,,relativní dobro a zlo`` a
 výsledky procházel ve výchozím relevančním řazení nástroje Elastic. Prošel
@@ -199,20 +201,14 @@ prvních sto z~celkových 7379 výsledků. U každého posoudil, zda se jedná o
 pasáž, skutečně o tématu pojednávající, nebo jen o letmou zmínku či vůbec
 falešný zásah, popřípadě o duplicitní výskyt.
 
-Výběr vzorků probíhal ve dvou průchodech. V~prvním autor vybíral relevantní a
-relativně obsáhlejší zásahy, čímž se tvořila užší množina kandidátských úseků.
-V~druhém průchodu pak vybíral z~této užší množiny s~ohledem na ročník zdrojové
+Po odstranění duplicit a jednoznačně irelevantních výsledků prošel autor
+výsledky opět po řadě, a vybíral z~této užší množiny s~ohledem na ročník zdrojové
 nahrávky, aby byl v~kompilátu zastoupen průřez vývoje Makoňova myšlení,
-výjimečně podle návaznosti či pro závěrečnou část shrnující charakter výpovědi.
+výjimečně podle návaznosti či shrnujícího charakteru výpovědi pro závěrečnou
+část kompilace.
 
-Po prvním průchodu se do užšího výběru dostalo 25 nalezených úseků, tedy
-čtvrtina procházené množiny, a všechny byly z~prvních 53 zásahů. V~první stovce
-výsledků vyhledávání autor identifikoval 16 duplicit. První kolo skončilo, když
-autor vyhodnotil nastřádané množství materiálu jako dostatečné.
-
-Do finálního kompilátu se tak dostalo 25 z~53 prvních výsledků vyhledávání, čímž
-se napnilo požadované pemzum dvou hodin záznamu. Kvalitativními kritérii byla,
-1) důsledné přidržení se tématu, 2) aby se téma zpracovalo z~různých úhlů
-pohledu, s~čímž korelují různé ročníky zahrnutých zdrojových nahrávek, 3) aby
-výsledná kompilace tvořila koherentní výpověď bez mnoha významově shodných
-vyjádření a se shrnující
+Vznikla tak výsledná množina 25 úseků, které pocházely z~prvních 53 výsledků
+vyhledávání. Do konečného se tak dostala zhruba polovina procházené množiny. V~první stovce
+výsledků vyhledávání autor identifikoval 16 duplicit. Celkový čas strávený tvorbou
+kompilace autor odhaduje řádově na desítky hodin, v~čemž je zahrnuta i ostatní
+práce, nejen vyhodnocování relevance výsledků.
