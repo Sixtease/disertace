@@ -684,7 +684,62 @@ sekund.
 
 Zbylá množina tich splňuje počáteční podmínky, pokud to je vzhledem ke vstupním
 datům možné. Algoritmus je jednoduchý na naprogramování a má milou
-lineární složitost.
+lineární složitost. Pseudokód algoritmu:
+
+\begin{code}
+const maxSegmentLength = 60
+const minSegmentLength = 30
+
+// vstupní posloupnost tich daných délkou a pozicí středu
+silences := [
+  { 'center': 1.23, 'length': 0.5 },
+  { 'center': 3.45, 'length': 0.7 },
+  ...
+]
+
+// přidej odkazy na sousedy
+forEach (i in 0 .. input.length - 2) {
+  silences[i + 1]['left' ] := silences[i]
+  silences[i    ]['right'] := silences[i + 1]
+}
+silences[ 0]['left' ] := { center: 0 }
+silences[-1]['right'] := { center: recordingLength }
+
+// setřiď od nejkratší
+toFilter := silences.sort((a,b) => a['length'] <=> b['length'])
+
+function drop(silence) {
+  silence['left' ]['right'] := silence['right']
+  silence['right']['left' ] := silence['left']
+}
+
+// zahoď ticho, pokud nevznikne příliš dlouhý segment
+filtered := []
+forEach (silence in toFilter) {
+  postMergeLength
+    := silence['right']['center'] - silence['left']['center']
+  if (postMergeLength > maxSegmentLength) {
+    filtered.push(silence)
+  } else {
+    drop(silence)
+  }
+}
+
+// zahoď ticho, pokud je segment příliš krátký
+toFilter := filtered
+filtered := []
+forEach (silence in toFilter) {
+  leftLength  := silence['center'] - silence['left']['center']
+  rightLength := silence['right']['center'] - silence['center']
+  if (min(leftLength, rightLength) < minSegmentLength) {
+    drop(silence)
+  } else {
+    filtered.push(silence)
+  }
+}
+
+return filtered.map(a => a['center']).sort()
+\end{code}
 
 \subsection{Pojmenování souborů}
 
