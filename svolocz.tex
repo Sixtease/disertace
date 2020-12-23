@@ -174,6 +174,12 @@ s~automatickým. Je-li ale příliš mnoho slov spárováno nespolehlivě, roste
 u~malého počtu slov je vysoká šance náhody, při které je chybně určeno vysoké
 skóre spolehlivosti nesprávně spárovaným slovům.
 
+Pro potvrzení tvrzení, že slova s~nulovou spolehlivostí jsou přípustná, uvedu
+příklad: slova \textit{,,finanční úřady dotace``} se v~jednom případě přepsala jako
+\textit{,,finanční u jít dotace``}. Slova \textit{,,u``} a \textit{,,jít``} mají
+obě se slovem \textit{,,úrady``} prázdnou množinu společných písmen, a tedy
+nulovou spolehlivost. Přesto je obklopující fráze jako celek zarovnána správně.
+
 Ještě vyvstává otázka, proč použít průměr a ne medián spolehlivosti v~druhém
 kritériu. Je to z~toho důvodu, že liší-li se výrazně počet slov v~manuálním a
 automatickém přepisu, projeví se to jako mnoho operací přidání či smazání
