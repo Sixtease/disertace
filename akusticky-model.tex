@@ -625,7 +625,7 @@ pro jazykový model a 3) Julius pro dekódování.
 \label{ssec:ac:fonetika}
 
 Modeluji základní hlásky českého jazyka\cite{palkova1992fonetika}
-reprezentované pomocí PACal\cite{nouza1997phonetic}. Kromě základních hlásek
+reprezentované pomocí systému symbolů PACal\cite{nouza1997phonetic}. Kromě základních hlásek
 používám dvojhlásky, ticho a krátkou pauzu. Ráz (glotální plozivu) nevyznačuji,
 jakož ani neřečové události. Důvodem toho je, že vyznačování těchto jevů nelze
 očekávat od anotátorů, se kterými tato práce počítá.
@@ -835,7 +835,7 @@ v~\textit{trellis} (dosl. pergola; datová struktura) z~prvního průchodu.
 \subsection{Jazykový model}
 \label{sec:jazykovy-model}
 
-Jazykový model obecně je pravděpodobnostní rozdělení posloupností slov
+Jazykový model obecně je odhad pravděpodobnostního rozdělení posloupností slov
 v~přirozeném jazyce\cite{ponte1998language}. V~kontextu rozpoznávání řeči je tandemovým
 partnerem akustického modelu\cite{jelinek1990self}. Teprve kombinace akustického
 a jazykového modelu určí výsledné slovo, které se na dané pozici rozpozná jako
@@ -1049,7 +1049,7 @@ izolovaných řečových událostí na základě zarovnaného automatického př
 pro manipulaci se soubory MFCC.
 
 Ke každému souboru MFCC jsem vytvořil kopii, ze které
-jsem vynechal všechny hlásky \texttt{sil} a \texttt{sp}. Průměry kepstrálních
+jsem odstranil všechny výskyty hlásek \texttt{sil} a \texttt{sp}. Průměry kepstrálních
 koeficientů jsem pak spočetl na těchto kopiích a odečetl je od hodnot
 v~originálech. Trénování i testování jsem pak prováděl na takto upravených
 souborech místo standardní normalizace, jak ji poskytuje systém HTK.
@@ -1083,7 +1083,7 @@ raději navrátil do původního.
 \section{Rozšíření trénovací množiny}
 \label{sec:confident}
 
-Skóre confidence measure se dá využít ještě jiným způsobem: lze vybrat všechny
+Skóre confidence measure se dá využít ještě jiným způsobem: lze vybrat
 úseky v~korpusu kromě testovací sady\footnote{K zamyšlení: je zde opravdu nutné
 vynechat testovací data?}, kde automatický přepis uvádí vysokou míru
 c.m. a přidat tyto úseky do trénovací množiny. Tento experiment jsem provedl

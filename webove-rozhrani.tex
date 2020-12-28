@@ -252,7 +252,7 @@ Obrázek~\ref{fig:scn1lab} ukazuje rozhraní v~průběhu přehrávání.
 Obrázek~\ref{fig:scn2lab} ukazuje rozhraní při editaci segmentu.
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.7]{rc/radio-makon-cs-1-lab.png}
+\includegraphics[scale=0.65]{rc/radio-makon-cs-1-lab.png}
 \caption{Webové rozhraní při přehrávání.}
 \label{fig:scn1lab}
 \end{figure}
@@ -283,8 +283,8 @@ Obrázek~\ref{fig:scn2lab} ukazuje rozhraní při editaci segmentu.
     }
     \item{forma: normalizovaná slovní forma, jak se objevuje ve slovníku,}
     \item{
-        výslovnost: český fonetický zápis použité výslovnosti (viz
-        podsekci~\ref{ssec:respelling}),
+        výslovnost: český fonetický zápis použité výslovnosti (viz podsekci
+        \ref{ssec:respelling}),
     }
     \item{
         pozice: čas v~sekundách od začátku nahrávky do začátku slova.
@@ -312,7 +312,7 @@ Obrázek~\ref{fig:scn2lab} ukazuje rozhraní při editaci segmentu.
 \end{enumerate}
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.7]{rc/radio-makon-cs-2-lab.png}
+\includegraphics[scale=0.65]{rc/radio-makon-cs-2-lab.png}
 \caption{Rozhraní ve stavu editace segmentu.}
 \label{fig:scn2lab}
 \end{figure}
@@ -354,7 +354,7 @@ je žádoucí, aby označení a přepsání segmentu, který přesahuje přes hr
 bylo přirozené a snadné.
 
 \begin{figure}[htpb]
-\includegraphics[scale=0.46]{rc/transcriber1.png}
+\includegraphics[scale=0.45]{rc/transcriber1.png}
 \caption{Uživatelské rozhraní Transcriberu.}
 \label{fig:transcriber}
 \end{figure}
@@ -494,8 +494,8 @@ mixování kanálů.
 
 Velká výhoda Web Audio API oproti elementu \texttt{<audio>} je možnost přesného
 časování až k~jednotlivým samplům. Přehrávání výseku odpovídajícího označenému
-textu se proto nemusí provádět pomocí velice nepřesného časovače
-\texttt{setTimeout}.
+textu se proto nemusí provádět pomocí časovače \texttt{setTimeout}, který je
+velice nepřesný.
 
 Bez~Web Audio API by také nebylo možné provádět frekvenční korekci při poslechu,
 čili mít tzv. \textit{ekvalizér}. Ten je zapotřebí, protože některé nahrávky
@@ -1186,12 +1186,12 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
   end: {\em desetinné číslo},
   data {\em (seznam zarovnaných slov)}: [ 
     \{
-      fonet: {\em řetězec},
-      wordform: {\em řetězec},
-      occurrence: {\em řetězec},
-      humanic: 1, {\em (znamená, že je manuálně přepsané)}
-      timestamp: {\em desetinné číslo}, {\em (pozice začátku slova)}
-      slen: {\em desetinné číslo}, {\em (délka ticha, jen když > 0)}
+      fonet:{\em řetězec},
+      wordform:{\em řetězec},
+      occurrence:{\em řetězec},
+      humanic: 1,{\em (znamená, že je manuálně přepsané)}
+      timestamp:{\em desetinné číslo},{\em (pozice začátku slova)}
+      slen:{\em desetinné číslo},{\em (délka ticha, jen když > 0)}
     \},
     {\em ...}
   ]
@@ -1206,7 +1206,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
       \item{cesta: \texttt{/init}}
       \item{metoda: \texttt{GET}}
       \item{
-        odpověď:\\ \texttt{jsonp\_init(\{ subversions => \{ {\em identifikátor} => {\em verze}, {\em ...} \} \})}
+        odpověď:\\ \texttt{jsonp\_init(\{ subversions => \{ {\em id} => {\em verze}, {\em ...} \} \})}
       }
     \end{itemize}
 
@@ -1237,8 +1237,8 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
       \item{metoda: \texttt{GET}}
       \item{odpověď: \begin{alltt}\{
   {\em identifikátor}:
-      human: {\em celé číslo - počet manuálně přepsaných slov}
-      total: {\em celé číslo - celkový počet slov}
+      human:{\em celé číslo - počet manuálně přepsaných slov}
+      total:{\em celé číslo - celkový počet slov}
   {\em ...}
 \}\end{alltt}
       }
@@ -1307,7 +1307,7 @@ Poslední věcí v~databázi je fonetický slovník. Ten slouží ke sběru fone
 reprezentací slov s~nestandardní výslovností, jejichž výslovnost a psanou formu
 poskytují uživatelé.
 
-Přepisy se ukládají trojitě. Primárně na serveru v~souborech ve formátu {\em
+Přepisy se ukládají trojitě. Primárně na disku serveru v~souborech ve formátu {\em
 JSONP}\footnote{JSON with padding -- JSON obalený do JavaScriptové funkce.}.
 Tyto se při každé změně zálohují na externí cloudové úložiště. Do třetice se
 denně a na požádání exportují do HTML, které je přístupné z~CDN.
