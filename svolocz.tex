@@ -176,7 +176,7 @@ skóre spolehlivosti nesprávně spárovaným slovům.
 Pro potvrzení tvrzení, že slova s~nulovou spolehlivostí jsou přípustná, uvedu
 příklad: slova \textit{,,finanční úřady dotace``} se v~jednom případě přepsala jako
 \textit{,,finanční u jít dotace``}. Slova \textit{,,u``} a \textit{,,jít``} mají
-obě se slovem \textit{,,úrady``} prázdnou množinu společných písmen, a tedy
+obě se slovem \textit{,,úřady``} prázdnou množinu společných písmen, a tedy
 nulovou spolehlivost. Přesto je obklopující fráze jako celek zarovnána správně.
 
 Ještě vyvstává otázka, proč použít průměr a ne medián spolehlivosti v~druhém
@@ -200,7 +200,7 @@ zavrženo kvůli nespolehlivým hraničním slovům. Toto kritérium je však ap
 jako první, takže je v~tomto čísle zahrnuto i mnoho úseků, které by jinak byly
 odmítnuty některým dalším kritériem.
 
-Sníží-li se potřebná spolehlivost ze 70\% a 50\%, zvýší se počet přijatých úseků
+Sníží-li se potřebná spolehlivost ze 70\% na 50\%, zvýší se počet přijatých úseků
 o 17\%. Přidá se tak 5\% úseků z~celkového počtu. Pokud však započteme fakt, že
 29\% úseků je nutně odstraněno kvůli překryvům, je celkový přírůstek ve
 skutečnosti 9\% celkového počtu. Je to možnost, jak zvýšit objem trénovacích dat
@@ -255,80 +255,13 @@ automatickým přepisem vyberu tu variantu, která má nejmenší editační vzd
 Spolu s~číslicemi expanduji také zkratky a symboly. Např. velmi častý symbol
 paragraf (§) rozepisuji do variant {\em paragraf, paragrafu, paragrafů,
 paragrafem, paragrafech}, které se podle iniciálního přepisu vyskytují jako
-jediné časté. Dalšími častými zkratkami s~různými variantami rozpisu jsou {čl. -- článek,
-odst. -- odstavec, tzv. -- takzvaný}.
+jediné časté. Dalšími častými zkratkami s~různými variantami rozpisu jsou {\em
+čl. -- článek / článku / ..., odst. -- odstavec / odstavcw / ..., tzv. --
+takzvaný / takzvaného / ...}.
 
 Po provedení expanze se podobnost stenografického a iniciálního automatického
 přepisu zvýšila, což se odrazilo i na zvýšení počtu přijatých úseků z~26\% na
 35\%. Množství trénovacích dat v~hodinách vzrostlo o 86, tedy na 1144.
 
-\section{Rozpoznávání řeči na různých sadách}
-\label{sec:csasr:results}
+O využití datové sady pro rozpoznávání řeči pojednává sekce~\ref{sec:csasr:results}.
 
-Výše popsanou datovou sadu jsem použil pro natrénování rozpoznávače řeči pomocí
-systému DeepSpeech, stejně jako to popisuju v~kapitole~\ref{kap:asr}. Sadu jsem
-rozdělil na trénovací (train), ladicí (dev) a testovací (test)\footnote{Toto
-označení je v~souladu s~konvencí pro systém DeepSpeech, ale ve skutečnosti jde
-po řadě o množiny train, heldout a dtest, jak zmiňuji v~sekci~\ref{sec:asr:rozdeleni-dat}.} v~poměru 18:1:1.
-Hyperparametry jsem nastavil následovně: learning rate 0,0001, dropout rate 0,2,
-zbytek ponechán defaultně. Ke konvergenci došlo po 12 epochách.
-S~použitím pentagramového jazykového modelu natrénovaného na
-stenografických přepisech byla výsledná WER 8,40\% před expanzí číslic a 7,89\% po expanzi.
-
-Ze zdrojů zmíněných v~úvodu této kapitoly se bez větší námahy se ziskem v~řádu
-aspoň desítek hodin daly použít 1) Otázky Václava Moravce a 2) Vystadial. Krom
-toho jsem použil veřejně nepřístupné zdroje 3) CUCFN -- Korpus Finančních zpráv
-Univerzity Karlovy, 4) Korpus reprezentativní mluvené češtiny
-Oral2013\cite{oral2013} a 5) amatérsky namluvenou Bibli, která je dostupná na adrese
-\texttt{poslouchamebibli.cz}, a u které není žádná explicitní licence.
-
-Na všech sadách včetně manuálních přepisů nahrávek Karla Makoně jsem natrénoval
-model s~použitím téhož systému Mozilla DeepSpeech, týchž hyperparametrů a téhož
-obecného jazykového modelu. Ten jsem natrénoval na datech z~WMT
-2019\cite{wmt19}.
-
-Nakonec jsem natrénoval akustický model na všech trénovacích
-sadách sloučených do jedné.
-Tabulka~\ref{tab:csasr:results} shrnuje word error rate systémů trénovaných na
-jednotlivých částech testovaných jednak na testovací sadě z~téhož zdroje a
-jednak na agregované testovací sadě sloučené ze všech dílčích.
-Z~důvodu použití obecného jazykového modelu je u parlamentního korpusu vyšší chybovost než
-výše zmiňovaných 8,40\% a u Makoňova korpusu taktéž vyšší chybovost než 19\%
-uvedených v~sekci~\ref{sec:deepspeech}.
-
-\begin{table}[htpb]
-\begin{center}
-\begin{tabular}{|l||r|r|}
-\hline
-zdroj     & WER na sobě & WER na všech \\
-\hline
-bible     & 9,20\%  & 94,7\% \\
-cucfn     & 31,6\%  & 72,8\% \\
-makoň     & 30,4\%  & 77,3\% \\
-oral2013  & 78,4\%  & 60,7\% \\
-ovm       & 21,6\%  & 72,9\% \\
-parlament s~číslicemi & 8,74\%  & 39,7\% \\
-parlament ve slovech  & 7,89\%  & 36,0\% \\
-vystadial & 51,0\%  & 74,0\% \\
-\hline
-vše s~číslicemi   & 28,4\%  & 28,4\% \\
-vše ve slovech    & 26,0\%  & 26,0\% \\
-\hline
-\end{tabular}
-\caption{Word error rate rozpoznávání řeči na jednotlivých korpusech a na jejich
-konkatenaci.}\label{tab:csasr:results}
-\end{center}
-\end{table}
-
-%           cstest      selftest
-% ovm       0.728954    0.216131
-% bible     0.947226    0.091958
-% cucfgn    0.728446    0.316287
-% vystadial 0.739838    0.509930
-% svolocz   0.397490    0.083978
-% makon     0.773216    0.191772
-% oral2013  0.607015    0.783525
-% all       0.283574    0.283574
-%
-% cucfgnOF  0.683059    0.141142
-% all\o                 0.130555

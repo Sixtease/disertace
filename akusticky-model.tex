@@ -60,7 +60,8 @@ lidský faktor, který s~sebou nese předpojatost, omylnost a nepřesnost. Stroj
 čas je navíc mnohdy dostupnější než lidský.
 
 Nevýhodou strojového učení je, že je k~němu zapotřebí trénovacích dat, a to čím
-více, tím lépe, aneb ,,there is no data like more data`` (Robert Mercer, 1985). Je
+více, tím lépe, aneb ,,there is no data like more data``\footnote{Robert Mercer,
+1985}. Je
 známo, že neuronová síť i hloubky 1 je s~dostatečným počtem neuronů schopna
 modelovat jakoukoliv spojitou funkci s~omezeným definičním oborem (Csáji
 2001)\cite{csaji2001approximation}. Kdybychom tedy měli neomezeně mnoho
@@ -84,13 +85,13 @@ hláska může být pokaždé vyslovena jinak rychle, jinými slovy v~řeči je 
 časová variabilita. Ještě v~osmdesátých letech se tato technika namnoze
 používala a časová variabilita se kompenzovala roztažením či smrsknutím vzorků,
 aby si délkou odpovídaly. Tato metoda se anglicky nazývá \textit{dynamic time
-wrap} a vznikla v~roce 1971\cite{sakoe1971chiba}, viz obrázek~\ref{fig:dtw}.
+warp} a vznikla v~roce 1971\cite{sakoe1971chiba}, viz obrázek~\ref{fig:dtw}.
 V~těchto přístupech pochází veškerá expertiza ze strany člověka.
 
 \begin{figure}[htpb]
 \includegraphics[scale=1]{rc/dtw.png}
 \caption{
-  Ilustrace rozpoznávání řeči pomocí šablon technikou dynamic time wrap.
+  Ilustrace rozpoznávání řeči pomocí šablon technikou dynamic time warp.
 }
 \label{fig:dtw}
 \end{figure}
@@ -137,7 +138,7 @@ rozpoznávání řeči se osvědčila vzorkovací frekvence 16~kHz jako minimum,
 kterém je obsažena prakticky veškerá relevantní informace.
 
 Jako vstupní data pro skryté markovovské modely nejsou prostá reálná
-čísla\footnote{pro počítačovou implementaci jsou reálná čísla díky svému
+čísla\footnote{Pro počítačovou implementaci jsou reálná čísla díky svému
 nekonečnému desetinnému rozvoji nereálná, pro se v~praxi pracuje s~tzv. čísly
 s~plovoucí desetinnou čárkou (\textit{floating-point numbers}).} v~řádu tisíců
 za sekundu praktická, pročež se signál nejdříve transformuje do jiné formy. Tato
@@ -203,7 +204,7 @@ setinu sekundy.
 
 V~této sekci stručně představím architekturu systémů rozpoznávání řeči založenou
 na skrytých markovovských modelech, jak se běžně používala ještě na začátku
-tohoto tisíciletí.
+tohoto tisíciletí a této disertace.
 
 Úlohu automatického rozpoznávání řeči můžeme formalizovat takto: Na základě vstupní
 posloupnosti hodnot akustického vlnění $A$ hledáme takovou posloupnost slov
@@ -217,7 +218,7 @@ Pravděpodobnost $P(W|A)$ ovšem dlouho nebylo jak odhadnout, proto se využilo
 Bayesova pravidla:
 
 \begin{equation}
-P(W|A) = {{P(A|W) P(W)}\over{P(A)}}
+P(W|A) = {{P(A|W) P(W)}\over{P(A)}}.
 \end{equation}.
 
 Pravděpodobnost vstupních dat je ve vztahu k odhadovanému modelu konstantní a
@@ -378,7 +379,7 @@ pro jazykový model. K~dispozici je malý korpus (A) již přepsaných výpověd
 dokonale reprezentativní data. Dále velký korpus (B) z~novin a literatury.
 Z~obou korpusů se natrénovaly jazykové modely MA a MB. Věta X z~korpusu B byla
 přidána do trénovacích dat, jestliže $P(X|B) < P(X|A)$. Jinými slovy, použily se
-věty, z velkého korpusu které se více podobaly datům z~malého než datům
+věty z velkého korpusu, které se více podobaly datům z~malého než datům
 z~velkého. Tímto postupem se dosáhlo relativního umenšení chybovosti přes 4\%.
 
 Další navazující práce v~rámci projektu Malach\cite{psutka2005automatic} z~roku
@@ -429,7 +430,7 @@ pravděpodobnosti s~výsledkem 3,6\% WER.
 \subsection{Graves \& Jaitly 2014}
 
 Po nahrazení části procesu v~markovovské mašinerii neuronovými sítěmi následoval
-další, dnes s~odstupem času logicky vyhlíženící krok, a sice přechod k~systému
+další, dnes s~odstupem času logicky vyhlížející krok, a sice přechod k~systému
 postavenému kompletně na neuronové síti. V~tomto článku\cite{graves2014towards}
 jde o další přesun expertizy z~člověka na strojové učení, umožněné lepší
 dostupností většího množství dat a výpočetní síly. Použité algoritmy se
@@ -492,7 +493,7 @@ g_t = \sigma(W_{xg}x_t + W_{hg}h_{t-1} + W_{cg}c_{t-1} + b_g),
 \begin{equation}
 i_t = \sigma(W_{xi}x_t + W_{hi}h_{t-1} + W_{ci}c_{t-1} + b_i),
 \end{equation}
-$\sigma$ je logistický sigmoid, $i$ je vstupní brána LSTM $g$ je brána zapomnění
+$\sigma$ je logistický sigmoid, $i$ je vstupní brána LSTM, $g$ je brána zapomnění
 \textit{forget gate}, $o$ je výstupní brána, $c$ jsou aktivační vektory buňky
 \textit{cell activation vectors}. $i$, $g$, $o$ i $c$ mají shodnou délku se
 skrytým vektorem $h$. Na obrázku~\ref{fig:lstm} je vyobrazena buňka LSTM.
@@ -566,27 +567,27 @@ znázorňuje architekturu sítě.
 \label{fig:deepspeech-arch}
 \end{figure}
 
-\section{ASR na korpusu Karla Makoně}
+\section{Přepis Makoňova korpusu pomocí GMM-HMM}
 
-Až do druhé dekády druhého milénia byly nejlepší dostupnou technologií pro
-rozpoznávání řeči skryté markovovské modely s~gaußovskými směsmi (GMM-HMM).
-Architektura takového systému vypadá následovně:
+%Až do druhé dekády druhého milénia byly nejlepší dostupnou technologií pro
+%rozpoznávání řeči skryté markovovské modely s~gaußovskými směsmi (GMM-HMM).
+%Architektura takového systému vypadá následovně:
 
-\begin{enumerate}
-\item{Diskrétní jednotkou vstupních dat je úsek přibližně o délce jedné věty.}
-\item{Vstupní datum\footnote{Datum ve smyslu jednotného čísla od slova data,
-z~latinského participia slova \textit{dare}, dát.} je zakódováno do posloupnosti
-reálněčíselných vektorů, z~nichž každý odpovídá setině sekundy signálu.}
-\item{}
-\end{enumerate}
+%\begin{enumerate}
+%\item{Diskrétní jednotkou vstupních dat je úsek přibližně o délce jedné věty.}
+%\item{Vstupní datum\footnote{Datum ve smyslu jednotného čísla od slova data,
+%z~latinského participia slova \textit{dare}, dát.} je zakódováno do posloupnosti
+%reálněčíselných vektorů, z~nichž každý odpovídá setině sekundy signálu.}
+%\item{}
+%\end{enumerate}
 
-Pro získání počátečního přepisu bylo nutné sestavit
-systém pro automatický přepis, z~historických důvodů častěji označovaný jako
-rozpoznávání řeči. Rozpoznávání češtiny se věnovali mnozí přede mnou,
-například Ircing et al. (2001)\cite{ircing2001large}, Psutka et al.
-(2005)\cite{psutka2005automatic}, či Byrne et al. (1999)\cite{byrne1999large}.
-V následujících odstavcích popíšu tvorbu rozpoznávače řeči pro korpus Karla
-Makoně.
+%Pro získání počátečního přepisu bylo nutné sestavit
+%systém pro automatický přepis, z~historických důvodů častěji označovaný jako
+%rozpoznávání řeči. Rozpoznávání češtiny se věnovali mnozí přede mnou,
+%například Ircing et al. (2001)\cite{ircing2001large}, Psutka et al.
+%(2005)\cite{psutka2005automatic}, či Byrne et al. (1999)\cite{byrne1999large}.
+%V následujících odstavcích popíšu tvorbu rozpoznávače řeči pro korpus Karla
+%Makoně.
 
 Zjednodušený řetězec vedoucí od~zvukových dat k~jejich přepisu v~našem případě
 vypadá takto:\begin{enumerate}
@@ -596,15 +597,14 @@ vypadá takto:\begin{enumerate}
 \item{automatické rozpoznávání.}
 \end{enumerate}
 
-První trénovací sadu jsem pořídil svépomocí přepisem asi 15 minut nahrávky
-\texttt{85-05A}.
 
 V~průběhu práce jsem sestavil dva zcela odlišné akustické modely: Jeden založený
 na skrytých markovovských modelech a jeden založený na neuronových sítích.
 Hlavním důvodem bylo to, že když jsem začínal, nebyly ještě hluboké neuronové
 sítě tak rozšířené. Jsou ale i dvě další výhody, které použití markovovských
 modelů opodstatňují: 1) Nepotřebují tolik trénovacích dat, takže se více hodí do
-začátku, kde je přepsaná množina malá, a 2) umožňují získat přesné zarovnání
+začátku, kde je přepsaná množina malá,\footnote{První trénovací sadu jsem pořídil svépomocí přepisem asi 15 minut nahrávky
+\texttt{85-05A}.} a 2) umožňují získat přesné zarovnání
 slov a hlásek na časové pozice ve zvukovém záznamu. Dosud neznám žádný nástroj,
 který by toto poskytoval bez použití HMM.
 
@@ -612,11 +612,11 @@ Nejdříve popíšu výstavbu markovovského modelu a poté
 v~sekci~\ref{sec:deepspeech} se budu věnovat modelu založenému na neuronových
 sítích.
 
-\section{Přepis Makoňova korpusu pomocí HMM}
+%\section{Přepis Makoňova korpusu pomocí HMM}
 
-V~průběhu jedenácti let této disertační práce vznikly dva systémy automatického
-přepisu mluveného korpusu Karla Makoně. První z~nich, založný na skrytých
-markovovských modelech, popíšu v~této sekci.
+%V~průběhu jedenácti let této disertační práce vznikly dva systémy automatického
+%přepisu mluveného korpusu Karla Makoně. První z~nich, založný na skrytých
+%markovovských modelech, popíšu v~této sekci.
 
 Stěžejními nástroji pro tvorbu systému jsou 1) HTK pro akustický model, 2) KenLM
 pro jazykový model a 3) Julius pro dekódování.
@@ -857,9 +857,9 @@ Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 
 Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
 modelovanému materiálu. Nejvěrnější jsou samozřejmě manuální přepisy Makoňových
-nahrávek, kterých je nejméně. V~okamžiku psaní tohoto textu je to přesně 715 285
+nahrávek, kterých je nejméně. V~okamžiku psaní tohoto textu je to 728 286
 slov. Automatické přepisy, jejichž přínos pro jazykové modelování je nejasný,
-představují 6 795 325 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
+představují 7 338 504 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
 
@@ -887,7 +887,7 @@ byly velmi nepravděpodobné podle obecného modelu, takže špatně reprezentov
 Druhé hledání proběhlo s~úpravou, že se použijí toliko věty, které nejsou
 podle~reprezentativním modelu příliš nepravděpodobné. Průměrná \textit{log
 likelihood} věty vážená počtem slov je v~reprezentativním modelu -3,51 a
-standardí odchylka je 0,52. Práh pro inkluzi věty jsem tedy nastavil na -4.
+standardní odchylka je 0,52. Práh pro inkluzi věty jsem tedy nastavil na -4.
 Takto jsem došel ke zvýšení úspěšnosti o 2,7\%, z 0,112 na 0,109 WER.
 
 U třetího hledání jsem zcela ignoroval pravděpodobnost věty podle obecného
@@ -898,6 +898,8 @@ WER.
 Vývoj úspěšnosti podle kritéria přidání vět z~obecného korpusu do jazykového
 modelu shrnuje tabulka~\ref{tab:lm-plz-scores} a
 obrázek~\ref{fig:lm-plz-scores}.
+Výsledek považuji za zajímavý, neboť shledává jinou, dokonce jednodušší metodu
+v~tomto případě účinnější než navrhovanou autory.
 
 \begin{table}[htpb]
 \begin{center}
@@ -945,9 +947,6 @@ obecného korpusu a v~násobcích velikosti reprezentativního korpusu.}\label{t
 \label{fig:lm-plz-scores}
 \end{figure}
 
-Výsledek považuji za zajímavý, neboť shledává jinou, dokonce jednodušší metodu
-v~tomto případě účinnější než navrhovanou autory.
-
 Jazykový model stavím pomocí nástroje KenLM\cite{heafield2011kenlm}. Aplikuji
 vyhlazování technikou Knesser-Ney\cite{chen1999empirical}, jak je v něm
 zabudována.
@@ -970,25 +969,25 @@ teprve následuje vyslovené slovo {\em špatný}.
 Při stavbě jazykového modelu toto značení umožní, aby se věta při setkání
 s~takovým slovem ukončila nebo aby se takové slovo přeskočilo.
 
-\section{Segmentace}
-
-Zpravidla jeden zvukový soubor odpovídá jednomu přetočení magnetofonové pásky,
-obvyklá délka je tedy 45 až 120 minut. Takto dlouhé úseky nelze použít ani jako
-trénovací příklady ani jako cíl automatického rozpoznávání.
-
-Sofistikovanější segmentaci popisuji v~sekci~\ref{sec:segmenty}. Pro účely
-vývoje iniciálního systému automatického přepisu jsem však použil jednodušší
-metodu:
-
-Celá aplikace je pojata jako nástroj pro~zdokonalování automatického přepisu,
-takže vychází z~předpokladu, že nějaký přepis již existuje. Vycházeje z~téhož
-předpokladu při~segmentaci, realizoval jsem ji tak, že zvukový soubor se rozdělí
-na~úseky odpovídající jednotlivým větám v~přepisu, ne však delší než patnáct
-sekund. Pokud by věta byla delší, rozdělí se u nejbližšího slova
-před~patnáctisekundovou hranicí.
-
-V~případě, že pro daný záznam zatím žádný přepis neexistuje, rozdělí se naivně
-na~patnáctisekundové úseky.
+%\section{Segmentace}
+%
+%Zpravidla jeden zvukový soubor odpovídá jednomu přetočení magnetofonové pásky,
+%obvyklá délka je tedy 45 až 120 minut. Takto dlouhé úseky nelze použít ani jako
+%trénovací příklady ani jako cíl automatického rozpoznávání.
+%
+%Sofistikovanější segmentaci popisuji v~sekci~\ref{sec:segmenty}. Pro účely
+%vývoje iniciálního systému automatického přepisu jsem však použil jednodušší
+%metodu:
+%
+%Celá aplikace je pojata jako nástroj pro~zdokonalování automatického přepisu,
+%takže vychází z~předpokladu, že nějaký přepis již existuje. Vycházeje z~téhož
+%předpokladu při~segmentaci, realizoval jsem ji tak, že zvukový soubor se rozdělí
+%na~úseky odpovídající jednotlivým větám v~přepisu, ne však delší než patnáct
+%sekund. Pokud by věta byla delší, rozdělí se u nejbližšího slova
+%před~patnáctisekundovou hranicí.
+%
+%V~případě, že pro daný záznam zatím žádný přepis neexistuje, rozdělí se naivně
+%na~patnáctisekundové úseky.
 
 \section{Rozdělení dat}
 \label{sec:asr:rozdeleni-dat}
@@ -999,8 +998,8 @@ algoritmem spatřena. Při trénování samotném se pak mnohdy používá vyhra
 tzv.~\textit{heldout} dat\footnote{Často zaměňovaných s~vývojovou testovací sadou
 označovanou běžně jako \textit{dev} / \textit{dtest}.} pro průběžné měření úspěšnosti. V~případě trénování
 akustického modelu s~použitím HTK je tomu nejinak. Heldout data jsou používána
-pro zjištění optimálního počtu mixtur modelů jednotlivých hlásek a testovací
-pro závěrečné vyhodnocení.
+pro zjištění optimálního počtu složek v~gaußovských směsích modelů jednotlivých hlásek a testovací
+data jsou používána pro závěrečné vyhodnocení.
 
 Anotovaná data mi přibývala velice pozvolna. Začínal jsem s~několika minutami,
 ovšem přírůstky byly časté. Nemohl jsem si tedy dovolit udělat od~začátku pevnou
@@ -1026,7 +1025,7 @@ hodinových nahrávek jsem sadu určil manuálně jako úsek druhé až jedenác
 
 Sadu heldout nyní vybírám jako každou čtyřicátou větu. Z~každé dvacáté jsem
 snížil na~polovic nejen abych neplýtval trénovacími daty, nýbrž také protože
-vyhodnocování mixtur zabírá při trénování zdaleka nejvíce času, a ten je přímo
+vyhodnocování směsí zabírá při trénování zdaleka nejvíce času, a ten je přímo
 úměrný velikosti sady heldout.
 
 \section{Experiment s kepstrální normalizací}
@@ -1094,8 +1093,8 @@ tento výběr poskytl 99 hodin audia, tedy 10\% celého korpusu.
 Chybovost rozpoznávání se zvýšila ze 46,4\% na 49,4\% a doba trénování
 se zvýšila také.
 
-\section{Přepis Makoňova korpusu pomocí neuronových sítí}
-\label{sec:deepspeech}
+\section{ASR na parlamentním korpusu}
+\label{sec:csasr:results}
 
 Po rozšíření hlubokých neuronových sítí došlo k~pokusu o přepis pomocí systému
 na nich založeného. 
@@ -1111,8 +1110,83 @@ v~podsekci~\ref{ssec:deepspeechpaper}.
 Na rozdíl od článku\cite{hannun2014deep} však implementuje rekurentní vrstvu
 pomocí LSTM upřednostňuje přesnost modelu před komputační efektivitou.
 
-Akustický model jsem na něm natrénoval dvojí: 1) čistě na manuálních přepisech
-Makoňových nahrávek (v~době psaní 100 hodin), 2) na agregované sadě popsané
+Dříve než popíšu použití neuronových sítí pro přepis Makoňova korpusu,  pojednám
+o použití datové sady představené v~kapitole~\ref{kap:svolocz} pro rozpoznávání
+řeči.
+Zmíněnou datovou sadu jsem použil pro natrénování rozpoznávače řeči pomocí
+systému DeepSpeech. Sadu jsem
+rozdělil na trénovací (train), ladicí (dev) a testovací (test)\footnote{Toto
+označení je v~souladu s~konvencí pro systém DeepSpeech, ale ve skutečnosti jde
+po řadě o množiny train, heldout a dtest, jak zmiňuji v~sekci~\ref{sec:asr:rozdeleni-dat}.} v~poměru 18:1:1.
+Hyperparametry jsem nastavil následovně: learning rate 0,0001, dropout rate 0,2,
+zbytek ponechán defaultně. Ke konvergenci došlo po 12 epochách.
+S~použitím pentagramového jazykového modelu natrénovaného na
+stenografických přepisech byla výsledná WER 8,40\% před expanzí číslic a 7,89\% po expanzi.
+
+Ze zdrojů zmíněných v~úvodu kapitoly~\ref{kap:svolocz} se bez větší námahy se ziskem v~řádu
+aspoň desítek hodin daly použít 1) Otázky Václava Moravce a 2) Vystadial. Krom
+toho jsem použil veřejně nepřístupné zdroje 3) CUCFN -- Korpus Finančních zpráv
+Univerzity Karlovy, 4) Korpus reprezentativní mluvené češtiny
+Oral2013\cite{oral2013} a 5) amatérsky namluvenou Bibli, která je dostupná na adrese
+\texttt{poslouchamebibli.cz}, a u které není žádná explicitní licence.
+
+Na všech sadách včetně manuálních přepisů nahrávek Karla Makoně jsem natrénoval
+model s~použitím téhož systému Mozilla DeepSpeech, týchž hyperparametrů a téhož
+obecného jazykového modelu. Ten jsem natrénoval na datech z~WMT
+2019\cite{wmt19}.
+
+Nakonec jsem natrénoval akustický model na všech trénovacích
+sadách sloučených do jedné.
+Tabulka~\ref{tab:csasr:results} shrnuje word error rate systémů trénovaných na
+jednotlivých částech testovaných jednak na testovací sadě z~téhož zdroje a
+jednak na agregované testovací sadě sloučené ze všech dílčích.
+Z~důvodu použití obecného jazykového modelu je u parlamentního korpusu vyšší chybovost než
+výše zmiňovaných 8,40\% a u Makoňova korpusu taktéž vyšší chybovost než 19\%
+uvedených v~sekci~\ref{sec:deepspeech}.
+
+\begin{table}[htpb]
+\begin{center}
+\begin{tabular}{|l||r|r|}
+\hline
+zdroj     & WER na sobě & WER na všech \\
+\hline
+bible     & 9,20\%  & 94,7\% \\
+cucfn     & 31,6\%  & 72,8\% \\
+makoň     & 30,4\%  & 77,3\% \\
+oral2013  & 78,4\%  & 60,7\% \\
+ovm       & 21,6\%  & 72,9\% \\
+parlament s~číslicemi & 8,74\%  & 39,7\% \\
+parlament ve slovech  & 7,89\%  & 36,0\% \\
+vystadial & 51,0\%  & 74,0\% \\
+\hline
+vše s~číslicemi   & 28,4\%  & 28,4\% \\
+vše ve slovech    & 26,0\%  & 26,0\% \\
+\hline
+\end{tabular}
+\caption{Word error rate rozpoznávání řeči na jednotlivých korpusech a na jejich
+konkatenaci.}\label{tab:csasr:results}
+\end{center}
+\end{table}
+
+%           cstest      selftest
+% ovm       0.728954    0.216131
+% bible     0.947226    0.091958
+% cucfgn    0.728446    0.316287
+% vystadial 0.739838    0.509930
+% svolocz   0.397490    0.083978
+% makon     0.773216    0.191772
+% oral2013  0.607015    0.783525
+% all       0.283574    0.283574
+%
+% cucfgnOF  0.683059    0.141142
+% all\o                 0.130555
+
+\section{Přepis Makoňova korpusu pomocí neuronových sítí}
+\label{sec:deepspeech}
+
+Pro přepis Makoňova korpusu jsem natrénoval dva akustické modely pomocí DeepSpeech:
+1) čistě na manuálních přepisech
+Makoňových nahrávek (v~té době 100 hodin), 2) na agregované sadě popsané
 v~sekci~\ref{sec:csasr:results}. Používal jsem parametr \textit{automatic mixed
 precision} pro rychlejší trénink, \textit{batch size} 50, \textit{dropout} 0,2 a
 \textit{learning rate} $1^{-4}$.
@@ -1154,7 +1228,7 @@ Poslední naměřená word error rate markovovského akustického modelu s~výš
 jazykovým modelem je 46,3\%. Nejnižší dosažená WER s~pentagramovým jazykovým
 modelem popsaným v~sekci~\ref{sec:jazykovy-model} je \textbf{10,3\%}.
 
-Vzhledem k~tomu, že mi v~průběhu projektu rostla trénovací sada, určil jsem testovací sadu
+Jelikož jsem zpočátku práce neměl žádná přepsaná data, určil jsem fixní testovací sadu
 až v~průběhu projektu. Chybí v~ní přepisy těch
 nejméně srozumitelných nahrávek, které byly digitalizovány až po provedení
 většiny experimentů, a navíc k~nim pořizovat ruční přepisy je velice nesnadné.
@@ -1182,7 +1256,8 @@ model & GMM & \makecell{ DNN trénovaný\\ na Makoňovi } & \makecell{ DNN trén
 \makecell{1 minuta obzvláště\\ nesrozumitelného záznamu } & & 94,1\% & 75,9\% \\ \hline
 \makecell{agregovaná testovací\\ sada z~různých dat} & & 77,3\% & \textbf{22,2\%} \\ \hline %25,3 s číslicema
 \end{tabular}
-\caption{Chybovosti tří důležitých modelů na různých testovacích sadách.}\label{tab:asr-scores}
+\caption{Chybovosti tří důležitých modelů na různých testovacích sadách s~trigramovým
+jazykový modelem trénovaným na Makoňových přepisech a spisech.}\label{tab:asr-scores}
 \end{center}
 \end{table}
 
@@ -1190,7 +1265,7 @@ Je úspěšnost nízká nebo vysoká? V~roce 2016 publikovali Mizera et
 al.\cite{mizera2016kaldi} sadu receptů na rozpoznávání řeči pro češtinu.
 Uvádějí jako state of the art techniky GMM-HMM a DNN-HMM a word error rate pro
 jednotlivé recepty mezi 8,49 a 48,47 podle povahy dat. Úspěšnost na korpusu
-Karla Makoně v~tomto porovnání tedy nijak nepřekvapuje, obzvláště s~přihlédnutím
+Karla Makoně v~tomto porovnání je velmi dobrá, obzvláště s~přihlédnutím
 k~velké akustické variabilitě materiálu.
 
 Na závěr kapitoly uvádím na obrázku~\ref{fig:asrhist} vývoj úspěšnosti
