@@ -536,6 +536,50 @@ implementoval. Pro uživatele, kteří delší dobu pracují na jedné a téže 
 se tím přináší velká úspora času a přenesených dat. Nicméně s~rozdělením
 nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
 
+\section{Nucené zarovnání}
+
+Nucené zarovnání, anglicky {\em forced alignment}, je inherentní součástí
+systému rozpoznávání řeči na bázi skrytých markovovských modelů, jak je i
+zmiňuji v~podsekci~\ref{ssec:am-creation}. V~mém případě však hraje zásadnější
+roli, neboť nucené zarovnání využívám při sběru trénovacích vzorků (viz
+podsekci~\ref{ssec:user-expertise}) a při zpracování korpusu (viz
+sekci~\ref{sec:mfcc-norm} a podsekci~\ref{ssec:splitpoint-selection}).
+
+Až do května 2021 jsem používal pro nucené zarovnání nástroj \texttt{HVite} ze
+sady HTK s~akustickým modelem natrénovaným zvlášť pro tento účel. Jednalo se o
+monofónový model s~gaußovskými směsmi. Toto bylo dlouho jednou z~největších slabin
+systému a prioritním krokem v~plánované práci. Hlavní důvody k~nahrazení tohoto
+řešení byly dva: Jednak model nedokázal dobře postihnout data v~jejich
+variabilitě, takže korektní přepis netypických nahrávek byl často odmítnut a
+jednak zde byla technologická závislost na zastaralém systému HTK, a to i pro
+samotný provoz webové aplikace.
+
+Jako technologie pro následníka se nabízí Kaldi svojí moderností a přítomností
+aparátu pro skryté markovovské modely. Systém {\em Montreal Forced
+Aligner\cite{mcauliffe2017montreal} (MFA)} poskytl hotové řešení využívající
+zkušeností s~předchozími generacemi zarovnávačů, jmenovitě {\em Prosodylab
+aligner}\cite{gorman2011prosodylab} a {\em FAVE}\cite{rosenfelder2011fave}.
+
+MFA využívá trojfázového tréninku. Nejdříve se natrénuje monofónový model
+založený na GMM, poté se přejde k~trifónům a nakonec se provádí adaptace na
+jednotlivé mluvčí pomocí fMLLR.
+
+MFA jsem se pokusil natrénovat na celém agregovaném korpusu (viz
+sekci \ref{sec:csasr:results}). To se bohužel ukázalo jako výpočetně příliš
+náročné, proto jsem omezil trénovací data na 60 tisíc vzorků (vět), z~původních
+820 tisíc. Vzorky jsem vybíral tak, aby každý zdrojový korpus byl zastoupen
+přibližně stejně.
+Konfiguraci jsem ponechal tovární. Kvůli chybějící anotaci mluvčích u velké
+části dat a také pro obrovské množství jednotlivých mluvčích jsem adaptaci dělal
+po jednotlivých zdrojových korpusech. Jelikož korpus Karla Makoně je korpus
+jediného mluvčího, je identifikován jako jeden z~mluvčích a mohu využít
+natrénování na jeho hlas.
+
+MFA se osvědčil i jednoduchostí v~natrénování a použití a též robustností
+výsledného systému -- úspěšně zarovná i pětatřicetiminutový úsek.
+Zarovnávač je k~dispozici pro libovolná data v~češtině jako služba na Lindatu:
+\url{lindat.mff.cuni.cz/services/aligner}.
+
 \section{Rozdělení nahrávek na úseky}
 \label{sec:segmenty}
 
@@ -581,6 +625,7 @@ frekvenci 24kHz kolem 0,6MB a na Intel Core2 o 2,5GHz se dekóduje asi 1,6
 sekundy.
 
 \subsection{Metody hledání bodů předělu}
+\label{ssec:splitpoint-selection}
 
 Vhodným výběrem bodů předělu můžeme omezit dopad případných artefaktů
 způsobených nepřesným navázáním. Ideálním by bylo dělit nahrávky v~momentech
@@ -792,6 +837,7 @@ vyčerpání zvukových dat.
 Aplikace {\em znamená} použití. Použitelnost je tedy klíčovým faktorem pro její hodnocení.
 
 \subsection{Expertíza uživatelů}
+\label{ssec:user-expertise}
 
 Přepis, který pořizuji, je na hranici toho, co se dá nazvat lingvistickou
 anotací dat. V~naší požehnané části světa, kde podíl analfabetů je zanedbatelný,
@@ -840,7 +886,7 @@ odpovídá.
 
 Dále se vychází z~existence akustického modelu pro nahrávky, viz kapitolu~\ref{kap:asr}.
 
-Díky těmto dvěma prvkům mohu provést nucené zarovnání {\em (forced alignment)} textového úseku
+Díky těmto dvěma prvkům mohu provést nucené zarovnání textového úseku
 s~audiem. V~případě selhání zarovnání můžeme předpokládat, že úsek byl přepsán
 chybně, příspěvek odmítnout a dát tím uživateli zpětnou vazbu. Jelikož
 jednotlivé úseky odpovídají akustickému modelu v~různé míře, dochází k~falešně
@@ -1322,14 +1368,3 @@ integrací vhodného systému nápovědy. Dále chci odstranit nutnost označova
 úsek, aby ho člověk mohl opravit.
 Metody zvýšení použitelnosti webu lze čerpat např. z~knihy Jana Řezáče Web
 ostrý jako břitva\cite{rezac2016web}.
-
-Nucené zarovnání je nyní založeno na programu \texttt{HVite} ze sady HTK a
-využívá jednotného monofónového akustického modelu pro všechna data. Je
-potřeba tento stav napravit, aby se zvýšila přesnost rozpoznání validního úseku
-od vadného. Dosáhne se toho buďto natrénováním různých akustických modelů pro
-různé skupiny nahrávek nebo použitím jiného programu.
-
-Nabízí se julius. Ten sice neoplývá funkcionalitou nuceného zarovnání s~daným
-textem, ovšem dokáže provést nucené zarovnání s~textem, který predikuje. Pomocí
-vhodně zvolené restriktivní gramatiky by se tak nuceného zarovnání dalo
-dosáhnout. Není však jasné, jak by se měla detekovat validita příspěvku.
