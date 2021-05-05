@@ -970,6 +970,24 @@ teprve následuje vyslovené slovo {\em špatný}.
 Při stavbě jazykového modelu toto značení umožní, aby se věta při setkání
 s~takovým slovem ukončila nebo aby se takové slovo přeskočilo.
 
+\section{OOV}
+
+{\em{}Out of vocabulary}\footnote{Častěji s~pomlčkami {\em out-of-vocabulary},
+což je správně jen je-li fráze rozvitím zleva, jako např. ve výrazu {\em
+out-of-vocabulary words}, stejně jako např. {\em part of speech}, kteréžto
+výrazy mnozí mylně píší s~pomlčkami vždy.}, tedy {\em mimo slovník}. Tak se zove
+jev, kdy výstupem rozpoznávání řeči je slovo, které jazykový model nezná. Může
+k~tomu dojít ve dvou případech: Buď když je neznámé slovo součástí jazykového
+modelu nebo když je rozpoznávání řeči schopno vydávat i slova mimo slovník
+jazykového modelu.
+
+Vzhledem k~architektuře systému DeepSpeech je můj případ ten druhý. OOV tedy
+v~jazykovém modelu nemám a slova mimo slovník se na výstupu objevily tehdy, když
+podle akustického modelu predikovaná posloupnost hlásek předčila všechny
+kandidáty, kterým jazykový model odhadoval nenulové pravděpodobnosti.
+
+49 / 8000343
+
 %\section{Segmentace}
 %
 %Zpravidla jeden zvukový soubor odpovídá jednomu přetočení magnetofonové pásky,
