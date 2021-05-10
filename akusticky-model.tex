@@ -984,9 +984,14 @@ jazykového modelu.
 Vzhledem k~architektuře systému DeepSpeech je můj případ ten druhý. OOV tedy
 v~jazykovém modelu nemám a slova mimo slovník se na výstupu objevily tehdy, když
 podle akustického modelu predikovaná posloupnost hlásek předčila všechny
-kandidáty, kterým jazykový model odhadoval nenulové pravděpodobnosti.
+kandidáty, kterým jazykový model odhadoval nenulové pravděpodobnosti. DeepSpeech
+kombinuje odhad pravděpodobnosti podle akustického a jazykového modelu aditivně,
+takže nulová pravděpodobnost od jazykového modelu přijetí hypotézy neznemožňuje.
 
-49 / 8000343
+V~praxi bylo v~mém případě takových slov zanedbatelné množství: 49 z~8 milionů
+slov při pentagramovém modelu se slovníkem o velikosti 206 tisíc slov. Při
+trigramovém modelu se slovníkem o velikosti 140 tisíc slov byly mimoslovníkové
+predikce 194.
 
 %\section{Segmentace}
 %
