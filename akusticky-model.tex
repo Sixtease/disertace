@@ -139,7 +139,7 @@ kterém je obsažena prakticky veškerá relevantní informace.
 
 Jako vstupní data pro skryté markovovské modely nejsou prostá reálná
 čísla\footnote{Pro počítačovou implementaci jsou reálná čísla díky svému
-nekonečnému desetinnému rozvoji nereálná, pro se v~praxi pracuje s~tzv. čísly
+nekonečnému desetinnému rozvoji nereálná, proto se v~praxi pracuje s~tzv. čísly
 s~plovoucí desetinnou čárkou (\textit{floating-point numbers}).} v~řádu tisíců
 za sekundu praktická, pročež se signál nejdříve transformuje do jiné formy. Tato
 část systému se zove \textit{front-end} a implementuje se nejčastěji pomocí
@@ -361,7 +361,7 @@ model založený nikoliv na celých slovech, nýbrž na kmenech a koncovkách. T
 přístup je intuitivně pro češtinu vhodný, ale u bigramového modelu se
 neosvědčil.
 
-Udávaná úspěšnost systému s~celoslovním jazykovým modelem je 34,29\%.
+Udávaná úspěšnost systému s~celoslovním jazykovým modelem je 70,47\%.
 
 \subsection{Psutka et al. 2002 - 2005}
 
@@ -552,7 +552,7 @@ sadě není žádné překvapení, a i tak ukázal životaschopnost metody.
 Na výše popsaný článek navázali ve výzkumném centru Baidu a navrhli systém
 pojmenovaný DeepSpeech\cite{hannun2014deep}, který využívá tentýž přístup
 s~důrazem na praktickou použitelnost a optimalizaci pro trénink na velkých
-množstvích dat. Na rozdíl od Gravese 2014 používají jen jednu obousměrnou
+množstvích dat. Na rozdíl od Gravese (2014) používají jen jednu obousměrnou
 rekurentní vrstvu a další čtyři skryté dopředné. Jako aktivační funkci ve
 skrytých vrstvách používají místo sigmoidu shora omezené ReLu a na výstupu
 standardní softmax. U dopředných vrstev se aplikuje dropout. Rekurentní vrstva
@@ -566,6 +566,14 @@ znázorňuje architekturu sítě.
 }
 \label{fig:deepspeech-arch}
 \end{figure}
+
+\subsection{Shrnutí}
+
+Během vývoje rozpoznávání řeči došlo k~mnoha významným objevům a průlomům.
+Od porovnávání vzorků spektrogramů se v~sedmdesátých letech přešlo ke
+generativním markovovským modelům. Ty se používaly až do příchodu hlubokých
+neuronových sítí, které nyní v~ASR dominují stejně jako v~jiných oblastech
+strojového učení.
 
 \section{Přepis Makoňova korpusu pomocí GMM-HMM}
 
