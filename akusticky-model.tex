@@ -790,7 +790,7 @@ Otázky použité v~rozhodovacím stromě viz v~digitální příloze.
 \item{Přechod ke gaußovským směsem}
 
 Posledním krokem ve~zvětšování komplexity modelu je přechod z~modelování stavů
-prostými gaußovskými pravděpodobnostnímu distribucemi k jejich směsem
+prostými gaußovskými pravděpodobnostními distribucemi k~jejich směsem
 (angl. \textit{mixtures}). Spočívá v~tom, že se přesněji modelují variantní
 realizace jednotlivých hlásek. Daná hláska v~jednom stavu HMM pak není modelována jednou gaußovskou
 distribucí, nýbrž složením několika. Každá má svůj střed, svoji varianci a svoji
@@ -857,11 +857,11 @@ DeepSpeech libovolného řádu.
 
 Pro trénování jazykového modelu mám k dispozici čtyři druhy dat:
 \begin{enumerate}
-\item{Obecné české texty\footnote{Obecnými českými texty nemyslím texty v
-{\em obecné češtině}, nýbrž obecné ve smyslu všech, které šlo opatřit.},}
+\item{Manuální přepisy nahrávek,}
+\item{automatické přepisy,}
 \item{Makoňovy spisy,}
-\item{manuální přepisy nahrávek,}
-\item{automatické přepisy.}
+\item{obecné české texty\footnote{Obecnými českými texty nemyslím texty v
+{\em obecné češtině}, nýbrž obecné ve smyslu všech, které šlo opatřit.}.}
 \end{enumerate}
 
 Každá z~těchto kategorií skýtá různé množství textu a různou věrnost
@@ -871,8 +871,11 @@ slov. Automatické přepisy, jejichž přínos pro jazykové modelování je nej
 představují 7 338 504 slov. Makoňovy spisy obsahují 3 328 720 slov. Obecné české
 texty jsou nejdostupnější z~těchto komodit. Nejobsáhlejší dostupný korpus, který
 jsem nalezl, je Mononews z WMT\cite{wmt19} obsahující 1 019 497 060 slov.
+Velikosti zdrojů jsou tedy v~poměru 1:10:5:1400.
 
 Inspirován výše zmiňovaným článkem od Psutky et al. 2003\cite{psutka2003large},
+kde autoři tvoří trénovací korpus z~reprezentativního subkorpusu a selekce vět
+z~velkého nereprezentativního subkorpusu,
 pokusil jsem se jejich přístup replikovat. Na základě předběžných pokusů jsem
 zjistil, že nejlepší výsledek dává jazykový model natrénovaný z~Makoňových spisů
 a manuálních přepisů, naopak přidání automatických přepisů nemá prakticky žádný
@@ -918,13 +921,13 @@ kritérium & \multicolumn{3}{c|}{počet přidaných vět} & WER \\
                         &       \# &  \%W       & $\div{}M$ & \\
 \hline
 Ø                       &        0 &  0,000\% &  0,00 & 11,2\% \\
-$l<0,65m$               &   715246 &  0,991\% &  2,09 & 11,5\% \\
-$l<0,8m$                &  2629381 &  3,644\% &  7,70 & 11,6\% \\
-$l<m$                   & 10263276 & 14,223\% & 30,05 & 11,7\% \\
-$l<0,65m$ \& $m>10^{-4}$&   217359 &  0,301\% &  0,64 & 11,2\% \\
-$l<0,8m$ \& $m>10^{-4}$ &  1466100 &  2,032\% &  4,29 & 11,0\% \\
-$l<m$ \& $m>10^{-4}$    &  6587540 &  9,129\% & 19,29 & 10,9\% \\
-$l<1,3m$ \& $m>10^{-4}$ & 14544308 & 20,156\% & 42,58 & 11,2\% \\
+$w<0,65m$               &   715246 &  0,991\% &  2,09 & 11,5\% \\
+$w<0,8m$                &  2629381 &  3,644\% &  7,70 & 11,6\% \\
+$w<m$                   & 10263276 & 14,223\% & 30,05 & 11,7\% \\
+$w<0,65m$ \& $m>10^{-4}$&   217359 &  0,301\% &  0,64 & 11,2\% \\
+$w<0,8m$ \& $m>10^{-4}$ &  1466100 &  2,032\% &  4,29 & 11,0\% \\
+$w<m$ \& $m>10^{-4}$    &  6587540 &  9,129\% & 19,29 & 10,9\% \\
+$w<1,3m$ \& $m>10^{-4}$ & 14544308 & 20,156\% & 42,58 & 11,2\% \\
 $m>10^{-2}$             &     2380 &  0,003\% &  0,01 & 11,1\% \\
 $m>10^{-2,5}$           &    61654 &  0,085\% &  0,18 & 11,0\% \\
 $m>10^{-2,8}$           &   308102 &  0,427\% &  0,90 & 10,6\% \\
@@ -969,7 +972,7 @@ je, instruovat uživatele těmito pokyny: 1) Každé slovo, po kterém následuj
 mluvy doplnit třemi tečkami,
 2) pokud se mluvčí zadrhne uprostřed slova nebo vysloví něco, co není slovem,
 připojit k~tomuto útvaru pomlčku\footnote{Standardní postup, se kterým jsem se
-seznámil až později, je místo pomlčky použít symbol \texttt{+}.}. Například ve větě {\em ,,To je ta relativnost
+seznámil až později, je místo pomlčky použít symbol ,,\texttt{+}``.}. Například ve větě {\em ,,To je ta relativnost
 dobrého a zlého, tak kdybychom... to je tam jinak postaveno.``} patří tři tečky
 za slovo {\em kdybychom}. Ve větě {\em ,,To je první š- špatný pohled, chybný pohled na rodiče a na
 předcházející generaci.``} patří pomlčka za vyslovené {\em š}, za kterým
@@ -1233,7 +1236,7 @@ v~další iteraci, aby se umožnilo synchronní přehrávání ve webovém rozhr
 \section{OOV}
 
 {\em{}Out of vocabulary}\footnote{Častěji s~pomlčkami {\em out-of-vocabulary},
-což je správně jen je-li fráze rozvitím zleva, jako např. ve výrazu {\em
+což je správně jen je-li fráze rozvitím jiné jmenné fráze, jako např. ve výrazu {\em
 out-of-vocabulary words}, stejně jako např. {\em part of speech}, kteréžto
 výrazy mnozí mylně píší s~pomlčkami vždy.}, tedy {\em mimo slovník}. Tak se zove
 jev, kdy výstupem rozpoznávání řeči je slovo, které jazykový model nezná. Může
@@ -1331,7 +1334,7 @@ pořízených pomocí prototypu webové aplikace.
 }
 \item{
   Desátý sloupec odpovídá pokusu o rozšíření trénovací sady o automaticky
-  přepsané pasáže mluveného korpusu Karla Makoně s~velkou mírou jistoty
+  přepsané pasáže mluveného korpusu Karla Makoně s~velkou měrou jistoty
   predikce.
 }
 \item{

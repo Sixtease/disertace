@@ -210,7 +210,8 @@ Tato původní verze posloužila k~přepsání asi 600 tisíc slov a běžela as
 než bylo nutné ji nahradit.
 
 Pro kompletní přepis aplikace se postupně objevilo několik důvodů. Hlavním
-z~nich bylo, že původní aplikace mohla jen těžko sloužit pro širokou veřejnost.
+z~nich bylo, že původní aplikace mohla kvůli své designové nevytříbenosti
+jen těžko sloužit pro širokou veřejnost.
 Dalším důvodem bylo, že některé kýžené funkce nebylo možné zprovoznit bez
 zásadních změn v~provedení. Především šlo o~ekvalizér, čili frekvenční korekci
 při poslechu. Akutním důvodem pak byl fakt, že všechny významné prohlížeče
@@ -527,14 +528,15 @@ potřeba je asi 1GB. Dalším kandidátem je \textit{File System API}. Tento
 standard pro~izolovaný souborový systém k~dispozici webové aplikaci je zcela
 ideálním řešením -- dá se zde i explicitně požádat o~konkrétní diskovou kvótu a
 uživatel tak má volbu bez nutnosti práce programátora webové aplikace. Kamenem
-úrazu je zde však podpora, která se momentálně omezuje pouze na Google Chrome.
+úrazu je zde však podpora, která se momentálně omezuje pouze na prohlížeče na
+bázi Chromia.
 
 Existuje ještě standard \textit{IndexedDB API}, který má uspokojivou
 podporu a uložení gigabytu dat je s~ním možné, byť ne zaručené. S~využitím
 abstrahující knihovny \textit{Dexie} jsem proto skrz tento standard ukládání
 implementoval. Pro uživatele, kteří delší dobu pracují na jedné a téže nahrávce,
 se tím přináší velká úspora času a přenesených dat. Nicméně s~rozdělením
-nahrávek na segmenty přestala být potřeba ukládat nahrávky aktuální.
+nahrávek na segmenty (sekce \ref{sec:segmenty}) přestala být potřeba ukládat nahrávky aktuální.
 
 \section{Nucené zarovnání}
 
@@ -732,8 +734,8 @@ datům možné. Algoritmus je jednoduchý na naprogramování a má milou
 lineární složitost. Pseudokód algoritmu:
 
 \begin{code}
-const maxSegmentLength = 60
-const minSegmentLength = 30
+const maxSegmentLength := 60
+const minSegmentLength := 30
 
 // vstupní posloupnost tich daných délkou a pozicí středu
 silences := [
@@ -961,15 +963,19 @@ každého slova sestává z~těchto prvků:
     vzdálenost počátku slova od počátku nahrávky v~sekundách s~přesností na dvě
     desetinná místa.
 }
+\item(Délka:
+    časová pozice od začátku slova, kde končí poslední vlastní hláska
+    (tedy kde začíná ticho nebo následující slovo).
 \item{Manuálně přepsané:
     pravdivostní hodnota odlišující manuálně přepsaná slova od automaticky
     přepsaných.
 }
-\item{Confidence measure:
+\item{Confidence measure\footnote{Od přechodu na zarovnávání založené na
+    Montreal Forced Aligner se již nepoužívá.}:
     míra jistoty, se kterou bylo slovo predikováno (týká se pouze automaticky
     přepsaných slov).
 }
-\item{Ticho:
+\item{Ticho\footnote{Zastaralý údaj nahrazený délkou slova.}:
     začátek a délka ticha, pokud se za slovem vyskytuje.
 }
 \end{enumerate}
@@ -1040,7 +1046,7 @@ jednou potřeba.
 
 Podotýkám, že ve výstupu převodníku do fonetického zápisu se nikdy nevyskytují
 sekvence {\em di, ti, ni, dě, tě, ně}. Palatální souhlásky jsou vždy vyjádřeny
-explicitně a např. sekvence {\em n i} se vždy vyjádří jako {\em ny}.
+explicitně háčkem a např. sekvence {\em n i} se vždy vyjádří jako {\em ny}.
 
 V tabulce~\ref{tab:priklady-fonetiky} uvádím několik příkadů slov s~jejich výslovností a fonetickým zápisem, jak jej
 produkuje algoritmus, pokud na vstup dostane příslušnou výslovnost ve formátu
@@ -1222,6 +1228,7 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
             \item{\texttt{filestem} (řetězec): identifikátor nahrávky,}
             \item{\texttt{start} (desetinné číslo): pozice začátku přepsaného segmentu od začátku nahrávky v~sekundách,}
             \item{\texttt{end} (desetinné číslo): pozice počátku přepsaného segmentu, ditto,}
+            \item{\texttt{subs}: seznam zarovnaných slov,}
         \end{itemize}
     }
     \item{
@@ -1230,21 +1237,24 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
   filestem: {\em řetězec},
   start: {\em desetinné číslo},
   end: {\em desetinné číslo},
-  data {\em (seznam zarovnaných slov)}: [ 
-    \{
-      fonet:{\em řetězec},
-      wordform:{\em řetězec},
-      occurrence:{\em řetězec},
-      humanic: 1,{\em (znamená, že je manuálně přepsané)}
-      timestamp:{\em desetinné číslo},{\em (pozice začátku slova)}
-      slen:{\em desetinné číslo},{\em (délka ticha, jen když > 0)}
-    \},
-    {\em ...}
-  ]
+  data: {\em seznam zarovnaných slov}
 \}\end{alltt}
     }
     \item{odpověď při selhání: \texttt{\{ message: {\em řetězec} \}}}
     \end{itemize}
+
+    Seznam zarovnaných slov je v~tomto formátu:
+    \begin{alltt}[ 
+  \{
+    fonet:{\em řetězec},
+    wordform:{\em řetězec},
+    occurrence:{\em řetězec},
+    humanic: 1,{\em (znamená, že je manuálně přepsané)}
+    timestamp:{\em desetinné číslo},{\em (pozice začátku slova)}
+    slen:{\em desetinné číslo},{\em (délka ticha, jen když > 0)}
+  \},
+  {\em ...}
+]\end{alltt}
 }
 \item{
     Požadavek na seznam přepisů
@@ -1319,14 +1329,19 @@ Backendová aplikace má formu HTTP serveru s~následujícími koncovými body.
 \end{enumerate}
 
 Veškerá komunikace je kódována v~UTF-8.
-
 Koncový bod \texttt{subsubmit} pro přijetí (nebo odmítnutí) přepisu úseku
 nahrávky, provede na straně serveru nucené zarovnání přijatého přepisu
-s~odpovídajícím úsekem audia. Z~toho důvodu je nutné, aby na serveru byly
-nainstalované nástroje \texttt{HVite} a \texttt{HCopy} z~HTK, dále aby tam byla
-kompletní sada nahrávek ve formátu MFCC a akustický model. Bohužel se zdá, že
-nucené zarovnání funguje v~HTK pouze s~monofónovým modelem, takže přesnost
-v~rozlišování přesných a chybných příspěvků není optimální.
+s~odpovídajícím úsekem audia. Aparát pro nucené zarovnání zahrnuje spustitelné
+binární soubory z~balíčku HTK, akustický model a uložené nahrávky
+v~parametrizovaném formátu MFCC. Na jaře 2021 jsem implementoval zarovnávání
+modernějším nástrojem Montreal Forced Aligner a nasadil jako separátní webovou
+službu. Ta běží v~rámci Lindatu a přijímá requesty metodou POST se dvěma
+parametry: audiem v~libovolném formátu, který sox dokáže dekódovat, a přepisem
+ve formě prostého textu. Odpovědí je zarovnání ve formátu
+TextGrid\footnote{\url{https://www.fon.hum.uva.nl/praat/manual/TextGrid\_file\_formats.html}}.
+Od té doby \texttt{subsubmit} přijímá zarovnaný text jako parametr, zatímco
+dříve bylo zarovnání jeho hlavní úlohou.
+O převod z~formátu TextGrid do seznamu zarovnaných slov se stará front-end.
 
 \subsection{Ukládání dat}
 
@@ -1345,10 +1360,8 @@ výslovností. Ke každému příspěvku se ukládá
 
 Každé uživatelské sezení má taktéž svůj záznam a ukládá se proň totéž, co pro
 příspěvek, krom příspěvku samotného.
-
 Dále se v~databázi ukládají verze přepisů, které se inkrementují při každém
 příspěvku.
-
 Poslední věcí v~databázi je fonetický slovník. Ten slouží ke sběru fonetických
 reprezentací slov s~nestandardní výslovností, jejichž výslovnost a psanou formu
 poskytují uživatelé.
