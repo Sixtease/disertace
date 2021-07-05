@@ -900,12 +900,19 @@ Druhé hledání proběhlo s~úpravou, že se použijí toliko věty, které nej
 podle~reprezentativním modelu příliš nepravděpodobné. Průměrná \textit{log
 likelihood} věty vážená počtem slov je v~reprezentativním modelu -3,51 a
 standardní odchylka je 0,52. Práh pro inkluzi věty jsem tedy nastavil na -4.
-Takto jsem došel ke zvýšení úspěšnosti o 2,7\%, z 0,112 na 0,109 WER.
+Takto jsem došel ke zvýšení úspěšnosti o 2,7\%, z 0,112 na 0,109 WER. Kritérium
+pro zahrnutí věty z~obecného korpusu bylo tedy toto:
+\begin{equation}
+10^{-4} < P(s|W) < t\cdot{}P(s|m)
+\end{equation}
 
 U třetího hledání jsem zcela ignoroval pravděpodobnost věty podle obecného
 modelu a rozřazoval pouze na základě pravděpodobnosti podle reprezentativního
 modelu. Touto metodou jsem dosáhl zvýšení úspěšnosti o 8,0\% z~0,112 na 0,103
-WER.
+WER. Kritérium:
+\begin{equation}
+P(s|M) < t
+\end{equation}
 
 Vývoj úspěšnosti podle kritéria přidání vět z~obecného korpusu do jazykového
 modelu shrnuje tabulka~\ref{tab:lm-plz-scores} a

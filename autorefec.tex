@@ -3,7 +3,7 @@
 %% Verze pro jednostranný tisk:
 % Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
 % (ale pozor, LaTeX si sám přidává 1in)
-\documentclass[12pt,a4paper]{report}
+\documentclass[hidelinks,12pt,a4paper]{report}
 \setlength\textwidth{145mm}
 \setlength\textheight{247mm}
 \setlength\oddsidemargin{15mm}
@@ -80,7 +80,7 @@
 \def\AutorPrace{Mgr. Jan Oldřich Krůza}
 
 % Rok odevzdání
-\def\RokOdevzdani{2020}
+\def\RokOdevzdani{2021}
 
 % Název katedry nebo ústavu, kde byla práce oficiálně zadána
 % (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
@@ -177,7 +177,7 @@ Praha \RokOdevzdani
 
 The results of this thesis were achieved in the pediod of a doctoral study at
 the Faculty of Mathematics and Physics, Charles University in years
-2011 -- 2020.
+2011 -- 2021.
 
 \vspace{2cm}
 
@@ -203,15 +203,15 @@ Technická 2, 16627 Praha 6
 \cr
 }}}}
 
-The thesis defence will take place on September 30th 2020 at 11:00 a.m. in front of a
+The thesis defence will take place on September 22nd 2021 at 11:00 a.m. in front of a
 committee for thesis defences in the branch P4I3 Computational linguistics
 at the Faculty of Mathematics and Physics, Charles University in
-Prague, Malostranské náměstí 25, in the room S510.
+Prague, Malostranské náměstí 25, in the room S1.
 
 The thesis can be viewed at the Study Department of Doctoral Studies of the Faculty of
 Mathematics and Physics, Charles University in Prague, Ke Karlovu 3, Prague 2.
 
-This abstract has been distributed on September 24th 2020.
+This abstract has been distributed on \today.
 
 \vss}\nobreak\vbox to 0.49\vsize{
 \setlength\parindent{0mm}
@@ -275,7 +275,7 @@ Praha \RokOdevzdani
 
 Disertační práce byla vypracována na základě výsledků získaných během
 doktorského studia na Matematicko-fyzikální fakultě Univerzity Karlovy v~letech
-2011 -- 2020.
+2011 -- 2021.
 
 
 {
@@ -303,14 +303,14 @@ Technická 2, 16627 Praha 6
 
 
 
-Obhajoba disertační práce se koná dne 30. září 2020 v 11:00 před komisí pro
+Obhajoba disertační práce se koná dne 22. září 2021 v 11:00 před komisí pro
 obhajoby disertačních prací v oboru P4I3 - Matematická lingvistika na
-Matematicko-fyzikální fakultě UK, Malostranské náměstí 25, v~místnosti S510.
+Matematicko-fyzikální fakultě UK, Malostranské náměstí 25, v~místnosti S1.
 
 S~disertační prací je možno se seznámit na studijním oddělení
 Matematicko-fyzikální fakulty UK, Ke Karlovu 3, Praha 2.
 
-Autoreferát byl rozeslán dne 24. září 2020.
+Autoreferát byl rozeslán dne \today.
 
 \vss}\nobreak\vbox to 0.49\vsize{
 \setlength\parindent{0mm}
@@ -403,7 +403,7 @@ is added to the training data of the ASR system.}
 has not yet been human-corrected, is re-generated.}
 
 This architecture has been realized and running from 2012 until now. It has so
-far yielded 108 hours of manual transcripts.
+far yielded 110 hours of manual transcripts.
 
 % The next chapters cover steps toward this goal.
 
@@ -428,100 +428,35 @@ with the conflict was by staying out of wide popularity. Hence, most of the
 talks have been given during regular meetings in various places of
 Czechoslovakia and later the Czech Republic, in a narrow circle of friends.
 
-\section{Topics}
+\section{Topics and Search}
 
-In general, the whole corpus has a consistent thematic domain of Christian mystic. On a
-finer-grained look, we can identify recurring sub-topics, like
+In general, the whole corpus has a consistent thematic domain of Christian
+mysticism. On a finer-grained look, we can identify recurring sub-topics, like
+some New Testament passages, milestone personal experiences or references to
+specific people, like St. Teresa of \'{A}vila.
 
-\begin{itemize}
-\item{interpretation of some passages in the New Testament, notably the parable
-of the prodigal son, the parable of the talents, and the Our Father prayer,}
-\item{milestone personal experiences, like the one in the concentration camp,}
-\item{explaining symbolism, like the apostles as symbols for human abilities,}
-\item{references to specific people, like St. Teresa of \'{A}vila or Padre Pio.}
-\end{itemize}
+Searching is possible by downloading the corpus and using custom searching tools
+and by an Elastic-based search engine available through the web interface. I
+have undertaken several experiments to evaluate the search performance.
+Firstly, I have taken all nouns found in the manual transcript of the test set
+and searched for it in the automatic transcript thereof. The result was precision
+96,79\% and recall 92,39\%.
 
-%A list of recurring topics and their identification in the sound files is a
-%point of future work with similarities to~\cite{skorkovska2011automatic}.
-We can take the current transcript %and the few notes some listeners made
-%about topics and their alignment with the audio
-as a source for a baseline.
-Topic is inherently a vague concept %, which I shall address when I focus on it
-but for the baseline evaluation, we can take a look at some easily defined cases
-like named entities. The ease about them is that we can look for their specific
-word form and if it is not found, then it means the transcription is not
-covering it.
+Further, I have manually selected some named entities as fit candidates for a
+topical search. Having performed a corpus-wide search, I have evaluated how often
+the hit was correct and when not. I have only considered a hit correct when the
+passage found was actually concerning the topic. For example, calling a sick
+person a ,,lazar`` was not taken as a hit for the topic of Lazarus the man from
+the gospels. The precision turned out 68.8\%. Recall cannot be evaluated for
+lack of gold standard data. However, there was an even distribution of hits in
+the manually and automatically transcribed parts, which suggests that the recall
+is good.
 
-Of course, there are exceptions, like saying ``the capital of Japan'' instead of
-``Tokyo'' but firstly, I chose terms where this is not likely to happen and
-secondly, this can only lower the recall of our baseline score, not the
-precision, and we have no way of telling the recall given no annotated data
-for this task anyway.
-
-I have chosen the following example topics:\\
-1. \textbf{Lazarus},
-2. \textbf{Mithra, Mithraism},
-3. \textbf{Satan},
-4. \textbf{St. Teresa},
-5. \textbf{fairy-tale}.
-I chose fairy-tale (Czech: \emph{poh\'{a}dka}) as a recurring topic with a
-unifying word, for an example of a non-named-entity.
-
-The search for stems of these words in the transcript
-yielded results summed up in Table~\ref{tab:topicsearch}. For terms where there
-were more than 20 hits, I have checked the first 20 but each from a different
-file.
-
-\begin{table}[htpb]
-\begin{center}
-\begin{tabular}{|l|l|r|r|r|}
-\hline
-Term &
-Query &
-\makecell{hits in\\automatic\\
-transcript} &
-\makecell{hits in\\manual\\
-transcript} &
-Precision \\
-\hline
-Lazarus & \texttt{lazar.*} & 16  & 14 & 8/10   \\
-Mithra & \texttt{mith?ra.*} & 0  & 0 & n/a   \\
-Satan & \texttt{satan.*} & 308  & 129 & 16/20   \\
-St. Teresa & \texttt{terez.*} & 882  & 91 & 15/20   \\
-fairy-tale & \texttt{pohádk.*} & 216  & 55 & 18/20   \\
-\hline
-\multicolumn{4}{|l|}{average precision} & 81.25\%\\
-\hline
-\end{tabular}
-\caption{Text search hits in the transcription; precision only calculated from
-automatic part}\label{tab:topicsearch}
-\end{center}
-\end{table}
-
-The precision of over 80\% hints that the
-quality of transcription at the time of this experiment (2018) allows for reasonable searching through the corpus.
-However, the hits were all clearly audible. I met none in an acoustically defect
-file, which leads to the hypothesis that those were not yet searchable to a
-distantly satisfying level.
-
-\subsubsection{Correspondence between Talks and Books}
-
-K.M. was writing, translating and commenting books most of his life. We can
-assume that the book he was just working on influenced the topic of his talks. 
-For one, he translated the book \emph{El Castillo Interior}, English \emph{The
-Interior Castle} by St. Teresa of Ávila in 1988. For most recordings, the year
-of their acquisition is known.  Figure~\ref{fig:teresa-year} shows how many hits
-for the name of the Saint are present in the transcript by recording year.
-
-\begin{figure}[htpb]
-\includegraphics[scale=0.6]{rc/teresa-by-year.eps}
-\caption{Number of hits for the query \texttt{terez.*} in the transcription by
-alleged year of the recording}
-\label{fig:teresa-year}
-\end{figure}
-
-The peak around the year 1988 supports the speculation that topics in the talks
-correlate with those of books written at the same time.
+There are two more evaluation approaches outlined in the thesis: Using the
+correlation of topics covered in the recordings and those covered in Makoň's
+books that were being written at the same time. The data support the validity of
+this approach. Finally, a case study of a specific user's usage of the system to
+  compile a thematically coherent set of recording segments is described.
 
 \chapter{Acoustic Properties}
 \label{chap:acoustics}
@@ -537,7 +472,7 @@ data will also apply to the input data. It is clear then, that if the input
 data have different properties than the training data, the basic assumption is
 violated and the inference performance will suffer.
 Also, if the training data themselves are damaged in a way that makes the desired
-information harder to extract, the learning is going to be less successful.
+information harder to extract, the learning is bound to be less successful.
 
 For speech recognition, the problem of noise, reverberation and other defects
 has been a pain point and also a point of research. To mention some, Gillespie
@@ -641,7 +576,8 @@ The experiment presented below is conducted on three clusters:
 \item{a cluster of recordings taken with low tape speed.}
 \end{enumerate}
 Recordings in cluster 3 are the hardest to understand even for humans. All these
-clusters have a maximum internal distance of 25.
+clusters have a maximum internal distance of 25, compared to the corpus-wide
+median distance of 56.
 
 \section{Results}
 
@@ -731,7 +667,7 @@ individual models are not comparable. Only later during the development, I have
 defined a standard evaluation set for testing purposes, which comprises of five
 times ten minutes from various recordings across the corpus.
 
-The best score reached by a HTK-based model on this set is 46.3\%, whereas the
+The best score reached by an HTK-based model on this set is 46.3\%, whereas the
 best score reached by a DeepSpeech-based model is 19.2\%. These numbers
 represent a kind of expectable performance level given the technology and data
 used. There were many errors damaging the performance that had to be identified
@@ -739,7 +675,7 @@ and overcome. There were also many attempts to push the performance up above
 this expected level, like tweaking the cepstral normalization, boosting or the
 above-described acoustic pre-processing.
 
-Finally, one obvious way of enhancing the performance led over widening the
+Finally, one obvious way of enhancing the performance led me through widening the
 training dataset. In chapter~\ref{chap:acoustics}, I stated there were two ways
 to approach training and testing data inconsistency. There, I presented
 experiments addressing adaptation of the training data. This experiment of
@@ -852,8 +788,7 @@ training data for an acoustic model.
 With the audio segmented and corresponding manual transcripts extracted, the
 last step remaining is selecting which segments to include in the traning data.
 Indeed, since the recordings have a 2-minute padding on each side for 10 middle
-minutes, we must discard at the very least 29\%\footnote{Erroneously stated in
-the thesis as 40\%, pointed out by the opponent.} of the segments. I use
+minutes, we must discard at the very least 29\% of the segments. I use
 criteria based on word reliability for including a segment in the data.
 
 The solution readily yields a high-quality training dataset of 1144
@@ -903,11 +838,54 @@ The 30\% word error rate for model trained on Makoň and tested on Makoň is rea
 generic language model. When using a language model trained solely on Makoň
 data, the word error rate drops to 19\% reported above.
 
+\subsection{Language Model for Makoň Corpus}
+
+The two deciding factors for language model quality is the quantity and the
+representativeness of the training data.
+Since the Makoň corpus represents a specific domain of Czech language usage with
+its single speaker, somewhat archaic style and thematic focus on christian
+mysticism, it is obvious that gaining a large dataset goes against gaining a
+representative one and vice versa. We have on one hand the perfectly
+representative manual transcripts that we use for acoustic modeling and
+on the other hand general Czech texts, of which the Internet abounds but which
+is not very much like Makoň's speech.
+
+Psutka et al. (2003)\cite{psutka2003large} propose a method for combining
+two corpora, a large one and a representative one, to get a combined corpus yielding
+a superior language model. Their method lies in building unigram models from
+both corpora: One model $G$ from the general corpus and another $R$ from the
+representative one. A combined corpus is then gained by including the
+representative corpus, adding to it all sentences $s$ from the general corpus that are
+more likely by the representative model than by the general model, times an
+adjustable factor $t$.
+\begin{equation}
+P(s|G) < t\cdot{}P(s|R)
+\end{equation}
+Using this method, I have reduced the word error rate by 2.7\%. However, I have
+developed another method for drawing the sentences from the general corpus that
+led to a greater WER reduction. This method is even simpler than the original
+one and lies in including all sentences that are likelier by the representative
+model than a given threshold.
+\begin{equation}
+P(s|R) > t
+\end{equation}
+This approach led to 8.0\% reduction in WER.
+
 \subsection{Results on Makoň Corpus}
 
 The final best performance on the Makoň test set was attained by training on the
 concatenated set using heldout Makoň data for validation, followed by two
-training iterations on the Makoň training set. This yielded the final best performace of 13.0\% word error rate.
+training iterations on the Makoň training set. This yielded the final best
+performace of 10.3\% word error rate. Figure~\ref{fig:asrhist} shows the
+evolution of the ASR performance during the history of the project.
+
+\begin{figure}[htpb]
+\includegraphics[scale=0.43]{rc/asrhist.png}
+\caption{
+  Speech recognition WER evolution by milestones
+}
+\label{fig:asrhist}
+\end{figure}
 
 The training dataset expansion has significantly brought down the word error
 rate for acoustically defect parts. The reduction was from 45\% to 35\% on the
@@ -918,13 +896,12 @@ overdriven cluster and from 69\% to 42\% on the low-tape-speed cluster.
 My aim is to have a transcript as good as possible for the purpose
 of searching and further, higher-level processing of the data. There is a pool
 of people interested in the talks, who on one hand are the force we can try to
-employ and on the other hand are the consumers of our effort, our target group
-so to speak.
+employ and on the other hand are the consumers of our effort, our target
+audience so to speak.
 
 The web application should therefore combine the two purposes: 1. serve its user
 with making the content available in a manner as good as possible and 2. animate
 the user to give as much and as high-quality contribution as possible.
-
 To my best knowledge, there is no other project with a comparable setting.
 
 \section{Description of the Web Application}
@@ -1004,6 +981,8 @@ the transcript are the user-entered utterances and their boundaries are
 reliable. In my case, the atomic elements are words. There are sentences, sure,
 but the segmentation to sentences by the ASR is very unreliable, so I want it
 to be natural to transcribe a segment overlapping sentence boundaries.
+This is one of the reasons why I display the transcript basically as a
+single wrapped line.
 
 \begin{figure}[htpb]
 \includegraphics[scale=0.4]{rc/transcriber1.png}
@@ -1011,8 +990,19 @@ to be natural to transcribe a segment overlapping sentence boundaries.
 \label{fig:transcriber1}
 \end{figure}
 
-This is one of the reasons why I display the transcript basically as a
-single wrapped line.
+The web application sports some interesting features, one of them being Czech
+pronunciation respelling. All words presented through the web interface have
+gone through a phase of forced alignment -- for user-submitted corrections,
+performing the alignment on the fly and immediately integrating it both to the
+UI and to the CDN is the foremost hallmark feature of the web app. To give the
+user a way to check if the pronunciation of a word has been inferred correctly,
+the interface offers the phonetic representation of the word in a Czech version
+of pronunciation respelling, explicating palatalization and unpacking foreign
+words.
+
+Another feature worth mentioning is the ability to display (and thus make
+fulltext-searchable) the entire transcript of a 90+minute recording, while
+making all words interactive elements and keeping the application responsive.
 
 \chapter{Conclusion}
 
@@ -1028,12 +1018,12 @@ transcript, aligned with the source audio.
 
 The method has been employed on the spoken corpus of Karel Makoň and proven
 viable. The result is a complete coverage of the corpus with automatically
-acquired transcript with an estimated word error rate of 13\%, which is on par
-with the state of the art, considering the age, quality and spontaneity of the
+acquired transcript with an estimated word error rate of 10\%, which is on par
+with the state of the art, maybe even beyond it considering the age, quality and spontaneity of the
 recorded speech.
 
 More importantly, the viability of the method has been proved by the fact that
-108 hours of material have been successfully transcribed by lay, elderly users.
+110 hours of material have been successfully transcribed by lay, elderly users.
 
 Not only has the method been developed, proven and described for benefit of
 others who find themselves in a similar setting, but also software tools have
@@ -1138,7 +1128,7 @@ natual language and/or signal processing.
 \item{
   Oldřich Krůza.
   Phonetic Transcription by Untrained Annotators.
-  In Stanislav Krajči, editor,
+  In Stani\-slav Krajči, editor,
   \textit{Proceedings of the 18th conference ITAT 2018:
   Slovenskočeský NLP workshop (SloNLP 2018)},
   volume 2203 of \textit{CEUR Workshop Proceedings},
@@ -1153,14 +1143,22 @@ natual language and/or signal processing.
   In \textit{Book of Abstracts XI International Conference on Corpus Linguistics},
   pages 189--190.
   ADEIT - Fundación Universidad-Empresa de la Universitat de València, 2019.\\
-  \texttt{https://adeit-estaticos.econgres.es/19\_CILC/book\_abstracts.pdf}
+  \url{https://adeit-estaticos.econgres.es/19\_CILC/book\_abstracts.pdf}
 }
 \item{
   Jan Oldřich Krůza.
   Czech parliament meeting recordings as ASR training data.
   In \textit{Proceedings of the 2020 Federated Conference on Computer Science
-  and Information Systems (FedCSIS)}.
-  Pending.
+  and Information Systems (FedCSIS)},
+  pages 185--188.
+  IEEE.\\
+  \url{https://annals-csis.org/Volume\_21/drp/119.html}
+}
+\item{
+  Matyáš Kopp and Vladislav Stankov and Jan Oldřich Krůza and Pavel Straňák and Ondřej Bojar.
+  ParCzech 3.0: A Large Czech Speech Corpus with Rich Metadata.
+  In \textit{International Conference on Text, Speech and Dialogue},
+  Springer, 2021.
 }
 %\item{
 %    Jan Oldřich Krůza.
