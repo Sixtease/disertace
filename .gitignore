@@ -6,4 +6,5 @@
 *.out
 *.toc
 *.blg
+.*.sw?
 rc/*-converted-to.pdf
