@@ -1,0 +1,9 @@
+*.aux
+*.log
+*.bbl
+*.lot
+*.lof
+*.out
+*.toc
+*.blg
+rc/*-converted-to.pdf
